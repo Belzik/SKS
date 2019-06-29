@@ -6,7 +6,7 @@ target 'SKS' do
   use_frameworks!
 
   # Utilities
-pod 'ReachabilitySwift'
+  pod 'ReachabilitySwift', '~> 4.7.3'
 
   target 'SKSTests' do
     inherit! :search_paths
