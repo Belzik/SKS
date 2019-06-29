@@ -15,6 +15,11 @@
 		B5C9C62E22C76C6E00DCF18F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B5C9C62C22C76C6E00DCF18F /* LaunchScreen.storyboard */; };
 		B5C9C63922C76C6E00DCF18F /* SKSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C9C63822C76C6E00DCF18F /* SKSTests.swift */; };
 		B5C9C64422C76C6E00DCF18F /* SKSUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C9C64322C76C6E00DCF18F /* SKSUITests.swift */; };
+		B5C9C65C22C775BF00DCF18F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B5C9C65B22C775BF00DCF18F /* Localizable.strings */; };
+		B5C9C65F22C7766C00DCF18F /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C9C65E22C7766C00DCF18F /* Fonts.swift */; };
+		B5C9C66622C77A1000DCF18F /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C9C66522C77A1000DCF18F /* Model.swift */; };
+		B5C9C66822C77A1F00DCF18F /* Nework.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C9C66722C77A1F00DCF18F /* Nework.swift */; };
+		B5C9C66A22C77A2B00DCF18F /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C9C66922C77A2B00DCF18F /* Utils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +54,11 @@
 		B5C9C63F22C76C6E00DCF18F /* SKSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SKSUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5C9C64322C76C6E00DCF18F /* SKSUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKSUITests.swift; sourceTree = "<group>"; };
 		B5C9C64522C76C6E00DCF18F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B5C9C65B22C775BF00DCF18F /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
+		B5C9C65E22C7766C00DCF18F /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
+		B5C9C66522C77A1000DCF18F /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		B5C9C66722C77A1F00DCF18F /* Nework.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Nework.swift; sourceTree = "<group>"; };
+		B5C9C66922C77A2B00DCF18F /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,13 +109,10 @@
 		B5C9C61F22C76C6C00DCF18F /* SKS */ = {
 			isa = PBXGroup;
 			children = (
-				B5C9C62022C76C6C00DCF18F /* AppDelegate.swift */,
-				B5C9C62222C76C6C00DCF18F /* ViewController.swift */,
-				B5C9C62422C76C6C00DCF18F /* Main.storyboard */,
-				B5C9C62A22C76C6E00DCF18F /* Assets.xcassets */,
-				B5C9C62C22C76C6E00DCF18F /* LaunchScreen.storyboard */,
 				B5C9C62F22C76C6E00DCF18F /* Info.plist */,
-				B5C9C62722C76C6C00DCF18F /* SKS.xcdatamodeld */,
+				B5C9C62022C76C6C00DCF18F /* AppDelegate.swift */,
+				B5C9C65822C7752200DCF18F /* Classes */,
+				B5C9C65922C7759700DCF18F /* Resources */,
 			);
 			path = SKS;
 			sourceTree = "<group>";
@@ -126,6 +133,86 @@
 				B5C9C64522C76C6E00DCF18F /* Info.plist */,
 			);
 			path = SKSUITests;
+			sourceTree = "<group>";
+		};
+		B5C9C65822C7752200DCF18F /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				B5C9C66022C7774C00DCF18F /* Views */,
+				B5C9C66222C7775800DCF18F /* Controllers */,
+				B5C9C66122C7775200DCF18F /* Models */,
+				B5C9C66322C7776500DCF18F /* Network */,
+				B5C9C66422C7777600DCF18F /* Utils */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		B5C9C65922C7759700DCF18F /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				B5C9C62A22C76C6E00DCF18F /* Assets.xcassets */,
+				B5C9C62722C76C6C00DCF18F /* SKS.xcdatamodeld */,
+				B5C9C65D22C7765100DCF18F /* Fonts */,
+				B5C9C65A22C775A100DCF18F /* Strings */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		B5C9C65A22C775A100DCF18F /* Strings */ = {
+			isa = PBXGroup;
+			children = (
+				B5C9C65B22C775BF00DCF18F /* Localizable.strings */,
+			);
+			path = Strings;
+			sourceTree = "<group>";
+		};
+		B5C9C65D22C7765100DCF18F /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				B5C9C65E22C7766C00DCF18F /* Fonts.swift */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		B5C9C66022C7774C00DCF18F /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B5C9C62C22C76C6E00DCF18F /* LaunchScreen.storyboard */,
+				B5C9C62422C76C6C00DCF18F /* Main.storyboard */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		B5C9C66122C7775200DCF18F /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B5C9C66522C77A1000DCF18F /* Model.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		B5C9C66222C7775800DCF18F /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				B5C9C62222C76C6C00DCF18F /* ViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		B5C9C66322C7776500DCF18F /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				B5C9C66722C77A1F00DCF18F /* Nework.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		B5C9C66422C7777600DCF18F /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				B5C9C66922C77A2B00DCF18F /* Utils.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -233,6 +320,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B5C9C62E22C76C6E00DCF18F /* LaunchScreen.storyboard in Resources */,
+				B5C9C65C22C775BF00DCF18F /* Localizable.strings in Resources */,
 				B5C9C62B22C76C6E00DCF18F /* Assets.xcassets in Resources */,
 				B5C9C62622C76C6C00DCF18F /* Main.storyboard in Resources */,
 			);
@@ -259,9 +347,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B5C9C66622C77A1000DCF18F /* Model.swift in Sources */,
+				B5C9C65F22C7766C00DCF18F /* Fonts.swift in Sources */,
 				B5C9C62322C76C6C00DCF18F /* ViewController.swift in Sources */,
+				B5C9C66A22C77A2B00DCF18F /* Utils.swift in Sources */,
 				B5C9C62922C76C6C00DCF18F /* SKS.xcdatamodeld in Sources */,
 				B5C9C62122C76C6C00DCF18F /* AppDelegate.swift in Sources */,
+				B5C9C66822C77A1F00DCF18F /* Nework.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -438,6 +530,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = SKS/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -455,6 +548,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = SKS/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
