@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		921480A22D9DBF3DFB58AA37 /* Pods_SKS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3BFFDE6A16510AD903A4E12 /* Pods_SKS.framework */; };
+		B51B600522C9D2EF003F24F3 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51B600422C9D2EF003F24F3 /* NetworkService.swift */; };
+		B51B600722C9D476003F24F3 /* ShowcaseNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51B600622C9D476003F24F3 /* ShowcaseNetworkService.swift */; };
+		B51B600922C9D487003F24F3 /* PartnersNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51B600822C9D487003F24F3 /* PartnersNetworkService.swift */; };
+		B51B600B22C9D49B003F24F3 /* CitiesNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51B600A22C9D49B003F24F3 /* CitiesNetworkService.swift */; };
+		B51B600D22C9D4B2003F24F3 /* ContentsNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51B600C22C9D4B2003F24F3 /* ContentsNetworkService.swift */; };
 		B5C9C62122C76C6C00DCF18F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C9C62022C76C6C00DCF18F /* AppDelegate.swift */; };
 		B5C9C62322C76C6C00DCF18F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C9C62222C76C6C00DCF18F /* ViewController.swift */; };
 		B5C9C62622C76C6C00DCF18F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B5C9C62422C76C6C00DCF18F /* Main.storyboard */; };
@@ -19,7 +24,6 @@
 		B5C9C65C22C775BF00DCF18F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B5C9C65B22C775BF00DCF18F /* Localizable.strings */; };
 		B5C9C65F22C7766C00DCF18F /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C9C65E22C7766C00DCF18F /* Fonts.swift */; };
 		B5C9C66622C77A1000DCF18F /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C9C66522C77A1000DCF18F /* Model.swift */; };
-		B5C9C66822C77A1F00DCF18F /* Nework.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C9C66722C77A1F00DCF18F /* Nework.swift */; };
 		B5C9C66C22C7856F00DCF18F /* ReachabilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C9C66B22C7856F00DCF18F /* ReachabilityManager.swift */; };
 		E12572D7BF3DC92A24FDF277 /* Pods_SKSUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DC50700F3238CE58EC068EF /* Pods_SKSUITests.framework */; };
 		ED7921A338F5E6B8777F9AC5 /* Pods_SKSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD4083853A2D07F1D22D28DE /* Pods_SKSTests.framework */; };
@@ -46,6 +50,11 @@
 		5DC50700F3238CE58EC068EF /* Pods_SKSUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SKSUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		622A228EE0867A7471A9B02A /* Pods-SKSUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SKSUITests.debug.xcconfig"; path = "Target Support Files/Pods-SKSUITests/Pods-SKSUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		A440963D0A5F12AD7C9C3D12 /* Pods-SKS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SKS.debug.xcconfig"; path = "Target Support Files/Pods-SKS/Pods-SKS.debug.xcconfig"; sourceTree = "<group>"; };
+		B51B600422C9D2EF003F24F3 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
+		B51B600622C9D476003F24F3 /* ShowcaseNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowcaseNetworkService.swift; sourceTree = "<group>"; };
+		B51B600822C9D487003F24F3 /* PartnersNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnersNetworkService.swift; sourceTree = "<group>"; };
+		B51B600A22C9D49B003F24F3 /* CitiesNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitiesNetworkService.swift; sourceTree = "<group>"; };
+		B51B600C22C9D4B2003F24F3 /* ContentsNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentsNetworkService.swift; sourceTree = "<group>"; };
 		B5C9C61D22C76C6C00DCF18F /* SKS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SKS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5C9C62022C76C6C00DCF18F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B5C9C62222C76C6C00DCF18F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -63,7 +72,6 @@
 		B5C9C65B22C775BF00DCF18F /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		B5C9C65E22C7766C00DCF18F /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		B5C9C66522C77A1000DCF18F /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
-		B5C9C66722C77A1F00DCF18F /* Nework.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Nework.swift; sourceTree = "<group>"; };
 		B5C9C66B22C7856F00DCF18F /* ReachabilityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReachabilityManager.swift; sourceTree = "<group>"; };
 		C1FE379F89779B8E8C1BBFDA /* Pods-SKSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SKSTests.release.xcconfig"; path = "Target Support Files/Pods-SKSTests/Pods-SKSTests.release.xcconfig"; sourceTree = "<group>"; };
 		CB15E5BBC666285637ED3505 /* Pods-SKSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SKSTests.debug.xcconfig"; path = "Target Support Files/Pods-SKSTests/Pods-SKSTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -181,7 +189,7 @@
 				B5C9C66022C7774C00DCF18F /* Views */,
 				B5C9C66222C7775800DCF18F /* Controllers */,
 				B5C9C66122C7775200DCF18F /* Models */,
-				B5C9C66322C7776500DCF18F /* Network */,
+				B5C9C66322C7776500DCF18F /* NetworkServices */,
 				B5C9C66422C7777600DCF18F /* Utils */,
 			);
 			path = Classes;
@@ -239,12 +247,16 @@
 			path = Controllers;
 			sourceTree = "<group>";
 		};
-		B5C9C66322C7776500DCF18F /* Network */ = {
+		B5C9C66322C7776500DCF18F /* NetworkServices */ = {
 			isa = PBXGroup;
 			children = (
-				B5C9C66722C77A1F00DCF18F /* Nework.swift */,
+				B51B600422C9D2EF003F24F3 /* NetworkService.swift */,
+				B51B600622C9D476003F24F3 /* ShowcaseNetworkService.swift */,
+				B51B600822C9D487003F24F3 /* PartnersNetworkService.swift */,
+				B51B600A22C9D49B003F24F3 /* CitiesNetworkService.swift */,
+				B51B600C22C9D4B2003F24F3 /* ContentsNetworkService.swift */,
 			);
-			path = Network;
+			path = NetworkServices;
 			sourceTree = "<group>";
 		};
 		B5C9C66422C7777600DCF18F /* Utils */ = {
@@ -479,11 +491,15 @@
 			files = (
 				B5C9C66C22C7856F00DCF18F /* ReachabilityManager.swift in Sources */,
 				B5C9C66622C77A1000DCF18F /* Model.swift in Sources */,
+				B51B600D22C9D4B2003F24F3 /* ContentsNetworkService.swift in Sources */,
 				B5C9C65F22C7766C00DCF18F /* Fonts.swift in Sources */,
+				B51B600B22C9D49B003F24F3 /* CitiesNetworkService.swift in Sources */,
 				B5C9C62322C76C6C00DCF18F /* ViewController.swift in Sources */,
 				B5C9C62922C76C6C00DCF18F /* SKS.xcdatamodeld in Sources */,
 				B5C9C62122C76C6C00DCF18F /* AppDelegate.swift in Sources */,
-				B5C9C66822C77A1F00DCF18F /* Nework.swift in Sources */,
+				B51B600522C9D2EF003F24F3 /* NetworkService.swift in Sources */,
+				B51B600722C9D476003F24F3 /* ShowcaseNetworkService.swift in Sources */,
+				B51B600922C9D487003F24F3 /* PartnersNetworkService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
