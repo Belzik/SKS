@@ -12,7 +12,15 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        NetworkManager.shared.getContent { (response) in
+            switch response.result {
+            case .success(let string):
+                print(string)
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
 
 

@@ -6,26 +6,35 @@
 //  Copyright © 2019 Katrych. All rights reserved.
 //
 
-import Foundation
+import Alamofire
 
-class NetworkService {
+struct APIPath {
+    static let showcase = ""
+    static let categories = ""
+    static let cities = ""
+    static let content = "/content"
+}
+
+struct NetworkErrors {
+    static let common = "Произошла ошибка, попробуйте позже."
+    static let internetConnection = "Подключение к интернету отсутствует."
+}
+
+class NetworkManager {
     private init() {}
+    static let shared = NetworkManager()
     
-    static let shared = NetworkService()
+    static let baseURI = "https://virtserver.swaggerhub.com/px2x/sks-mobile/0.0.1"
     
-    public func getData(url: URL, completion: @escaping (Any) -> ()) {
-        let session = URLSession.shared
-        session.dataTask(with: url) { (data, response, error) in
-            guard let data = data else { return }
-            
-            do {
-                let json = try JSONSerialization.jsonObject(with: data, options: [])
-                DispatchQueue.main.async {
-                    completion(json)
-                }
-            } catch {
-                print(error)
-            }
-        }.resume()
+    func getContent(completion: @escaping (_ response: DataResponse<String>) -> Void) {
+        let url = NetworkManager.baseURI + APIPath.content
+        let headers = ["Content-type": "text/html",
+                       "X-Type-Page": "license"]
+        
+        request(url, headers: headers)
+            .validate()
+            .responseString { (response: DataResponse<String>) in
+                completion(response)
+        }
     }
 }
