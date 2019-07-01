@@ -21,6 +21,20 @@ class ViewController: UIViewController {
                 print(error)
             }
         }
+        
+        NetworkManager.shared.getCategories { (response) in
+            switch response.result {
+            case .success(let json):
+                if let array = json as? [[String: AnyObject]] {
+                    for dictionary in array {
+                        guard let category = Category(dictionary: dictionary) else { continue }
+                        print(category.name)
+                    }
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
 
 

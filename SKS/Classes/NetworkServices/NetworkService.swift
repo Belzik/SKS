@@ -10,7 +10,7 @@ import Alamofire
 
 struct APIPath {
     static let showcase = ""
-    static let categories = ""
+    static let categories = "/categories"
     static let cities = ""
     static let content = "/content"
 }
@@ -34,6 +34,19 @@ class NetworkManager {
         request(url, headers: headers)
             .validate()
             .responseString { (response: DataResponse<String>) in
+                completion(response)
+        }
+    }
+    
+    func getCategories(completion: @escaping (_ response: DataResponse<Any>) -> Void) {
+        let url = NetworkManager.baseURI + APIPath.categories
+        
+        let headers = ["Content-type": "tapplication/json",
+                       "X-User-City": "spb"]
+        
+        request(url, headers: headers)
+            .validate()
+            .responseJSON { (response: DataResponse<Any>) in
                 completion(response)
         }
     }
