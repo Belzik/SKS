@@ -10,6 +10,8 @@
 		921480A22D9DBF3DFB58AA37 /* Pods_SKS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3BFFDE6A16510AD903A4E12 /* Pods_SKS.framework */; };
 		B51B600522C9D2EF003F24F3 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51B600422C9D2EF003F24F3 /* NetworkService.swift */; };
 		B51B601122C9DEDA003F24F3 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51B601022C9DEDA003F24F3 /* Category.swift */; };
+		B51B601322C9E796003F24F3 /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51B601222C9E796003F24F3 /* City.swift */; };
+		B51B601522C9EAB5003F24F3 /* Stock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51B601422C9EAB5003F24F3 /* Stock.swift */; };
 		B5C9C62122C76C6C00DCF18F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C9C62022C76C6C00DCF18F /* AppDelegate.swift */; };
 		B5C9C62322C76C6C00DCF18F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C9C62222C76C6C00DCF18F /* ViewController.swift */; };
 		B5C9C62622C76C6C00DCF18F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B5C9C62422C76C6C00DCF18F /* Main.storyboard */; };
@@ -48,6 +50,8 @@
 		A440963D0A5F12AD7C9C3D12 /* Pods-SKS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SKS.debug.xcconfig"; path = "Target Support Files/Pods-SKS/Pods-SKS.debug.xcconfig"; sourceTree = "<group>"; };
 		B51B600422C9D2EF003F24F3 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		B51B601022C9DEDA003F24F3 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+		B51B601222C9E796003F24F3 /* City.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
+		B51B601422C9EAB5003F24F3 /* Stock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stock.swift; sourceTree = "<group>"; };
 		B5C9C61D22C76C6C00DCF18F /* SKS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SKS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5C9C62022C76C6C00DCF18F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B5C9C62222C76C6C00DCF18F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -227,6 +231,8 @@
 			isa = PBXGroup;
 			children = (
 				B51B601022C9DEDA003F24F3 /* Category.swift */,
+				B51B601222C9E796003F24F3 /* City.swift */,
+				B51B601422C9EAB5003F24F3 /* Stock.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -483,7 +489,9 @@
 				B5C9C62322C76C6C00DCF18F /* ViewController.swift in Sources */,
 				B5C9C62922C76C6C00DCF18F /* SKS.xcdatamodeld in Sources */,
 				B5C9C62122C76C6C00DCF18F /* AppDelegate.swift in Sources */,
+				B51B601322C9E796003F24F3 /* City.swift in Sources */,
 				B51B600522C9D2EF003F24F3 /* NetworkService.swift in Sources */,
+				B51B601522C9EAB5003F24F3 /* Stock.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

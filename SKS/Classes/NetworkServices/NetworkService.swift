@@ -9,10 +9,10 @@
 import Alamofire
 
 struct APIPath {
-    static let showcase = ""
-    static let categories = "/categories"
-    static let cities = ""
-    static let content = "/content"
+    static let showcase = "showcase"
+    static let categories = "categories"
+    static let cities = "cities"
+    static let content = "content"
 }
 
 struct NetworkErrors {
@@ -24,10 +24,10 @@ class NetworkManager {
     private init() {}
     static let shared = NetworkManager()
     
-    static let baseURI = "https://virtserver.swaggerhub.com/px2x/sks-mobile/0.0.1"
+    let baseURI = "https://virtserver.swaggerhub.com/px2x/sks-mobile/0.0.1/"
     
     func getContent(completion: @escaping (_ response: DataResponse<String>) -> Void) {
-        let url = NetworkManager.baseURI + APIPath.content
+        let url = NetworkManager.shared.baseURI + APIPath.content
         let headers = ["Content-type": "text/html",
                        "X-Type-Page": "license"]
         
@@ -39,9 +39,34 @@ class NetworkManager {
     }
     
     func getCategories(completion: @escaping (_ response: DataResponse<Any>) -> Void) {
-        let url = NetworkManager.baseURI + APIPath.categories
+        let url = NetworkManager.shared.baseURI + APIPath.categories
         
-        let headers = ["Content-type": "tapplication/json",
+        let headers = ["Content-type": "application/json",
+                       "X-User-City": "spb"]
+        
+        request(url, headers: headers)
+            .validate()
+            .responseJSON { (response: DataResponse<Any>) in
+                completion(response)
+        }
+    }
+    
+    func getCities(completion: @escaping (_ response: DataResponse<Any>) -> Void) {
+        let url = NetworkManager.shared.baseURI + APIPath.cities
+        
+        let headers = ["Content-type": "application/json"]
+        
+        request(url, headers: headers)
+            .validate()
+            .responseJSON { (response: DataResponse<Any>) in
+                completion(response)
+        }
+    }
+    
+    func getShowcase(completion: @escaping (_ response: DataResponse<Any>) -> Void) {
+        let url = NetworkManager.shared.baseURI + APIPath.showcase
+        
+        let headers = ["Content-type": "application/json",
                        "X-User-City": "spb"]
         
         request(url, headers: headers)
