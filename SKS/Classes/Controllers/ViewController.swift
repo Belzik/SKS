@@ -41,7 +41,7 @@ class ViewController: UIViewController {
             }
         }
         
-        NetworkManager.shared.getShowcase { result in
+        NetworkManager.shared.getStocks { result in
             print("----------------------------------")
             if let error = result.error {
                 print(error.localizedDescription)
@@ -60,6 +60,15 @@ class ViewController: UIViewController {
         }
         
         NetworkManager.shared.getPartner { result in
+            print("----------------------------------")
+            if let error = result.error {
+                print(error.localizedDescription)
+            } else {
+                print(result.value)
+            }
+        }
+        
+        NetworkManager.shared.getStock { result in
             print("----------------------------------")
             if let error = result.error {
                 print(error.localizedDescription)
