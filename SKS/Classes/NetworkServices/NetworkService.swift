@@ -21,6 +21,7 @@ enum HeaderKey: String {
     case userCity = "X-User-City"
     case pageOffset = "X-Page-Offset"
     case pageLimit = "X-Page-Limit"
+    case searchString = "X-Search-String"
     case idPartner = "idPartner"
 }
 
@@ -85,12 +86,13 @@ class NetworkManager {
         }
     }
     
-    func getPartners(codeCity: String = "spb", pageOffset: String = "0", pageLimit: String = "10", completion: @escaping (_ result: Result<PartnersResponse>) -> Void) {
+    func getPartners(codeCity: String = "spb", pageOffset: String = "0", pageLimit: String = "10", search: String = "Donalds",  completion: @escaping (_ result: Result<PartnersResponse>) -> Void) {
         let url = NetworkManager.shared.baseURI + APIPath.partners
         let headers = [
             HeaderKey.userCity.rawValue: codeCity,
             HeaderKey.pageOffset.rawValue: pageOffset,
-            HeaderKey.pageLimit.rawValue: pageLimit
+            HeaderKey.pageLimit.rawValue: pageLimit,
+            HeaderKey.searchString.rawValue: search
         ]
         
         getResult(url: url, headers: headers) { result in
