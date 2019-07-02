@@ -21,6 +21,7 @@ enum HeaderKey: String {
     case userCity = "X-User-City"
     case pageOffset = "X-Page-Offset"
     case pageLimit = "X-Page-Limit"
+    case idPartner = "idPartner"
 }
 
 enum NetworkError: Error {
@@ -90,6 +91,18 @@ class NetworkManager {
             HeaderKey.userCity.rawValue: codeCity,
             HeaderKey.pageOffset.rawValue: pageOffset,
             HeaderKey.pageLimit.rawValue: pageLimit
+        ]
+        
+        getResult(url: url, headers: headers) { result in
+            completion(result)
+        }
+    }
+    
+    func getPartner(codeCity: String = "spb", idPartner: Int = 0, completion: @escaping (_ result: Result<Partner>) -> Void) {
+        let url = NetworkManager.shared.baseURI + APIPath.partners + "/\(codeCity)"
+        let headers = [
+            HeaderKey.userCity.rawValue: codeCity,
+            HeaderKey.idPartner.rawValue: codeCity
         ]
         
         getResult(url: url, headers: headers) { result in

@@ -14,6 +14,8 @@
 		B51B601522C9EAB5003F24F3 /* Stock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51B601422C9EAB5003F24F3 /* Stock.swift */; };
 		B52EFFD122CB896400518949 /* JSONEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52EFFD022CB896400518949 /* JSONEncoder.swift */; };
 		B52EFFD322CBA56500518949 /* Partner.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52EFFD222CBA56500518949 /* Partner.swift */; };
+		B559E97122CBC67800301F85 /* Discount.swift in Sources */ = {isa = PBXBuildFile; fileRef = B559E97022CBC67700301F85 /* Discount.swift */; };
+		B559E97322CBC6E500301F85 /* BigestStock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B559E97222CBC6E500301F85 /* BigestStock.swift */; };
 		B5C9C62122C76C6C00DCF18F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C9C62022C76C6C00DCF18F /* AppDelegate.swift */; };
 		B5C9C62322C76C6C00DCF18F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C9C62222C76C6C00DCF18F /* ViewController.swift */; };
 		B5C9C62622C76C6C00DCF18F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B5C9C62422C76C6C00DCF18F /* Main.storyboard */; };
@@ -56,6 +58,8 @@
 		B51B601422C9EAB5003F24F3 /* Stock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stock.swift; sourceTree = "<group>"; };
 		B52EFFD022CB896400518949 /* JSONEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONEncoder.swift; sourceTree = "<group>"; };
 		B52EFFD222CBA56500518949 /* Partner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Partner.swift; sourceTree = "<group>"; };
+		B559E97022CBC67700301F85 /* Discount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Discount.swift; sourceTree = "<group>"; };
+		B559E97222CBC6E500301F85 /* BigestStock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigestStock.swift; sourceTree = "<group>"; };
 		B5C9C61D22C76C6C00DCF18F /* SKS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SKS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5C9C62022C76C6C00DCF18F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B5C9C62222C76C6C00DCF18F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -130,6 +134,14 @@
 				5DC50700F3238CE58EC068EF /* Pods_SKSUITests.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B559E96F22CBC37B00301F85 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				B52EFFD022CB896400518949 /* JSONEncoder.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 		B5C9C61422C76C6C00DCF18F = {
@@ -238,6 +250,8 @@
 				B51B601222C9E796003F24F3 /* City.swift */,
 				B51B601422C9EAB5003F24F3 /* Stock.swift */,
 				B52EFFD222CBA56500518949 /* Partner.swift */,
+				B559E97022CBC67700301F85 /* Discount.swift */,
+				B559E97222CBC6E500301F85 /* BigestStock.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -261,8 +275,8 @@
 		B5C9C66422C7777600DCF18F /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				B559E96F22CBC37B00301F85 /* Extension */,
 				B5C9C66B22C7856F00DCF18F /* ReachabilityManager.swift */,
-				B52EFFD022CB896400518949 /* JSONEncoder.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -495,9 +509,11 @@
 				B5C9C65F22C7766C00DCF18F /* Fonts.swift in Sources */,
 				B5C9C62322C76C6C00DCF18F /* ViewController.swift in Sources */,
 				B5C9C62922C76C6C00DCF18F /* SKS.xcdatamodeld in Sources */,
+				B559E97122CBC67800301F85 /* Discount.swift in Sources */,
 				B52EFFD322CBA56500518949 /* Partner.swift in Sources */,
 				B5C9C62122C76C6C00DCF18F /* AppDelegate.swift in Sources */,
 				B51B601322C9E796003F24F3 /* City.swift in Sources */,
+				B559E97322CBC6E500301F85 /* BigestStock.swift in Sources */,
 				B51B600522C9D2EF003F24F3 /* NetworkService.swift in Sources */,
 				B51B601522C9EAB5003F24F3 /* Stock.swift in Sources */,
 			);
