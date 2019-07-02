@@ -14,6 +14,7 @@ struct APIPath {
     static let cities = "cities"
     static let content = "content"
     static let partners = "partners"
+    static let stock = "stock"
 }
 
 enum HeaderKey: String {
@@ -23,6 +24,7 @@ enum HeaderKey: String {
     case pageLimit = "X-Page-Limit"
     case searchString = "X-Search-String"
     case idPartner = "idPartner"
+    case idStock = "idStock"
 }
 
 enum NetworkError: Error {
@@ -77,9 +79,21 @@ class NetworkManager {
         }
     }
     
-    func getShowcase(codeCity: String = "spb", completion: @escaping (_ result: Result<StocksResponse>) -> Void) {
+    func getStocks(codeCity: String = "spb", completion: @escaping (_ result: Result<StocksResponse>) -> Void) {
         let url = NetworkManager.shared.baseURI + APIPath.showcase
         let headers = [HeaderKey.userCity.rawValue: codeCity]
+        
+        getResult(url: url, headers: headers) { result in
+            completion(result)
+        }
+    }
+    
+    func getStock(codeCity: String = "spb", idStock: String = "00000000-0000-0000-0000-000000000000", completion: @escaping (_ result: Result<Stock>) -> Void) {
+        let url = NetworkManager.shared.baseURI + APIPath.stock + "/\(idStock)"
+        let headers = [
+            HeaderKey.userCity.rawValue: codeCity,
+            HeaderKey.idStock.rawValue: idStock
+        ]
         
         getResult(url: url, headers: headers) { result in
             completion(result)
