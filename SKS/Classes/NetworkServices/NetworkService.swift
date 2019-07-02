@@ -13,23 +13,42 @@ struct APIPath {
     static let categories = "categories"
     static let cities = "cities"
     static let content = "content"
+    static let partners = "partners"
 }
 
-struct NetworkErrors {
-    static let common = "Произошла ошибка, попробуйте позже."
-    static let internetConnection = "Подключение к интернету отсутствует."
+enum HeaderKey: String {
+    case typePage = "X-Type-Page"
+    case userCity = "X-User-City"
+    case pageOffset = "X-Page-Offset"
+    case pageLimit = "X-Page-Limit"
+}
+
+enum NetworkError: Error {
+    case common
+    case noInternetConnection
 }
 
 class NetworkManager {
     private init() {}
+    
     static let shared = NetworkManager()
+    let decoder = JSONDecoder()
     
     let baseURI = "https://virtserver.swaggerhub.com/px2x/sks-mobile/0.0.1/"
     
+    private func getResult<T: Decodable>(url: String, headers: [String : String], completion: @escaping (_ response: Result<T>) -> Void) {
+        
+        request(url, headers: headers)
+            .validate()
+            .responseData { response in
+                let result: Result<T> = self.decoder.decodeResponse(from: response)
+                completion(result)
+        }
+    }
+    
     func getContent(completion: @escaping (_ response: DataResponse<String>) -> Void) {
         let url = NetworkManager.shared.baseURI + APIPath.content
-        let headers = ["Content-type": "text/html",
-                       "X-Type-Page": "license"]
+        let headers = [HeaderKey.typePage.rawValue: "license"]
         
         request(url, headers: headers)
             .validate()
@@ -37,42 +56,44 @@ class NetworkManager {
                 completion(response)
         }
     }
+
     
-    func getCategories(completion: @escaping (_ response: DataResponse<Any>) -> Void) {
+    func getCategories(codeCity: String = "spb", completion: @escaping (_ result: Result<CategoriesResponse>) -> Void) {
         let url = NetworkManager.shared.baseURI + APIPath.categories
+        let headers = [HeaderKey.userCity.rawValue: codeCity]
         
-        let headers = ["Content-type": "application/json",
-                       "X-User-City": "spb"]
-        
-        request(url, headers: headers)
-            .validate()
-            .responseJSON { (response: DataResponse<Any>) in
-                completion(response)
+        getResult(url: url, headers: headers) { result in
+            completion(result)
         }
     }
     
-    func getCities(completion: @escaping (_ response: DataResponse<Any>) -> Void) {
+    func getCities(completion: @escaping (_ result: Result<CitiesResponse>) -> Void) {
         let url = NetworkManager.shared.baseURI + APIPath.cities
         
-        let headers = ["Content-type": "application/json"]
-        
-        request(url, headers: headers)
-            .validate()
-            .responseJSON { (response: DataResponse<Any>) in
-                completion(response)
+        getResult(url: url, headers: [:]) { result in
+            completion(result)
         }
     }
     
-    func getShowcase(completion: @escaping (_ response: DataResponse<Any>) -> Void) {
+    func getShowcase(codeCity: String = "spb", completion: @escaping (_ result: Result<StocksResponse>) -> Void) {
         let url = NetworkManager.shared.baseURI + APIPath.showcase
+        let headers = [HeaderKey.userCity.rawValue: codeCity]
         
-        let headers = ["Content-type": "application/json",
-                       "X-User-City": "spb"]
+        getResult(url: url, headers: headers) { result in
+            completion(result)
+        }
+    }
+    
+    func getPartners(codeCity: String = "spb", pageOffset: String = "0", pageLimit: String = "10", completion: @escaping (_ result: Result<PartnersResponse>) -> Void) {
+        let url = NetworkManager.shared.baseURI + APIPath.partners
+        let headers = [
+            HeaderKey.userCity.rawValue: codeCity,
+            HeaderKey.pageOffset.rawValue: pageOffset,
+            HeaderKey.pageLimit.rawValue: pageLimit
+        ]
         
-        request(url, headers: headers)
-            .validate()
-            .responseJSON { (response: DataResponse<Any>) in
-                completion(response)
+        getResult(url: url, headers: headers) { result in
+            completion(result)
         }
     }
 }

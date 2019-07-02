@@ -8,18 +8,10 @@
 
 import Foundation
 
-struct City {
-    var id: Int
+typealias CitiesResponse = [City]
+
+struct City: Decodable {
+    var idCity: Int
     var code: String
     var name: String
-    
-    init?(dictionary: [String: AnyObject]) {
-        guard let id = dictionary["id"] as? Int,
-                let code = dictionary["code"] as? String,
-                let name = dictionary["name"] as? String else { return nil }
-        
-        self.id = id
-        self.code = code
-        self.name = name
-    }
 }
