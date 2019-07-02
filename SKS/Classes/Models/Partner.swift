@@ -16,14 +16,7 @@ struct Partner: Decodable {
     let cities: CitiesResponse
     let category: Category
     let description: String
-    let bigestStock: BigestStock
+    let bigestStock: BigestStock?
+    let stocks: [Stock]?
+    let discounts: [Discount]?
 }
-
-struct BigestStock: Decodable {
-    let idDiscount: Int
-    let name: String
-    let description: String
-    let size: Int
-}
-
-

@@ -14,6 +14,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         NetworkManager.shared.getContent { (response) in
+            print("----------------------------------")
             switch response.result {
             case .success(let string):
                 print(string)
@@ -23,6 +24,7 @@ class ViewController: UIViewController {
         }
         
         NetworkManager.shared.getCategories { result in
+            print("----------------------------------")
             if let error = result.error {
                 print(error.localizedDescription)
             } else {
@@ -31,6 +33,7 @@ class ViewController: UIViewController {
         }
         
         NetworkManager.shared.getCities { result in
+            print("----------------------------------")
             if let error = result.error {
                 print(error.localizedDescription)
             } else {
@@ -39,6 +42,7 @@ class ViewController: UIViewController {
         }
         
         NetworkManager.shared.getShowcase { result in
+            print("----------------------------------")
             if let error = result.error {
                 print(error.localizedDescription)
             } else {
@@ -47,6 +51,16 @@ class ViewController: UIViewController {
         }
         
         NetworkManager.shared.getPartners { result in
+            print("----------------------------------")
+            if let error = result.error {
+                print(error.localizedDescription)
+            } else {
+                print(result.value)
+            }
+        }
+        
+        NetworkManager.shared.getPartner { result in
+            print("----------------------------------")
             if let error = result.error {
                 print(error.localizedDescription)
             } else {
