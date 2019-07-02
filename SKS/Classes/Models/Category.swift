@@ -8,15 +8,9 @@
 
 import Foundation
 
-struct Category {
-    var id: Int
+typealias CategoriesResponse = [Category]
+
+struct Category: Decodable {
+    var idCategory: Int
     var name: String
-    
-    init?(dictionary: [String: AnyObject]) {
-        guard let id = dictionary["id"] as? Int,
-            let name = dictionary["name"] as? String else { return nil }
-        
-        self.id = id
-        self.name = name
-    }
 }

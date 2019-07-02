@@ -22,45 +22,35 @@ class ViewController: UIViewController {
             }
         }
         
-        NetworkManager.shared.getCategories { (response) in
-            switch response.result {
-            case .success(let json):
-                if let array = json as? [[String: AnyObject]] {
-                    for dictionary in array {
-                        guard let category = Category(dictionary: dictionary) else { continue }
-                        print(category.name)
-                    }
-                }
-            case .failure(let error):
-                print(error)
+        NetworkManager.shared.getCategories { result in
+            if let error = result.error {
+                print(error.localizedDescription)
+            } else {
+                print(result.value)
             }
         }
         
-        NetworkManager.shared.getCities { (response) in
-            switch response.result {
-            case .success(let json):
-                if let array = json as? [[String: AnyObject]] {
-                    for dictionary in array {
-                        guard let city = City(dictionary: dictionary) else { continue }
-                        print(city.name)
-                    }
-                }
-            case .failure(let error):
-                print(error)
+        NetworkManager.shared.getCities { result in
+            if let error = result.error {
+                print(error.localizedDescription)
+            } else {
+                print(result.value)
             }
         }
         
-        NetworkManager.shared.getShowcase { (response) in
-            switch response.result {
-            case .success(let json):
-                if let array = json as? [[String: AnyObject]] {
-                    for dictionary in array {
-                        guard let stock = Stock(dictionary: dictionary) else { continue }
-                        print(stock.name)
-                    }
-                }
-            case .failure(let error):
-                print(error)
+        NetworkManager.shared.getShowcase { result in
+            if let error = result.error {
+                print(error.localizedDescription)
+            } else {
+                print(result.value)
+            }
+        }
+        
+        NetworkManager.shared.getPartners { result in
+            if let error = result.error {
+                print(error.localizedDescription)
+            } else {
+                print(result.value)
             }
         }
     }
