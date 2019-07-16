@@ -10,6 +10,7 @@ target 'SKS' do
 
   # Utilities
   pod 'ReachabilitySwift'
+  pod 'SkyFloatingLabelTextField', '~> 3.0'
 
   target 'SKSTests' do
     inherit! :search_paths

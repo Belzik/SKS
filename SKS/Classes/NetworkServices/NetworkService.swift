@@ -15,6 +15,7 @@ struct APIPath {
     static let content = "content"
     static let partners = "partners"
     static let stock = "stock"
+    static let getSmsWithCode = "auth/phone"
 }
 
 enum HeaderKey: String {
@@ -39,10 +40,17 @@ class NetworkManager {
     let decoder = JSONDecoder()
     
     let baseURI = "https://virtserver.swaggerhub.com/px2x/sks-mobile/0.0.1/"
+    let authURI = "http://sksauth.px2x.ru"
+    let apiVersion = "v1"
     
-    private func getResult<T: Decodable>(url: String, headers: [String : String], completion: @escaping (_ response: Result<T>) -> Void) {
+    private func getResult<T: Decodable>(url: String,
+                                         method: HTTPMethod = .get,
+                                         parameters: Parameters? = nil,
+                                         encoding: ParameterEncoding = URLEncoding.default,
+                                         headers: [String : String]? = nil,
+                                         completion: @escaping (_ response: Result<T>) -> Void) {
         
-        request(url, headers: headers)
+        request(url, method: method, parameters: parameters, encoding: encoding, headers: headers)
             .validate()
             .responseData { response in
                 let result: Result<T> = self.decoder.decodeResponse(from: response)
@@ -122,6 +130,19 @@ class NetworkManager {
         ]
         
         getResult(url: url, headers: headers) { result in
+            completion(result)
+        }
+    }
+    
+    func getCodeWithSms(phone: String, place: String = "mobile", completion: @escaping (_ result: Result<SmsResponse>) -> Void) {
+        let url = authURI + "/\(apiVersion)/" + "\(APIPath.getSmsWithCode)"
+        
+        let parametrs: Parameters = [
+            "login" : phone,
+            "place" : place
+        ]
+        
+        getResult(url: url, method: .post, parameters: parametrs) { result in
             completion(result)
         }
     }
