@@ -9,6 +9,7 @@ target 'SKS' do
   pod 'Alamofire'
 
   # Utilities
+  pod 'IQKeyboardManagerSwift'
   pod 'ReachabilitySwift'
   pod 'SkyFloatingLabelTextField', '~> 3.0'
 

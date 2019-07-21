@@ -11,6 +11,7 @@ import UIKit
 enum ColorManager {
     case green
     case red
+    case gray
     
     case custom(hexString: String, alpha: Double)
     
@@ -28,6 +29,8 @@ extension ColorManager {
             instanceColor = UIColor(hexString: "#1AAB58")
         case .red:
             instanceColor = UIColor(hexString: "#EC6464")
+        case .gray:
+            instanceColor = UIColor(hexString: "#C8CAD2")
 
         case .custom(let hexValue, let opacity):
             instanceColor = UIColor(hexString: hexValue).withAlphaComponent(CGFloat(opacity))
