@@ -8,11 +8,13 @@
 
 import UIKit
 
-class LoginViewController: UIViewController {
+class LoginViewController: BaseViewController {
     @IBOutlet weak var phoneTextField: SKSTextField!
     @IBOutlet weak var nextButton: SKSButton!
     @IBOutlet weak var agreementsLabel: UILabel!
     @IBOutlet weak var bottomConstraintAgreementLabel: NSLayoutConstraint!
+    
+    private var keyboardHeight: CGFloat = 0
     
     @IBAction func nextbuttonTapped(_ sender: SKSButton) {
         getSmsWithCode()
@@ -28,13 +30,16 @@ class LoginViewController: UIViewController {
         attributedString.setColorForText(textForAttribute: "Политикой конфиденциальности", withColor: ColorManager.green.value)
         
         agreementsLabel.attributedText = attributedString
-
-//        phoneTextField.rightView = UIImageView(image: UIImage(named: "check"))
-//        phoneTextField.rightView?.frame = CGRect(x: 0, y: 0, width: 24, height: 24)
-//        phoneTextField.rightViewMode = .always
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         phoneTextField.becomeFirstResponder()
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "segueCode" {
+            let dvc = segue.destination as! CodeViewController
+            dvc.keyboardHeight = keyboardHeight
+        }
     }
 
     func test() {
@@ -53,7 +58,8 @@ class LoginViewController: UIViewController {
         if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
             let keyboardRectangle = keyboardFrame.cgRectValue
             let keyboardHeight = keyboardRectangle.height
-            bottomConstraintAgreementLabel.constant = keyboardHeight + 20
+            bottomConstraintAgreementLabel.constant = keyboardHeight + 16
+            self.keyboardHeight = keyboardHeight
         }
     }
     
@@ -64,15 +70,18 @@ class LoginViewController: UIViewController {
                 let alert = UIAlertController(title: "Внимание", message: error.localizedDescription, preferredStyle: .alert)
                 alert.addAction(action)
                 
-                self?.present(alert, animated: true, completion: nil)
+                //7
+                //self?.present(alert, animated: true, completion: nil)
             } else {
                 let action = UIAlertAction(title: "OK", style: .default, handler: nil)
                 let alert = UIAlertController(title: "Внимание", message: "Смска успешно отправлена", preferredStyle: .alert)
                 alert.addAction(action)
                 
-                self?.present(alert, animated: true, completion: nil)
+                //self?.present(alert, animated: true, completion: nil)
             }
         }
+        
+        performSegue(withIdentifier: "segueCode", sender: nil)
     }
     
     private func setupError(forTextField textField: SKSTextField) {
@@ -82,8 +91,8 @@ class LoginViewController: UIViewController {
                     phoneTextField.selectedLineColor = ColorManager.green.value
                     //nextButton.backgroundColor = UIColor.gray
                     phoneTextField.rightViewMode = .never
-                    //nextButton.isHidden = true
-                    //agreementsLabel.isHidden = true
+                    nextButton.isHidden = true
+                    agreementsLabel.isHidden = true
                 } else {
                     //phoneTextField.errorMessage = ""
                     //nextButton.backgroundColor = ColorManager.green.value

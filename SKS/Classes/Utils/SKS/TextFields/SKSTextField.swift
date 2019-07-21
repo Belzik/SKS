@@ -1,8 +1,8 @@
 //
-//  SKSTextFIeld.swift
+//  SKSTextField.swift
 //  SKS
 //
-//  Created by Александр Катрыч on 15/07/2019.
+//  Created by Александр Катрыч on 20/07/2019.
 //  Copyright © 2019 Katrych. All rights reserved.
 //
 
@@ -22,9 +22,7 @@ class SKSTextField: SkyFloatingLabelTextField {
         self.titleFormatter = { string in
             return string
         }
-        
-        self.errorColor = ColorManager.red.value
-        self.lineErrorColor = ColorManager.red.value
+    
         self.titleLabel.adjustsFontSizeToFitWidth = true
     }
 }

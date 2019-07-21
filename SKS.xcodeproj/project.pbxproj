@@ -14,16 +14,24 @@
 		B51B601522C9EAB5003F24F3 /* Stock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51B601422C9EAB5003F24F3 /* Stock.swift */; };
 		B527534622DCFF4F0003BDE6 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B527534522DCFF4F0003BDE6 /* UIColor.swift */; };
 		B527534822DCFF720003BDE6 /* ColorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B527534722DCFF720003BDE6 /* ColorManager.swift */; };
-		B527534C22DD013B0003BDE6 /* SKSTextFIeld.swift in Sources */ = {isa = PBXBuildFile; fileRef = B527534B22DD013B0003BDE6 /* SKSTextFIeld.swift */; };
+		B527534C22DD013B0003BDE6 /* ErrorTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B527534B22DD013B0003BDE6 /* ErrorTextField.swift */; };
 		B527534E22DD03A30003BDE6 /* LoginTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B527534D22DD03A30003BDE6 /* LoginTextField.swift */; };
 		B527535022DD07B20003BDE6 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = B527534F22DD07B20003BDE6 /* String.swift */; };
 		B527535522DD08E60003BDE6 /* SKSButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B527535422DD08E60003BDE6 /* SKSButton.swift */; };
 		B527535722DD199A0003BDE6 /* NSMutableAttributedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = B527535622DD199A0003BDE6 /* NSMutableAttributedString.swift */; };
 		B52EFFD122CB896400518949 /* JSONEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52EFFD022CB896400518949 /* JSONEncoder.swift */; };
 		B52EFFD322CBA56500518949 /* Partner.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52EFFD222CBA56500518949 /* Partner.swift */; };
+		B5530D9622E2E97900948A07 /* ErrorTextField.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5530D9522E2E97900948A07 /* ErrorTextField.xib */; };
 		B559E97122CBC67800301F85 /* Discount.swift in Sources */ = {isa = PBXBuildFile; fileRef = B559E97022CBC67700301F85 /* Discount.swift */; };
 		B559E97322CBC6E500301F85 /* BigestStock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B559E97222CBC6E500301F85 /* BigestStock.swift */; };
 		B57755E922DDB53200ABA9CA /* SmsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57755E822DDB53200ABA9CA /* SmsResponse.swift */; };
+		B5858B2522E36870003B67B0 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5858B2422E36870003B67B0 /* ImagePicker.swift */; };
+		B5858B2722E36FAA003B67B0 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5858B2622E36FAA003B67B0 /* UIView.swift */; };
+		B586E9D622E1E58D00790CF3 /* PersonalDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B586E9D522E1E58D00790CF3 /* PersonalDataViewController.swift */; };
+		B586E9D822E1E64400790CF3 /* UniversityDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B586E9D722E1E64400790CF3 /* UniversityDataViewController.swift */; };
+		B586E9DA22E1EE9600790CF3 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B586E9D922E1EE9600790CF3 /* BaseViewController.swift */; };
+		B5904DC422E1BBEE00BCB345 /* CodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5904DC322E1BBEE00BCB345 /* CodeViewController.swift */; };
+		B5A63FF222E33B5D00AAC526 /* SKSTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A63FF122E33B5D00AAC526 /* SKSTextField.swift */; };
 		B5C9C62122C76C6C00DCF18F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C9C62022C76C6C00DCF18F /* AppDelegate.swift */; };
 		B5C9C62322C76C6C00DCF18F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C9C62222C76C6C00DCF18F /* LoginViewController.swift */; };
 		B5C9C62622C76C6C00DCF18F /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B5C9C62422C76C6C00DCF18F /* Login.storyboard */; };
@@ -66,16 +74,24 @@
 		B51B601422C9EAB5003F24F3 /* Stock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stock.swift; sourceTree = "<group>"; };
 		B527534522DCFF4F0003BDE6 /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 		B527534722DCFF720003BDE6 /* ColorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorManager.swift; sourceTree = "<group>"; };
-		B527534B22DD013B0003BDE6 /* SKSTextFIeld.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKSTextFIeld.swift; sourceTree = "<group>"; };
+		B527534B22DD013B0003BDE6 /* ErrorTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorTextField.swift; sourceTree = "<group>"; };
 		B527534D22DD03A30003BDE6 /* LoginTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginTextField.swift; sourceTree = "<group>"; };
 		B527534F22DD07B20003BDE6 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		B527535422DD08E60003BDE6 /* SKSButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKSButton.swift; sourceTree = "<group>"; };
 		B527535622DD199A0003BDE6 /* NSMutableAttributedString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSMutableAttributedString.swift; sourceTree = "<group>"; };
 		B52EFFD022CB896400518949 /* JSONEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONEncoder.swift; sourceTree = "<group>"; };
 		B52EFFD222CBA56500518949 /* Partner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Partner.swift; sourceTree = "<group>"; };
+		B5530D9522E2E97900948A07 /* ErrorTextField.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ErrorTextField.xib; sourceTree = "<group>"; };
 		B559E97022CBC67700301F85 /* Discount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Discount.swift; sourceTree = "<group>"; };
 		B559E97222CBC6E500301F85 /* BigestStock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigestStock.swift; sourceTree = "<group>"; };
 		B57755E822DDB53200ABA9CA /* SmsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmsResponse.swift; sourceTree = "<group>"; };
+		B5858B2422E36870003B67B0 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		B5858B2622E36FAA003B67B0 /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
+		B586E9D522E1E58D00790CF3 /* PersonalDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalDataViewController.swift; sourceTree = "<group>"; };
+		B586E9D722E1E64400790CF3 /* UniversityDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversityDataViewController.swift; sourceTree = "<group>"; };
+		B586E9D922E1EE9600790CF3 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		B5904DC322E1BBEE00BCB345 /* CodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeViewController.swift; sourceTree = "<group>"; };
+		B5A63FF122E33B5D00AAC526 /* SKSTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKSTextField.swift; sourceTree = "<group>"; };
 		B5C9C61D22C76C6C00DCF18F /* SKS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SKS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5C9C62022C76C6C00DCF18F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B5C9C62222C76C6C00DCF18F /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -155,6 +171,7 @@
 		B527534922DD01150003BDE6 /* SKS */ = {
 			isa = PBXGroup;
 			children = (
+				B5A63FF022E33B0200AAC526 /* Views */,
 				B527535322DD08DC0003BDE6 /* Buttons */,
 				B527534A22DD012C0003BDE6 /* TextFields */,
 			);
@@ -164,8 +181,8 @@
 		B527534A22DD012C0003BDE6 /* TextFields */ = {
 			isa = PBXGroup;
 			children = (
-				B527534B22DD013B0003BDE6 /* SKSTextFIeld.swift */,
 				B527534D22DD03A30003BDE6 /* LoginTextField.swift */,
+				B5A63FF122E33B5D00AAC526 /* SKSTextField.swift */,
 			);
 			path = TextFields;
 			sourceTree = "<group>";
@@ -185,8 +202,18 @@
 				B527534522DCFF4F0003BDE6 /* UIColor.swift */,
 				B527534F22DD07B20003BDE6 /* String.swift */,
 				B527535622DD199A0003BDE6 /* NSMutableAttributedString.swift */,
+				B5858B2622E36FAA003B67B0 /* UIView.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		B5A63FF022E33B0200AAC526 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B527534B22DD013B0003BDE6 /* ErrorTextField.swift */,
+				B5530D9522E2E97900948A07 /* ErrorTextField.xib */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		B5C9C61422C76C6C00DCF18F = {
@@ -305,7 +332,8 @@
 		B5C9C66222C7775800DCF18F /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				B5C9C62222C76C6C00DCF18F /* LoginViewController.swift */,
+				B5EE918322E201FA00868BE4 /* Login */,
+				B586E9D922E1EE9600790CF3 /* BaseViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -321,12 +349,24 @@
 		B5C9C66422C7777600DCF18F /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				B527534722DCFF720003BDE6 /* ColorManager.swift */,
+				B5C9C66B22C7856F00DCF18F /* ReachabilityManager.swift */,
 				B527534922DD01150003BDE6 /* SKS */,
 				B559E96F22CBC37B00301F85 /* Extension */,
-				B5C9C66B22C7856F00DCF18F /* ReachabilityManager.swift */,
-				B527534722DCFF720003BDE6 /* ColorManager.swift */,
+				B5858B2422E36870003B67B0 /* ImagePicker.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		B5EE918322E201FA00868BE4 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				B5C9C62222C76C6C00DCF18F /* LoginViewController.swift */,
+				B5904DC322E1BBEE00BCB345 /* CodeViewController.swift */,
+				B586E9D522E1E58D00790CF3 /* PersonalDataViewController.swift */,
+				B586E9D722E1E64400790CF3 /* UniversityDataViewController.swift */,
+			);
+			path = Login;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -438,6 +478,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B5C9C62E22C76C6E00DCF18F /* LaunchScreen.storyboard in Resources */,
+				B5530D9622E2E97900948A07 /* ErrorTextField.xib in Resources */,
 				B5C9C65C22C775BF00DCF18F /* Localizable.strings in Resources */,
 				B5C9C62B22C76C6E00DCF18F /* Assets.xcassets in Resources */,
 				B5C9C62622C76C6C00DCF18F /* Login.storyboard in Resources */,
@@ -551,16 +592,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B586E9D622E1E58D00790CF3 /* PersonalDataViewController.swift in Sources */,
 				B57755E922DDB53200ABA9CA /* SmsResponse.swift in Sources */,
 				B52EFFD122CB896400518949 /* JSONEncoder.swift in Sources */,
+				B5858B2522E36870003B67B0 /* ImagePicker.swift in Sources */,
+				B5A63FF222E33B5D00AAC526 /* SKSTextField.swift in Sources */,
 				B527534622DCFF4F0003BDE6 /* UIColor.swift in Sources */,
 				B51B601122C9DEDA003F24F3 /* Category.swift in Sources */,
 				B5C9C66C22C7856F00DCF18F /* ReachabilityManager.swift in Sources */,
 				B5C9C65F22C7766C00DCF18F /* Fonts.swift in Sources */,
 				B5C9C62322C76C6C00DCF18F /* LoginViewController.swift in Sources */,
+				B586E9D822E1E64400790CF3 /* UniversityDataViewController.swift in Sources */,
 				B527534E22DD03A30003BDE6 /* LoginTextField.swift in Sources */,
 				B527534822DCFF720003BDE6 /* ColorManager.swift in Sources */,
-				B527534C22DD013B0003BDE6 /* SKSTextFIeld.swift in Sources */,
+				B527534C22DD013B0003BDE6 /* ErrorTextField.swift in Sources */,
 				B527535722DD199A0003BDE6 /* NSMutableAttributedString.swift in Sources */,
 				B5C9C62922C76C6C00DCF18F /* SKS.xcdatamodeld in Sources */,
 				B559E97122CBC67800301F85 /* Discount.swift in Sources */,
@@ -569,9 +614,12 @@
 				B5C9C62122C76C6C00DCF18F /* AppDelegate.swift in Sources */,
 				B51B601322C9E796003F24F3 /* City.swift in Sources */,
 				B527535522DD08E60003BDE6 /* SKSButton.swift in Sources */,
+				B586E9DA22E1EE9600790CF3 /* BaseViewController.swift in Sources */,
 				B559E97322CBC6E500301F85 /* BigestStock.swift in Sources */,
+				B5858B2722E36FAA003B67B0 /* UIView.swift in Sources */,
 				B51B600522C9D2EF003F24F3 /* NetworkService.swift in Sources */,
 				B51B601522C9EAB5003F24F3 /* Stock.swift in Sources */,
+				B5904DC422E1BBEE00BCB345 /* CodeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -754,7 +802,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = Sheverev.SKS;
+				PRODUCT_BUNDLE_IDENTIFIER = ru.petrsu.sks;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -773,7 +821,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = Sheverev.SKS;
+				PRODUCT_BUNDLE_IDENTIFIER = ru.petrsu.sks;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
