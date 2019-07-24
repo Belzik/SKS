@@ -21,6 +21,8 @@
 		B527535722DD199A0003BDE6 /* NSMutableAttributedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = B527535622DD199A0003BDE6 /* NSMutableAttributedString.swift */; };
 		B52EFFD122CB896400518949 /* JSONEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52EFFD022CB896400518949 /* JSONEncoder.swift */; };
 		B52EFFD322CBA56500518949 /* Partner.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52EFFD222CBA56500518949 /* Partner.swift */; };
+		B54766BC22E879FC006D97DC /* UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54766BB22E879FC006D97DC /* UIApplication.swift */; };
+		B54766BE22E87B39006D97DC /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54766BD22E87B39006D97DC /* ProfileViewController.swift */; };
 		B5530D9622E2E97900948A07 /* ErrorTextField.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5530D9522E2E97900948A07 /* ErrorTextField.xib */; };
 		B559E97122CBC67800301F85 /* Discount.swift in Sources */ = {isa = PBXBuildFile; fileRef = B559E97022CBC67700301F85 /* Discount.swift */; };
 		B559E97322CBC6E500301F85 /* BigestStock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B559E97222CBC6E500301F85 /* BigestStock.swift */; };
@@ -96,6 +98,8 @@
 		B527535622DD199A0003BDE6 /* NSMutableAttributedString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSMutableAttributedString.swift; sourceTree = "<group>"; };
 		B52EFFD022CB896400518949 /* JSONEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONEncoder.swift; sourceTree = "<group>"; };
 		B52EFFD222CBA56500518949 /* Partner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Partner.swift; sourceTree = "<group>"; };
+		B54766BB22E879FC006D97DC /* UIApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplication.swift; sourceTree = "<group>"; };
+		B54766BD22E87B39006D97DC /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		B5530D9522E2E97900948A07 /* ErrorTextField.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ErrorTextField.xib; sourceTree = "<group>"; };
 		B559E97022CBC67700301F85 /* Discount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Discount.swift; sourceTree = "<group>"; };
 		B559E97222CBC6E500301F85 /* BigestStock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigestStock.swift; sourceTree = "<group>"; };
@@ -233,6 +237,7 @@
 				B527534F22DD07B20003BDE6 /* String.swift */,
 				B527535622DD199A0003BDE6 /* NSMutableAttributedString.swift */,
 				B5858B2622E36FAA003B67B0 /* UIView.swift */,
+				B54766BB22E879FC006D97DC /* UIApplication.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -258,6 +263,7 @@
 		B5AAAC4C22E4DF1700B04C75 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				B54766BD22E87B39006D97DC /* ProfileViewController.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -677,6 +683,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B54766BC22E879FC006D97DC /* UIApplication.swift in Sources */,
 				B57F510A22E70AE50053A7D2 /* StockTableViewCell.swift in Sources */,
 				B586E9D622E1E58D00790CF3 /* PersonalDataViewController.swift in Sources */,
 				B57755E922DDB53200ABA9CA /* SmsResponse.swift in Sources */,
@@ -710,6 +717,7 @@
 				B559E97322CBC6E500301F85 /* BigestStock.swift in Sources */,
 				B5858B2722E36FAA003B67B0 /* UIView.swift in Sources */,
 				B51B600522C9D2EF003F24F3 /* NetworkService.swift in Sources */,
+				B54766BE22E87B39006D97DC /* ProfileViewController.swift in Sources */,
 				B51B601522C9EAB5003F24F3 /* Stock.swift in Sources */,
 				B5904DC422E1BBEE00BCB345 /* CodeViewController.swift in Sources */,
 			);
