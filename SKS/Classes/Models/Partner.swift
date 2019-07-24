@@ -6,7 +6,7 @@
 //  Copyright © 2019 Katrych. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 typealias PartnersResponse = [Partner]
 
@@ -19,4 +19,22 @@ struct Partner: Decodable {
     let bigestStock: BigestStock?
     let stocks: [Stock]?
     let discounts: [Discount]?
+}
+
+class PartnerHome {
+    let title: String
+    let description: String
+    let image: UIImage
+    let discount: String
+    let category: String
+    let isStock: Bool
+    
+    init(title: String, description: String, image: UIImage, discount: String, category: String, isStock: Bool) {
+        self.title = title
+        self.description = description
+        self.image = image
+        self.discount = discount
+        self.category = category
+        self.isStock = isStock
+    }
 }

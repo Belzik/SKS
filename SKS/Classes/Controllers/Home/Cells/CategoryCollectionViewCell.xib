@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="CategoryCollectionViewCell" customModule="SKS" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vuy-Td-aeL">
+                        <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Tl4-tZ-Go3">
+                                <rect key="frame" x="34" y="24" width="32" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="32" id="L8j-if-9EY"/>
+                                    <constraint firstAttribute="height" constant="32" id="hJU-Vv-DZb"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gsa-yk-Pj4">
+                                <rect key="frame" x="33.5" y="68" width="33" height="14.5"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BsE-ac-47m">
+                                <rect key="frame" x="66" y="-6" width="40" height="40"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_white_check" translatesAutoresizingMaskIntoConstraints="NO" id="dyd-tK-z5B">
+                                        <rect key="frame" x="8" y="8" width="24" height="24"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="24" id="Kea-JG-D6A"/>
+                                            <constraint firstAttribute="height" constant="24" id="zzu-vr-zhi"/>
+                                        </constraints>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="dyd-tK-z5B" firstAttribute="centerX" secondItem="BsE-ac-47m" secondAttribute="centerX" id="X1j-e0-U7q"/>
+                                    <constraint firstItem="dyd-tK-z5B" firstAttribute="centerY" secondItem="BsE-ac-47m" secondAttribute="centerY" id="exF-J9-64v"/>
+                                    <constraint firstAttribute="width" constant="40" id="t47-Q1-G75"/>
+                                    <constraint firstAttribute="height" constant="40" id="upW-B5-kxM"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="gsa-yk-Pj4" firstAttribute="top" secondItem="Tl4-tZ-Go3" secondAttribute="bottom" constant="12" id="3hK-Uu-Evn"/>
+                            <constraint firstItem="gsa-yk-Pj4" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="vuy-Td-aeL" secondAttribute="leading" constant="8" id="98q-J3-Mcz"/>
+                            <constraint firstItem="Tl4-tZ-Go3" firstAttribute="top" secondItem="vuy-Td-aeL" secondAttribute="top" constant="24" id="DXw-L5-Jwd"/>
+                            <constraint firstItem="gsa-yk-Pj4" firstAttribute="centerX" secondItem="Tl4-tZ-Go3" secondAttribute="centerX" id="KaZ-qA-gcT"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="gsa-yk-Pj4" secondAttribute="trailing" constant="8" id="WSb-Bp-FRQ"/>
+                            <constraint firstItem="Tl4-tZ-Go3" firstAttribute="centerX" secondItem="vuy-Td-aeL" secondAttribute="centerX" id="baH-Oe-LsA"/>
+                            <constraint firstAttribute="trailing" secondItem="BsE-ac-47m" secondAttribute="trailing" constant="-6" id="lbr-aN-nzC"/>
+                            <constraint firstItem="BsE-ac-47m" firstAttribute="top" secondItem="vuy-Td-aeL" secondAttribute="top" constant="-6" id="u6O-Eq-Mk8"/>
+                        </constraints>
+                    </view>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="vuy-Td-aeL" secondAttribute="bottom" id="4gh-Jl-s4o"/>
+                <constraint firstItem="vuy-Td-aeL" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="dHA-zZ-Kwx"/>
+                <constraint firstItem="vuy-Td-aeL" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="ddD-qq-I8l"/>
+                <constraint firstAttribute="trailing" secondItem="vuy-Td-aeL" secondAttribute="trailing" id="par-pZ-l57"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <size key="customSize" width="100" height="100"/>
+            <connections>
+                <outlet property="checkedView" destination="BsE-ac-47m" id="bxH-Rb-eit"/>
+                <outlet property="iconImageView" destination="Tl4-tZ-Go3" id="0M6-eI-SfB"/>
+                <outlet property="mainView" destination="vuy-Td-aeL" id="8rp-Ry-Qxk"/>
+                <outlet property="titleLabel" destination="gsa-yk-Pj4" id="0QF-EE-n7o"/>
+            </connections>
+            <point key="canvasLocation" x="165.21739130434784" y="114.50892857142857"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="ic_white_check" width="16" height="16"/>
+    </resources>
+</document>
