@@ -18,3 +18,15 @@ struct Stock: Decodable {
     var durationEnd: String
     var categoryName: String
 }
+
+class StockHome {
+    var title: String
+    var description: String
+    var period: String
+    
+    init(title: String, description: String, period: String) {
+        self.title = title
+        self.description = description
+        self.period = period
+    }
+}

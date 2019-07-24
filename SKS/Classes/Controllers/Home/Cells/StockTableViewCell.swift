@@ -9,16 +9,31 @@
 import UIKit
 
 class StockTableViewCell: UITableViewCell {
+    @IBOutlet weak var collectionView: UICollectionView!
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
-        // Configure the view for the selected state
     }
     
+    func setCollectionViewDataSourceDelegate(_ dataSourceDelegate: UICollectionViewDataSource & UICollectionViewDelegate) {
+        collectionView.contentInset = UIEdgeInsets(top: 16, left: 0, bottom: 24, right: 0)
+        collectionView.collectionViewLayout.invalidateLayout()
+        collectionView.setNeedsLayout()
+        collectionView.layoutIfNeeded()
+        
+        collectionView.register(UINib(nibName: "\(StockCollectionViewCell.self)",
+            bundle: nil),
+                                forCellWithReuseIdentifier: "\(StockCollectionViewCell.self)")
+        
+        collectionView.delegate = dataSourceDelegate
+        collectionView.dataSource = dataSourceDelegate
+        
+        collectionView.reloadData()
+    }
 }

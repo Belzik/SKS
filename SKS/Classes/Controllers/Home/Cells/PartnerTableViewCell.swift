@@ -9,16 +9,32 @@
 import UIKit
 
 class PartnerTableViewCell: UITableViewCell {
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    @IBOutlet weak var mainImage: UIImageView!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var descriptionLabel: UILabel!
+    @IBOutlet weak var discountView: UIView!
+    @IBOutlet weak var discountLabel: UILabel!
+    @IBOutlet weak var stockImage: UIImageView!
+    
+    weak var model: PartnerHome? {
+        didSet {
+            layoutCell()
+        }
     }
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    private func layoutCell() {
+        mainImage.image = model?.image
+        titleLabel.text = model?.title
+        descriptionLabel.text = model?.description
+        discountView.layer.cornerRadius = 5
+        discountLabel.text = model?.discount
+        if let isStock = model?.isStock {
+            if isStock {
+                stockImage.isHidden = false
+            } else {
+                stockImage.isHidden = true
+            }
+        }
     }
 
 }
