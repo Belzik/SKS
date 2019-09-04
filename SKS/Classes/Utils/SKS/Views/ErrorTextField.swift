@@ -18,8 +18,6 @@ class ErrorTextField: UIView {
     @IBOutlet weak var textField: SKSTextField!
     @IBOutlet weak var errorLabel: UILabel!
     
-    private var typeOfButton: TypeOfButton = .shadowAndBackground
-    
     @IBInspectable var text: String? {
         get {
             return self.textField.text
@@ -44,7 +42,7 @@ class ErrorTextField: UIView {
             
             if errorMessage == "" {
                 textField.selectedLineColor = ColorManager.green.value
-                textField.lineColor = UIColor.gray
+                textField.lineColor = ColorManager.gray.value
             } else {
                 textField.selectedLineColor = ColorManager.red.value
                 textField.lineColor = ColorManager.red.value
@@ -66,18 +64,6 @@ class ErrorTextField: UIView {
     
     private func commonInit() {
         Bundle.main.loadNibNamed("\(ErrorTextField.self)", owner: self, options: nil)
-        
-        textField.tintColor = UIColor.gray
-        textField.selectedLineColor = ColorManager.green.value
-        textField.selectedTitleColor = UIColor.gray
-        textField.lineHeight = 1
-        textField.selectedLineHeight = 1
-        textField.titleFont = UIFont.systemFont(ofSize: 12)
-        textField.titleFormatter = { string in
-            return string
-        }
-
-        textField.titleLabel.adjustsFontSizeToFitWidth = true
         
         contentView.frame = self.bounds
         addSubview(contentView)

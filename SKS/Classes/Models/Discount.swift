@@ -8,9 +8,24 @@
 
 import Foundation
 
-struct Discount: Decodable {
-    let idDiscount: Int
-    let name: String
-    let description: String
-    let size: Int
+// MARK: - Discount
+class Discount: Codable {
+    let idDiscount: Int?
+    let createdAt: String?
+    let updatedAt: String?
+    let idPartner: Int?
+    let name: String?
+    let discountDescription: String?
+    let size: Int?
+    
+    enum CodingKeys: String, CodingKey {
+        case idDiscount
+        case createdAt
+        case updatedAt
+        case idPartner
+        case name
+        case discountDescription = "description"
+        case size
+    }
 }
+

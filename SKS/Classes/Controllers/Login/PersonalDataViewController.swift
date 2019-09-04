@@ -10,6 +10,8 @@ import UIKit
 
 class PersonalDataViewController: BaseViewController {
     @IBOutlet weak var photoImageView: UIImageView!
+    @IBOutlet weak var loaderPhoto: UIActivityIndicatorView!
+    @IBOutlet weak var imageErrorLabel: UILabel!
     @IBOutlet weak var lastnameTextField: ErrorTextField!
     @IBOutlet weak var firstnameTextField: ErrorTextField!
     @IBOutlet weak var secondTextField: ErrorTextField!
@@ -19,15 +21,26 @@ class PersonalDataViewController: BaseViewController {
     lazy var imagePicker: ImagePicker = {
         return ImagePicker(presentationController: self, delegate: self)
     }()
+    var isImageAdd: Bool = false
+    var imagePath = ""
     
     let datePicker = UIDatePicker()
 
+    var uniqueSess = ""
+    var refreshToken = ""
+    var accessToken = ""
+    
     @IBAction func nextButtonTapped(_ sender: UIButton) {
         toUniversityData()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        imageErrorLabel.text = """
+        Загрузите свою
+        фотографию
+        """
         
         let imageTap = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
         photoImageView.isUserInteractionEnabled = true
@@ -42,6 +55,24 @@ class PersonalDataViewController: BaseViewController {
         lastnameTextField.textField.returnKeyType = .next
         firstnameTextField.textField.returnKeyType = .next
         secondTextField.textField.returnKeyType = .next
+        
+        birthdayTextField.textField.rightView = UIImageView(image: UIImage(named: "ic_calendar"))
+        birthdayTextField.textField.rightView?.frame = CGRect(x: 0, y: 0, width: 24, height: 24)
+        birthdayTextField.textField.rightViewMode = .always
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "segueUniversityData" {
+            let dvc = segue.destination as! UniversityDataViewController
+            dvc.uniqueSess = uniqueSess
+            dvc.refreshToken = refreshToken
+            dvc.accessToken = accessToken
+            dvc.imagePath = imagePath
+            dvc.surname = lastnameTextField.text!
+            dvc.name = firstnameTextField.text!
+            dvc.patronymic = secondTextField.text!
+            dvc.birthday = birthdayTextField.text!
+        }
     }
     
     @objc func imageTapped() {
@@ -63,6 +94,13 @@ class PersonalDataViewController: BaseViewController {
         
         if birthdayTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
             birthdayTextField.errorMessage = "Поле не заполнено"
+            isValid = false
+        }
+        
+        if !isImageAdd {
+            imageErrorLabel.isHidden = false
+            photoImageView.layer.borderColor = ColorManager.red.value.cgColor
+            photoImageView.layer.borderWidth = 1
             isValid = false
         }
         
@@ -103,7 +141,7 @@ class PersonalDataViewController: BaseViewController {
         birthdayTextField.text = formatter.string(from: datePicker.date)
         birthdayTextField.errorMessage = ""
         view.endEditing(true)
-        toUniversityData()
+        //toUniversityData()
     }
     
     @objc func cancelDatePicker() {
@@ -114,7 +152,26 @@ class PersonalDataViewController: BaseViewController {
 extension PersonalDataViewController: ImagePickerDelegate {
     func didSelect(image: UIImage?) {
         if let image = image {
-            photoImageView.image = image
+            
+
+            
+            uploadImage(image: image)
+        }
+    }
+    
+    func uploadImage(image: UIImage) {
+        loaderPhoto.startAnimating()
+        NetworkManager.shared.uploadImage(image: image) { [weak self] response in
+            self?.loaderPhoto.stopAnimating()
+            if let path = response.result.value?.path {
+                self?.photoImageView.image = image
+                self?.isImageAdd = true
+                self?.photoImageView.layer.borderWidth = 0
+                self?.imageErrorLabel.isHidden = true
+                self?.imagePath = path
+            } else {
+                self?.showAlert(message: NetworkErrors.common)
+            }
         }
     }
 }

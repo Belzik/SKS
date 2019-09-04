@@ -8,6 +8,9 @@
 
 import UIKit
 
+        //UIApplication.statusBarBackgroundColor = UIColor(hexString: "#383C45")
+//application.statusBarStyle = .lightContent
+
 class LoginViewController: BaseViewController {
     @IBOutlet weak var phoneTextField: SKSTextField!
     @IBOutlet weak var nextButton: SKSButton!
@@ -15,6 +18,11 @@ class LoginViewController: BaseViewController {
     @IBOutlet weak var bottomConstraintAgreementLabel: NSLayoutConstraint!
     
     private var keyboardHeight: CGFloat = 0
+    private var smsAttempt: String = ""
+    
+    @IBAction override func backButtonTapped(_ sender: UIButton) {
+        dismiss(animated: true, completion: nil)
+    }
     
     @IBAction func nextbuttonTapped(_ sender: SKSButton) {
         getSmsWithCode()
@@ -22,16 +30,24 @@ class LoginViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let stringValue = "Нажимая кнопку \"Далее\", я соглашаюсь с Пользовательски соглашением и Политикой конфиденциальности"
+        phoneTextField.rightView = UIImageView(image: UIImage(named: "ic_checked_green"))
+        phoneTextField.rightView?.frame = CGRect(x: 0, y: 0, width: 24, height: 24)
+        phoneTextField.rightViewMode = .always
+        phoneTextField.rightView?.alpha = 0
+        phoneTextField.rightView?.isHidden = true
+        let stringValue = "Нажимая кнопку \"Далее\", я соглашаюсь с Политикой конфиденциальности"
         
         let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: stringValue)
-        attributedString.setColorForText(textForAttribute: "Пользовательски соглашением", withColor: ColorManager.green.value)
         attributedString.setColorForText(textForAttribute: "Политикой конфиденциальности", withColor: ColorManager.green.value)
         
         agreementsLabel.attributedText = attributedString
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+        
+        setupAgreementsLabel()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         phoneTextField.becomeFirstResponder()
     }
     
@@ -39,18 +55,8 @@ class LoginViewController: BaseViewController {
         if segue.identifier == "segueCode" {
             let dvc = segue.destination as! CodeViewController
             dvc.keyboardHeight = keyboardHeight
-        }
-    }
-
-    func test() {
-        NetworkManager.shared.getContent { (response) in
-            print("----------------------------------")
-            switch response.result {
-            case .success(let string):
-                print(string)
-            case .failure(let error):
-                print(error)
-            }
+            dvc.phone = phoneTextField.text!.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
+            dvc.smsAttempt = smsAttempt
         }
     }
     
@@ -63,117 +69,58 @@ class LoginViewController: BaseViewController {
         }
     }
     
-    private func getSmsWithCode() {
-        NetworkManager.shared.getCodeWithSms(phone: phoneTextField.text!) { [weak self] result in
-            if let error = result.error {
-                let action = UIAlertAction(title: "OK", style: .default, handler: nil)
-                let alert = UIAlertController(title: "Внимание", message: error.localizedDescription, preferredStyle: .alert)
-                alert.addAction(action)
-                
-                //7
-                //self?.present(alert, animated: true, completion: nil)
-            } else {
-                let action = UIAlertAction(title: "OK", style: .default, handler: nil)
-                let alert = UIAlertController(title: "Внимание", message: "Смска успешно отправлена", preferredStyle: .alert)
-                alert.addAction(action)
-                
-                //self?.present(alert, animated: true, completion: nil)
-            }
-        }
-        
-        performSegue(withIdentifier: "segueCode", sender: nil)
+    func setupAgreementsLabel() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(agreementsLabelTapped))
+        agreementsLabel.isUserInteractionEnabled = true
+        agreementsLabel.addGestureRecognizer(tap)
     }
     
-    private func setupError(forTextField textField: SKSTextField) {
+    @objc func agreementsLabelTapped() {
+        performSegue(withIdentifier: "segueAgreements", sender: nil)
+    }
+    
+    private func getSmsWithCode() {
+        NetworkManager.shared.getCodeWithSms(phone: phoneTextField.text!.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()) { [weak self] response in
+            if response.result.error != nil {
+                self?.showAlert(message: NetworkErrors.common)
+            } else if let attempt = response.result.value?.attempt {
+                self?.smsAttempt = attempt
+                self?.performSegue(withIdentifier: "segueCode", sender: nil)
+            }
+        }
+    }
+    
+    private func views(hide: Bool) {
+        UIView.transition(with: view, duration: 0.2, options: .transitionCrossDissolve, animations: { [weak self] in
+            self?.view.layoutIfNeeded()
+            self?.nextButton.isHidden = hide
+            self?.agreementsLabel.isHidden = hide
+            self?.phoneTextField.rightView?.isHidden = hide
+        })
+    }
+    
+    private func setupError(forTextField textField: SKSTextField, isDeleted: Bool) {
         if textField == phoneTextField {
                 if !phoneTextField.text!.components(separatedBy: CharacterSet.decimalDigits.inverted).joined().isPhone() {
-                    //phoneTextField.errorMessage = "Некорректный телефон"
                     phoneTextField.selectedLineColor = ColorManager.green.value
-                    //nextButton.backgroundColor = UIColor.gray
-                    phoneTextField.rightViewMode = .never
-                    nextButton.isHidden = true
-                    agreementsLabel.isHidden = true
+                    if isDeleted {
+                        views(hide: true)
+                    }
                 } else {
-                    //phoneTextField.errorMessage = ""
-                    //nextButton.backgroundColor = ColorManager.green.value
                     phoneTextField.selectedLineColor = UIColor.gray
-                    phoneTextField.rightView = UIImageView(image: UIImage(named: "check"))
-                    phoneTextField.rightView?.frame = CGRect(x: 0, y: 0, width: 24, height: 24)
-                    phoneTextField.rightViewMode = .always
-                    nextButton.isHidden = false
-                    agreementsLabel.isHidden = false
-    
-//
+                    views(hide: false)
                 }
         }
-    }
-    
-    
-    func formattedNumber(number: String) -> String {
-        let result = stringWithMask(text: number,
-                                    formattingPattern: "+* (***) ***-**-**",
-                                    replacementChar: "*",
-                                    isDecimalDigits: true)
-        
-        return result
-    }
-
-    func stringWithMask(text: String, formattingPattern: String, replacementChar: Character, isDecimalDigits: Bool) -> String {
-        if text.count > 0 && formattingPattern.count > 0 {
-            let tempString = isDecimalDigits ? text.components(separatedBy: CharacterSet.decimalDigits.inverted).joined() : text.components(separatedBy: CharacterSet.alphanumerics.inverted).joined()
-            
-            var finalText = ""
-            var stop = false
-            
-            var formatterIndex = formattingPattern.startIndex
-            var tempIndex = tempString.startIndex
-            
-            while !stop {
-                let formattingPatternRange = formatterIndex..<formattingPattern.index(formatterIndex, offsetBy: 1)
-                
-                if formattingPattern.substring(with: formattingPatternRange) != String(replacementChar) {
-                    finalText = finalText.appendingFormat(formattingPattern.substring(with: formattingPatternRange))
-                } else if tempString.count > 0 {
-                    let pureStringRange = tempIndex..<tempString.index(tempIndex, offsetBy: 1)
-                    finalText = finalText.appendingFormat(tempString.substring(with: pureStringRange))
-                    tempIndex = tempString.index(tempIndex, offsetBy: 1)
-                }
-                
-                formatterIndex = formattingPattern.index(formatterIndex, offsetBy: 1)
-                
-                if formatterIndex >= formattingPattern.endIndex || tempIndex >= tempString.endIndex {
-                    stop = true
-                }
-            }
-            
-            stop = false
-            while !stop {
-                if formatterIndex >= formattingPattern.endIndex {
-                    stop = true
-                    break
-                }
-                
-                if formattingPattern[formatterIndex] == replacementChar {
-                    stop = true
-                } else {
-                    finalText += String(formattingPattern[formatterIndex])
-                    formatterIndex = formattingPattern.index(formatterIndex, offsetBy: 1)
-                }
-            }
-            
-            return finalText
-        }
-        return ""
     }
 }
 
 extension LoginViewController: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        setupError(forTextField: textField as! SKSTextField)
+        setupError(forTextField: textField as! SKSTextField, isDeleted: false)
         
         if textField == phoneTextField {
             if textField.text == "" {
-                textField.text = "+7"
+                textField.text = "+7 "
             }
         }
     }
@@ -185,13 +132,13 @@ extension LoginViewController: UITextFieldDelegate {
         if textField == phoneTextField &&
             !isDeleted {
             
-            textField.text = formattedNumber(number: newString)
-            setupError(forTextField: textField as! SKSTextField)
+            textField.text = newString.with(mask: "+* (***) ***-**-**", replacementChar: "*", isDecimalDigits: true)
+            setupError(forTextField: textField as! SKSTextField, isDeleted: isDeleted)
             return false
         }
         
         textField.text = newString
-        setupError(forTextField: textField as! SKSTextField)
+        setupError(forTextField: textField as! SKSTextField, isDeleted: isDeleted)
         return false
     }
 }

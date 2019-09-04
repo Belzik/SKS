@@ -10,20 +10,27 @@ import UIKit
 
 typealias CategoriesResponse = [Category]
 
-struct Category: Decodable {
-    var idCategory: Int
-    var name: String
-}
-
-class CategoryHome {
-    var title: String
-    var image: UIImage
-    var color: UIColor
-    var isSelect: Bool = false
+class Category: Codable {
+    let idCategory: Int?
+    let createdAt: String?
+    let updatedAt: String?
+    let uuidCategory: String?
+    let name: String?
+    let pict: String?
+    let illustrate: String?
+    let hexcolor: String?
+    var isSelected: Bool = false
+    let illustrateHeader: String?
     
-    init(title: String, image: UIImage, color: UIColor) {
-        self.title = title
-        self.image = image
-        self.color = color
+    enum CodingKeys: String, CodingKey {
+        case idCategory
+        case createdAt
+        case updatedAt
+        case uuidCategory
+        case name
+        case pict
+        case illustrate
+        case hexcolor
+        case illustrateHeader
     }
 }

@@ -85,6 +85,55 @@ extension String {
     func isYandexWallet() -> Bool {
         return __yandexWalletPredicate.evaluate(with: self)
     }
+    
+    func with(mask: String, replacementChar: Character, isDecimalDigits: Bool) -> String {
+        if self.count > 0 && mask.count > 0 {
+            let tempString = isDecimalDigits ? self.components(separatedBy: CharacterSet.decimalDigits.inverted).joined() :
+                self.components(separatedBy: CharacterSet.alphanumerics.inverted).joined()
+            
+            var finalText = ""
+            var stop = false
+            
+            var formatterIndex = mask.startIndex
+            var tempIndex = tempString.startIndex
+            
+            while !stop {
+                let formattingPatternRange = formatterIndex..<mask.index(formatterIndex, offsetBy: 1)
+                
+                if mask.substring(with: formattingPatternRange) != String(replacementChar) {
+                    finalText = finalText.appendingFormat(mask.substring(with: formattingPatternRange))
+                } else if tempString.count > 0 {
+                    let pureStringRange = tempIndex..<tempString.index(tempIndex, offsetBy: 1)
+                    finalText = finalText.appendingFormat(tempString.substring(with: pureStringRange))
+                    tempIndex = tempString.index(tempIndex, offsetBy: 1)
+                }
+                
+                formatterIndex = mask.index(formatterIndex, offsetBy: 1)
+                
+                if formatterIndex >= mask.endIndex || tempIndex >= tempString.endIndex {
+                    stop = true
+                }
+            }
+            
+            stop = false
+            while !stop {
+                if formatterIndex >= mask.endIndex {
+                    stop = true
+                    break
+                }
+                
+                if mask[formatterIndex] == replacementChar {
+                    stop = true
+                } else {
+                    finalText += String(mask[formatterIndex])
+                    formatterIndex = mask.index(formatterIndex, offsetBy: 1)
+                }
+            }
+            
+            return finalText
+        }
+        return ""
+    }
 }
 
 extension String {
@@ -98,3 +147,32 @@ extension String {
     }
 }
 
+
+extension String {
+    
+    subscript(bounds: CountableClosedRange<Int>) -> String {
+        let lowerBound = max(0, bounds.lowerBound)
+        guard lowerBound < self.count else { return "" }
+        
+        let upperBound = min(bounds.upperBound, self.count-1)
+        guard upperBound >= 0 else { return "" }
+        
+        let i = index(startIndex, offsetBy: lowerBound)
+        let j = index(i, offsetBy: upperBound-lowerBound)
+        
+        return String(self[i...j])
+    }
+    
+    subscript(bounds: CountableRange<Int>) -> String {
+        let lowerBound = max(0, bounds.lowerBound)
+        guard lowerBound < self.count else { return "" }
+        
+        let upperBound = min(bounds.upperBound, self.count)
+        guard upperBound >= 0 else { return "" }
+        
+        let i = index(startIndex, offsetBy: lowerBound)
+        let j = index(i, offsetBy: upperBound-lowerBound)
+        
+        return String(self[i..<j])
+    }
+}

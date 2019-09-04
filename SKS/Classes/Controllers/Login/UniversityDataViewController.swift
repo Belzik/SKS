@@ -13,274 +13,189 @@ class UniversityDataViewController: BaseViewController {
     @IBOutlet weak var instituteTextField: ErrorTextField!
     @IBOutlet weak var facultyTextField: ErrorTextField!
     @IBOutlet weak var specialtyTextField: ErrorTextField!
-    @IBOutlet weak var startDateTextField: ErrorTextField!
-    @IBOutlet weak var endDateTextField: ErrorTextField!
+    @IBOutlet weak var periodTextField: ErrorTextField!
     @IBOutlet weak var courseTextField: ErrorTextField!
     
-    private var institutePickerView: UIPickerView!
-    private var institutePickerData = ["Институт 1" , "Институт 2" , "Институт 3" , "Институт 4"]
+    var cityPicker: SKSPicker = SKSPicker()
+    var institutePicker: SKSPicker = SKSPicker()
+    var facultyPicker: SKSPicker = SKSPicker()
+    var specialityPicker: SKSPicker = SKSPicker()
+    var periodPicker: PeriodPicker = PeriodPicker()
+    var coursePicker: SKSPicker = SKSPicker()
     
-    private var facultyPickerView: UIPickerView!
-    private var facultyPickerData = ["Факультет 1" , "Факультет 2" , "Факультет 3" , "Факультет 4"]
+    var cities: [City] = []
+    var universities: [University] = []
+    var faculties: [Faculty] = []
+    var specialties: [Specialty] = []
+    var courses: [Course] = [
+        Course(title: "1 курс", value: "1"),
+        Course(title: "2 курс", value: "2"),
+        Course(title: "3 курс", value: "3"),
+        Course(title: "4 курс", value: "4"),
+        Course(title: "5 курс", value: "5"),
+        Course(title: "6 курс", value: "6")
+    ]
     
-    private var specialtyPickerView: UIPickerView!
-    private var specialtyPickerData = ["Специальность 1" , "Специальность 2" , "Специальность 3" , "Специальность 4"]
+    var uniqueSess = ""
+    var refreshToken = ""
+    var accessToken = ""
+    var imagePath = ""
+    var surname = ""
+    var name = ""
+    var patronymic = ""
+    var birthday = ""
     
-    private var coursePickerView: UIPickerView!
-    private var coursePickerData = ["Курс 1" , "Курс 2" , "Курс 3" , "Курс 4", "Курс 5"]
-    
-    let startDatePicker = UIDatePicker()
-    let endDatePicker = UIDatePicker()
+    var startEducation = ""
+    var endEducation = ""
     
     @IBAction func nextButtonTapped() {
-        validate()
+        if validate() {
+            let course = courses[coursePicker.picker.selectedRow(inComponent: 0)].value
+            let uuidCity = cities[cityPicker.picker.selectedRow(inComponent: 0)].uuidCity
+            let uuidUniversity = universities[institutePicker.picker.selectedRow(inComponent: 0)].uuidUniver
+            let uuidFaculty = faculties[facultyPicker.picker.selectedRow(inComponent: 0)].uuidDepartment
+            let uuidSpecialty = specialties[specialityPicker.picker.selectedRow(inComponent: 0)].uuidSpecialty
+            
+            NetworkManager.shared.registration(uniqueSess: uniqueSess,
+                                               name: name,
+                                               patronymic: patronymic,
+                                               surname: surname,
+                                               birthdate: birthday,
+                                               startEducation: startEducation,
+                                               endEducation: endEducation,
+                                               course: course,
+                                               uuidCity: uuidCity ?? "",
+                                               photo: imagePath,
+                                               uuidUniversity: uuidUniversity,
+                                               uuidFaculty: uuidFaculty,
+                                               uuidSpecialty: uuidSpecialty,
+                                               accessToken: accessToken) { [weak self] response in
+                if let user = response.result.value {
+                    user.accessToken = self?.accessToken
+                    user.refreshToken = self?.refreshToken
+                    user.uniqueSess = self?.uniqueSess
+                    user.save()
+                    
+                    if let vc = UIStoryboard(name: "Home", bundle: nil).instantiateInitialViewController() {
+                        self?.present(vc, animated: true, completion: nil)
+                    }
+                } else {
+                    print(response.result.error)
+                    self?.showAlert(message: NetworkErrors.common)
+                }
+            }
+        }
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        cityTextField.delegate = self
-        instituteTextField.delegate = self
-        facultyTextField.delegate = self
-        specialtyTextField.delegate = self
-        startDateTextField.delegate = self
-        endDateTextField.delegate = self
-        courseTextField.delegate = self
-        
-        cityTextField.textField.returnKeyType = .next
-        instituteTextField.textField.returnKeyType = .next
-        facultyTextField.textField.returnKeyType = .next
-        specialtyTextField.textField.returnKeyType = .next
-        startDateTextField.textField.returnKeyType = .next
-        endDateTextField.textField.returnKeyType = .next
-        
-        setupInstitutePicker()
-        setupFacultyPicker()
-        setupSpecialtyPicker()
-        setupCoursePicker()
-        setupStartDatePicker()
-        setupEndDatePicker()
-        
+        setupTextFields()
+        setupPickers()
+        getCities()
+    }
+    
+    func setupTextFields() {
+        instituteTextField.textField.isEnabled = false
         facultyTextField.textField.isEnabled = false
         specialtyTextField.textField.isEnabled = false
-    }
-
-    func setupInstitutePicker() {
-        // UIPickerView
-        institutePickerView = UIPickerView(frame:CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 216))
-        institutePickerView.delegate = self
-        institutePickerView.dataSource = self
-        institutePickerView.selectRow(institutePickerData.count - 1, inComponent: 0, animated: false)
-        institutePickerView.backgroundColor = .white
         
-        instituteTextField.textField.inputView = institutePickerView
-        
-        // ToolBar
-        let toolBar = UIToolbar()
-        toolBar.barStyle = .default
-        toolBar.isTranslucent = false
-        //toolBar.barTintColor = ColorManager.lightOrange.value
-        toolBar.tintColor = .black
-        toolBar.sizeToFit()
-        
-        // Adding Button ToolBar
-        let doneButton = UIBarButtonItem(title: "Готово", style: .plain, target: self, action: #selector(doneInstitutePicker))
-        let spaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let cancelButton = UIBarButtonItem(title: "Отмена", style: .plain, target: self, action: #selector(cancelPicker))
-        toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
-        toolBar.isUserInteractionEnabled = true
-        instituteTextField.textField.inputAccessoryView = toolBar
+        setupImageTextField(textField: cityTextField.textField)
+        setupImageTextField(textField: instituteTextField.textField)
+        setupImageTextField(textField: facultyTextField.textField)
+        setupImageTextField(textField: specialtyTextField.textField)
+        setupImageTextField(textField: courseTextField.textField)
     }
     
-    func setupFacultyPicker() {
-        // UIPickerView
-        facultyPickerView = UIPickerView(frame:CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 216))
-        facultyPickerView.delegate = self
-        facultyPickerView.dataSource = self
-        facultyPickerView.selectRow(facultyPickerData.count - 1, inComponent: 0, animated: false)
-        facultyPickerView.backgroundColor = .white
+    func setupImageTextField(textField: UITextField) {
+        let textFieldCGRect = CGRect(x: 0, y: 0, width: 24, height: 24)
+        let textFieldImage = UIImage(named: "ic_arrow_down")
         
-        facultyTextField.textField.inputView = facultyPickerView
-        
-        // ToolBar
-        let toolBar = UIToolbar()
-        toolBar.barStyle = .default
-        toolBar.isTranslucent = false
-        //toolBar.barTintColor = ColorManager.lightOrange.value
-        toolBar.tintColor = .black
-        toolBar.sizeToFit()
-        
-        // Adding Button ToolBar
-        let doneButton = UIBarButtonItem(title: "Готово", style: .plain, target: self, action: #selector(doneFacultyPicker))
-        let spaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let cancelButton = UIBarButtonItem(title: "Отмена", style: .plain, target: self, action: #selector(cancelPicker))
-        toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
-        toolBar.isUserInteractionEnabled = true
-        facultyTextField.textField.inputAccessoryView = toolBar
-        
+        textField.rightView = UIImageView(image: textFieldImage)
+        textField.rightView?.frame = textFieldCGRect
+        textField.rightViewMode = .always
     }
     
-    func setupSpecialtyPicker() {
-        // UIPickerView
-        specialtyPickerView = UIPickerView(frame:CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 216))
-        specialtyPickerView.delegate = self
-        specialtyPickerView.dataSource = self
-        specialtyPickerView.selectRow(specialtyPickerData.count - 1, inComponent: 0, animated: false)
-        specialtyPickerView.backgroundColor = .white
+    func setupPickers() {
+        cityPicker.delegate = self
+        cityTextField.textField.inputAccessoryView = cityPicker.toolBar
+        cityTextField.textField.inputView = cityPicker.picker
         
-        specialtyTextField.textField.inputView = specialtyPickerView
+        institutePicker.delegate = self
+        instituteTextField.textField.inputAccessoryView = institutePicker.toolBar
+        instituteTextField.textField.inputView = institutePicker.picker
         
-        // ToolBar
-        let toolBar = UIToolbar()
-        toolBar.barStyle = .default
-        toolBar.isTranslucent = false
-        //toolBar.barTintColor = ColorManager.lightOrange.value
-        toolBar.tintColor = .black
-        toolBar.sizeToFit()
+        facultyPicker.delegate = self
+        facultyTextField.textField.inputAccessoryView = facultyPicker.toolBar
+        facultyTextField.textField.inputView = facultyPicker.picker
         
-        // Adding Button ToolBar
-        let doneButton = UIBarButtonItem(title: "Готово", style: .plain, target: self, action: #selector(doneSpecialtyPicker))
-        let spaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let cancelButton = UIBarButtonItem(title: "Отмена", style: .plain, target: self, action: #selector(cancelPicker))
-        toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
-        toolBar.isUserInteractionEnabled = true
-        specialtyTextField.textField.inputAccessoryView = toolBar
+        specialityPicker.delegate = self
+        specialtyTextField.textField.inputAccessoryView = specialityPicker.toolBar
+        specialtyTextField.textField.inputView = specialityPicker.picker
         
+        periodPicker.delegate = self
+        periodTextField.textField.inputAccessoryView = periodPicker.toolBar
+        periodTextField.textField.inputView = periodPicker.picker
+        
+        coursePicker.delegate = self
+        courseTextField.textField.inputAccessoryView = coursePicker.toolBar
+        courseTextField.textField.inputView = coursePicker.picker
+        coursePicker.source = courses
     }
     
-    func setupCoursePicker() {
-        // UIPickerView
-        coursePickerView = UIPickerView(frame:CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 216))
-        coursePickerView.delegate = self
-        coursePickerView.dataSource = self
-        coursePickerView.selectRow(coursePickerData.count - 1, inComponent: 0, animated: false)
-        coursePickerView.backgroundColor = .white
-        
-       courseTextField.textField.inputView = coursePickerView
-        
-        // ToolBar
-        let toolBar = UIToolbar()
-        toolBar.barStyle = .default
-        toolBar.isTranslucent = false
-        //toolBar.barTintColor = ColorManager.lightOrange.value
-        toolBar.tintColor = .black
-        toolBar.sizeToFit()
-        
-        // Adding Button ToolBar
-        let doneButton = UIBarButtonItem(title: "Готово", style: .plain, target: self, action: #selector(doneCoursePicker))
-        let spaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let cancelButton = UIBarButtonItem(title: "Отмена", style: .plain, target: self, action: #selector(cancelPicker))
-        toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
-        toolBar.isUserInteractionEnabled = true
-        courseTextField.textField.inputAccessoryView = toolBar
-    }
-    
-    func setupStartDatePicker() {
-        //Formate Date
-        startDatePicker.datePickerMode = .date
-        startDatePicker.locale = Locale(identifier: "ru")
-        startDatePicker.backgroundColor = UIColor.white
-        
-        //ToolBar
-        let toolBar = UIToolbar()
-        toolBar.barStyle = .default
-        toolBar.isTranslucent = false
-        //toolBar.barTintColor = ColorManager.lightOrange.value
-        toolBar.tintColor = .black
-        toolBar.sizeToFit()
-        
-        let doneButton = UIBarButtonItem(title: "Готово", style: .done, target: self, action: #selector(doneStartDatePicker));
-        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
-        let cancelButton = UIBarButtonItem(title: "Отмена", style: .plain, target: self, action: #selector(cancelPicker));
-        
-        toolBar.setItems([cancelButton,spaceButton,doneButton], animated: false)
-        
-        startDateTextField.textField.inputAccessoryView = toolBar
-        startDateTextField.textField.inputView = startDatePicker
-        
-    }
-    
-    func setupEndDatePicker() {
-        //Formate Date
-        endDatePicker.datePickerMode = .date
-        endDatePicker.locale = Locale(identifier: "ru")
-        endDatePicker.backgroundColor = UIColor.white
-        
-        //ToolBar
-        let toolBar = UIToolbar()
-        toolBar.barStyle = .default
-        toolBar.isTranslucent = false
-        //toolBar.barTintColor = ColorManager.lightOrange.value
-        toolBar.tintColor = .black
-        toolBar.sizeToFit()
-        
-        let doneButton = UIBarButtonItem(title: "Готово", style: .done, target: self, action: #selector(doneEndDatePicker));
-        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
-        let cancelButton = UIBarButtonItem(title: "Отмена", style: .plain, target: self, action: #selector(cancelPicker));
-        
-        toolBar.setItems([cancelButton,spaceButton,doneButton], animated: false)
-        
-        endDateTextField.textField.inputAccessoryView = toolBar
-        endDateTextField.textField.inputView = endDatePicker
-        
-    }
-
-    @objc func doneInstitutePicker() {
-        if instituteTextField.text == "" {
-            instituteTextField.text = institutePickerData.last
-            instituteTextField.errorMessage = ""
-            facultyTextField.textField.isEnabled = true
+    func getCities() {
+        NetworkManager.shared.getСityUniversities { [weak self] response in
+            if let cities = response.result.value,
+                cities.count > 0 {
+                self?.cityPicker.source = cities
+                self?.cities = cities
+            }
         }
-        facultyTextField.textField.becomeFirstResponder()
     }
     
-    @objc func doneFacultyPicker() {
-        if facultyTextField.text == "" {
-            facultyTextField.text = facultyPickerData.last
-            facultyTextField.errorMessage = ""
-            specialtyTextField.textField.isEnabled = true
+    func getInstitutions() {
+        let uuidCity = cities[cityPicker.picker.selectedRow(inComponent: 0)].uuidCity
+        
+        NetworkManager.shared.getUniversities(uuidCity: uuidCity ?? "") { [weak self] response in
+            if let universities = response.result.value,
+                universities.count > 0 {
+                self?.institutePicker.source = universities
+                self?.universities = universities
+                self?.instituteTextField.textField.isEnabled = true
+                self?.instituteTextField.textField.becomeFirstResponder()
+            }
         }
-        specialtyTextField.textField.becomeFirstResponder()
     }
     
-    @objc func doneSpecialtyPicker() {
-        if specialtyTextField.text == "" {
-            specialtyTextField.text = specialtyPickerData.last
-            specialtyTextField.errorMessage = ""
+    func getFaculties() {
+        let uuidUniver = universities[institutePicker.picker.selectedRow(inComponent: 0)].uuidUniver
+        
+        NetworkManager.shared.getFaculties(uuidUniver: uuidUniver) { [weak self] response in
+            if let faculties = response.result.value,
+                faculties.count > 0 {
+                self?.facultyPicker.source = faculties
+                self?.faculties = faculties
+                self?.facultyTextField.textField.isEnabled = true
+                self?.facultyTextField.textField.becomeFirstResponder()
+            }
         }
-        startDateTextField.textField.becomeFirstResponder()
     }
     
-    @objc func doneStartDatePicker() {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "dd.MM.yyyy"
-        startDateTextField.text = formatter.string(from: startDatePicker.date)
-        startDateTextField.errorMessage = ""
-        endDateTextField.textField.becomeFirstResponder()
-    }
-    
-    @objc func doneEndDatePicker() {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "dd.MM.yyyy"
-        endDateTextField.text = formatter.string(from: endDatePicker.date)
-        endDateTextField.errorMessage = ""
-        courseTextField.textField.becomeFirstResponder()
-    }
-    
-    @objc func doneCoursePicker() {
-        if courseTextField.text == "" {
-            courseTextField.text = coursePickerData.last
-            courseTextField.errorMessage = ""
+    func getSpecialties() {
+        let uuidFaculty = faculties[facultyPicker.picker.selectedRow(inComponent: 0)].uuidDepartment
+        
+        NetworkManager.shared.getSpecialties(uuidFaculty: uuidFaculty) { [weak self] response in
+            if let specialties = response.result.value,
+                specialties.count > 0 {
+                self?.specialityPicker.source = specialties
+                self?.specialties = specialties
+                self?.specialtyTextField.textField.isEnabled = true
+                self?.specialtyTextField.textField.becomeFirstResponder()
+            }
         }
-        view.endEditing(true)
-        validate()
     }
     
-    @objc func cancelPicker() {
-        view.endEditing(true)
-    }
-    
-    func validate() {
+    func validate() -> Bool {
         var isValid = true
         
         if cityTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
@@ -303,89 +218,80 @@ class UniversityDataViewController: BaseViewController {
             isValid = false
         }
         
-        if startDateTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
-            startDateTextField.errorMessage = "Поле не заполнено"
+        if periodTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
+            periodTextField.errorMessage = "Поле не заполнено"
             isValid = false
         }
         
-        if endDateTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
-            endDateTextField.errorMessage = "Поле не заполнено"
-            isValid = false
-        }
         
         if courseTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
             courseTextField.errorMessage = "Поле не заполнено"
             isValid = false
         }
         
-        view.endEditing(true)
-//        if isValid {
-//
-//            //performSegue(withIdentifier: "segueUniversityData", sender: nil)
-//        }
+        return isValid
     }
 }
 
-extension UniversityDataViewController: ErrorTextFieldDelegate {
-    func nextTextField(errorTextField: ErrorTextField) {
-        if let nextField = view.viewWithTag(errorTextField.tag + 1) as? ErrorTextField {
-            nextField.textField.becomeFirstResponder()
-        } else {
+extension UniversityDataViewController: SKSPickerDelegate {
+    func donePicker(picker: SKSPicker, value: TypeOfSourcePicker) {
+        if picker == cityPicker {
+            cityTextField.text = value.title
+            
+            instituteTextField.textField.isEnabled = false
+            facultyTextField.textField.isEnabled = false
+            specialtyTextField.textField.isEnabled = false
+            
+            instituteTextField.textField.text = ""
+            facultyTextField.textField.text = ""
+            specialtyTextField.textField.text = ""
+            
+            getInstitutions()
+        }
+        
+        if picker == institutePicker {
+            instituteTextField.text = value.title
+            
+            facultyTextField.textField.isEnabled = false
+            specialtyTextField.textField.isEnabled = false
+            
+            facultyTextField.textField.text = ""
+            specialtyTextField.textField.text = ""
+            
+            getFaculties()
+        }
+        
+        if picker == facultyPicker {
+            facultyTextField.text = value.title
+            
+            specialtyTextField.textField.isEnabled = false
+            specialtyTextField.textField.text = ""
+            
+            getSpecialties()
+        }
+        
+        if picker == specialityPicker {
+            specialtyTextField.text = value.title
+            periodTextField.textField.becomeFirstResponder()
+        }
+        
+        if picker == coursePicker {
+            courseTextField.text = value.title
             view.endEditing(true)
         }
     }
+    
+    func cancelPicker() {
+        view.endEditing(true)
+    }
 }
 
-extension UniversityDataViewController: UIPickerViewDataSource, UIPickerViewDelegate {
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return institutePickerData.count
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        if pickerView == institutePickerView {
-            return institutePickerData[row]
-        }
+extension UniversityDataViewController: PeriodPickerDelegate {
+    func donePicker(dateStart: String, dateEnd: String) {
+        startEducation = dateStart
+        endEducation = dateEnd
         
-        if pickerView == facultyPickerView {
-            return facultyPickerData[row]
-        }
-        
-        if pickerView == specialtyPickerView {
-            return specialtyPickerData[row]
-        }
-        
-        if pickerView == coursePickerView {
-            return coursePickerData[row]
-        }
-        
-        return nil
-    }
-
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        if pickerView == institutePickerView {
-            instituteTextField.text = institutePickerData[row]
-            instituteTextField.errorMessage = ""
-            facultyTextField.textField.isEnabled = true
-        }
-
-        if pickerView == facultyPickerView {
-            facultyTextField.text = facultyPickerData[row]
-            facultyTextField.errorMessage = ""
-            specialtyTextField.textField.isEnabled = true
-        }
-        
-        if pickerView == specialtyPickerView {
-            specialtyTextField.text = specialtyPickerData[row]
-            specialtyTextField.errorMessage = ""
-        }
-        
-        if pickerView == coursePickerView {
-            courseTextField.text = coursePickerData[row]
-            courseTextField.errorMessage = ""
-        }
+        periodTextField.text = "\(dateStart) - \(dateEnd)"
+        courseTextField.textField.becomeFirstResponder()
     }
 }

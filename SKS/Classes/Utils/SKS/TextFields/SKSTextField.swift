@@ -13,16 +13,22 @@ class SKSTextField: SkyFloatingLabelTextField {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        self.tintColor = UIColor.gray
+        self.tintColor = ColorManager.green.value
         self.selectedLineColor = ColorManager.green.value
-        self.selectedTitleColor = UIColor.gray
+        self.selectedTitleColor = ColorManager.lightGray.value
         self.lineHeight = 1
         self.selectedLineHeight = 1
-        self.titleFont = UIFont.systemFont(ofSize: 14)
+        self.lineColor = ColorManager.gray.value
+
+        self.titleColor = ColorManager.lightGray.value
         self.titleFormatter = { string in
             return string
         }
-    
+        
+        let font = UIFont(name: "Montserrat-SemiBold", size: 12)!
+        self.titleFont = font
+        
         self.titleLabel.adjustsFontSizeToFitWidth = true
+        
     }
 }

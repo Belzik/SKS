@@ -10,23 +10,36 @@ import Foundation
 
 typealias StocksResponse = [Stock]
 
-struct Stock: Decodable {
-    var idStock: Int
-    var nameVendor: String
-    var name: String
-    var durationStart: String
-    var durationEnd: String
-    var categoryName: String
-}
-
-class StockHome {
-    var title: String
-    var description: String
-    var period: String
+class Stock: Codable {
+    let idStock: Int?
+    let createdAt: String?
+    let updatedAt: String?
+    let idPartner: Int?
+    let name: String
+    let stockDescription: String
+    let dateBegin: String
+    let dateEnd: String
+    let status: String?
+    let uuidStock: String?
+    let createtedData: String?
+    let partner: Partner?
+    let category: Category?
+    let cities: [City]?
     
-    init(title: String, description: String, period: String) {
-        self.title = title
-        self.description = description
-        self.period = period
+    enum CodingKeys: String, CodingKey {
+        case idStock
+        case createdAt
+        case updatedAt
+        case idPartner
+        case name
+        case stockDescription = "description"
+        case dateBegin
+        case dateEnd
+        case status
+        case uuidStock
+        case createtedData
+        case partner
+        case category
+        case cities
     }
 }

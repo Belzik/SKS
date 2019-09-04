@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Montserrat-Bold.ttf">
+            <string>Montserrat-Bold</string>
+        </array>
+        <array key="Montserrat-Regular.ttf">
+            <string>Montserrat-Regular</string>
+        </array>
+        <array key="Montserrat-SemiBold.ttf">
+            <string>Montserrat-SemiBold</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="PartnerTableViewHeader" customModule="SKS" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="379"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JJZ-sb-sAj">
+                    <rect key="frame" x="16" y="217.5" width="138.5" height="23"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Кафе и рестораны" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ajP-V1-AWj">
+                            <rect key="frame" x="10" y="4" width="118.5" height="15"/>
+                            <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="12"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" red="1" green="0.6470588235294118" blue="0.23529411764705882" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    <constraints>
+                        <constraint firstItem="ajP-V1-AWj" firstAttribute="top" secondItem="JJZ-sb-sAj" secondAttribute="top" constant="4" id="952-qW-mBg"/>
+                        <constraint firstAttribute="bottom" secondItem="ajP-V1-AWj" secondAttribute="bottom" constant="4" id="G8s-84-cJM"/>
+                        <constraint firstAttribute="trailing" secondItem="ajP-V1-AWj" secondAttribute="trailing" constant="10" id="Gh9-YG-QH2"/>
+                        <constraint firstItem="ajP-V1-AWj" firstAttribute="leading" secondItem="JJZ-sb-sAj" secondAttribute="leading" constant="10" id="UN8-Gw-TTB"/>
+                    </constraints>
+                </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Антикафе Good Time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZuM-7y-mdU">
+                    <rect key="frame" x="16" y="256.5" width="343" height="25"/>
+                    <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="20"/>
+                    <color key="textColor" red="0.20000320669999999" green="0.19999414679999999" blue="0.20000028610000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Антикафе Good Time - это уютное место в центре г. Ростов-на-дону, где Вы мож..." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pAh-ED-npv">
+                    <rect key="frame" x="16" y="289.5" width="343" height="39.5"/>
+                    <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="16"/>
+                    <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eFQ-z4-51M">
+                    <rect key="frame" x="0.0" y="373" width="375" height="6"/>
+                    <color key="backgroundColor" red="0.94118911029999996" green="0.94115382430000005" blue="0.94117778539999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="6" id="fs0-FO-FeE"/>
+                    </constraints>
+                </view>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="PQm-Ze-mwS">
+                    <rect key="frame" x="0.0" y="44" width="375" height="136"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="PQm-Ze-mwS" secondAttribute="height" multiplier="375:136" id="w18-h7-T69"/>
+                    </constraints>
+                </imageView>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="eFQ-z4-51M" secondAttribute="bottom" id="4mL-UE-0cy"/>
+                <constraint firstItem="eFQ-z4-51M" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="9OY-DQ-pED"/>
+                <constraint firstItem="eFQ-z4-51M" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="9Uc-1q-pab"/>
+                <constraint firstItem="ZuM-7y-mdU" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="9h7-p3-zDl"/>
+                <constraint firstItem="pAh-ED-npv" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="DSf-4x-7ib"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="PQm-Ze-mwS" secondAttribute="trailing" id="T3U-FL-X34"/>
+                <constraint firstAttribute="trailing" secondItem="ZuM-7y-mdU" secondAttribute="trailing" constant="16" id="VuD-mB-VJ9"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="pAh-ED-npv" secondAttribute="trailing" constant="16" id="eAO-0r-H2b"/>
+                <constraint firstItem="PQm-Ze-mwS" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="hyJ-yo-KSB"/>
+                <constraint firstItem="pAh-ED-npv" firstAttribute="top" secondItem="ZuM-7y-mdU" secondAttribute="bottom" constant="8" id="iQe-En-iDw"/>
+                <constraint firstItem="JJZ-sb-sAj" firstAttribute="top" secondItem="PQm-Ze-mwS" secondAttribute="bottom" constant="24" id="lAv-5c-lSd"/>
+                <constraint firstItem="PQm-Ze-mwS" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="oXS-Ck-m5o"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="pAh-ED-npv" secondAttribute="bottom" constant="16" id="qQB-cI-ve1"/>
+                <constraint firstItem="ZuM-7y-mdU" firstAttribute="top" secondItem="JJZ-sb-sAj" secondAttribute="bottom" constant="16" id="sRg-vb-wLM"/>
+                <constraint firstItem="JJZ-sb-sAj" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="wCE-lu-BX4"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="categoryLabel" destination="ajP-V1-AWj" id="Z0h-DY-0yz"/>
+                <outlet property="categoryView" destination="JJZ-sb-sAj" id="aEo-J1-rVF"/>
+                <outlet property="descriptionLabel" destination="pAh-ED-npv" id="xe9-j7-sB9"/>
+                <outlet property="imageHeader" destination="PQm-Ze-mwS" id="Zbc-yq-ELq"/>
+                <outlet property="nameLabel" destination="ZuM-7y-mdU" id="IPv-hM-Xpf"/>
+            </connections>
+            <point key="canvasLocation" x="132.60869565217394" y="-51.227678571428569"/>
+        </view>
+    </objects>
+</document>

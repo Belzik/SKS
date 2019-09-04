@@ -10,31 +10,60 @@ import UIKit
 
 typealias PartnersResponse = [Partner]
 
-struct Partner: Decodable {
-    let idPartner: Int
-    let name: String
-    let cities: CitiesResponse
-    let category: Category
-    let description: String
-    let bigestStock: BigestStock?
-    let stocks: [Stock]?
+// MARK: - Partner
+class Partner: Codable {
+    let uuidPartner: String?
+    let name: String?
+    let createtedData: String?
+    let partnerDescription: String?
+    let legalName: String?
+    let inn: String?
+    let phone: String?
+    let email: String?
+    let status: String?
+    let uuidMainCity: String?
+    let nameMainCity: String?
     let discounts: [Discount]?
-}
-
-class PartnerHome {
-    let title: String
-    let description: String
-    let image: UIImage
-    let discount: String
-    let category: String
-    let isStock: Bool
+    let stocks: [Stock]?
+    let socialNetworks: [SocialNetwork]?
+    let cities: [City]?
+    let category: Category?
+    let illustrate: String?
+    let illustrateHeader: String?
     
-    init(title: String, description: String, image: UIImage, discount: String, category: String, isStock: Bool) {
-        self.title = title
-        self.description = description
-        self.image = image
-        self.discount = discount
-        self.category = category
-        self.isStock = isStock
+    enum CodingKeys: String, CodingKey {
+        case uuidPartner
+        case name
+        case createtedData
+        case partnerDescription = "description"
+        case legalName
+        case inn
+        case phone
+        case email
+        case status
+        case uuidMainCity
+        case nameMainCity
+        case discounts
+        case stocks
+        case socialNetworks
+        case cities
+        case category
+        case illustrate
+        case illustrateHeader
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

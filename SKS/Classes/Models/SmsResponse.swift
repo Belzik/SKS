@@ -8,12 +8,7 @@
 
 import Foundation
 
-struct SmsResponse: Decodable {
+class SmsResponse: Codable {
     var attempt: String
-    var sms: Sms
 }
 
-struct Sms: Decodable {
-    var status: String
-    var idSms: String
-}

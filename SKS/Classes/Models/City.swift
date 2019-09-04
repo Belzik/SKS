@@ -10,8 +10,24 @@ import Foundation
 
 typealias CitiesResponse = [City]
 
-struct City: Decodable {
-    var idCity: Int
-    var code: String
-    var name: String
+class City: Codable, TypeOfSourcePicker {
+    var title: String {
+        get {
+            return nameCity ?? ""
+        }
+    }
+    
+    let uuidCity: String?
+    let nameCity: String?
+    let count: Int?
+    let idPartnerCity: Int?
+    let salePoints: [SalePoint]?
+    
+    enum CodingKeys: String, CodingKey {
+        case uuidCity
+        case nameCity
+        case count
+        case idPartnerCity
+        case salePoints
+    }
 }

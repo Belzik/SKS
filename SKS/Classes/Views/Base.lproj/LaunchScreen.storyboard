@@ -1,19 +1,87 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.16" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.12"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="Montserrat-Bold.ttf">
+            <string>Montserrat-Bold</string>
+        </array>
+        <array key="Montserrat-SemiBold.ttf">
+            <string>Montserrat-SemiBold</string>
+        </array>
+        <array key="OpenSans-Regular.ttf">
+            <string>OpenSans-Regular</string>
+        </array>
+    </customFonts>
     <scenes>
         <!--View Controller-->
         <scene sceneID="EHf-IW-A2E">
             <objects>
                 <viewController id="01J-lp-oVM" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" Росмолодежъ" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yHA-bf-BBh">
+                                <rect key="frame" x="143.5" y="852" width="127" height="20"/>
+                                <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="16"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Приложение создано при финансовой поддержке Федерального агенства по делам молодежи" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ddf-Qy-v1g">
+                                <rect key="frame" x="24" y="803" width="366" height="33"/>
+                                <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="12"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CUU-ZT-AdT">
+                                <rect key="frame" x="24" y="372" width="366" height="162.5"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sks_mark" translatesAutoresizingMaskIntoConstraints="NO" id="xWC-z5-KHh">
+                                        <rect key="frame" x="161" y="0.0" width="44" height="78"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="44" id="DfA-PG-mBH"/>
+                                            <constraint firstAttribute="height" constant="78" id="x2Z-wX-P9P"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Студенческий координационный совет" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cef-ml-sRY">
+                                        <rect key="frame" x="48" y="102" width="270" height="39.5"/>
+                                        <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="16"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="cef-ml-sRY" secondAttribute="bottom" constant="21" id="715-70-tZL"/>
+                                    <constraint firstAttribute="trailing" secondItem="cef-ml-sRY" secondAttribute="trailing" constant="48" id="De8-Ht-ILe"/>
+                                    <constraint firstItem="xWC-z5-KHh" firstAttribute="centerX" secondItem="CUU-ZT-AdT" secondAttribute="centerX" id="VmL-AP-NN4"/>
+                                    <constraint firstItem="xWC-z5-KHh" firstAttribute="top" secondItem="CUU-ZT-AdT" secondAttribute="top" id="ZxY-V6-hfg"/>
+                                    <constraint firstItem="cef-ml-sRY" firstAttribute="centerX" secondItem="CUU-ZT-AdT" secondAttribute="centerX" id="iyj-d4-kwW"/>
+                                    <constraint firstItem="cef-ml-sRY" firstAttribute="top" secondItem="xWC-z5-KHh" secondAttribute="bottom" constant="24" id="l6y-Fg-6nu"/>
+                                    <constraint firstItem="cef-ml-sRY" firstAttribute="leading" secondItem="CUU-ZT-AdT" secondAttribute="leading" constant="48" id="nTP-jM-2Ep"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="0.3143557608127594" green="0.6591179370880127" blue="0.38034525513648987" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <constraints>
+                            <constraint firstItem="ddf-Qy-v1g" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="24" id="0nR-wz-cf6"/>
+                            <constraint firstItem="CUU-ZT-AdT" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="473-kg-n3b"/>
+                            <constraint firstItem="yHA-bf-BBh" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="SnV-jG-K5G"/>
+                            <constraint firstItem="yHA-bf-BBh" firstAttribute="top" secondItem="ddf-Qy-v1g" secondAttribute="bottom" constant="16" id="TcM-mY-S5W"/>
+                            <constraint firstItem="CUU-ZT-AdT" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="24" id="cmE-ui-q2t"/>
+                            <constraint firstAttribute="bottom" secondItem="yHA-bf-BBh" secondAttribute="bottom" constant="24" id="lWY-RH-nA0"/>
+                            <constraint firstItem="CUU-ZT-AdT" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="mEo-Ls-zEK"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="ddf-Qy-v1g" secondAttribute="trailing" constant="24" id="oma-Uh-6ZH"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="CUU-ZT-AdT" secondAttribute="trailing" constant="24" id="rq6-xF-3KL"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                 </viewController>
@@ -22,4 +90,7 @@
             <point key="canvasLocation" x="53" y="375"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="sks_mark" width="132" height="234"/>
+    </resources>
 </document>

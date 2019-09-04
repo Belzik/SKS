@@ -13,6 +13,18 @@ class TabBarViewController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        tabBar.unselectedItemTintColor = ColorManager.black.value
+        UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "OpenSans-Regular",
+                                                                                              size: 10)!],
+                                                         for: .normal)
+        UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "OpenSans-Regular",
+                                                                                              size: 10)!],
+                                                         for: .selected)
+        
+        if UserData.loadSaved() != nil {
+            selectedIndex = 0
+        } else {
+            selectedIndex = 2
+        }
     }
 }

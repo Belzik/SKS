@@ -13,14 +13,21 @@ class CodeViewController: BaseViewController {
     @IBOutlet weak var secondTextField: UITextField!
     @IBOutlet weak var thirdTextField: UITextField!
     @IBOutlet weak var fourthTextField: UITextField!
-    
     @IBOutlet weak var timerLabel: UILabel!
     @IBOutlet weak var bottomConstraintTimerLabel: NSLayoutConstraint!
     
     var keyboardHeight: CGFloat = 0
+    var smsAttempt: String = ""
+    var phone: String = ""
     
-    var timeForLabel = 20
+    var timeForLabel = 120
     var timer: Timer = Timer.init()
+    
+    var uniqueSess = ""
+    var refreshToken = ""
+    var accessToken = ""
+    
+    var optString = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,6 +49,15 @@ class CodeViewController: BaseViewController {
         timerLabel.addGestureRecognizer(tap)
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "seguePersonalData" {
+            let dvc = segue.destination as! PersonalDataViewController
+            dvc.uniqueSess = uniqueSess
+            dvc.refreshToken = refreshToken
+            dvc.accessToken = accessToken
+        }
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         timer.invalidate()
     }
@@ -61,9 +77,20 @@ class CodeViewController: BaseViewController {
     
     @objc func timerLabelTapped() {
         if timeForLabel != 0 { return }
-        timeForLabel = 20
+        timeForLabel = 120
         timerLabel.textColor = UIColor.gray
-        runTimer()
+        getSmsWithCode()
+    }
+    
+    private func getSmsWithCode() {
+        NetworkManager.shared.getCodeWithSms(phone: phone) { [weak self] response in
+            if response.result.error != nil {
+                self?.showAlert(message: NetworkErrors.common)
+            } else if let attempt = response.result.value?.attempt {
+                self?.smsAttempt = attempt
+                self?.runTimer()
+            }
+        }
     }
     
     func runTimer() {
@@ -88,16 +115,29 @@ extension CodeViewController: UITextFieldDelegate {
         let newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
         let isDeleted = newString.count < textField.text!.count
         
+        optString += newString
+        print(optString)
+        if optString.count == 6 {
+            
+            print(newString[0...0])
+            print(newString[1...1])
+            print(newString[3...3])
+            print(newString[5...5])
+            firstTextField.text = optString[0...0]
+            secondTextField.text = optString[1...1]
+            thirdTextField.text = optString[3...3]
+            fourthTextField.text = optString[5...5]
+            sendCode()
+            return false
+        }
+        
         if isDeleted {
-            if let nextField = self.view.viewWithTag(textField.tag - 1) as? UITextField,
-                !nextField.isHidden {
-                let oldText = textField.text
+            if let prevTextField = self.view.viewWithTag(textField.tag - 1) as? UITextField {
                 textField.text = newString
-                
-                if oldText?.count == 0 {
-                    nextField.becomeFirstResponder()
-                }
-                
+                prevTextField.becomeFirstResponder()
+                return false
+            } else {
+                textField.text = newString
                 return false
             }
         } else {
@@ -107,7 +147,6 @@ extension CodeViewController: UITextFieldDelegate {
                 if newString.count < 2 {
                     textField.text = newString
                 }
-                //textField.text = newString
                 nextField.becomeFirstResponder()
                 sendCode()
                 return false
@@ -129,12 +168,56 @@ extension CodeViewController: UITextFieldDelegate {
         return false
     }
     
-    func sendCode() {
+    private func sendCode() {
         if !(firstTextField.text! == "") &&
             !(secondTextField.text! == "") &&
             !(thirdTextField.text! == "") &&
             !(fourthTextField.text! == "") {
-            performSegue(withIdentifier: "seguePersonalData", sender: nil)
+            
+            let code = firstTextField.text! + secondTextField.text! + thirdTextField.text! + fourthTextField.text!
+            verifyCode(code: code)
+        }
+    }
+    
+    private func verifyCode(code: String) {
+        NetworkManager.shared.verifyCodeSms(phone: phone,
+                                            attempt: smsAttempt,
+                                            code: code) { [weak self] response in
+            if response.result.error != nil,
+                let statusCode = response.statusCode {
+                
+                if statusCode == 403 {
+                    self?.firstTextField.becomeFirstResponder()
+                    self?.showAlert(message: "Неверный код sms, либо истекло действие кода.")
+                    self?.firstTextField.text! = ""
+                    self?.secondTextField.text! = ""
+                    self?.thirdTextField.text! = ""
+                    self?.fourthTextField.text! = ""
+                } else {
+                    self?.showAlert(message: NetworkErrors.common)
+                }
+            } else if let accessToken = response.result.value?.tokens?.accessToken,
+                        let refreshToken = response.result.value?.tokens?.refreshToken,
+                        let uniqueSess = response.result.value?.uniqueSess,
+                        let status = response.result.value?.status {
+                if status != ProfileStatus.newuser.rawValue {
+                    let user = UserData.init()
+                    user.accessToken = accessToken
+                    user.refreshToken = refreshToken
+                    user.uniqueSess = uniqueSess
+                    user.save()
+                    
+                    if let vc = UIStoryboard(name: "Home", bundle: nil).instantiateInitialViewController() {
+                        self?.present(vc, animated: true, completion: nil)
+                    }
+                } else {
+                    self?.accessToken = accessToken
+                    self?.uniqueSess = uniqueSess
+                    self?.refreshToken = refreshToken
+                    self?.performSegue(withIdentifier: "seguePersonalData", sender: nil)
+                }
+
+            }
         }
     }
 }

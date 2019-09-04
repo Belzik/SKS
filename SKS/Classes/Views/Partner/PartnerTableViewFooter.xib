@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Montserrat-Bold.ttf">
+            <string>Montserrat-Bold</string>
+        </array>
+        <array key="Montserrat-SemiBold.ttf">
+            <string>Montserrat-SemiBold</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="PartnerTableViewFooter" customModule="SKS" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="164"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="r4L-W4-E9u">
+                    <rect key="frame" x="16" y="16" width="92.5" height="15"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Все адреса" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vZd-u1-97k">
+                            <rect key="frame" x="0.0" y="0.0" width="72.5" height="15"/>
+                            <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="12"/>
+                            <color key="textColor" red="0.1019607843" green="0.6705882353" blue="0.34509803919999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chevron-down-green" translatesAutoresizingMaskIntoConstraints="NO" id="AYR-p9-Mae">
+                            <rect key="frame" x="76.5" y="-0.5" width="16" height="16"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="16" id="01N-KA-y8r"/>
+                                <constraint firstAttribute="height" constant="16" id="dV3-2T-NNV"/>
+                            </constraints>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="vZd-u1-97k" firstAttribute="top" secondItem="r4L-W4-E9u" secondAttribute="top" id="3Dx-XD-sXp"/>
+                        <constraint firstItem="AYR-p9-Mae" firstAttribute="centerY" secondItem="vZd-u1-97k" secondAttribute="centerY" id="42V-RC-0ix"/>
+                        <constraint firstAttribute="bottom" secondItem="vZd-u1-97k" secondAttribute="bottom" id="8r2-d7-3DP"/>
+                        <constraint firstItem="vZd-u1-97k" firstAttribute="leading" secondItem="r4L-W4-E9u" secondAttribute="leading" id="Ad2-Ps-6DD"/>
+                        <constraint firstAttribute="trailing" secondItem="AYR-p9-Mae" secondAttribute="trailing" id="EyO-hi-bxa"/>
+                        <constraint firstItem="AYR-p9-Mae" firstAttribute="leading" secondItem="vZd-u1-97k" secondAttribute="trailing" constant="4" id="iOx-hi-FEP"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="72q-fe-Amq">
+                    <rect key="frame" x="16" y="47" width="382" height="1"/>
+                    <color key="backgroundColor" red="0.93745720386505127" green="0.94873696565628052" blue="0.96078747510910034" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="1" id="1L9-zu-U3f"/>
+                    </constraints>
+                </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Мы в социальных сетях" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yb7-RH-roi">
+                    <rect key="frame" x="16" y="64" width="382" height="20"/>
+                    <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="16"/>
+                    <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="4Pi-ze-wCB">
+                    <rect key="frame" x="16" y="100" width="0.0" height="40"/>
+                    <subviews>
+                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QV6-E6-jnF">
+                            <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="40" id="U6W-Bf-iyO"/>
+                                <constraint firstAttribute="height" constant="40" id="q9e-Fs-qSW"/>
+                            </constraints>
+                            <state key="normal" image="instagram"/>
+                        </button>
+                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4SZ-GP-03u">
+                            <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="40" id="86C-dv-OPy"/>
+                                <constraint firstAttribute="height" constant="40" id="M6U-bd-wme"/>
+                            </constraints>
+                            <state key="normal" image="facebook"/>
+                        </button>
+                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jgN-Mh-Ci5">
+                            <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="40" id="L7s-yr-bP4"/>
+                                <constraint firstAttribute="width" constant="40" id="WXT-Z5-2uK"/>
+                            </constraints>
+                            <state key="normal" image="vk"/>
+                            <connections>
+                                <action selector="vkButtonTapped:" destination="iN0-l3-epB" eventType="touchUpInside" id="Xvv-fh-awY"/>
+                            </connections>
+                        </button>
+                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OGM-60-GsZ">
+                            <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="40" id="RFT-wa-HQK"/>
+                                <constraint firstAttribute="height" constant="40" id="lb3-CL-87K"/>
+                            </constraints>
+                            <state key="normal" image="twitter"/>
+                        </button>
+                    </subviews>
+                </stackView>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="r4L-W4-E9u" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="16" id="1fT-V9-oK4"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="Yb7-RH-roi" secondAttribute="trailing" constant="16" id="57d-pM-eF7"/>
+                <constraint firstItem="4Pi-ze-wCB" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="6xU-rs-Lyk"/>
+                <constraint firstItem="4Pi-ze-wCB" firstAttribute="top" secondItem="Yb7-RH-roi" secondAttribute="bottom" constant="16" id="E7L-Qg-k38"/>
+                <constraint firstItem="Yb7-RH-roi" firstAttribute="top" secondItem="72q-fe-Amq" secondAttribute="bottom" constant="16" id="G5B-eF-9Ih"/>
+                <constraint firstItem="72q-fe-Amq" firstAttribute="top" secondItem="r4L-W4-E9u" secondAttribute="bottom" constant="16" id="UoV-sY-Vqy"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="72q-fe-Amq" secondAttribute="trailing" constant="16" id="XxF-Ku-7pQ"/>
+                <constraint firstItem="Yb7-RH-roi" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="fzT-FH-sZb"/>
+                <constraint firstAttribute="bottom" secondItem="4Pi-ze-wCB" secondAttribute="bottom" constant="24" id="wtS-AF-yKw"/>
+                <constraint firstItem="r4L-W4-E9u" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="wwx-o9-Hqh"/>
+                <constraint firstItem="72q-fe-Amq" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="xqd-X2-SHF"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="allPointsView" destination="r4L-W4-E9u" id="tG9-MF-Wt2"/>
+                <outlet property="bottonPointsViewConstraint" destination="UoV-sY-Vqy" id="0bK-zf-dWW"/>
+                <outlet property="facebookButton" destination="4SZ-GP-03u" id="2Oa-VL-7Ba"/>
+                <outlet property="instaButton" destination="QV6-E6-jnF" id="u0i-s1-IPP"/>
+                <outlet property="showSalesIcon" destination="AYR-p9-Mae" id="3SD-a0-x7W"/>
+                <outlet property="showSalesLabel" destination="vZd-u1-97k" id="3xn-aZ-mP8"/>
+                <outlet property="twitterButton" destination="OGM-60-GsZ" id="Vwl-6z-NNu"/>
+                <outlet property="vkButton" destination="jgN-Mh-Ci5" id="9Ta-Xq-Hhh"/>
+            </connections>
+            <point key="canvasLocation" x="47.826086956521742" y="-168.75"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="chevron-down-green" width="16" height="16"/>
+        <image name="facebook" width="120" height="120"/>
+        <image name="instagram" width="120" height="120"/>
+        <image name="twitter" width="120" height="120"/>
+        <image name="vk" width="120" height="120"/>
+    </resources>
+</document>

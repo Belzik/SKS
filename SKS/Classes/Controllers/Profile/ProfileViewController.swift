@@ -8,12 +8,30 @@
 
 import UIKit
 
-class ProfileViewController: UIViewController {
+
+enum ProfileStatus: String {
+    case active = "active"
+    case newuser = "newuser"
+    case blocked = "blocked"
+    case moderation = "moderation"
+    case rejected = "rejected"
+}
+
+class ProfileViewController: BaseViewController {
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var profileImage: UIImageView!
-    
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
-    }
+    @IBOutlet weak var fioLabel: UILabel!
+    @IBOutlet weak var statusLabel: UILabel!
+    @IBOutlet weak var reasonLabel: UILabel!
+    @IBOutlet weak var birthdayLabel: UILabel!
+    @IBOutlet weak var cityLabel: UILabel!
+    @IBOutlet weak var universityLabel: UILabel!
+    @IBOutlet weak var facultyLabel: UILabel!
+    @IBOutlet weak var specialityLabel: UILabel!
+    @IBOutlet weak var periodLabel: UILabel!
+    @IBOutlet weak var courseLabel: UILabel!
+    @IBOutlet weak var phoneLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,5 +42,72 @@ class ProfileViewController: UIViewController {
         profileImage.layer.borderWidth = 2.0
     }
     
-
+    func getInfoUser() {
+        contentView.isHidden = true
+        activityIndicator.startAnimating()
+        NetworkManager.shared.getInfoUser { [weak self] response in
+            self?.activityIndicator.stopAnimating()
+            if let user = response.result.value {
+                self?.layoutViews(withUser: user)
+            } else {
+                self?.showAlert(message: NetworkErrors.common)
+            }
+        }
+    }
+    
+    func layoutViews(withUser user: UserData) {
+        if let photoPath = user.studentInfo?.photo,
+            let url = URL(string: photoPath) {
+            profileImage.kf.setImage(with: url)
+        }
+        
+        fioLabel.text = user.studentInfo?.fio
+        birthdayLabel.text = user.studentInfo?.birthdate
+        cityLabel.text = user.studentInfo?.nameCity
+        universityLabel.text = user.studentInfo?.nameUniversity
+        facultyLabel.text = user.studentInfo?.nameFaculty
+        specialityLabel.text = user.studentInfo?.nameSpecialty
+        
+        if let startEdu = user.studentInfo?.startEducation,
+            let endEdu = user.studentInfo?.endEducation {
+            periodLabel.text = "\(startEdu) - \(endEdu)"
+        }
+        
+        if let course = user.studentInfo?.course { courseLabel.text = String(describing: course) }
+        if let phone = user.phone { phoneLabel.text = phone.with(mask: "* *** *** ** **", replacementChar: "*", isDecimalDigits: true) }
+        
+        if let status = user.status {
+            
+            switch status {
+            case ProfileStatus.active.rawValue:
+                statusLabel.text = "Аккаунт подтвержден"
+                statusLabel.textColor = ColorManager.green.value
+                reasonLabel.isHidden = true
+            case ProfileStatus.blocked.rawValue:
+                statusLabel.text = "Аккаунт заблокирован"
+                statusLabel.textColor = ColorManager.red.value
+                reasonLabel.text = user.statusReason
+                reasonLabel.isHidden = false
+            case ProfileStatus.moderation.rawValue:
+                statusLabel.text = "Ждем в профкоме"
+                statusLabel.textColor = ColorManager.yellow.value
+                reasonLabel.isHidden = true
+            case ProfileStatus.rejected.rawValue:
+                statusLabel.text = "Ошибка"
+                statusLabel.textColor = ColorManager.red.value
+                reasonLabel.text = user.statusReason
+                reasonLabel.isHidden = false
+            default:
+                statusLabel.isHidden = true
+                reasonLabel.isHidden = true
+            }
+        }
+        
+        UIView.transition(with: contentView,
+                          duration: 0.3,
+                          options: .transitionCrossDissolve, animations: { [weak self] in
+                            self?.contentView.isHidden = false
+        }, completion: nil)
+        
+    }
 }
