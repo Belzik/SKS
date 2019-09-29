@@ -25,9 +25,15 @@ class AddressTableViewCell: UITableViewCell {
     }
     
     private func layout() {
-        if let address = model?.address,
-            let workTime = model?.workTime {
-            addressLabel.text = address + "\n" + workTime
+        var addressText = ""
+        if let address = model?.address {
+            addressText = address
         }
+        
+        if let workTime = model?.workTime {
+            addressText += ", " + workTime
+        }
+        
+        addressLabel.text = addressText
     }
 }

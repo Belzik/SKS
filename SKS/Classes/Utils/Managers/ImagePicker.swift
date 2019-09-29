@@ -47,9 +47,9 @@ open class ImagePicker: NSObject {
         if let action = self.action(for: .camera, title: "Камера") {
             alertController.addAction(action)
         }
-        if let action = self.action(for: .savedPhotosAlbum, title: "Сохраненные фотографии") {
-            alertController.addAction(action)
-        }
+//        if let action = self.action(for: .savedPhotosAlbum, title: "Сохраненные фотографии") {
+//            alertController.addAction(action)
+//        }
 //        if let action = self.action(for: .photoLibrary, title: "Фото библиотека") {
 //            alertController.addAction(action)
 //        }

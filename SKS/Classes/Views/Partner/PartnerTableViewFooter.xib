@@ -74,6 +74,9 @@
                                 <constraint firstAttribute="height" constant="40" id="q9e-Fs-qSW"/>
                             </constraints>
                             <state key="normal" image="instagram"/>
+                            <connections>
+                                <action selector="instaButtonTapped:" destination="iN0-l3-epB" eventType="touchUpInside" id="ydJ-I6-lbw"/>
+                            </connections>
                         </button>
                         <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4SZ-GP-03u">
                             <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
@@ -82,6 +85,9 @@
                                 <constraint firstAttribute="height" constant="40" id="M6U-bd-wme"/>
                             </constraints>
                             <state key="normal" image="facebook"/>
+                            <connections>
+                                <action selector="fbButtonTapped:" destination="iN0-l3-epB" eventType="touchUpInside" id="T8Q-gc-pnt"/>
+                            </connections>
                         </button>
                         <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jgN-Mh-Ci5">
                             <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
@@ -101,6 +107,9 @@
                                 <constraint firstAttribute="height" constant="40" id="lb3-CL-87K"/>
                             </constraints>
                             <state key="normal" image="twitter"/>
+                            <connections>
+                                <action selector="twitterButtonTapped:" destination="iN0-l3-epB" eventType="touchUpInside" id="8oj-7O-nsu"/>
+                            </connections>
                         </button>
                     </subviews>
                 </stackView>
@@ -123,11 +132,14 @@
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <connections>
                 <outlet property="allPointsView" destination="r4L-W4-E9u" id="tG9-MF-Wt2"/>
+                <outlet property="bottomConstraintStack" destination="wtS-AF-yKw" id="yUN-LB-KMu"/>
                 <outlet property="bottonPointsViewConstraint" destination="UoV-sY-Vqy" id="0bK-zf-dWW"/>
                 <outlet property="facebookButton" destination="4SZ-GP-03u" id="2Oa-VL-7Ba"/>
                 <outlet property="instaButton" destination="QV6-E6-jnF" id="u0i-s1-IPP"/>
+                <outlet property="separateView" destination="72q-fe-Amq" id="8TV-zp-4Dx"/>
                 <outlet property="showSalesIcon" destination="AYR-p9-Mae" id="3SD-a0-x7W"/>
                 <outlet property="showSalesLabel" destination="vZd-u1-97k" id="3xn-aZ-mP8"/>
+                <outlet property="socialLabel" destination="Yb7-RH-roi" id="IVw-u8-XUi"/>
                 <outlet property="twitterButton" destination="OGM-60-GsZ" id="Vwl-6z-NNu"/>
                 <outlet property="vkButton" destination="jgN-Mh-Ci5" id="9Ta-Xq-Hhh"/>
             </connections>

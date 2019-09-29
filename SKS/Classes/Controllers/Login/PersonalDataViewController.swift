@@ -17,6 +17,7 @@ class PersonalDataViewController: BaseViewController {
     @IBOutlet weak var secondTextField: ErrorTextField!
     @IBOutlet weak var birthdayTextField: ErrorTextField!
     @IBOutlet weak var nextButton: UIButton!
+    @IBOutlet weak var titleLabel: UILabel!
     
     lazy var imagePicker: ImagePicker = {
         return ImagePicker(presentationController: self, delegate: self)
@@ -36,6 +37,14 @@ class PersonalDataViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if UIDevice.modelName == "iPhone 5s" ||
+            UIDevice.modelName ==  "iPhone SE" ||
+            UIDevice.modelName ==  "Simulator iPhone SE" {
+            let font = UIFont(name: "Montserrat-Bold", size: 20)!
+            self.titleLabel.font = font
+            
+        }
         
         imageErrorLabel.text = """
         Загрузите свою
@@ -115,6 +124,7 @@ class PersonalDataViewController: BaseViewController {
         datePicker.datePickerMode = .date
         datePicker.locale = Locale(identifier: "ru")
         datePicker.backgroundColor = UIColor.white
+        datePicker.maximumDate = Date()
         
         //ToolBar
         let toolBar = UIToolbar()
@@ -125,6 +135,7 @@ class PersonalDataViewController: BaseViewController {
         toolBar.sizeToFit()
         
         let doneButton = UIBarButtonItem(title: "Готово", style: .done, target: self, action: #selector(doneDatePicker));
+        doneButton.tintColor = ColorManager.green.value
         let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
         let cancelButton = UIBarButtonItem(title: "Отмена", style: .plain, target: self, action: #selector(cancelDatePicker));
         
@@ -152,9 +163,6 @@ class PersonalDataViewController: BaseViewController {
 extension PersonalDataViewController: ImagePickerDelegate {
     func didSelect(image: UIImage?) {
         if let image = image {
-            
-
-            
             uploadImage(image: image)
         }
     }

@@ -22,6 +22,7 @@ class PartnerViewController: BaseViewController {
     var isShowSalePoints: Bool = false
     
     var uuidPartner: String = ""
+    var stocks: [Stock] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +32,19 @@ class PartnerViewController: BaseViewController {
         
         setupTableView()
         getPartner()
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let backButton = UIBarButtonItem(title: "Назад", style: .plain, target: nil, action: nil)
+        backButton.tintColor = .black
+        navigationItem.backBarButtonItem = backButton
+        
+        if segue.identifier == "segueStock",
+            let uuidStock = sender as? String {
+            let dvc = segue.destination as! StockViewController
+            dvc.uuid = uuidStock
+            dvc.city = city
+        }
     }
 //
 //    override func viewWillAppear(_ animated: Bool) {
@@ -61,6 +75,12 @@ class PartnerViewController: BaseViewController {
             self.discounts = discounts
         }
         
+        if let stocks = partner.stocks {
+            self.stocks = stocks
+            print("Количество акций", stocks.count)
+            header?.collectionView.reloadData()
+        }
+        
         header?.categoryLabel.text = partner.category?.name
         header?.nameLabel.text = partner.name
         header?.descriptionLabel.text = partner.partnerDescription
@@ -88,22 +108,28 @@ class PartnerViewController: BaseViewController {
         }
         
         if let socialNetworks = partner.socialNetworks {
-            for socialNetwork in socialNetworks {
-                switch socialNetwork.type {
-                case "vk":
-                    footer?.vkButton.isHidden = false
-                    footer?.vkLink = socialNetwork.link ?? ""
-                case "fb":
-                    footer?.facebookButton.isHidden = false
-                    footer?.fbLink = socialNetwork.link ?? ""
-                case "instagram":
-                    footer?.twitterButton.isHidden = false
-                    footer?.twitterLink = socialNetwork.link ?? ""
-                case "twitter":
-                    footer?.instaButton.isHidden = false
-                    footer?.instaLink = socialNetwork.link ?? ""
-                default: continue
+            if socialNetworks.count > 0 {
+                for socialNetwork in socialNetworks {
+                    switch socialNetwork.type {
+                    case "vk":
+                        footer?.vkButton.isHidden = false
+                        footer?.vkLink = socialNetwork.link ?? ""
+                    case "fb":
+                        footer?.facebookButton.isHidden = false
+                        footer?.fbLink = socialNetwork.link ?? ""
+                    case "instagram":
+                        footer?.instaButton.isHidden = false
+                        footer?.instaLink = socialNetwork.link ?? ""
+                    case "twitter":
+                        footer?.twitterButton.isHidden = false
+                        footer?.twitterLink = socialNetwork.link ?? ""
+                    default: continue
+                    }
                 }
+            } else {
+                footer?.socialLabel.isHidden = true
+                footer?.separateView.isHidden = true
+                footer?.bottomConstraintStack.constant = 0
             }
         }
         
@@ -164,6 +190,7 @@ extension PartnerViewController: UITableViewDelegate, UITableViewDataSource {
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "\(AddressTableViewCell.self)",
                 for: indexPath) as! AddressTableViewCell
+            
             cell.model = salePoints[indexPath.row]
             return cell
         }
@@ -194,6 +221,8 @@ extension PartnerViewController: UITableViewDelegate, UITableViewDataSource {
             let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: "\(PartnerTableViewHeader.self)") as! PartnerTableViewHeader
             header.delegate = self
             self.header = header
+            header.setCollectionViewDataSourceDelegate(self)
+            
             return header
         } else {
             let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: "\(PartnerSubtitleTableHeaderView.self)") as! PartnerSubtitleTableHeaderView
@@ -264,4 +293,41 @@ extension PartnerViewController: PartnerTableViewFooterDelegate {
     }
     
     
+}
+
+extension PartnerViewController: UICollectionViewDelegate, UICollectionViewDataSource , UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return stocks.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(StockCollectionViewCell.self)",
+            for: indexPath) as! StockCollectionViewCell
+        
+        if indexPath.row == 0 {
+            cell.leftConstraintMainView.constant = 16
+        } else {
+            cell.leftConstraintMainView.constant = 4
+        }
+        
+        if indexPath.row == stocks.count - 1 {
+            cell.rightConstraintMainView.constant = 16
+        } else {
+            cell.rightConstraintMainView.constant = 4
+        }
+        
+        cell.model = stocks[indexPath.row]
+        
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: view.bounds.width - 12, height: 160)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if let uuidStock = stocks[indexPath.row].uuidStock {
+            performSegue(withIdentifier: "segueStock", sender: uuidStock)
+        }
+    }
 }

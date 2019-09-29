@@ -7,6 +7,7 @@
 //
 
 import Alamofire
+import UIKit
 
 struct APIPath {
     static let category        = "category"
@@ -22,6 +23,7 @@ struct APIPath {
     static let uploadPhoto     = "student/photo"
     static let refreshToken    = "auth/refreshtoken"
     static let student         = "student"
+    static let sendNotificationToken = "student/push"
 }
 
 enum HeaderKey: String {
@@ -55,15 +57,80 @@ class NetworkManager {
                                          encoding: ParameterEncoding = URLEncoding.default,
                                          headers: [String : String]? = nil,
                                          completion: @escaping (_ response: (Result<T>, Int?)) -> Void) {
+        var requestHeaders: [String : String] = [:]
+        
+        if let headers = headers {
+            requestHeaders = requestHeaders.merging(headers) { (_, new) in new }
+        }
+        
+        if let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
+            requestHeaders["DeviceType"] = "iOs"
+            requestHeaders["Version"] = appVersion
+        }
         
         request(url,
                 method: method,
                 parameters: parameters,
                 encoding: encoding,
-                headers: headers)
+                headers: requestHeaders)
             .validate()
             .responseData { response in
                 let result: (Result<T>, Int?) = self.decoder.decodeResponse(from: response)
+                
+                if let vc = UIWindow.getVisibleViewController(nil),
+                    let statusCode = result.1 {
+                    if !(vc is UIAlertController) {
+                        if statusCode == 426 {
+                            let alert = UIAlertController(title: "Внимание!",
+                                                          message: "Новая версия СКС РФ доступна для скачивания. Пожалуйста, обновитесь.",
+                                                          preferredStyle: .alert)
+                            
+                            let okBtn = UIAlertAction(title: "Обновить",
+                                                      style: .default,
+                                                      handler: {(_ action: UIAlertAction) -> Void in
+                                                        if let url = URL(string: "itms-apps://itunes.apple.com/app/id1473711942"),
+                                                            UIApplication.shared.canOpenURL(url){
+                                                            if #available(iOS 10.0, *) {
+                                                                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                                                            } else {
+                                                                UIApplication.shared.openURL(url)
+                                                            }
+                                                        }
+                            })
+                            
+                            alert.addAction(okBtn)
+                            vc.present(alert, animated: true,
+                                       completion: nil)
+                        }
+                        
+                        if statusCode == 423 {
+                            let alert = UIAlertController(title: "Внимание!",
+                                                          message: "Новая версия СКС РФ доступна для скачивания. Пожалуйста, обновитесь.",
+                                                          preferredStyle: .alert)
+                            
+                            let okBtn = UIAlertAction(title: "Обновить",
+                                                      style: .default,
+                                                      handler: {(_ action: UIAlertAction) -> Void in
+                                                        if let url = URL(string: "itms-apps://itunes.apple.com/app/id1473711942"),
+                                                            UIApplication.shared.canOpenURL(url){
+                                                            if #available(iOS 10.0, *) {
+                                                                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                                                            } else {
+                                                                UIApplication.shared.openURL(url)
+                                                            }
+                                                        }
+                            })
+                            let noBtn = UIAlertAction(title:"Пропустить" ,
+                                                      style: .destructive,
+                                                      handler: {(_ action: UIAlertAction) -> Void in
+                            })
+                            alert.addAction(noBtn)
+                            alert.addAction(okBtn)
+                            vc.present(alert, animated: true, completion: nil)
+                        }
+                    }
+                }
+                
                 completion(result)
         }
     }
@@ -80,6 +147,9 @@ class NetworkManager {
     // MARK: - Получить все акции
     func getStocks(category: String? = nil,
                    uuidCity: String? = nil,
+                   searchString: String? = nil,
+                   limit: Int,
+                   offset: Int,
                    completion: @escaping (_ result: (result: Result<StocksResponse>, statusCode: Int?)) -> Void) {
         let url = baseURI + apiVersion + APIPath.stock
         
@@ -93,9 +163,13 @@ class NetworkManager {
             parameters["cities"] = [uuidCity]
         }
         
+        if let searchString = searchString {
+            parameters["searchString"] = searchString
+        }
+        
         let headers = [
-            "X-Limit": "3",
-            "X-Offset": "0"
+            "X-Limit": String(describing: limit),
+            "X-Offset": String(describing: offset)
         ]
         
         getResult(url: url,
@@ -124,6 +198,9 @@ class NetworkManager {
     // MARK: - Получить всех партнеров
     func getPartners(category: String? = nil,
                      uuidCity: String? = nil,
+                     searchString: String? = nil,
+                     limit: Int,
+                     offset: Int,
                      completion: @escaping (_ result: (result: Result<PartnersResponse>, statusCode: Int?)) -> Void) {
         let url = baseURI +  apiVersion + APIPath.partner
         
@@ -136,10 +213,14 @@ class NetworkManager {
         if let uuidCity = uuidCity {
             parameters["cities"] = [uuidCity]
         }
+
+        if let searchString = searchString {
+            parameters["searchString"] = searchString
+        }
         
         let headers = [
-            "X-Limit": "7",
-            "X-Offset": "0"
+            "X-Limit": String(describing: limit),
+            "X-Offset": String(describing: offset)
         ]
         
         getResult(url: url,
@@ -272,6 +353,12 @@ class NetworkManager {
                      completion: @escaping (_ response: (result: Result<PathFile>, statusCode: Int?)) -> Void) {
         let url = baseURI + apiVersion + APIPath.uploadPhoto
         
+        var headers: [String: String] = [:]
+        if let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
+            headers["DeviceType"] = "iOs"
+            headers["Version"] = appVersion
+        }
+        
         Alamofire.upload(multipartFormData: { multipartFormData in
             guard let jpegData = image.jpegData(compressionQuality: 1) else { return }
             
@@ -338,7 +425,7 @@ class NetworkManager {
     
     // MARK: - Рефреш токена
     func refreshToken(refreshToken: String,
-                      completion: @escaping (_ result: (result: Result<OtpResponse>, statusCode: Int?)) -> Void) {
+                      completion: @escaping (_ result: (result: Result<TokensResponse>, statusCode: Int?)) -> Void) {
         let url = authURI + apiVersion + APIPath.refreshToken
         
         
@@ -362,6 +449,84 @@ class NetworkManager {
         ]
         
         getResult(url: url,
+                  headers: headers) { result in
+                    
+                    completion(result)
+        }
+    }
+    
+    func sendNotificationToken(notificationToken: String,
+                               deviceToken: String,
+                               accessToken: String = "",
+                               completion: @escaping (_ response: DataResponse<Data>) -> Void) {
+        let url = baseURI + apiVersion + APIPath.sendNotificationToken
+        let parameters: Parameters = [
+            "token": notificationToken,
+            "device": "iOs",
+            "idDevice": deviceToken
+        ]
+        
+        var headers = [
+            HeaderKey.token.rawValue: accessToken
+        ]
+        
+        if let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
+            headers["DeviceType"] = "iOs"
+            headers["Version"] = appVersion
+        }
+        
+        request(url,
+                method: .post,
+                parameters: parameters,
+                headers: headers)
+            .validate()
+            .responseData { response in
+                completion(response)
+        }
+    }
+    
+    // MARK: Зарегистрироваться
+    func updateUserInfo(uniqueSess: String,
+                        name: String,
+                        patronymic: String,
+                        surname: String,
+                        birthdate: String,
+                        startEducation: String,
+                        endEducation: String,
+                        course: String,
+                        uuidCity: String,
+                        photo: String,
+                        uuidUniversity: String,
+                        uuidFaculty: String,
+                        uuidSpecialty: String,
+                        completion: @escaping (_ response: (result: Result<UserData>, statusCode: Int?)) -> Void) {
+        guard let accessToken = UserData.loadSaved()?.accessToken else { return }
+
+        let url = baseURI + apiVersion + APIPath.student
+        
+        let headers = [
+            HeaderKey.token.rawValue: accessToken
+        ]
+        
+        let parametrs: Parameters = [
+            "uniqueSess": uniqueSess,
+            "name": name,
+            "patronymic": patronymic,
+            "surname": surname,
+            "birthdate": birthdate,
+            "startEducation": startEducation,
+            "endEducation": endEducation,
+            "course": course,
+            "uuidCity": uuidCity,
+            "photo": photo,
+            "uuidUniversity": uuidUniversity,
+            "uuidFaculty": uuidFaculty,
+            "uuidSpecialty": uuidSpecialty
+        ]
+        
+        getResult(url: url,
+                  method: .put,
+                  parameters: parametrs,
                   headers: headers) { result in
                     completion(result)
         }

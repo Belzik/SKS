@@ -34,4 +34,12 @@ class DateManager {
             return ""
         }
     }
+    
+    func toDate(dateString: String) -> Date? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd.MM.yyyy"
+        dateFormatter.locale = Locale.init(identifier: "ru")
+
+        return dateFormatter.date(from: dateString)
+    }
 }

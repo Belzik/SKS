@@ -22,6 +22,10 @@ class PartnerTableViewFooter: UITableViewHeaderFooterView {
     @IBOutlet weak var showSalesLabel: UILabel!
     @IBOutlet weak var showSalesIcon: UIImageView!
     
+    @IBOutlet weak var socialLabel: UILabel!
+    @IBOutlet weak var separateView: UIView!
+    @IBOutlet weak var bottomConstraintStack: NSLayoutConstraint!
+    
     weak var delegate: PartnerTableViewFooterDelegate?
     var vkLink = ""
     var fbLink = ""

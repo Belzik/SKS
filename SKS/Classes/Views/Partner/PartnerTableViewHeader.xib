@@ -70,16 +70,32 @@
                         <constraint firstAttribute="width" secondItem="PQm-Ze-mwS" secondAttribute="height" multiplier="375:136" id="w18-h7-T69"/>
                     </constraints>
                 </imageView>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="bf3-8s-iqp">
+                    <rect key="frame" x="0.0" y="50" width="375" height="160"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="160" id="mRM-SG-GI0"/>
+                    </constraints>
+                    <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="4vw-mN-Cxx">
+                        <size key="itemSize" width="50" height="50"/>
+                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    </collectionViewFlowLayout>
+                </collectionView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="eFQ-z4-51M" secondAttribute="bottom" id="4mL-UE-0cy"/>
+                <constraint firstItem="bf3-8s-iqp" firstAttribute="top" secondItem="PQm-Ze-mwS" secondAttribute="bottom" constant="-130" id="5hF-ST-4Er"/>
                 <constraint firstItem="eFQ-z4-51M" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="9OY-DQ-pED"/>
                 <constraint firstItem="eFQ-z4-51M" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="9Uc-1q-pab"/>
                 <constraint firstItem="ZuM-7y-mdU" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="9h7-p3-zDl"/>
                 <constraint firstItem="pAh-ED-npv" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="DSf-4x-7ib"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="PQm-Ze-mwS" secondAttribute="trailing" id="T3U-FL-X34"/>
+                <constraint firstItem="bf3-8s-iqp" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="T7W-bk-zMI"/>
                 <constraint firstAttribute="trailing" secondItem="ZuM-7y-mdU" secondAttribute="trailing" constant="16" id="VuD-mB-VJ9"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="bf3-8s-iqp" secondAttribute="trailing" id="dtl-in-Dog"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="pAh-ED-npv" secondAttribute="trailing" constant="16" id="eAO-0r-H2b"/>
                 <constraint firstItem="PQm-Ze-mwS" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="hyJ-yo-KSB"/>
                 <constraint firstItem="pAh-ED-npv" firstAttribute="top" secondItem="ZuM-7y-mdU" secondAttribute="bottom" constant="8" id="iQe-En-iDw"/>
@@ -94,6 +110,7 @@
             <connections>
                 <outlet property="categoryLabel" destination="ajP-V1-AWj" id="Z0h-DY-0yz"/>
                 <outlet property="categoryView" destination="JJZ-sb-sAj" id="aEo-J1-rVF"/>
+                <outlet property="collectionView" destination="bf3-8s-iqp" id="5zC-8t-SRK"/>
                 <outlet property="descriptionLabel" destination="pAh-ED-npv" id="xe9-j7-sB9"/>
                 <outlet property="imageHeader" destination="PQm-Ze-mwS" id="Zbc-yq-ELq"/>
                 <outlet property="nameLabel" destination="ZuM-7y-mdU" id="IPv-hM-Xpf"/>

@@ -15,12 +15,14 @@ class CodeViewController: BaseViewController {
     @IBOutlet weak var fourthTextField: UITextField!
     @IBOutlet weak var timerLabel: UILabel!
     @IBOutlet weak var bottomConstraintTimerLabel: NSLayoutConstraint!
+    @IBOutlet weak var errorLabel: UILabel!
+    @IBOutlet weak var titleLabel: UILabel!
     
     var keyboardHeight: CGFloat = 0
     var smsAttempt: String = ""
     var phone: String = ""
     
-    var timeForLabel = 120
+    var timeForLabel = 60
     var timer: Timer = Timer.init()
     
     var uniqueSess = ""
@@ -32,6 +34,14 @@ class CodeViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        if UIDevice.modelName == "iPhone 5s" ||
+            UIDevice.modelName ==  "iPhone SE" ||
+            UIDevice.modelName ==  "Simulator iPhone SE" {
+            let font = UIFont(name: "Montserrat-Bold", size: 20)!
+            self.titleLabel.font = font
+            
+        }
+        
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillShow),
                                                name: UIResponder.keyboardWillChangeFrameNotification,
@@ -77,7 +87,7 @@ class CodeViewController: BaseViewController {
     
     @objc func timerLabelTapped() {
         if timeForLabel != 0 { return }
-        timeForLabel = 120
+        timeForLabel = 60
         timerLabel.textColor = UIColor.gray
         getSmsWithCode()
     }
@@ -111,9 +121,29 @@ class CodeViewController: BaseViewController {
 }
 
 extension CodeViewController: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        
+//        if textField == secondTextField {
+            if textField.text == "" &&
+                textField != firstTextField {
+                textField.font = UIFont.systemFont(ofSize: 0)
+                textField.text = "*"
+            }
+        
+        if textField == firstTextField {
+            textField.tintColor = .clear
+            textField.font = UIFont.systemFont(ofSize: 0)
+        }
+  //      }
+    }
+    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+        var newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
         let isDeleted = newString.count < textField.text!.count
+        
+        let font = UIFont(name: "Montserrat-Bold", size: 20)!
+        textField.font = font
+        newString = newString.replacingOccurrences(of: "*", with: "")
         
         optString += newString
         print(optString)
@@ -132,8 +162,19 @@ extension CodeViewController: UITextFieldDelegate {
         }
         
         if isDeleted {
+            optString.removeLast()
             if let prevTextField = self.view.viewWithTag(textField.tag - 1) as? UITextField {
-                textField.text = newString
+                
+                if textField.text!.count == 1 {
+                    prevTextField.text = ""
+                    prevTextField.isUserInteractionEnabled = true
+                    textField.font =  UIFont.systemFont(ofSize: 0)
+                } else {
+                    textField.text = newString
+                    
+                }
+                
+                
                 prevTextField.becomeFirstResponder()
                 return false
             } else {
@@ -143,10 +184,12 @@ extension CodeViewController: UITextFieldDelegate {
         } else {
             if let nextField = self.view.viewWithTag(textField.tag + 1) as? UITextField,
                 !nextField.isHidden {
-                
+                textField.isUserInteractionEnabled = false
+
                 if newString.count < 2 {
                     textField.text = newString
                 }
+                
                 nextField.becomeFirstResponder()
                 sendCode()
                 return false
@@ -172,7 +215,11 @@ extension CodeViewController: UITextFieldDelegate {
         if !(firstTextField.text! == "") &&
             !(secondTextField.text! == "") &&
             !(thirdTextField.text! == "") &&
-            !(fourthTextField.text! == "") {
+            !(fourthTextField.text! == "") &&
+            !(firstTextField.text! == "*") &&
+            !(secondTextField.text! == "*") &&
+            !(thirdTextField.text! == "*") &&
+            !(fourthTextField.text! == "*"){
             
             let code = firstTextField.text! + secondTextField.text! + thirdTextField.text! + fourthTextField.text!
             verifyCode(code: code)
@@ -187,12 +234,17 @@ extension CodeViewController: UITextFieldDelegate {
                 let statusCode = response.statusCode {
                 
                 if statusCode == 403 {
+                    self?.firstTextField.isUserInteractionEnabled = true
+                    self?.secondTextField.isUserInteractionEnabled = true
+                    self?.thirdTextField.isUserInteractionEnabled = true
+                    //self?errorLabel.isHidden = false
                     self?.firstTextField.becomeFirstResponder()
                     self?.showAlert(message: "Неверный код sms, либо истекло действие кода.")
                     self?.firstTextField.text! = ""
                     self?.secondTextField.text! = ""
                     self?.thirdTextField.text! = ""
                     self?.fourthTextField.text! = ""
+                    self?.optString = ""
                 } else {
                     self?.showAlert(message: NetworkErrors.common)
                 }
@@ -207,14 +259,35 @@ extension CodeViewController: UITextFieldDelegate {
                     user.uniqueSess = uniqueSess
                     user.save()
                     
-                    if let vc = UIStoryboard(name: "Home", bundle: nil).instantiateInitialViewController() {
-                        self?.present(vc, animated: true, completion: nil)
+                    if let tokens = NotificationsTokens.loadSaved(),
+                        let notificationToken = tokens.notificationToken,
+                        let deviceToken = tokens.deviceToken {
+                        NetworkManager.shared.sendNotificationToken(notificationToken: notificationToken,
+                                                                    deviceToken: deviceToken,
+                                                                    accessToken: accessToken) { response in
+                                if let vc = UIStoryboard(name: "Home", bundle: nil).instantiateInitialViewController() {
+                                    self?.present(vc, animated: true, completion: nil)
+                                }
+                        }
                     }
+
+
                 } else {
                     self?.accessToken = accessToken
                     self?.uniqueSess = uniqueSess
                     self?.refreshToken = refreshToken
-                    self?.performSegue(withIdentifier: "seguePersonalData", sender: nil)
+                    
+                    if let tokens = NotificationsTokens.loadSaved(),
+                        let notificationToken = tokens.notificationToken,
+                        let deviceToken = tokens.deviceToken {
+                        NetworkManager.shared.sendNotificationToken(notificationToken: notificationToken,
+                                                                    deviceToken: deviceToken,
+                                                                    accessToken: accessToken) { response in
+                            self?.performSegue(withIdentifier: "seguePersonalData", sender: nil)
+                        }
+                    }
+                    
+                    
                 }
 
             }

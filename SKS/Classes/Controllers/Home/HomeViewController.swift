@@ -16,6 +16,9 @@ class HomeViewController: BaseViewController {
     @IBOutlet weak var cityTextField: UITextField!
     @IBOutlet weak var cityLabel: UILabel!
     
+    @IBOutlet weak var contentView: UIView!
+    @IBOutlet weak var searchButton: UIButton!
+    
     var selectedIndex: Int = -1
     var sections: [String] = [""]
     let sectionsBuffer: [String] = ["", "Акции", "Партнеры"]
@@ -33,6 +36,35 @@ class HomeViewController: BaseViewController {
     var searchString: String?
     var currentUiidCategory: String?
     var isCityTextFieldEditing = false
+    
+    var isLoading = false
+    
+    var offsetPartners = 0
+    var limitPartners = 15
+    var isPaginationPartners = false
+    var isPaginationPartnersLoad = false
+    
+    var offsetStocks = 0
+    var limitStocks = 15
+    var isPaginationStocks = false
+    var isPaginationStocksLoad = false
+    
+    private lazy var searchViewController: SearchViewController = {
+        let storyboard = UIStoryboard(name: "Home", bundle: Bundle.main)
+        let viewController = storyboard.instantiateViewController(withIdentifier: "\(SearchViewController.self)") as! SearchViewController
+        viewController.currentCity = self.currentCity
+        viewController.delegate = self
+        if let height = self.tabBarController?.tabBar.frame.size.height {
+            viewController.heightOfTabBar = height
+        }
+                
+        return viewController
+    }()
+    
+    @IBAction func searchButtonTapped(_ sender: UIButton) {
+        add(asChildViewController: searchViewController)
+        contentView.isHidden = false
+    }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -129,9 +161,15 @@ class HomeViewController: BaseViewController {
         sections = [""]
         
         if categories.count == 0 { getCategories() }
+        if categories.count != 0 {
+            partners = []
+            stocks = []
+            tableView.reloadData()
+        }
         getPartners()
         getStocks()
         
+        activityIndicator.startAnimating()
         dispatchGroup.notify(queue: .main) { [unowned self] in
             self.activityIndicator.stopAnimating()
             self.tableView.reloadData()
@@ -148,6 +186,7 @@ class HomeViewController: BaseViewController {
                 self.tableView.reloadData()
                 self.tableView.isHidden = false
                 self.cityView.isHidden = false
+                self.searchButton.isHidden = false
             } else {
                 UIView.transition(with: self.tableView,
                                   duration: 0.2,
@@ -155,6 +194,8 @@ class HomeViewController: BaseViewController {
                     self.tableView.reloadData()
                 }, completion: nil)
             }
+            
+            self.isLoading = false
         }
     }
     
@@ -175,10 +216,18 @@ class HomeViewController: BaseViewController {
     private func getPartners() {
         dispatchGroup.enter()
         NetworkManager.shared.getPartners(category: currentUiidCategory,
-                                          uuidCity: currentCity?.uuidCity) { [weak self] response in
-            self?.dispatchGroup.leave()
+                                          uuidCity: currentCity?.uuidCity,
+                                          limit: limitPartners,
+                                          offset: offsetPartners) { [unowned self] response in
+            self.dispatchGroup.leave()
             if let partners = response.result.value {
-                self?.partners = partners
+                
+                if partners.count < self.limitPartners {
+                    self.isPaginationPartners = true
+                }
+                self.offsetPartners += self.limitPartners
+                
+                self.partners = partners
             }
             
             if let error = response.result.error {
@@ -190,16 +239,86 @@ class HomeViewController: BaseViewController {
     private func getStocks() {
         dispatchGroup.enter()
         NetworkManager.shared.getStocks(category: currentUiidCategory,
-                                        uuidCity: currentCity?.uuidCity) { [weak self] response in
-            self?.dispatchGroup.leave()
+                                        uuidCity: currentCity?.uuidCity,
+                                        limit: limitStocks,
+                                        offset: offsetStocks) { [unowned self] response in
+            self.dispatchGroup.leave()
             if let stocks = response.result.value {
-                self?.stocks = stocks
+                if stocks.count < self.limitStocks {
+                    self.isPaginationStocks = true
+                }
+                self.offsetStocks += self.limitStocks
+                
+                self.stocks = stocks
             }
             
             if let error = response.result.error {
                 print(error.localizedDescription)
             }
         }
+    }
+    
+    private func getPartnersPagination() {
+        isPaginationPartnersLoad = true
+        activityIndicator.startAnimating()
+        NetworkManager.shared.getPartners(category: currentUiidCategory,
+                                          uuidCity: currentCity?.uuidCity,
+                                          limit: limitPartners,
+                                          offset: offsetPartners) { [unowned self] response in
+            self.activityIndicator.stopAnimating()
+            if let partners = response.result.value {
+                if partners.count < self.limitPartners {
+                    self.isPaginationPartners = true
+                }
+                
+                self.partners += partners
+                
+                let tableOffset = self.offsetPartners + partners.count
+                var indexPaths: [IndexPath] = []
+                for index in self.offsetPartners..<tableOffset {
+                    print(index)
+                    let indexSection = self.sections.count - 1
+                    indexPaths.append(IndexPath(row: index, section: indexSection))
+                }
+                self.tableView.reloadData()
+                //self.tableView.insertRows(at: indexPaths, with: .top)
+                
+                self.offsetPartners += self.limitPartners
+            }
+            self.isPaginationPartnersLoad = false
+        }
+    }
+    
+    private func getStocksPagination() {
+        isPaginationStocksLoad = true
+        NetworkManager.shared.getStocks(category: currentUiidCategory,
+                                        uuidCity: currentCity?.uuidCity,
+                                        limit: limitStocks,
+                                        offset: offsetStocks) { [unowned self] response in
+            if let stocks = response.result.value {
+                if stocks.count < self.limitStocks {
+                    self.isPaginationStocks = true
+                }
+                self.offsetStocks += self.limitStocks
+                
+                self.stocks += stocks
+                self.tableView.reloadData()
+                self.isPaginationStocksLoad = true
+            }
+        }
+    }
+    
+    private func clearPaginations() {
+        offsetStocks = 0
+        offsetPartners = 0
+        isPaginationPartners = false
+        isPaginationStocks = false
+    }
+    
+    func add(asChildViewController viewController: UIViewController) {
+        contentView.addSubview(viewController.view)
+        viewController.view.frame = contentView.bounds
+        viewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
     }
 }
 
@@ -228,6 +347,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         self.tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: self.tableView.bounds.size.width, height: dummyViewHeight))
         self.tableView.contentInset = UIEdgeInsets(top: -dummyViewHeight, left: 0, bottom: 0, right: 0)
         
+        tableView.tableFooterView = UIActivityIndicatorView.init()
         //tableView.tableFooterView = UIView(frame: CGRect.zero)
     }
 
@@ -267,9 +387,16 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "\(PartnerTableViewCell.self)",
                 for: indexPath) as! PartnerTableViewCell
-
+            
             cell.model = partners[indexPath.row]
 
+            if indexPath.row == partners.count / 2 { // last cell
+                if !isPaginationPartners &&
+                    !isPaginationPartnersLoad { // more items to fetch
+                    getPartnersPagination() // increment `fromIndex` by 20 before server call
+                }
+            }
+            
             return cell
         }
 
@@ -361,6 +488,13 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 cell.rightConstraintMainView.constant = 4
             }
             
+            if indexPath.row == stocks.count - 1 { // last cell
+                if !isPaginationStocks &&
+                    !isPaginationStocksLoad { // more items to fetch
+                    getStocksPagination() // increment `fromIndex` by 20 before server call
+                }
+            }
+            
             cell.model = stocks[indexPath.row]
 
             return cell
@@ -386,6 +520,9 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView.tag == 1 {
+            if isLoading { return }
+            clearPaginations()
+            isLoading = true
             if selectedIndex == -1 {
                 categories[indexPath.row].isSelected = true
                 selectedIndex = indexPath.row
@@ -394,7 +531,6 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 
                 changeBackgroundColorCell(collectionView, indexPath: indexPath)
                 loadData()
-
             } else if selectedIndex == indexPath.row {
                 categories[indexPath.row].isSelected = false
                 currentUiidCategory = nil
@@ -461,6 +597,7 @@ extension HomeViewController: SKSPickerDelegate {
                 break
             }
         }
+        clearPaginations()
         loadData()
         //currentCity
         
@@ -469,5 +606,23 @@ extension HomeViewController: SKSPickerDelegate {
     
     func cancelPicker() {
         view.endEditing(true)
+    }
+}
+
+extension HomeViewController: SearchViewControllerDelegate {
+    func detailSearch(value: SearchTableViewCellType) {
+        if value.type == .partner {
+            performSegue(withIdentifier: "seguePartner", sender: value.uuid)
+        } else {
+            performSegue(withIdentifier: "segueStock", sender: value.uuid)
+        }
+    }
+    
+    func cancelButtonTapped() {
+        searchViewController.willMove(toParent: nil)
+        searchViewController.view.removeFromSuperview()
+        searchViewController.removeFromParent()
+        
+        contentView.isHidden = true
     }
 }

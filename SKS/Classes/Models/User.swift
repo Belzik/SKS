@@ -27,6 +27,7 @@ class UserData: NSObject, NSCoding, Codable {
         case phone
         case studentCode
         case studentInfo
+        case uniqueSess
     }
     
     required override init() {}
@@ -76,18 +77,22 @@ class UserData: NSObject, NSCoding, Codable {
 }
 
 class StudentInfo: Codable {
-    let name: String?
-    let patronymic: String?
-    let surname: String?
-    let birthdate: String?
-    let startEducation: String?
-    let endEducation: String?
-    let course: Int?
-    let nameCity: String?
-    let photo: String?
-    let nameUniversity: String?
-    let nameFaculty: String?
-    let nameSpecialty: String?
+    var name: String?
+    var patronymic: String?
+    var surname: String?
+    var birthdate: String?
+    var startEducation: String?
+    var endEducation: String?
+    var course: Int?
+    var nameCity: String?
+    var uuidCity: String?
+    var photo: String?
+    var nameUniversity: String?
+    var uuidUniversity: String?
+    var nameFaculty: String?
+    var uuidFaculty: String?
+    var nameSpecialty: String?
+    var uuidSpecialty: String?
     
     var fio: String {
         var string = ""

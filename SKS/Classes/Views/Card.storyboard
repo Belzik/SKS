@@ -62,7 +62,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_clock" translatesAutoresizingMaskIntoConstraints="NO" id="jRS-y2-B5N">
-                                <rect key="frame" x="316" y="68.5" width="24" height="24"/>
+                                <rect key="frame" x="282" y="68.5" width="24" height="24"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="24" id="5Vq-6v-L4y"/>
                                     <constraint firstAttribute="height" constant="24" id="8JI-aw-lvj"/>
@@ -70,7 +70,7 @@
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hYe-cD-V2d">
                                 <rect key="frame" x="0.0" y="-256" width="414" height="300"/>
-                                <color key="backgroundColor" red="0.2239120305" green="0.23455759879999999" blue="0.26667132970000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="backgroundColor" red="0.22352941176470587" green="0.23529411764705882" blue="0.26666666666666666" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="300" id="xlD-ar-Yn5"/>
                                 </constraints>
@@ -203,8 +203,11 @@
                                     <constraint firstItem="QiB-ZJ-anh" firstAttribute="centerX" secondItem="RBG-xd-gu9" secondAttribute="centerX" id="v78-nE-o1H"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12:36" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AM7-j8-Pnp">
-                                <rect key="frame" x="348" y="68" width="50" height="24.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12:36:56" textAlignment="justified" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AM7-j8-Pnp">
+                                <rect key="frame" x="314" y="68" width="84" height="24.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="84" id="scH-lk-se8"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="20"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -242,6 +245,7 @@
                         <outlet property="barcodeImage" destination="iQg-BP-2jd" id="RQd-cw-xCl"/>
                         <outlet property="barcodeView" destination="RBG-xd-gu9" id="tPD-4T-iTe"/>
                         <outlet property="barcodeViewGenerate" destination="t42-uh-5Io" id="fJm-m9-frE"/>
+                        <outlet property="bottomConstraintBarcode" destination="F9Y-PK-HW2" id="5Vn-VU-O0L"/>
                         <outlet property="fioLabel" destination="J6c-1g-SEq" id="szo-1q-bFf"/>
                         <outlet property="gifImage" destination="8OQ-Zo-tvJ" id="vs5-Ng-wWQ"/>
                         <outlet property="infoUserView" destination="dYE-Qu-QaK" id="NJ1-bM-ipV"/>
@@ -251,6 +255,7 @@
                         <outlet property="statusLabel" destination="2wz-Kp-bFO" id="nGg-fo-ZJO"/>
                         <outlet property="timeLabel" destination="AM7-j8-Pnp" id="Z0Q-3s-jkd"/>
                         <outlet property="universityLabel" destination="Lu2-Ra-hXA" id="jXx-kv-aVV"/>
+                        <outlet property="widthBarcode" destination="EzH-z7-4i8" id="LIY-tl-CXE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Emr-Hs-mOs" userLabel="First Responder" sceneMemberID="firstResponder"/>

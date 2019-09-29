@@ -1,0 +1,54 @@
+
+/* Class = "UIButton"; normalTitle = "Назад"; ObjectID = "1WN-hB-C1r"; */
+"1WN-hB-C1r.normalTitle" = "Назад";
+
+/* Class = "UILabel"; text = "Код подтверждения из SMS"; ObjectID = "4XF-3b-xmn"; */
+"4XF-3b-xmn.text" = "Код подтверждения из SMS";
+
+/* Class = "UIButton"; normalTitle = "Далее"; ObjectID = "84t-u7-sDb"; */
+"84t-u7-sDb.normalTitle" = "Далее";
+
+/* Class = "UILabel"; text = "Введите номер телефона"; ObjectID = "Bx5-1b-u56"; */
+"Bx5-1b-u56.text" = "Введите номер телефона";
+
+/* Class = "UILabel"; text = "Введите данные учебного заведения"; ObjectID = "Foh-Ln-i7i"; */
+"Foh-Ln-i7i.text" = "Введите данные учебного заведения";
+
+/* Class = "UIButton"; normalTitle = "Назад"; ObjectID = "K7r-a2-76j"; */
+"K7r-a2-76j.normalTitle" = "Назад";
+
+/* Class = "UILabel"; text = "Неверный код"; ObjectID = "L7P-tv-ge3"; */
+"L7P-tv-ge3.text" = "Неверный код";
+
+/* Class = "UILabel"; text = "Нажимая кнопку \"Далее\", я соглашаюсь с Пользовательски соглашением и Политикой конфиденциальности"; ObjectID = "OL1-cQ-R23"; */
+"OL1-cQ-R23.text" = "Нажимая кнопку \"Далее\", я соглашаюсь с Пользовательски соглашением и Политикой конфиденциальности";
+
+/* Class = "UIButton"; normalTitle = "Далее"; ObjectID = "Ruo-eU-O9C"; */
+"Ruo-eU-O9C.normalTitle" = "Далее";
+
+/* Class = "UIButton"; normalTitle = "Назад"; ObjectID = "UaP-Ft-deI"; */
+"UaP-Ft-deI.normalTitle" = "Назад";
+
+/* Class = "UIButton"; normalTitle = "Назад"; ObjectID = "XJ7-94-Fpo"; */
+"XJ7-94-Fpo.normalTitle" = "Назад";
+
+/* Class = "UILabel"; text = "Введите личные данные"; ObjectID = "Z1p-Nb-AfV"; */
+"Z1p-Nb-AfV.text" = "Введите личные данные";
+
+/* Class = "UIButton"; normalTitle = "Назад"; ObjectID = "cjs-Sy-YTO"; */
+"cjs-Sy-YTO.normalTitle" = "Назад";
+
+/* Class = "UIButton"; normalTitle = "Готово"; ObjectID = "dS2-Yv-otH"; */
+"dS2-Yv-otH.normalTitle" = "Готово";
+
+/* Class = "UILabel"; text = "Отправить код еще раз через 24 сек"; ObjectID = "gen-gr-Eyj"; */
+"gen-gr-Eyj.text" = "Отправить код еще раз через 24 сек";
+
+/* Class = "UITextField"; placeholder = "Номер телефона"; ObjectID = "hR8-R3-R1S"; */
+"hR8-R3-R1S.placeholder" = "Номер телефона";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "pkb-nM-fdN"; */
+"pkb-nM-fdN.text" = "Label";
+
+/* Class = "UILabel"; text = "Введите код подтверждения"; ObjectID = "yDj-v3-i9v"; */
+"yDj-v3-i9v.text" = "Введите код подтверждения";

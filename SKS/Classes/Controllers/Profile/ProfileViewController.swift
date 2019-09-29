@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol ProfileDelegate: class {
+    func exit()
+    func editProfile(userData: UserData)
+}
 
 enum ProfileStatus: String {
     case active = "active"
@@ -32,9 +36,31 @@ class ProfileViewController: BaseViewController {
     @IBOutlet weak var periodLabel: UILabel!
     @IBOutlet weak var courseLabel: UILabel!
     @IBOutlet weak var phoneLabel: UILabel!
+    @IBOutlet weak var editButton: UIButton!
+    
+    weak var delegate: ProfileDelegate?
+    var user: UserData?
+    
+    @IBAction func exitButton(_ sender: UIButton) {
+        UserData.clear()
+        delegate?.exit()
+    }
+    
+    @IBAction func editButtonTapped(_ sender: UIButton) {
+        guard let user = self.user else { return }
+        delegate?.editProfile(userData: user)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if UIDevice.modelName == "iPhone 5s" ||
+            UIDevice.modelName ==  "iPhone SE" ||
+            UIDevice.modelName ==  "Simulator iPhone SE" {
+            let font = UIFont(name: "Montserrat-Bold", size: 20)!
+            self.fioLabel.font = font
+            
+        }
 
         profileImage.makeCircular()
         profileImage.layer.masksToBounds = true
@@ -48,6 +74,8 @@ class ProfileViewController: BaseViewController {
         NetworkManager.shared.getInfoUser { [weak self] response in
             self?.activityIndicator.stopAnimating()
             if let user = response.result.value {
+                self?.user = user
+                print("СЕССИЯ", user.uniqueSess)
                 self?.layoutViews(withUser: user)
             } else {
                 self?.showAlert(message: NetworkErrors.common)
@@ -76,6 +104,7 @@ class ProfileViewController: BaseViewController {
         if let course = user.studentInfo?.course { courseLabel.text = String(describing: course) }
         if let phone = user.phone { phoneLabel.text = phone.with(mask: "* *** *** ** **", replacementChar: "*", isDecimalDigits: true) }
         
+        editButton.isHidden = true
         if let status = user.status {
             
             switch status {
@@ -97,6 +126,7 @@ class ProfileViewController: BaseViewController {
                 statusLabel.textColor = ColorManager.red.value
                 reasonLabel.text = user.statusReason
                 reasonLabel.isHidden = false
+                editButton.isHidden = false
             default:
                 statusLabel.isHidden = true
                 reasonLabel.isHidden = true

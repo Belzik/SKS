@@ -81,13 +81,15 @@ class StockViewController: BaseViewController {
         var indexPaths: [IndexPath] = []
         let angle: CGFloat = isShowSalePoints ?  0 : .pi
         if isShowSalePoints {
-            for (key, _) in salePoints.enumerated() {
+            for (key, _) in salePoints.enumerated().reversed() {
                 if key != 0 && key != 1 {
+                    print(key)
+                    print(salePoints.count)
                     salePoints.remove(at: key)
                     indexPaths.append(IndexPath(row: key, section: 0))
                 }
             }
-            
+
             UIView.animate(withDuration: 0.2, animations: { [weak self] in
                 self?.showSalesLabel.text = "Все адреса"
                 self?.view.layoutIfNeeded()

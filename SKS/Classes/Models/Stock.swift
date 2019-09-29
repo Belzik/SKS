@@ -43,3 +43,35 @@ class Stock: Codable {
         case cities
     }
 }
+
+extension Stock: SearchTableViewCellType {
+    var icon: String {
+        get {
+            return "ic_stock"
+        }
+    }
+    
+    var title: String {
+        get {
+            return name
+        }
+    }
+    
+    var description: String {
+        get {
+            return stockDescription
+        }
+    }
+    
+    var uuid: String {
+        get {
+            return uuidStock ?? ""
+        }
+    }
+    
+    var type: TypeOfSearchCell {
+        get {
+            return TypeOfSearchCell.stock
+        }
+    }
+}

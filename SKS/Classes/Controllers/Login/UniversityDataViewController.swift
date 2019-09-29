@@ -15,6 +15,9 @@ class UniversityDataViewController: BaseViewController {
     @IBOutlet weak var specialtyTextField: ErrorTextField!
     @IBOutlet weak var periodTextField: ErrorTextField!
     @IBOutlet weak var courseTextField: ErrorTextField!
+    @IBOutlet weak var levelEducationTextField: ErrorTextField!
+    @IBOutlet weak var dateEndTextField: ErrorTextField!
+    @IBOutlet weak var titleLabel: UILabel!
     
     var cityPicker: SKSPicker = SKSPicker()
     var institutePicker: SKSPicker = SKSPicker()
@@ -22,6 +25,7 @@ class UniversityDataViewController: BaseViewController {
     var specialityPicker: SKSPicker = SKSPicker()
     var periodPicker: PeriodPicker = PeriodPicker()
     var coursePicker: SKSPicker = SKSPicker()
+    var levelsPicker: SKSPicker = SKSPicker()
     
     var cities: [City] = []
     var universities: [University] = []
@@ -34,6 +38,11 @@ class UniversityDataViewController: BaseViewController {
         Course(title: "4 курс", value: "4"),
         Course(title: "5 курс", value: "5"),
         Course(title: "6 курс", value: "6")
+    ]
+    var levels: [LevelEducation] = [
+        LevelEducation(title: "Бакалавр", value: "4"),
+        LevelEducation(title: "Специалитет", value: "5"),
+        LevelEducation(title: "Магистратура", value: "2"),
     ]
     
     var uniqueSess = ""
@@ -50,7 +59,6 @@ class UniversityDataViewController: BaseViewController {
     
     @IBAction func nextButtonTapped() {
         if validate() {
-            let course = courses[coursePicker.picker.selectedRow(inComponent: 0)].value
             let uuidCity = cities[cityPicker.picker.selectedRow(inComponent: 0)].uuidCity
             let uuidUniversity = universities[institutePicker.picker.selectedRow(inComponent: 0)].uuidUniver
             let uuidFaculty = faculties[facultyPicker.picker.selectedRow(inComponent: 0)].uuidDepartment
@@ -61,9 +69,9 @@ class UniversityDataViewController: BaseViewController {
                                                patronymic: patronymic,
                                                surname: surname,
                                                birthdate: birthday,
-                                               startEducation: startEducation,
-                                               endEducation: endEducation,
-                                               course: course,
+                                               startEducation: periodTextField.text!,
+                                               endEducation: dateEndTextField.text!,
+                                               course: courseTextField.text!,
                                                uuidCity: uuidCity ?? "",
                                                photo: imagePath,
                                                uuidUniversity: uuidUniversity,
@@ -89,6 +97,14 @@ class UniversityDataViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if UIDevice.modelName == "iPhone 5s" ||
+            UIDevice.modelName ==  "iPhone SE" ||
+            UIDevice.modelName ==  "Simulator iPhone SE" {
+            let font = UIFont(name: "Montserrat-Bold", size: 20)!
+            self.titleLabel.font = font
+            
+        }
 
         setupTextFields()
         setupPickers()
@@ -99,12 +115,18 @@ class UniversityDataViewController: BaseViewController {
         instituteTextField.textField.isEnabled = false
         facultyTextField.textField.isEnabled = false
         specialtyTextField.textField.isEnabled = false
+        periodTextField.textField.isEnabled = false
         
         setupImageTextField(textField: cityTextField.textField)
         setupImageTextField(textField: instituteTextField.textField)
         setupImageTextField(textField: facultyTextField.textField)
         setupImageTextField(textField: specialtyTextField.textField)
-        setupImageTextField(textField: courseTextField.textField)
+        //setupImageTextField(textField: courseTextField.textField)
+        setupImageTextField(textField: levelEducationTextField.textField)
+        setupImageTextField(textField: periodTextField.textField)
+        
+        dateEndTextField.textField.isUserInteractionEnabled = false
+        courseTextField.textField.isUserInteractionEnabled = false
     }
     
     func setupImageTextField(textField: UITextField) {
@@ -141,6 +163,11 @@ class UniversityDataViewController: BaseViewController {
         courseTextField.textField.inputAccessoryView = coursePicker.toolBar
         courseTextField.textField.inputView = coursePicker.picker
         coursePicker.source = courses
+        
+        levelsPicker.delegate = self
+        levelEducationTextField.textField.inputAccessoryView = levelsPicker.toolBar
+        levelEducationTextField.textField.inputView = levelsPicker.picker
+        levelsPicker.source = levels
     }
     
     func getCities() {
@@ -223,11 +250,23 @@ class UniversityDataViewController: BaseViewController {
             isValid = false
         }
         
+        if levelEducationTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
+            levelEducationTextField.errorMessage = "Поле не заполнено"
+            isValid = false
+        }
+        
+        
+        if dateEndTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
+            dateEndTextField.errorMessage = "Поле не заполнено"
+            isValid = false
+        }
+        
         
         if courseTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
             courseTextField.errorMessage = "Поле не заполнено"
             isValid = false
         }
+        
         
         return isValid
     }
@@ -270,9 +309,40 @@ extension UniversityDataViewController: SKSPickerDelegate {
             getSpecialties()
         }
         
+        if picker == levelsPicker {
+            periodTextField.textField.isEnabled = true
+            
+            
+            levelEducationTextField.text = value.title
+            let value = levels[levelsPicker.picker.selectedRow(inComponent: 0)].value
+            
+            if let value = Int(value) {
+                periodPicker.setupPicker(levelValue: value)
+            }
+            
+//            if periodTextField.text! != "" {
+//                if let dateStart = periodTextField.text,
+//                    let dateStartInt = Int(dateStart),
+//                    let intValue = Int(value) {
+//                    dateEndTextField.text = String(describing: (dateStartInt + intValue))
+//                }
+//
+//            }
+//
+//            if let intValue = Int(value) {
+//
+//            }
+            periodTextField.text = ""
+            dateEndTextField.text = ""
+            courseTextField.text = ""
+            
+            periodTextField.textField.becomeFirstResponder()
+            //view.endEditing(true)
+        }
+        
         if picker == specialityPicker {
             specialtyTextField.text = value.title
-            periodTextField.textField.becomeFirstResponder()
+            levelEducationTextField.textField.becomeFirstResponder()
         }
         
         if picker == coursePicker {
@@ -287,11 +357,39 @@ extension UniversityDataViewController: SKSPickerDelegate {
 }
 
 extension UniversityDataViewController: PeriodPickerDelegate {
-    func donePicker(dateStart: String, dateEnd: String) {
-        startEducation = dateStart
-        endEducation = dateEnd
+    func donePicker(dateStart: String) {
+        //startEducation = dateStart
+        //endEducation = dateEnd
         
-        periodTextField.text = "\(dateStart) - \(dateEnd)"
-        courseTextField.textField.becomeFirstResponder()
+        //periodTextField.text = "\(dateStart) - \(dateEnd)"
+        //courseTextField.textField.becomeFirstResponder()
+        
+        startEducation = dateStart
+        
+        periodTextField.text = "\(dateStart)"
+        
+        if levelEducationTextField.text! != "" {
+            let value = levels[levelsPicker.picker.selectedRow(inComponent: 0)].value
+            
+            if let dateStart = periodTextField.text,
+                let dateStartInt = Int(dateStart),
+                let intValue = Int(value) {
+                let dateEnd = dateStartInt + intValue
+                dateEndTextField.text = String(describing: dateEnd)
+                
+            }
+            
+        }
+        
+        if let currentYear = Int(Date().year),
+            let dateStart = periodTextField.text,
+            let dateStartInt = Int(dateStart) {
+            let course = currentYear - dateStartInt + 1
+            
+            courseTextField.text = String(describing: course)
+        }
+        
+        
+        view.endEditing(true)
     }
 }

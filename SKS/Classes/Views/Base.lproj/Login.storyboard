@@ -85,7 +85,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Введите номер телефона" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bx5-1b-u56">
+                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Введите номер телефона" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="Bx5-1b-u56">
                                 <rect key="frame" x="24" y="104" width="273" height="59"/>
                                 <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="24"/>
                                 <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -151,6 +151,7 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="hR8-R3-R1S" secondAttribute="trailing" constant="20" id="cNR-4t-mJT"/>
                             <constraint firstItem="XJ7-94-Fpo" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="12" id="dbF-PY-xJC"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="84t-u7-sDb" secondAttribute="trailing" constant="24" id="euV-eK-q5R"/>
+                            <constraint firstItem="OL1-cQ-R23" firstAttribute="top" relation="greaterThanOrEqual" secondItem="84t-u7-sDb" secondAttribute="bottom" constant="8" id="giF-Pr-ek9"/>
                             <constraint firstItem="OL1-cQ-R23" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="24" id="j2Q-4Z-Qvw"/>
                             <constraint firstItem="Bx5-1b-u56" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.66" id="oAv-M5-0RL"/>
                             <constraint firstItem="hR8-R3-R1S" firstAttribute="top" secondItem="Bx5-1b-u56" secondAttribute="bottom" constant="40" id="sAe-jb-sLB"/>
@@ -164,6 +165,8 @@
                         <outlet property="bottomConstraintAgreementLabel" destination="yFa-ro-Qyg" id="CyL-ZP-8WM"/>
                         <outlet property="nextButton" destination="84t-u7-sDb" id="ewp-cn-6TV"/>
                         <outlet property="phoneTextField" destination="hR8-R3-R1S" id="h6g-4X-NcT"/>
+                        <outlet property="titleLabel" destination="Bx5-1b-u56" id="d5g-GT-3nD"/>
+                        <outlet property="titleLabelBottomConstraint" destination="sAe-jb-sLB" id="vdo-0b-Oxu"/>
                         <segue destination="eqE-YN-TV7" kind="show" identifier="segueCode" id="kVN-Wu-eKW"/>
                         <segue destination="qba-DW-Mp6" kind="show" identifier="segueAgreements" id="HrO-fP-7EY"/>
                     </connections>
@@ -269,9 +272,9 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Неверный код" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L7P-tv-ge3">
-                                <rect key="frame" x="24" y="272" width="90" height="14.5"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
-                                <color key="textColor" red="0.92549019610000005" green="0.3921568627" blue="0.3921568627" alpha="1" colorSpace="calibratedRGB"/>
+                                <rect key="frame" x="24" y="272" width="94" height="15"/>
+                                <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="12"/>
+                                <color key="textColor" red="0.8602975606918335" green="0.4242340624332428" blue="0.40782672166824341" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -300,11 +303,13 @@
                     </view>
                     <connections>
                         <outlet property="bottomConstraintTimerLabel" destination="3DI-bZ-x4N" id="fbQ-OI-q5j"/>
+                        <outlet property="errorLabel" destination="L7P-tv-ge3" id="Zt1-mT-grg"/>
                         <outlet property="firstTextField" destination="Ibf-DS-CAS" id="Jch-Pc-XrA"/>
                         <outlet property="fourthTextField" destination="iEb-pG-qji" id="Uaq-E3-Onh"/>
                         <outlet property="secondTextField" destination="vhe-LD-zOw" id="234-Fo-wMB"/>
                         <outlet property="thirdTextField" destination="OOT-5w-Cch" id="3d1-l4-6et"/>
                         <outlet property="timerLabel" destination="gen-gr-Eyj" id="VEZ-f2-OXr"/>
+                        <outlet property="titleLabel" destination="yDj-v3-i9v" id="HG9-FB-pyC"/>
                         <segue destination="Bpn-KQ-ljd" kind="show" identifier="seguePersonalData" id="9NQ-ce-TnG"/>
                     </connections>
                 </viewController>
@@ -474,6 +479,7 @@
                         <outlet property="nextButton" destination="Ruo-eU-O9C" id="IUb-ge-sP3"/>
                         <outlet property="photoImageView" destination="dbx-pC-mRA" id="Gm1-rt-Fde"/>
                         <outlet property="secondTextField" destination="13n-Gn-isk" id="3BY-ms-fCf"/>
+                        <outlet property="titleLabel" destination="Z1p-Nb-AfV" id="9ql-1a-YgV"/>
                         <segue destination="Cm6-AQ-2po" kind="show" identifier="segueUniversityData" id="O8d-nb-5nv"/>
                     </connections>
                 </viewController>
@@ -489,14 +495,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="1000"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XCC-7X-aQi">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XCC-7X-aQi">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="966"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6G4-l0-Ub8">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="718"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="888"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="oxK-zh-5Cw">
-                                                <rect key="frame" x="24" y="131" width="366" height="490"/>
+                                                <rect key="frame" x="24" y="131" width="366" height="660"/>
                                                 <subviews>
                                                     <view tag="1" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="efZ-OI-jXl" customClass="ErrorTextField" customModule="SKS" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="366" height="65"/>
@@ -538,18 +544,38 @@
                                                             <userDefinedRuntimeAttribute type="string" keyPath="placeholder" value="Специальность"/>
                                                         </userDefinedRuntimeAttributes>
                                                     </view>
-                                                    <view tag="5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CaP-oK-AXw" customClass="ErrorTextField" customModule="SKS" customModuleProvider="target">
+                                                    <view tag="5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x2B-cq-vjS" customClass="ErrorTextField" customModule="SKS" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="340" width="366" height="65"/>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="65" id="Y1V-Kj-Xpa"/>
+                                                        </constraints>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="string" keyPath="placeholder" value="Уровень образования"/>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </view>
+                                                    <view tag="5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CaP-oK-AXw" customClass="ErrorTextField" customModule="SKS" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="425" width="366" height="65"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="65" id="Ws3-VO-QAB"/>
                                                         </constraints>
                                                         <userDefinedRuntimeAttributes>
-                                                            <userDefinedRuntimeAttribute type="string" keyPath="placeholder" value="Период обучения"/>
+                                                            <userDefinedRuntimeAttribute type="string" keyPath="placeholder" value="Дата поступления"/>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </view>
+                                                    <view tag="5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4TB-gi-MIn" customClass="ErrorTextField" customModule="SKS" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="510" width="366" height="65"/>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="65" id="tyH-MF-RCI"/>
+                                                        </constraints>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="string" keyPath="placeholder" value="Дата окончания"/>
                                                         </userDefinedRuntimeAttributes>
                                                     </view>
                                                     <view tag="7" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="peq-YP-XSC" customClass="ErrorTextField" customModule="SKS" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="425" width="366" height="65"/>
+                                                        <rect key="frame" x="0.0" y="595" width="366" height="65"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="65" id="arN-sn-CiR"/>
@@ -567,7 +593,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dS2-Yv-otH" customClass="SKSButton" customModule="SKS" customModuleProvider="target">
-                                                <rect key="frame" x="24" y="646" width="370" height="48"/>
+                                                <rect key="frame" x="24" y="816" width="370" height="48"/>
                                                 <color key="backgroundColor" red="0.10196078431372549" green="0.6705882352941176" blue="0.34509803921568627" alpha="1" colorSpace="calibratedRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="48" id="crL-Sg-LWz"/>
@@ -636,10 +662,13 @@
                     <connections>
                         <outlet property="cityTextField" destination="efZ-OI-jXl" id="sZz-AY-RbI"/>
                         <outlet property="courseTextField" destination="peq-YP-XSC" id="k4q-al-N96"/>
+                        <outlet property="dateEndTextField" destination="4TB-gi-MIn" id="gdQ-zm-JHW"/>
                         <outlet property="facultyTextField" destination="U66-BZ-33z" id="Le0-Tx-dmL"/>
                         <outlet property="instituteTextField" destination="9jE-rt-9Fn" id="CPd-gw-OlD"/>
+                        <outlet property="levelEducationTextField" destination="x2B-cq-vjS" id="0fz-xm-yoB"/>
                         <outlet property="periodTextField" destination="CaP-oK-AXw" id="Qw3-ec-pbC"/>
                         <outlet property="specialtyTextField" destination="HE9-4I-ykw" id="POR-Wa-NDi"/>
+                        <outlet property="titleLabel" destination="Foh-Ln-i7i" id="wJm-Ec-ely"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="D15-my-7Te" sceneMemberID="firstResponder"/>

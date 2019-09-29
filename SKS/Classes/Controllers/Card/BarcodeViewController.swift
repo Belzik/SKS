@@ -9,6 +9,7 @@
 
 import UIKit
 import EAN13BarcodeGenerator
+import Crashlytics
 
 class BarcodeViewController: BaseViewController {
     @IBOutlet weak var photoImageView: UIImageView!
@@ -26,6 +27,8 @@ class BarcodeViewController: BaseViewController {
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
     
+    @IBOutlet weak var widthBarcode: NSLayoutConstraint!
+    @IBOutlet weak var bottomConstraintBarcode: NSLayoutConstraint!
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
@@ -34,11 +37,26 @@ class BarcodeViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        timeLabel.adjustsFontSizeToFitWidth = true
         
-        let gif = UIImage.gifImageWithName(name: "waves")
-        gifImage.image = gif
-        gifImage.layer.cornerRadius = 16
-        gifImage.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
+        if gifImage.image != UIImage.gifImageWithName(name: "waves") {
+            let gif = UIImage.gifImageWithName(name: "waves")
+            gifImage.image = gif
+            gifImage.layer.cornerRadius = 16
+            gifImage.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
+        }
+
+        
+        if UIDevice.modelName == "iPhone 5s" ||
+            UIDevice.modelName ==  "iPhone SE" ||
+            UIDevice.modelName ==  "Simulator iPhone SE" {
+//            widthBarcode.constant = 250
+//            bottomConstraintBarcode.constant = 12
+            let font = UIFont(name: "Montserrat-Bold", size: 14)!
+            self.fioLabel.font = font
+            universityLabel.numberOfLines = 1
+            fioLabel.numberOfLines = 2
+        }
         
         photoImageView.makeCircular()
         barcodeView.setupShadow(16,
@@ -47,17 +65,17 @@ class BarcodeViewController: BaseViewController {
                                 offset: CGSize(width: 0, height: 0),
                                 opacity: 0.5)
         
-        if UserData.loadSaved() != nil {
-            infoUserView.isHidden = false
-            noAuthLabel.isHidden = true
-            getInfoUser()
-        } else {
-            infoUserView.isHidden = true
-            barcodeImage.image = UIImage(named: "unavailable_barcode")
-            noAuthLabel.isHidden = false
-            noAuthBarcodeLabel.isHidden = false
-            barcodeView.isHidden = false
-        }
+//        if UserData.loadSaved() != nil {
+//            infoUserView.isHidden = false
+//            noAuthLabel.isHidden = true
+//            getInfoUser()
+//        } else {
+//            infoUserView.isHidden = true
+//            barcodeImage.image = UIImage(named: "unavailable_barcode")
+//            noAuthLabel.isHidden = false
+//            noAuthBarcodeLabel.isHidden = false
+//            barcodeView.isHidden = false
+//        }
         
         self.setTime()
         
@@ -67,7 +85,16 @@ class BarcodeViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if UserData.loadSaved() != nil {
+            infoUserView.isHidden = false
+            noAuthLabel.isHidden = true
             getInfoUser()
+        } else {
+            self.barcodeViewGenerate.isHidden = true
+            infoUserView.isHidden = true
+            barcodeImage.image = UIImage(named: "unavailable_barcode")
+            noAuthLabel.isHidden = false
+            noAuthBarcodeLabel.isHidden = false
+            barcodeView.isHidden = false
         }
     }
     
@@ -93,9 +120,10 @@ class BarcodeViewController: BaseViewController {
         
         fioLabel.text = user.studentInfo?.fio
         universityLabel.text = user.studentInfo?.nameUniversity
+        bottomConstraintBarcode.constant = 60
         
+        self.barcodeViewGenerate.isHidden = true
         if let status = user.status {
-            self.barcodeViewGenerate.isHidden = true
             switch status {
             case ProfileStatus.active.rawValue:
                 statusLabel.text = "Аккаунт подтвержден"
@@ -103,11 +131,26 @@ class BarcodeViewController: BaseViewController {
                 noAuthBarcodeLabel.isHidden = true
                 
                 if let codeStudent = user.studentCode {
-                    let rect = CGRect(x: 0, y: 0, width: 300, height: 100)
-                    let barcodeView = BarCodeView(frame: rect)
-                    barcodeView.barCode = codeStudent
-                    self.barcodeViewGenerate.addSubview(barcodeView)
-                    self.barcodeViewGenerate.isHidden = false
+                    if UIDevice.modelName == "iPhone 5s" ||
+                        UIDevice.modelName ==  "iPhone SE" ||
+                        UIDevice.modelName ==  "Simulator iPhone SE" {
+                        widthBarcode.constant = 250
+                        bottomConstraintBarcode.constant = 12
+                        let font = UIFont(name: "Montserrat-Bold", size: 14)!
+                        self.fioLabel.font = font
+                        
+                        let rect = CGRect(x: 0, y: 0, width: 250, height: 100)
+                        let barcodeView = BarCodeView(frame: rect)
+                        barcodeView.barCode = codeStudent
+                        self.barcodeViewGenerate.addSubview(barcodeView)
+                        self.barcodeViewGenerate.isHidden = false
+                    } else {
+                        let rect = CGRect(x: 0, y: 0, width: 300, height: 100)
+                        let barcodeView = BarCodeView(frame: rect)
+                        barcodeView.barCode = codeStudent
+                        self.barcodeViewGenerate.addSubview(barcodeView)
+                        self.barcodeViewGenerate.isHidden = false
+                    }
                 }
             case ProfileStatus.blocked.rawValue:
                 statusLabel.text = "Аккаунт заблокирован"
@@ -129,6 +172,11 @@ class BarcodeViewController: BaseViewController {
             }
         }
         
+        if UIDevice.modelName == "iPhone 5s" ||
+            UIDevice.modelName ==  "iPhone SE" {
+            
+        }
+        
         UIView.transition(with: barcodeView,
                           duration: 0.3,
                           options: .transitionCrossDissolve, animations: { [weak self] in
@@ -138,9 +186,11 @@ class BarcodeViewController: BaseViewController {
     
     @objc func setTime(){
         let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .none
+        dateFormatter.timeStyle = .medium
+        let locale = Locale.init(identifier: "ru")
+        dateFormatter.locale = locale
         let date = Date()
- 
-        dateFormatter.dateFormat = "hh:mm"
         let time = dateFormatter.string(from: date)
         timeLabel.text = time
     }

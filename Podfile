@@ -15,14 +15,14 @@ target 'SKS' do
   pod 'Kingfisher', '~> 5.0'
   pod 'EAN13BarcodeGenerator'
   
+  # Firebase
+  pod 'Firebase/Core'
+  pod 'Firebase/Messaging'
+  
+  pod 'Fabric', '~> 1.10.2'
+  pod 'Crashlytics', '~> 3.14.0'
+  # for Google Analytics
   pod 'Firebase/Analytics'
-#  pod 'Firebase/Core'
-#  pod 'Firebase/Auth'
-#  pod 'Firebase/AdMob'
-#  pod 'Firebase/Database'
-#  pod 'Firebase/Messaging'
-#  pod 'Firebase/Storage'
-#  pod 'Firebase/Firestore'
 
   target 'SKSTests' do
     inherit! :search_paths

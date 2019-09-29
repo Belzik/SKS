@@ -39,6 +39,7 @@ class SKSPicker: NSObject {
                                          style: .done,
                                          target: self,
                                          action: #selector(donePicker))
+        doneButton.tintColor = ColorManager.green.value
         let spaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace,
                                           target: nil,
                                           action: nil)

@@ -9,7 +9,7 @@
 import UIKit
 
 protocol PeriodPickerDelegate: class {
-    func donePicker(dateStart: String, dateEnd: String)
+    func donePicker(dateStart: String)
     func cancelPicker()
 }
 
@@ -31,7 +31,6 @@ class PeriodPicker: NSObject {
         let year = calendar.component(.year, from: date)
         
         self.dateEnd.append("до")
-        self.dateStart.append("c")
         for item in (year...year+10).reversed() {
             dateEnd.append(String(describing: item))
         }
@@ -56,6 +55,7 @@ class PeriodPicker: NSObject {
                                          style: .done,
                                          target: self,
                                          action: #selector(donePicker))
+        doneButton.tintColor = ColorManager.green.value
         let spaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace,
                                           target: nil,
                                           action: nil)
@@ -68,45 +68,51 @@ class PeriodPicker: NSObject {
     }
     
     @objc private func donePicker() {
-        var dateSt = dateStart[picker.selectedRow(inComponent: 0)]
-        var dateE = dateEnd[picker.selectedRow(inComponent: 1)]
+        let dateSt = dateStart[picker.selectedRow(inComponent: 0)]
+        //var dateE = dateEnd[picker.selectedRow(inComponent: 1)]
         
-        if dateSt == "c" {
-            dateSt = dateStart[1]
-        }
+//        if dateSt == "c" {
+//            dateSt = dateStart[1]
+//        }
+//
+//        if dateE == "до" {
+//            if let last = dateEnd.last {
+//                dateE = last
+//            }
+//        }
         
-        if dateE == "до" {
-            if let last = dateEnd.last {
-                dateE = last
-            }
-        }
-        
-        delegate?.donePicker(dateStart: dateSt, dateEnd: dateE)
+        delegate?.donePicker(dateStart: dateSt)
     }
     
     @objc private func cancelPicker() {
         delegate?.cancelPicker()
     }
+    
+    func setupPicker(levelValue: Int) {
+        let date = Date()
+        let calendar = Calendar.current
+        let year = calendar.component(.year, from: date)
+        
+        dateStart = []
+        
+        for value in (year - levelValue + 1)...year {
+            dateStart.append(String(describing: value))
+        }
+        picker.reloadComponent(0)
+    }
 }
 
 extension PeriodPicker: UIPickerViewDelegate, UIPickerViewDataSource {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 2
+        return 1
     }
     
+    
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        if component == 0 {
-            return dateStart.count
-        } else {
-            return dateEnd.count
-        }
+        return dateStart.count
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        if component == 0 {
-            return dateStart[row]
-        } else {
-            return dateEnd[row]
-        }
+        return dateStart[row]
     }
 }

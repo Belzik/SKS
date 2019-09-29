@@ -53,7 +53,37 @@ class Partner: Codable {
     }
 }
 
-
+extension Partner: SearchTableViewCellType {
+    var icon: String {
+        get {
+            return illustrate ?? ""
+        }
+    }
+    
+    var title: String {
+        get {
+            return name ?? ""
+        }
+    }
+    
+    var description: String {
+        get {
+            return partnerDescription ?? ""
+        }
+    }
+    
+    var uuid: String {
+        get {
+            return uuidPartner ?? ""
+        }
+    }
+    
+    var type: TypeOfSearchCell {
+        get {
+            return TypeOfSearchCell.partner
+        }
+    }
+}
 
 
 

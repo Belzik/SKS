@@ -27,10 +27,10 @@ class StockCollectionViewCell: UICollectionViewCell {
         //mainView.backgroundColor = ColorManager.blue.value
         
         mainView.setupShadow(12,
-                             shadowRadius: 10,
-                             color: UIColor.black.withAlphaComponent(0.5),
+                             shadowRadius: 9,
+                             color: UIColor.black.withAlphaComponent(0.45),
                              offset: CGSize(width: 0, height: 0),
-                             opacity: 0.3)
+                             opacity: 0.25)
         
         if let model = model {
             titleLabel.text = model.name
