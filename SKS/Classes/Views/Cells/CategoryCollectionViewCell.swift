@@ -45,20 +45,30 @@ class CategoryCollectionViewCell: UICollectionViewCell {
                 }
             }
             titleLabel.text = model.name
-            mainView.setupShadow(12,
-                                 shadowRadius: 12,
-                                 color: UIColor.black.withAlphaComponent(0.5),
-                                 offset: CGSize(width: 0, height: 0),
-                                 opacity: 0.5)
-            mainView.layer.cornerRadius = 12
-            colorView.layer.cornerRadius = 12
+
             
             if model.isSelected {
                 titleLabel.textColor = .white
                 colorView.backgroundColor = UIColor(hexString: "\(model.hexcolor!)")
+                
+                mainView.setupShadow(16,
+                                     shadowRadius: 12,
+                                     color: UIColor.init(hexString: model.hexcolor!),
+                                     offset: CGSize(width: 0, height: 0),
+                                     opacity: 0.7)
+                mainView.layer.cornerRadius = 12
+                colorView.layer.cornerRadius = 12
             } else {
                 colorView.backgroundColor = .white
                 titleLabel.textColor = ColorManager.lightBlack.value
+                
+                mainView.setupShadow(12,
+                                     shadowRadius: 12,
+                                     color: UIColor.black.withAlphaComponent(0.5),
+                                     offset: CGSize(width: 0, height: 0),
+                                     opacity: 0.5)
+                mainView.layer.cornerRadius = 12
+                colorView.layer.cornerRadius = 12
             }
         }
     }

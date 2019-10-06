@@ -562,18 +562,18 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         if let cell = collectionView.cellForItem(at: indexPath) as? CategoryCollectionViewCell {
             let model = categories[indexPath.row]
             
-            UIView.animate(withDuration: 0.2) {
+            UIView.animate(withDuration: 1) {
                 if model.isSelected {
                     cell.titleLabel.textColor = .white
                     cell.colorView.backgroundColor = UIColor(hexString: "\(model.hexcolor!)")
-                    
+
                     let newImage = cell.iconImageView.image?.withRenderingMode(.alwaysTemplate)
                     cell.iconImageView.tintColor = .white
                     cell.iconImageView.image = newImage
                 } else {
                     cell.colorView.backgroundColor = .white
                     cell.titleLabel.textColor = ColorManager.lightBlack.value
-                    
+
                     let newImage = cell.iconImageView.image?.withRenderingMode(.alwaysTemplate)
                     cell.iconImageView.image = newImage
                     cell.iconImageView.tintColor = ColorManager.lightBlack.value

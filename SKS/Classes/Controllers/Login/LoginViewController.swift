@@ -153,13 +153,15 @@ extension LoginViewController: UITextFieldDelegate {
         guard let finalText = formattedString as NSString? else { return false }
         
         if finalText == currentText && range.location < currentText.length && range.location > 0 {
+
+            
             return self.textField(textField, shouldChangeCharactersIn: NSRange(location: range.location - 1, length: range.length + 1) , replacementString: string)
         }
         
         
         if finalText != currentText {
             textField.text = finalText as String
-            
+
             // the user is trying to delete something so we need to
             // move the cursor accordingly
             if range.location < currentText.length {
@@ -183,81 +185,6 @@ extension LoginViewController: UITextFieldDelegate {
         }
         
         setupError(forTextField: textField as! SKSTextField, isDeleted: isDeleted)
-        return true
-//        if textField == phoneTextField &&
-//            !isDeleted {
-//
-//            textField.text = finalText as String
-//            setupError(forTextField: textField as! SKSTextField, isDeleted: isDeleted)
-//
-//            return false
-//        }
-//
-//        textField.text = finalText as String
-//        setupError(forTextField: textField as! SKSTextField, isDeleted: isDeleted)
-//
-//        // the user is trying to delete something so we need to
-//        // move the cursor accordingly
-//        print(range.location)
-//        print(currentText.length)
-//        if range.location < currentText.length {
-//            var cursorLocation = 0
-//
-//            if range.location > finalText.length {
-//                cursorLocation = finalText.length
-//            } else if currentText.length > finalText.length {
-//                cursorLocation = range.location
-//            } else {
-//                cursorLocation = range.location + 1
-//            }
-//
-//            guard let startPosition = textField.position(from: textField.beginningOfDocument, offset: cursorLocation) else { return false }
-//            guard let endPosition = textField.position(from: startPosition, offset: 0) else { return false }
-//            textField.selectedTextRange = textField.textRange(from: startPosition, to: endPosition)
-//        }
-//        return false
+        return false
     }
 }
-
-//let previousMask = self.stringMask
-//let currentText: NSString = textField.text as NSString? ?? ""
-//
-//guard let mask = self.stringMask else { return true }
-//
-//let newText = currentText.replacingCharacters(in: range, with: string)
-//var formattedString = mask.mask(string: newText)
-//
-//guard let finalText = formattedString as NSString? else { return false }
-//
-//// if the cursor is not at the end and the string hasn't changed
-//// it means the user tried to delete a mask character, so we'll
-//// change the range to include the character right before it
-//if finalText == currentText && range.location < currentText.length && range.location > 0 {
-//    return self.textField(textField, shouldChangeCharactersIn: NSRange(location: range.location - 1, length: range.length + 1) , replacementString: string)
-//}
-//
-//if finalText != currentText {
-//    textField.text = finalText as String
-//    
-//    // the user is trying to delete something so we need to
-//    // move the cursor accordingly
-//    if range.location < currentText.length {
-//        var cursorLocation = 0
-//        
-//        if range.location > finalText.length {
-//            cursorLocation = finalText.length
-//        } else if currentText.length > finalText.length {
-//            cursorLocation = range.location
-//        } else {
-//            cursorLocation = range.location + 1
-//        }
-//        
-//        guard let startPosition = textField.position(from: textField.beginningOfDocument, offset: cursorLocation) else { return false }
-//        guard let endPosition = textField.position(from: startPosition, offset: 0) else { return false }
-//        textField.selectedTextRange = textField.textRange(from: startPosition, to: endPosition)
-//    }
-//    
-//    return false
-//}
-//
-//return true

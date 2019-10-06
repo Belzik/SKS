@@ -14,12 +14,17 @@ extension UIView {
         self.clipsToBounds = true
     }
     
-    func setupShadow(_ radius: CGFloat, shadowRadius: CGFloat = 5, color: UIColor = UIColor.lightGray.withAlphaComponent(0.5), offset: CGSize = CGSize(width: 3, height: 3),  opacity: Float = 1) {
+    func setupShadow(_ radius: CGFloat, shadowRadius: CGFloat = 5, color: UIColor = UIColor.lightGray.withAlphaComponent(0.5), offset: CGSize = CGSize(width: 3, height: 3),  opacity: Float = 1, scale: Bool = true) {
+        
         self.layer.cornerRadius = radius
         self.layer.shadowColor = color.cgColor
         self.layer.shadowOffset = offset
         self.layer.shadowRadius = shadowRadius
         self.layer.shadowOpacity = opacity
         self.layer.masksToBounds = false
+        
+//        layer.shadowPath = UIBezierPath(rect: self.bounds).cgPath
+//        layer.shouldRasterize = true
+//        layer.rasterizationScale = scale ? UIScreen.main.scale : 1
     }
 }
