@@ -10,6 +10,7 @@ import UIKit
 
 class HomeViewController: BaseViewController {
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var categoryCollectionView: UICollectionView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     @IBOutlet weak var cityView: UIView!
@@ -21,7 +22,7 @@ class HomeViewController: BaseViewController {
     
     var selectedIndex: Int = -1
     var sections: [String] = [""]
-    let sectionsBuffer: [String] = ["", "Акции", "Партнеры"]
+    let sectionsBuffer: [String] = ["Акции", "Партнеры"]
     
     var categories: [Category] = []
     var stocks: [Stock] = []
@@ -48,6 +49,8 @@ class HomeViewController: BaseViewController {
     var limitStocks = 15
     var isPaginationStocks = false
     var isPaginationStocksLoad = false
+    
+    var isFirstLoad = true
     
     private lazy var searchViewController: SearchViewController = {
         let storyboard = UIStoryboard(name: "Home", bundle: Bundle.main)
@@ -76,6 +79,7 @@ class HomeViewController: BaseViewController {
         backButton.tintColor = UIColor(hexString: "#333333")
         navigationItem.backBarButtonItem = backButton
         
+        setupCategoryCollection()
         getCities()
         //loadData()
         setupTableView()
@@ -106,6 +110,21 @@ class HomeViewController: BaseViewController {
             dvc.uuidPartner = uuidStock
             dvc.city = currentCity
         }
+    }
+    
+    private func setupCategoryCollection() {
+        categoryCollectionView.contentInset = UIEdgeInsets(top: 0, left: 12, bottom: 0, right: 12)
+        categoryCollectionView.collectionViewLayout.invalidateLayout()
+        categoryCollectionView.setNeedsLayout()
+        categoryCollectionView.layoutIfNeeded()
+        
+        categoryCollectionView.register(UINib(nibName: "\(CategoryCollectionViewCell.self)",
+                                              bundle: nil),
+                                        forCellWithReuseIdentifier: "\(CategoryCollectionViewCell.self)")
+        
+//        categoryCollectionView.delegate = self
+//        categoryCollectionView.dataSource = self
+//        categoryCollectionView.reloadData()
     }
     
     private func setupCityView() {
@@ -141,6 +160,14 @@ class HomeViewController: BaseViewController {
                     if city.nameCity == "Петрозаводск" {
                         self?.currentCity = city
                         self?.cityLabel.text = city.nameCity
+                        
+                        for (index, value) in cities.enumerated() {
+                            if value.nameCity == "Петрозаводск" {
+                                self?.picker.picker.selectRow(index,
+                                                             inComponent: 0,
+                                                             animated: false)
+                             }
+                        }
                     }
                 }
                 
@@ -158,7 +185,7 @@ class HomeViewController: BaseViewController {
     }
     
     private func loadData() {
-        sections = [""]
+        sections = []
         
         if categories.count == 0 { getCategories() }
         if categories.count != 0 {
@@ -166,11 +193,19 @@ class HomeViewController: BaseViewController {
             stocks = []
             tableView.reloadData()
         }
+        
         getPartners()
         getStocks()
         
         activityIndicator.startAnimating()
         dispatchGroup.notify(queue: .main) { [unowned self] in
+
+            if self.isFirstLoad {
+                self.categoryCollectionView.reloadData()
+
+            }
+            self.isFirstLoad = false
+            
             self.activityIndicator.stopAnimating()
             self.tableView.reloadData()
             
@@ -356,27 +391,29 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 { return 1 }
-        if section == 1 {
+        //if section == 0 { return 1 }
+        if section == 0 {
             if stocks.count == 0 {
                 return partners.count
             } else {
                 return 1
             }
         }
+        
         return partners.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.section == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "\(CategoryTableViewCell.self)",
-                                                     for: indexPath) as! CategoryTableViewCell
-
-            cell.setCollectionViewDataSourceDelegate(self)
-            cell.collectionView.tag = 1
-
-            return cell
-        } else if indexPath.section == 1 && stocks.count != 0 {
+//        if indexPath.section == 0 {
+//            let cell = tableView.dequeueReusableCell(withIdentifier: "\(CategoryTableViewCell.self)",
+//                                                     for: indexPath) as! CategoryTableViewCell
+//
+//            cell.setCollectionViewDataSourceDelegate(self)
+//            cell.collectionView.tag = 1
+//
+//            return cell
+//        } else
+        if indexPath.section == 0 && stocks.count != 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "\(StockTableViewCell.self)",
                 for: indexPath) as! StockTableViewCell
 
@@ -390,7 +427,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             
             cell.model = partners[indexPath.row]
 
-            if indexPath.row == partners.count / 2 { // last cell
+            if indexPath.row == partners.count - 3 { // last cell
                 if !isPaginationPartners &&
                     !isPaginationPartnersLoad { // more items to fetch
                     getPartnersPagination() // increment `fromIndex` by 20 before server call
@@ -403,8 +440,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        if indexPath.section == 2 ||
+        if indexPath.section == 1 ||
             stocks.count == 0 {
             if let uuidPartner = partners[indexPath.row].uuidPartner {
                 performSegue(withIdentifier: "seguePartner", sender: uuidPartner)
@@ -414,25 +450,15 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if section != 0 {
-            let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: "\(TitleTableViewHeader.self)") as! TitleTableViewHeader
-            header.nameLabel.text = sections[section]
-            header.contentView.backgroundColor = .white
-            
-            
-            return header
-        }
-
-        return nil
+        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: "\(TitleTableViewHeader.self)") as! TitleTableViewHeader
+        header.nameLabel.text = sections[section]
+        header.contentView.backgroundColor = .white
+        
+        return header
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
-        if section == 0 {
-            return 0
-        } else {
-            return 40
-        }
-        
+        return 40
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -442,30 +468,29 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource , UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if collectionView.tag == 1 {
+        if collectionView == categoryCollectionView {
             return categories.count
         } else {
             return stocks.count
         }
-        
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if collectionView.tag == 1 {
+        if collectionView == categoryCollectionView {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(CategoryCollectionViewCell.self)",
                 for: indexPath) as! CategoryCollectionViewCell
 
-            if indexPath.row == 0 {
-                cell.leftConstraintMainView.constant = 16
-            } else {
-                cell.leftConstraintMainView.constant = 4
-            }
-
-            if indexPath.row == categories.count - 1 {
-                cell.rightConstraintMainView.constant = 16
-            } else {
-                cell.rightConstraintMainView.constant = 4
-            }
+//            if indexPath.row == 0 {
+//                cell.leftConstraintMainView.constant = 16
+//            } else {
+//                cell.leftConstraintMainView.constant = 4
+//            }
+//
+//            if indexPath.row == categories.count - 1 {
+//                cell.rightConstraintMainView.constant = 16
+//            } else {
+//                cell.rightConstraintMainView.constant = 4
+//            }
 
             cell.model = categories[indexPath.row]
 
@@ -505,21 +530,24 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
         if collectionView.tag == 2 {
             return CGSize(width: view.bounds.width - 12, height: 160)
         }
         
-        if indexPath.row == 0 ||
-            indexPath.row == categories.count - 1 {
-            return CGSize(width: 120, height: 124)
-        } else {
+//        if indexPath.row == 0 ||
+//            indexPath.row == categories.count - 1 {
+//            return CGSize(width: 120, height: 124)
+//        }
+        //else {
             return CGSize(width: 108, height: 124)
-        }
+        //}
 
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if collectionView.tag == 1 {
+        //if collectionView.tag == 1 ||
+           if collectionView == categoryCollectionView {
             if isLoading { return }
             clearPaginations()
             isLoading = true
@@ -530,12 +558,15 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 if let uuid = categories[indexPath.row].uuidCategory { currentUiidCategory = uuid }
                 
                 changeBackgroundColorCell(collectionView, indexPath: indexPath)
+                //collectionView.reloadItems(at: [indexPath])
+                
                 loadData()
             } else if selectedIndex == indexPath.row {
                 categories[indexPath.row].isSelected = false
                 currentUiidCategory = nil
                 selectedIndex = -1
                 
+                //collectionView.reloadItems(at: [indexPath])
                 changeBackgroundColorCell(collectionView, indexPath: indexPath)
                 loadData()
             } else {
@@ -543,6 +574,9 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 categories[indexPath.row].isSelected = true
                 if let uuid = categories[indexPath.row].uuidCategory { currentUiidCategory = uuid }
                 
+                //collectionView.reloadItems(at: [indexPath,
+                 //                               IndexPath(row: selectedIndex, section: 0)]
+                //                           )
                 changeBackgroundColorCell(collectionView, indexPath: IndexPath(row: selectedIndex, section: 0))
                 changeBackgroundColorCell(collectionView, indexPath: indexPath)
                 
@@ -562,10 +596,19 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         if let cell = collectionView.cellForItem(at: indexPath) as? CategoryCollectionViewCell {
             let model = categories[indexPath.row]
             
-            UIView.animate(withDuration: 1) {
-                if model.isSelected {
+            
+            UIView.animate(withDuration: 0.2) {
+                if model.isSelected,
+                    let hexColor = model.hexcolor {
                     cell.titleLabel.textColor = .white
-                    cell.colorView.backgroundColor = UIColor(hexString: "\(model.hexcolor!)")
+                    cell.colorView.backgroundColor = UIColor(hexString: "\(hexColor)")
+                    
+                    cell.mainView.setupShadow(12,
+                                              shadowRadius: 7,
+                                              color: UIColor.init(hexString: hexColor),
+                                              offset: CGSize(width: 0, height: 0),
+                                              opacity: 0.7)
+                    //cell.mainView.layer.shadowColor = UIColor(hexString: "\(hexColor)").cgColor
 
                     let newImage = cell.iconImageView.image?.withRenderingMode(.alwaysTemplate)
                     cell.iconImageView.tintColor = .white
@@ -573,6 +616,12 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 } else {
                     cell.colorView.backgroundColor = .white
                     cell.titleLabel.textColor = ColorManager.lightBlack.value
+                    cell.mainView.setupShadow(12,
+                                         shadowRadius: 7,
+                                         color: UIColor.black.withAlphaComponent(0.5),
+                                         offset: CGSize(width: 0, height: 0),
+                                         opacity: 0.5)
+                    //cell.mainView.layer.shadowColor = UIColor.black.withAlphaComponent(0.5).cgColor
 
                     let newImage = cell.iconImageView.image?.withRenderingMode(.alwaysTemplate)
                     cell.iconImageView.image = newImage

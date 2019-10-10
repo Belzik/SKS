@@ -44,15 +44,15 @@ class CategoryCollectionViewCell: UICollectionViewCell {
                     }
                 }
             }
+            
             titleLabel.text = model.name
-
             
             if model.isSelected {
                 titleLabel.textColor = .white
                 colorView.backgroundColor = UIColor(hexString: "\(model.hexcolor!)")
                 
-                mainView.setupShadow(16,
-                                     shadowRadius: 12,
+                mainView.setupShadow(12,
+                                     shadowRadius: 7,
                                      color: UIColor.init(hexString: model.hexcolor!),
                                      offset: CGSize(width: 0, height: 0),
                                      opacity: 0.7)
@@ -63,7 +63,7 @@ class CategoryCollectionViewCell: UICollectionViewCell {
                 titleLabel.textColor = ColorManager.lightBlack.value
                 
                 mainView.setupShadow(12,
-                                     shadowRadius: 12,
+                                     shadowRadius: 7,
                                      color: UIColor.black.withAlphaComponent(0.5),
                                      offset: CGSize(width: 0, height: 0),
                                      opacity: 0.5)
