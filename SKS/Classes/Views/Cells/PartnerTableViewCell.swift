@@ -8,10 +8,12 @@
 
 import UIKit
 import Kingfisher
+import Cosmos
 
 class PartnerTableViewCell: UITableViewCell {
     @IBOutlet weak var mainImage: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var ratingView: CosmosView!
     @IBOutlet weak var descriptionLabel: UILabel!
     
     @IBOutlet weak var firstDiscountView: UIView!
@@ -34,7 +36,14 @@ class PartnerTableViewCell: UITableViewCell {
 
     private func layoutCell() {
         if let model = model {
-            if let link = model.illustrate {
+            setupRatingView()
+            
+            if let logo = model.logo,
+                logo != "" {
+                //let url = URL(string: NetworkManager.shared.baseURI + logo),
+                let url = URL(string: logo)
+                mainImage.kf.setImage(with: url)
+            } else if let link = model.illustrate {
                 let url = URL(string: NetworkManager.shared.baseURI + link)
                 mainImage.kf.setImage(with: url)
             }
@@ -48,9 +57,9 @@ class PartnerTableViewCell: UITableViewCell {
                 stockImage.isHidden = true
             }
             
-            firstDiscountView.layer.cornerRadius = 5
-            secondDiscountView.layer.cornerRadius = 5
-            thirdDiscountView.layer.cornerRadius = 5
+            firstDiscountView.layer.cornerRadius = 12
+            secondDiscountView.layer.cornerRadius = 12
+            thirdDiscountView.layer.cornerRadius = 12
             
             var sizeFirst: Int?
             var sizeSecond: Int?
@@ -85,8 +94,19 @@ class PartnerTableViewCell: UITableViewCell {
             } else {
                 thirdDiscountView.isHidden = true
             }
+            
+            if let rating = model.rating,
+                let doubleRating = Double(rating) {
+                ratingView.rating = doubleRating
+            }
+            
+            ratingView.settings.updateOnTouch = false
         }
 
+    }
+    
+    func setupRatingView() {
+        
     }
 
 }

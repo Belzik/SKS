@@ -13,6 +13,10 @@ struct PageSource {
     var image: UIImage?
 }
 
+protocol OnboardingViewControllerDelegate: class {
+    func showLogin()
+}
+
 class OnboardingViewController:  BaseViewController {
     @IBOutlet weak var contentView: UIView!
     
@@ -25,8 +29,13 @@ class OnboardingViewController:  BaseViewController {
                    image: UIImage(named: "map"))
     ]
     
+    weak var delegate: OnboardingViewControllerDelegate?
+    
     var currentViewControllerIndex = 0
     
+    @IBAction func enterButtonTapped(_ sender: UIButton) {
+        delegate?.showLogin()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

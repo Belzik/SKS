@@ -32,6 +32,11 @@ class StockViewController: BaseViewController {
         setupTableView()
         getStock()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+        super.viewWillAppear(animated)
+    }
 
     private func getStock() {
         guard let uuidCity = city?.uuidCity else { return }

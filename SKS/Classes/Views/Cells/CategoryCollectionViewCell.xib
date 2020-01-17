@@ -36,8 +36,11 @@
                                     <constraint firstAttribute="height" constant="40" id="hJU-Vv-DZb"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gsa-yk-Pj4">
-                                <rect key="frame" x="29" y="72" width="34" height="15"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gsa-yk-Pj4">
+                                <rect key="frame" x="-4" y="72" width="100" height="15"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="onS-Vp-ZUu"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="12"/>
                                 <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -47,12 +50,10 @@
                         <constraints>
                             <constraint firstItem="gsa-yk-Pj4" firstAttribute="top" secondItem="Tl4-tZ-Go3" secondAttribute="bottom" constant="8" id="3hK-Uu-Evn"/>
                             <constraint firstAttribute="trailing" secondItem="MLO-Qd-RUY" secondAttribute="trailing" id="91D-4X-bDr"/>
-                            <constraint firstItem="gsa-yk-Pj4" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="vuy-Td-aeL" secondAttribute="leading" constant="4" id="98q-J3-Mcz"/>
                             <constraint firstAttribute="bottom" secondItem="MLO-Qd-RUY" secondAttribute="bottom" id="Auq-UY-QMT"/>
                             <constraint firstItem="Tl4-tZ-Go3" firstAttribute="top" secondItem="vuy-Td-aeL" secondAttribute="top" constant="24" id="DXw-L5-Jwd"/>
                             <constraint firstItem="gsa-yk-Pj4" firstAttribute="centerX" secondItem="Tl4-tZ-Go3" secondAttribute="centerX" id="KaZ-qA-gcT"/>
                             <constraint firstItem="MLO-Qd-RUY" firstAttribute="leading" secondItem="vuy-Td-aeL" secondAttribute="leading" id="Uwn-68-EFs"/>
-                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="gsa-yk-Pj4" secondAttribute="trailing" constant="4" id="WSb-Bp-FRQ"/>
                             <constraint firstItem="MLO-Qd-RUY" firstAttribute="top" secondItem="vuy-Td-aeL" secondAttribute="top" id="YOl-GN-oOD"/>
                             <constraint firstItem="Tl4-tZ-Go3" firstAttribute="centerX" secondItem="vuy-Td-aeL" secondAttribute="centerX" id="baH-Oe-LsA"/>
                         </constraints>

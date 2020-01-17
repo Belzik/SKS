@@ -46,16 +46,16 @@ class CategoryCollectionViewCell: UICollectionViewCell {
             }
             
             titleLabel.text = model.name
-            
+        
             if model.isSelected {
                 titleLabel.textColor = .white
                 colorView.backgroundColor = UIColor(hexString: "\(model.hexcolor!)")
                 
                 mainView.setupShadow(12,
-                                     shadowRadius: 7,
+                                     shadowRadius: 2,
                                      color: UIColor.init(hexString: model.hexcolor!),
                                      offset: CGSize(width: 0, height: 0),
-                                     opacity: 0.7)
+                                     opacity: 0.5)
                 mainView.layer.cornerRadius = 12
                 colorView.layer.cornerRadius = 12
             } else {

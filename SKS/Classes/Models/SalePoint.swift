@@ -8,6 +8,10 @@
 
 import Foundation
 
+class SalePointsResponse: Codable {
+    let points: [SalePoint]?
+}
+
 class SalePoint: Codable {
     let idSalePoint: Int?
     let createdAt: String?
@@ -15,4 +19,8 @@ class SalePoint: Codable {
     let idPartnerCity: Int?
     let address: String?
     let workTime: String?
+    let uuidSalePoint: String?
+    let latitude: String?
+    let longitude: String?
+    let distance: Int?
 }

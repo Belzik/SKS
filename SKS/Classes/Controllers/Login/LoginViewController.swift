@@ -8,9 +8,6 @@
 
 import UIKit
 
-        //UIApplication.statusBarBackgroundColor = UIColor(hexString: "#383C45")
-//application.statusBarStyle = .lightContent
-
 class LoginViewController: BaseViewController {
     @IBOutlet weak var phoneTextField: SKSTextField!
     @IBOutlet weak var nextButton: SKSButton!
@@ -20,7 +17,7 @@ class LoginViewController: BaseViewController {
     @IBOutlet weak var titleLabelBottomConstraint: NSLayoutConstraint!
     
     private var keyboardHeight: CGFloat = 0
-    private var smsAttempt: String = ""
+    private var smsResponse: SmsResponse?
     
     @IBAction override func backButtonTapped(_ sender: UIButton) {
         view.endEditing(true)
@@ -68,7 +65,14 @@ class LoginViewController: BaseViewController {
             let dvc = segue.destination as! CodeViewController
             dvc.keyboardHeight = keyboardHeight
             dvc.phone = phoneTextField.text!.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
-            dvc.smsAttempt = smsAttempt
+                
+            dvc.smsResponse = self.smsResponse
+        }
+        
+        if segue.identifier == "seguePassword" {
+            let dvc = segue.destination as! PasswordViewController
+            dvc.smsResponse = self.smsResponse
+            dvc.phone = phoneTextField.text!.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
         }
     }
     
@@ -96,9 +100,16 @@ class LoginViewController: BaseViewController {
         NetworkManager.shared.getCodeWithSms(phone: phoneTextField.text!.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()) { [weak self] response in
             if response.result.error != nil {
                 self?.showAlert(message: NetworkErrors.common)
-            } else if let attempt = response.result.value?.attempt {
-                self?.smsAttempt = attempt
-                self?.performSegue(withIdentifier: "segueCode", sender: nil)
+            } else if let smsResponse = response.result.value {
+                self?.smsResponse = smsResponse
+                
+                if let loginKey = smsResponse.loginKey,
+                    loginKey == "" {
+                    self?.performSegue(withIdentifier: "segueCode", sender: nil)
+                } else {
+                    self?.performSegue(withIdentifier: "seguePassword", sender: nil)
+                }
+                
             }
         }
     }
@@ -139,11 +150,8 @@ extension LoginViewController: UITextFieldDelegate {
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-//        let currentText: NSString = textField.text as NSString? ?? ""
-//
         let newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
         let isDeleted = newString.count < textField.text!.count
-//        guard let finalText = newString.with(mask: "+* (***) ***-**-**", replacementChar: "*", isDecimalDigits: true)  as NSString? else { return false }
         
         let currentText: NSString = textField.text as NSString? ?? ""
         

@@ -47,12 +47,12 @@ open class ImagePicker: NSObject {
         if let action = self.action(for: .camera, title: "Камера") {
             alertController.addAction(action)
         }
-//        if let action = self.action(for: .savedPhotosAlbum, title: "Сохраненные фотографии") {
-//            alertController.addAction(action)
-//        }
-//        if let action = self.action(for: .photoLibrary, title: "Фото библиотека") {
-//            alertController.addAction(action)
-//        }
+        if let action = self.action(for: .savedPhotosAlbum, title: "Сохраненные фотографии") {
+            alertController.addAction(action)
+        }
+        if let action = self.action(for: .photoLibrary, title: "Фото библиотека") {
+            alertController.addAction(action)
+        }
         
         alertController.addAction(UIAlertAction(title: "Отмена", style: .cancel, handler: nil))
         
@@ -62,6 +62,7 @@ open class ImagePicker: NSObject {
             alertController.popoverPresentationController?.permittedArrowDirections = [.down, .up]
         }
         
+        self.presentationController?.modalPresentationStyle = .fullScreen
         self.presentationController?.present(alertController, animated: true)
     }
     

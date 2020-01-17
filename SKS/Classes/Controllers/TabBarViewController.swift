@@ -22,9 +22,9 @@ class TabBarViewController: UITabBarController {
                                                          for: .selected)
         
         if UserData.loadSaved() != nil {
-            selectedIndex = 0
+            selectedIndex = 1
         } else {
-            selectedIndex = 2
+            selectedIndex = 4
         }
     }
 }

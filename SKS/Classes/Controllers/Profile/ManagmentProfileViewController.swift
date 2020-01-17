@@ -13,6 +13,7 @@ class ManagmentProfileViewController: BaseViewController {
     private lazy var onboardingViewController: OnboardingViewController = {
         let storyboard = UIStoryboard(name: "Profile", bundle: Bundle.main)
         var viewController = storyboard.instantiateViewController(withIdentifier: "\(OnboardingViewController.self)") as! OnboardingViewController
+        viewController.delegate = self
         
         return viewController
     }()
@@ -85,6 +86,7 @@ extension ManagmentProfileViewController: ProfileDelegate {
     func exit() {
         //reload()
         if let vc = UIStoryboard(name: "Home", bundle: nil).instantiateInitialViewController() {
+            vc.modalPresentationStyle = .fullScreen
             self.present(vc, animated: true, completion: nil)
         }
     }
@@ -92,5 +94,14 @@ extension ManagmentProfileViewController: ProfileDelegate {
     func editProfile(userData: UserData) {
         self.userData = userData
         performSegue(withIdentifier: "segueEditProfile", sender: nil)
+    }
+}
+
+extension ManagmentProfileViewController: OnboardingViewControllerDelegate {
+    func showLogin() {
+        if let vc = UIStoryboard(name: "Login", bundle: nil).instantiateInitialViewController() {
+            vc.modalPresentationStyle = .fullScreen
+            self.present(vc, animated: true, completion: nil)
+        }
     }
 }

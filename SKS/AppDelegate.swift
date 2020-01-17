@@ -6,12 +6,15 @@
 //  Copyright © 2019 Katrych. All rights reserved.
 //
 
+//
 import UIKit
 import CoreData
 import IQKeyboardManagerSwift
 import Firebase
 import UserNotifications
 import Messages
+import YandexMapKit
+import CoreLocation
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUserNotificationCenterDelegate {
@@ -20,6 +23,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
     let gcmMessageIDKey = "gcm.message_id"
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
+        YMKMapKit.setApiKey("a18da8b1-5ed2-4580-a55b-39f204ca2e19")
         IQKeyboardManager.shared.enable = true
         IQKeyboardManager.shared.enableAutoToolbar = false
         
@@ -28,6 +33,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
         Messaging.messaging().delegate = self
         
         registerForPushNotifications()
+        
+        LocationManager.shared.locationManager.requestAlwaysAuthorization()
         
         return true
     }

@@ -42,4 +42,49 @@ class DateManager {
 
         return dateFormatter.date(from: dateString)
     }
+    
+     func getDifferenceTime(from start: String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+
+        guard let startDate = dateFormatter.date(from: start) else {
+                return ""
+        }
+
+        let difference = Calendar.current.dateComponents([.minute], from: startDate, to: Date()).minute
+        
+        if let difference = difference {
+            if difference <= 1 {
+                return "Только что"
+            }
+            
+            if difference < 60 {
+                return "\(difference) минут назад"
+            }
+            
+            if difference < 1440 {
+                let house = difference / 60
+                return "\(house) часов назад"
+            }
+            
+            if difference > 1440 &&
+                difference < 2880 {
+                
+                return "Вчера"
+            }
+            
+            if difference > 2880 &&
+                difference < 4320 {
+                return "Позавчера"
+            }
+            
+            if difference > 4320 {
+                dateFormatter.dateFormat = "dd.MM.yyyy"
+                let dateString = dateFormatter.string(from: startDate)
+                return dateString
+            }
+        }
+        
+        return ""
+    }
 }

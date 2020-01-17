@@ -30,6 +30,9 @@ class Partner: Codable {
     let category: Category?
     let illustrate: String?
     let illustrateHeader: String?
+    let rating: String?
+    let logo: String?
+    let headerPictures: [String]?
     
     enum CodingKeys: String, CodingKey {
         case uuidPartner
@@ -50,6 +53,9 @@ class Partner: Codable {
         case category
         case illustrate
         case illustrateHeader
+        case rating
+        case logo
+        case headerPictures
     }
 }
 

@@ -543,7 +543,7 @@ extension EditProfileViewController: SKSPickerDelegate {
 }
 
 extension EditProfileViewController: PeriodPickerDelegate {
-    func donePicker(dateStart: String) {
+    func donePicker(dateStart: String, periodPicker: PeriodPicker) {
         startEducation = dateStart
         
         periodTextField.text = "\(dateStart)"
@@ -582,7 +582,7 @@ extension EditProfileViewController: ImagePickerDelegate {
     
     func uploadImage(image: UIImage) {
         NetworkManager.shared.uploadImage(image: image) { [weak self] response in
-            if let path = response.result.value?.path {
+            if let path = response.result.value?.urlFile {
                 self?.photoImageView.image = image
                 self?.photo = path
             } else {

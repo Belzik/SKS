@@ -23,7 +23,7 @@ class PersonalDataViewController: BaseViewController {
         return ImagePicker(presentationController: self, delegate: self)
     }()
     var isImageAdd: Bool = false
-    var imagePath = ""
+    var keyFile = ""
     
     let datePicker = UIDatePicker()
 
@@ -76,7 +76,7 @@ class PersonalDataViewController: BaseViewController {
             dvc.uniqueSess = uniqueSess
             dvc.refreshToken = refreshToken
             dvc.accessToken = accessToken
-            dvc.imagePath = imagePath
+            dvc.keyFile = keyFile
             dvc.surname = lastnameTextField.text!
             dvc.name = firstnameTextField.text!
             dvc.patronymic = secondTextField.text!
@@ -171,12 +171,12 @@ extension PersonalDataViewController: ImagePickerDelegate {
         loaderPhoto.startAnimating()
         NetworkManager.shared.uploadImage(image: image) { [weak self] response in
             self?.loaderPhoto.stopAnimating()
-            if let path = response.result.value?.path {
+            if let keyFile = response.result.value?.keyFile {
                 self?.photoImageView.image = image
                 self?.isImageAdd = true
                 self?.photoImageView.layer.borderWidth = 0
                 self?.imageErrorLabel.isHidden = true
-                self?.imagePath = path
+                self?.keyFile = keyFile
             } else {
                 self?.showAlert(message: NetworkErrors.common)
             }

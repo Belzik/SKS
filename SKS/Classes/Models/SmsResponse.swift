@@ -9,6 +9,8 @@
 import Foundation
 
 class SmsResponse: Codable {
-    var attempt: String
+    var attempt: String?
+    var status: String?
+    var loginKey: String?
 }
 

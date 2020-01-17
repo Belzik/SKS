@@ -9,12 +9,7 @@
 import Foundation
 
 class OtpResponse: Codable {
-    let tokens: Tokens?
-    let status: String?
-    let uniqueSess: String?
-}
-
-class Tokens: Codable {
-    let accessToken: String?
-    let refreshToken: String?
+    var status: String?
+    var statusReason: String?
+    var setPasswordKey: String?
 }

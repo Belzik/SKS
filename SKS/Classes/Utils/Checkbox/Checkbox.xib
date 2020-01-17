@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="Checkbox" customModule="Autonomy" customModuleProvider="target">
+            <connections>
+                <outlet property="button" destination="DSN-ky-eXT" id="kNl-SX-AvX"/>
+                <outlet property="contentView" destination="iN0-l3-epB" id="lIk-H6-jfx"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="84" height="61"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DSN-ky-eXT">
+                    <rect key="frame" x="0.0" y="0.0" width="84" height="27"/>
+                    <color key="backgroundColor" red="0.97254901959999995" green="0.98431372549999996" blue="0.98431372549999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <connections>
+                        <action selector="buttonTapped:" destination="-1" eventType="touchUpInside" id="oYz-Ef-7QP"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="0.97254901959999995" green="0.98431372549999996" blue="0.98431372549999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="DSN-ky-eXT" secondAttribute="trailing" id="Aoi-ZT-Ead"/>
+                <constraint firstItem="DSN-ky-eXT" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="fS5-tz-Tmf"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="DSN-ky-eXT" secondAttribute="bottom" id="pFd-ob-yw2"/>
+                <constraint firstItem="DSN-ky-eXT" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="yun-RQ-XWe"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <point key="canvasLocation" x="178.2608695652174" y="143.63839285714286"/>
+        </view>
+    </objects>
+</document>

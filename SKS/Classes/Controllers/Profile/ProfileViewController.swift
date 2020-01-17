@@ -16,6 +16,7 @@ protocol ProfileDelegate: class {
 enum ProfileStatus: String {
     case active = "active"
     case newuser = "newuser"
+    case clearuser = "clearuser"
     case blocked = "blocked"
     case moderation = "moderation"
     case rejected = "rejected"
@@ -75,7 +76,7 @@ class ProfileViewController: BaseViewController {
             self?.activityIndicator.stopAnimating()
             if let user = response.result.value {
                 self?.user = user
-                print("СЕССИЯ", user.uniqueSess)
+                
                 self?.layoutViews(withUser: user)
             } else {
                 self?.showAlert(message: NetworkErrors.common)
@@ -86,7 +87,12 @@ class ProfileViewController: BaseViewController {
     func layoutViews(withUser user: UserData) {
         if let photoPath = user.studentInfo?.photo,
             let url = URL(string: photoPath) {
-            profileImage.kf.setImage(with: url)
+            //profileImage.kf.setImage(with: url)
+            profileImage.kf.setImage(with: url) { [weak self] (image, _, _, _) in
+                if image == nil {
+                    self?.profileImage.image = UIImage(named: "ic_photo")
+                }
+            }
         }
         
         fioLabel.text = user.studentInfo?.fio

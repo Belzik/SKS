@@ -26,6 +26,7 @@ class UniversityDataViewController: BaseViewController {
     var periodPicker: PeriodPicker = PeriodPicker()
     var coursePicker: SKSPicker = SKSPicker()
     var levelsPicker: SKSPicker = SKSPicker()
+    var dateEndPicker: PeriodPicker = PeriodPicker()
     
     var cities: [City] = []
     var universities: [University] = []
@@ -43,12 +44,13 @@ class UniversityDataViewController: BaseViewController {
         LevelEducation(title: "Бакалавр", value: "4"),
         LevelEducation(title: "Специалитет", value: "5"),
         LevelEducation(title: "Магистратура", value: "2"),
+        LevelEducation(title: "Аспирантура", value: "6"),
     ]
     
     var uniqueSess = ""
     var refreshToken = ""
     var accessToken = ""
-    var imagePath = ""
+    var keyFile = ""
     var surname = ""
     var name = ""
     var patronymic = ""
@@ -73,11 +75,11 @@ class UniversityDataViewController: BaseViewController {
                                                endEducation: dateEndTextField.text!,
                                                course: courseTextField.text!,
                                                uuidCity: uuidCity ?? "",
-                                               photo: imagePath,
                                                uuidUniversity: uuidUniversity,
                                                uuidFaculty: uuidFaculty,
                                                uuidSpecialty: uuidSpecialty,
-                                               accessToken: accessToken) { [weak self] response in
+                                               accessToken: accessToken,
+                                               keyPhoto: keyFile) { [weak self] response in
                 if let user = response.result.value {
                     user.accessToken = self?.accessToken
                     user.refreshToken = self?.refreshToken
@@ -85,10 +87,10 @@ class UniversityDataViewController: BaseViewController {
                     user.save()
                     
                     if let vc = UIStoryboard(name: "Home", bundle: nil).instantiateInitialViewController() {
+                        vc.modalPresentationStyle = .fullScreen
                         self?.present(vc, animated: true, completion: nil)
                     }
                 } else {
-                    print(response.result.error)
                     self?.showAlert(message: NetworkErrors.common)
                 }
             }
@@ -168,6 +170,10 @@ class UniversityDataViewController: BaseViewController {
         levelEducationTextField.textField.inputAccessoryView = levelsPicker.toolBar
         levelEducationTextField.textField.inputView = levelsPicker.picker
         levelsPicker.source = levels
+        
+        dateEndPicker.delegate = self
+        dateEndTextField.textField.inputAccessoryView = dateEndPicker.toolBar
+        dateEndTextField.textField.inputView = dateEndPicker.picker
     }
     
     func getCities() {
@@ -337,6 +343,7 @@ extension UniversityDataViewController: SKSPickerDelegate {
             courseTextField.text = ""
             
             periodTextField.textField.becomeFirstResponder()
+            dateEndTextField.textField.isUserInteractionEnabled = false
             //view.endEditing(true)
         }
         
@@ -349,6 +356,7 @@ extension UniversityDataViewController: SKSPickerDelegate {
             courseTextField.text = value.title
             view.endEditing(true)
         }
+    
     }
     
     func cancelPicker() {
@@ -357,39 +365,75 @@ extension UniversityDataViewController: SKSPickerDelegate {
 }
 
 extension UniversityDataViewController: PeriodPickerDelegate {
-    func donePicker(dateStart: String) {
-        //startEducation = dateStart
-        //endEducation = dateEnd
-        
-        //periodTextField.text = "\(dateStart) - \(dateEnd)"
-        //courseTextField.textField.becomeFirstResponder()
-        
-        startEducation = dateStart
-        
-        periodTextField.text = "\(dateStart)"
-        
-        if levelEducationTextField.text! != "" {
-            let value = levels[levelsPicker.picker.selectedRow(inComponent: 0)].value
+    func donePicker(dateStart: String, periodPicker: PeriodPicker) {
+        if periodPicker == self.periodPicker {
+            let title = levels[levelsPicker.picker.selectedRow(inComponent: 0)].title
             
-            if let dateStart = periodTextField.text,
-                let dateStartInt = Int(dateStart),
-                let intValue = Int(value) {
-                let dateEnd = dateStartInt + intValue
-                dateEndTextField.text = String(describing: dateEnd)
+            if title == "Аспирантура" {
+                startEducation = dateStart
+
+                periodTextField.text = "\(dateStart)"
+                    
+                let value = levels[levelsPicker.picker.selectedRow(inComponent: 0)].value
+
+                if let value = Int(value) {
+                    dateEndPicker.setupPicker(levelValue: value, isInverted: true)
+                }
                 
+                if let currentYear = Int(Date().year),
+                let dateStart = periodTextField.text,
+                let dateStartInt = Int(dateStart) {
+                    let course = currentYear - dateStartInt + 1
+
+                    courseTextField.text = String(describing: course)
+                }
+
+                dateEndTextField.textField.isUserInteractionEnabled = true
+                dateEndTextField.textField.becomeFirstResponder()
+            } else {
+                dateEndTextField.textField.isUserInteractionEnabled = false
+                startEducation = dateStart
+
+                periodTextField.text = "\(dateStart)"
+
+                if levelEducationTextField.text! != "" {
+                    let value = levels[levelsPicker.picker.selectedRow(inComponent: 0)].value
+
+                    if let dateStart = periodTextField.text,
+                    let dateStartInt = Int(dateStart),
+                    let intValue = Int(value) {
+                        let dateEnd = dateStartInt + intValue
+                        dateEndTextField.text = String(describing: dateEnd)
+
+                    }
+
+                }
+
+                if let currentYear = Int(Date().year),
+                let dateStart = periodTextField.text,
+                let dateStartInt = Int(dateStart) {
+                    let course = currentYear - dateStartInt + 1
+
+                    courseTextField.text = String(describing: course)
+                }
+
+
+                view.endEditing(true)
             }
-            
         }
         
-        if let currentYear = Int(Date().year),
-            let dateStart = periodTextField.text,
-            let dateStartInt = Int(dateStart) {
-            let course = currentYear - dateStartInt + 1
+        if periodPicker == dateEndPicker {
+            dateEndTextField.text = dateStart
             
-            courseTextField.text = String(describing: course)
+//            if let currentYear = Int(Date().year),
+//            let dateStart = periodTextField.text,
+//            let dateStartInt = Int(dateStart) {
+//                print()
+//                let course = currentYear - dateStartInt + 1
+//                courseTextField.text = String(describing: course)
+//            }
+            
+            view.endEditing(true)
         }
-        
-        
-        view.endEditing(true)
     }
 }

@@ -9,5 +9,6 @@
 import Foundation
 
 class PathFile: Codable {
-    let path: String
+    let urlFile: String?
+    let keyFile: String?
 }

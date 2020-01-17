@@ -82,10 +82,10 @@ class SearchViewController: BaseViewController {
     
     func setupImageTextField(textField: UITextField) {
         let textFieldCGRect = CGRect(x: 0, y: 0, width: 24, height: 24)
-        let textFieldImage = UIImage.init()
+        let textFieldImage = UIImage(named: "ic_search")
         let imageView = UIImageView(image: textFieldImage)
         imageView.contentMode = .scaleAspectFit
-        
+        imageView.isHidden = true
         textField.leftView = imageView
         textField.leftView?.frame = textFieldCGRect
         textField.leftViewMode = .always

@@ -9,7 +9,7 @@
 import UIKit
 
 protocol PeriodPickerDelegate: class {
-    func donePicker(dateStart: String)
+    func donePicker(dateStart: String, periodPicker: PeriodPicker)
     func cancelPicker()
 }
 
@@ -81,24 +81,38 @@ class PeriodPicker: NSObject {
 //            }
 //        }
         
-        delegate?.donePicker(dateStart: dateSt)
+        delegate?.donePicker(dateStart: dateSt, periodPicker: self)
     }
     
     @objc private func cancelPicker() {
         delegate?.cancelPicker()
     }
     
-    func setupPicker(levelValue: Int) {
-        let date = Date()
-        let calendar = Calendar.current
-        let year = calendar.component(.year, from: date)
-        
-        dateStart = []
-        
-        for value in (year - levelValue + 1)...year {
-            dateStart.append(String(describing: value))
+    func setupPicker(levelValue: Int, isInverted: Bool = false) {
+        if isInverted {
+            let date = Date()
+            let calendar = Calendar.current
+            let year = calendar.component(.year, from: date)
+            
+            dateStart = []
+            
+            for value in year...(year + levelValue + 1) {
+                dateStart.append(String(describing: value))
+            }
+            
+            picker.reloadComponent(0)
+        } else {
+            let date = Date()
+            let calendar = Calendar.current
+            let year = calendar.component(.year, from: date)
+            
+            dateStart = []
+            
+            for value in (year - levelValue + 1)...year {
+                dateStart.append(String(describing: value))
+            }
+            picker.reloadComponent(0)
         }
-        picker.reloadComponent(0)
     }
 }
 

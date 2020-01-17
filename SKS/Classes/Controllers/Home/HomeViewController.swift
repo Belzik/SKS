@@ -55,8 +55,9 @@ class HomeViewController: BaseViewController {
     private lazy var searchViewController: SearchViewController = {
         let storyboard = UIStoryboard(name: "Home", bundle: Bundle.main)
         let viewController = storyboard.instantiateViewController(withIdentifier: "\(SearchViewController.self)") as! SearchViewController
-        viewController.currentCity = self.currentCity
+        
         viewController.delegate = self
+        
         if let height = self.tabBarController?.tabBar.frame.size.height {
             viewController.heightOfTabBar = height
         }
@@ -65,6 +66,8 @@ class HomeViewController: BaseViewController {
     }()
     
     @IBAction func searchButtonTapped(_ sender: UIButton) {
+        
+        searchViewController.currentCity = self.currentCity
         add(asChildViewController: searchViewController)
         contentView.isHidden = false
     }
@@ -92,7 +95,7 @@ class HomeViewController: BaseViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+        //self.navigationController?.setNavigationBarHidden(false, animated: animated)
         super.viewWillDisappear(animated)
     }
     
@@ -104,19 +107,19 @@ class HomeViewController: BaseViewController {
             dvc.city = currentCity
         }
         
-        if segue.identifier == "seguePartner",
+        if segue.identifier == "segueNewPartner",
             let uuidStock = sender as? String {
-            let dvc = segue.destination as! PartnerViewController
+            let dvc = segue.destination as! TestViewController
             dvc.uuidPartner = uuidStock
             dvc.city = currentCity
         }
     }
     
     private func setupCategoryCollection() {
-        categoryCollectionView.contentInset = UIEdgeInsets(top: 0, left: 12, bottom: 0, right: 12)
-        categoryCollectionView.collectionViewLayout.invalidateLayout()
-        categoryCollectionView.setNeedsLayout()
-        categoryCollectionView.layoutIfNeeded()
+        categoryCollectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+//        categoryCollectionView.collectionViewLayout.invalidateLayout()
+//        categoryCollectionView.setNeedsLayout()
+//        categoryCollectionView.layoutIfNeeded()
         
         categoryCollectionView.register(UINib(nibName: "\(CategoryCollectionViewCell.self)",
                                               bundle: nil),
@@ -199,12 +202,14 @@ class HomeViewController: BaseViewController {
         
         activityIndicator.startAnimating()
         dispatchGroup.notify(queue: .main) { [unowned self] in
-
+            
             if self.isFirstLoad {
                 self.categoryCollectionView.reloadData()
 
             }
             self.isFirstLoad = false
+            
+            self.setupStockTypeImages()
             
             self.activityIndicator.stopAnimating()
             self.tableView.reloadData()
@@ -276,19 +281,39 @@ class HomeViewController: BaseViewController {
         NetworkManager.shared.getStocks(category: currentUiidCategory,
                                         uuidCity: currentCity?.uuidCity,
                                         limit: limitStocks,
-                                        offset: offsetStocks) { [unowned self] response in
-            self.dispatchGroup.leave()
+                                        offset: offsetStocks) { [weak self] response in
+            self?.dispatchGroup.leave()
             if let stocks = response.result.value {
-                if stocks.count < self.limitStocks {
-                    self.isPaginationStocks = true
+                if stocks.count < self!.limitStocks {
+                    self?.isPaginationStocks = true
                 }
-                self.offsetStocks += self.limitStocks
+                self?.offsetStocks += self!.limitStocks
                 
-                self.stocks = stocks
+                self?.stocks = stocks
+                
             }
             
             if let error = response.result.error {
                 print(error.localizedDescription)
+            }
+        }
+    }
+    
+    func setupStockTypeImages() {
+        for (index, stock) in stocks.enumerated() {
+            if index == 0 {
+                stock.typeImage = .orange
+            } else {
+                switch stocks[index - 1].typeImage {
+                case .orange:
+                    stocks[index].typeImage = .green
+                case .green:
+                    stocks[index].typeImage = .blue
+                case .blue:
+                    stocks[index].typeImage = .purple
+                case .purple:
+                    stocks[index].typeImage = .orange
+                }
             }
         }
     }
@@ -351,6 +376,7 @@ class HomeViewController: BaseViewController {
     }
     
     func add(asChildViewController viewController: UIViewController) {
+        print("Контроллер", viewController)
         contentView.addSubview(viewController.view)
         viewController.view.frame = contentView.bounds
         viewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -442,10 +468,13 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 1 ||
             stocks.count == 0 {
-            if let uuidPartner = partners[indexPath.row].uuidPartner {
-                performSegue(withIdentifier: "seguePartner", sender: uuidPartner)
-            }
+//            if let uuidPartner = partners[indexPath.row].uuidPartner {
+//                performSegue(withIdentifier: "seguePartner", sender: uuidPartner)
+//            }
             
+            if let uuidPartner = partners[indexPath.row].uuidPartner {
+                performSegue(withIdentifier: "segueNewPartner", sender: uuidPartner)
+            }
         }
     }
 
@@ -480,17 +509,17 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(CategoryCollectionViewCell.self)",
                 for: indexPath) as! CategoryCollectionViewCell
 
-//            if indexPath.row == 0 {
-//                cell.leftConstraintMainView.constant = 16
-//            } else {
-//                cell.leftConstraintMainView.constant = 4
-//            }
-//
-//            if indexPath.row == categories.count - 1 {
-//                cell.rightConstraintMainView.constant = 16
-//            } else {
-//                cell.rightConstraintMainView.constant = 4
-//            }
+            if indexPath.row == 0 {
+                cell.leftConstraintMainView.constant = 16
+            } else {
+                cell.leftConstraintMainView.constant = 4
+            }
+
+            if indexPath.row == categories.count - 1 {
+                cell.rightConstraintMainView.constant = 16
+            } else {
+                cell.rightConstraintMainView.constant = 4
+            }
 
             cell.model = categories[indexPath.row]
 
@@ -507,7 +536,8 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 cell.leftConstraintMainView.constant = 4
             }
 
-            if indexPath.row == stocks.count - 1 {
+            if indexPath.row == stocks.count - 1 &&
+                stocks.count > 1 {
                 cell.rightConstraintMainView.constant = 16
             } else {
                 cell.rightConstraintMainView.constant = 4
@@ -532,17 +562,20 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         if collectionView.tag == 2 {
-            return CGSize(width: view.bounds.width - 12, height: 160)
+            return CGSize(width: view.bounds.width - 12, height: 176 + 40)
         }
         
-//        if indexPath.row == 0 ||
-//            indexPath.row == categories.count - 1 {
-//            return CGSize(width: 120, height: 124)
-//        }
-        //else {
-            return CGSize(width: 108, height: 124)
-        //}
-
+        if collectionView == categoryCollectionView {
+            if indexPath.row == 0 ||
+                indexPath.row == categories.count - 1 {
+                return CGSize(width: 120, height: 124)
+            }
+            else {
+                return CGSize(width: 108, height: 124)
+            }
+        }
+        
+        return CGSize()
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -604,10 +637,10 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                     cell.colorView.backgroundColor = UIColor(hexString: "\(hexColor)")
                     
                     cell.mainView.setupShadow(12,
-                                              shadowRadius: 7,
+                                              shadowRadius: 6,
                                               color: UIColor.init(hexString: hexColor),
                                               offset: CGSize(width: 0, height: 0),
-                                              opacity: 0.7)
+                                              opacity: 0.30)
                     //cell.mainView.layer.shadowColor = UIColor(hexString: "\(hexColor)").cgColor
 
                     let newImage = cell.iconImageView.image?.withRenderingMode(.alwaysTemplate)
@@ -661,7 +694,7 @@ extension HomeViewController: SKSPickerDelegate {
 extension HomeViewController: SearchViewControllerDelegate {
     func detailSearch(value: SearchTableViewCellType) {
         if value.type == .partner {
-            performSegue(withIdentifier: "seguePartner", sender: value.uuid)
+            performSegue(withIdentifier: "segueNewPartner", sender: value.uuid)
         } else {
             performSegue(withIdentifier: "segueStock", sender: value.uuid)
         }

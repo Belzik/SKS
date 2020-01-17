@@ -14,6 +14,10 @@ target 'SKS' do
   pod 'SkyFloatingLabelTextField', '~> 3.0'
   pod 'Kingfisher', '~> 5.0'
   pod 'EAN13BarcodeGenerator'
+  pod 'Cosmos'
+  pod 'Pulley', '~> 2.8.0'
+  pod 'XLPagerTabStrip', '~> 9.0'
+  pod 'FSPagerView'
   
   # Firebase
   pod 'Firebase/Core'
@@ -23,6 +27,15 @@ target 'SKS' do
   pod 'Crashlytics', '~> 3.14.0'
   # for Google Analytics
   pod 'Firebase/Analytics'
+  
+  # Map
+  # Основная библиотека MapKit.
+  pod 'YandexMapKit', '3.4'
+  # pod ‘YandexMapKitDirections’, ’3.4’
+  pod 'YandexMapKitPlaces', '3.4'
+  #pod ‘YandexMapKitSearch’, ’3.4’
+  
+  
 
   target 'SKSTests' do
     inherit! :search_paths

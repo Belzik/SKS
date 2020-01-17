@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Montserrat-Bold.ttf">
+            <string>Montserrat-Bold</string>
+        </array>
+        <array key="Montserrat-Regular.ttf">
+            <string>Montserrat-Regular</string>
+        </array>
+        <array key="OpenSans-Regular.ttf">
+            <string>OpenSans-Regular</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="80" id="KGk-i7-Jjw" customClass="ResultPoolingTableViewCell" customModule="SKS" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="428" height="71"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="428" height="71"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="От 15 до 18" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m29-mZ-SZO">
+                        <rect key="frame" x="16" y="8" width="64" height="15"/>
+                        <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="12"/>
+                        <color key="textColor" red="0.63098162412643433" green="0.65154629945755005" blue="0.71859973669052124" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="yMd-qG-8KJ">
+                        <rect key="frame" x="16" y="39" width="321" height="24"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="24" id="SaB-fZ-U1K"/>
+                        </constraints>
+                        <color key="progressTintColor" red="0.86192953586578369" green="0.87338215112686157" blue="0.9015270471572876" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="trackTintColor" red="0.96222668886184692" green="0.9696076512336731" blue="0.97983378171920776" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </progressView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="120" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M1r-zX-UhZ">
+                        <rect key="frame" x="166" y="42.5" width="21" height="17"/>
+                        <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="12"/>
+                        <color key="textColor" red="0.21811425685882568" green="0.23300632834434509" blue="0.26930546760559082" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5.1%" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="sNN-GD-tZt">
+                        <rect key="frame" x="341" y="42" width="71" height="18.5"/>
+                        <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="15"/>
+                        <color key="textColor" red="0.21811425685882568" green="0.23300632834434509" blue="0.26930546760559082" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_check_news" translatesAutoresizingMaskIntoConstraints="NO" id="P8s-MX-q9g">
+                        <rect key="frame" x="317" y="43" width="16" height="16"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="16" id="P7L-rW-ghq"/>
+                            <constraint firstAttribute="width" constant="16" id="kcC-da-MGD"/>
+                        </constraints>
+                    </imageView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="m29-mZ-SZO" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="1mL-Se-TQd"/>
+                    <constraint firstItem="sNN-GD-tZt" firstAttribute="leading" secondItem="yMd-qG-8KJ" secondAttribute="trailing" constant="4" id="5rh-f9-Yfc"/>
+                    <constraint firstItem="P8s-MX-q9g" firstAttribute="trailing" secondItem="yMd-qG-8KJ" secondAttribute="trailing" constant="-4" id="ESi-EQ-rNu"/>
+                    <constraint firstItem="M1r-zX-UhZ" firstAttribute="centerY" secondItem="yMd-qG-8KJ" secondAttribute="centerY" id="IT3-5i-qsB"/>
+                    <constraint firstAttribute="trailing" secondItem="sNN-GD-tZt" secondAttribute="trailing" constant="16" id="JbC-Un-7NO"/>
+                    <constraint firstItem="sNN-GD-tZt" firstAttribute="centerY" secondItem="yMd-qG-8KJ" secondAttribute="centerY" id="RDe-bX-dcf"/>
+                    <constraint firstItem="m29-mZ-SZO" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="RiD-cg-O5R"/>
+                    <constraint firstAttribute="bottom" secondItem="yMd-qG-8KJ" secondAttribute="bottom" constant="8" id="hNz-Fm-w5M"/>
+                    <constraint firstItem="yMd-qG-8KJ" firstAttribute="top" secondItem="m29-mZ-SZO" secondAttribute="bottom" constant="16" id="ktd-np-pMp"/>
+                    <constraint firstItem="yMd-qG-8KJ" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="o8a-AY-fyB"/>
+                    <constraint firstItem="M1r-zX-UhZ" firstAttribute="centerX" secondItem="yMd-qG-8KJ" secondAttribute="centerX" id="tzn-FF-2sh"/>
+                    <constraint firstItem="P8s-MX-q9g" firstAttribute="centerY" secondItem="yMd-qG-8KJ" secondAttribute="centerY" id="w9k-Zd-xAP"/>
+                    <constraint firstItem="yMd-qG-8KJ" firstAttribute="width" secondItem="H2p-sc-9uM" secondAttribute="width" multiplier="0.75" id="xcV-xF-vwp"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="answerLabel" destination="m29-mZ-SZO" id="4W7-03-H3d"/>
+                <outlet property="checkImageView" destination="P8s-MX-q9g" id="K5b-pe-21t"/>
+                <outlet property="countLabel" destination="M1r-zX-UhZ" id="Jhk-Vl-4F0"/>
+                <outlet property="percentLabel" destination="sNN-GD-tZt" id="Lz2-5o-YpY"/>
+                <outlet property="progressView" destination="yMd-qG-8KJ" id="nX4-Hd-Sgp"/>
+            </connections>
+            <point key="canvasLocation" x="127.53623188405798" y="128.57142857142856"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="ic_check_news" width="16" height="16"/>
+    </resources>
+</document>

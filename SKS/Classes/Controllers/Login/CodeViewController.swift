@@ -19,7 +19,7 @@ class CodeViewController: BaseViewController {
     @IBOutlet weak var titleLabel: UILabel!
     
     var keyboardHeight: CGFloat = 0
-    var smsAttempt: String = ""
+    var smsResponse: SmsResponse!
     var phone: String = ""
     
     var timeForLabel = 60
@@ -30,6 +30,8 @@ class CodeViewController: BaseViewController {
     var accessToken = ""
     
     var optString = ""
+    
+    var otpResponse: OtpResponse?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,11 +62,9 @@ class CodeViewController: BaseViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "seguePersonalData" {
-            let dvc = segue.destination as! PersonalDataViewController
-            dvc.uniqueSess = uniqueSess
-            dvc.refreshToken = refreshToken
-            dvc.accessToken = accessToken
+        if segue.identifier == "seguePassword" {
+            let dvc = segue.destination as! PasswordViewController
+            dvc.otpResponse = self.otpResponse
         }
     }
     
@@ -96,8 +96,8 @@ class CodeViewController: BaseViewController {
         NetworkManager.shared.getCodeWithSms(phone: phone) { [weak self] response in
             if response.result.error != nil {
                 self?.showAlert(message: NetworkErrors.common)
-            } else if let attempt = response.result.value?.attempt {
-                self?.smsAttempt = attempt
+            } else if let smsResponse = response.result.value {
+                self?.smsResponse = smsResponse
                 self?.runTimer()
             }
         }
@@ -227,70 +227,104 @@ extension CodeViewController: UITextFieldDelegate {
     }
     
     private func verifyCode(code: String) {
-        NetworkManager.shared.verifyCodeSms(phone: phone,
-                                            attempt: smsAttempt,
-                                            code: code) { [weak self] response in
-            if response.result.error != nil,
+           guard let smsAttempt = smsResponse.attempt else { return}
+           
+           NetworkManager.shared.verifyCodeSms(phone: phone,
+                                               attempt: smsAttempt,
+                                               code: code) { [weak self] response in
+                                                if response.result.error != nil,
                 let statusCode = response.statusCode {
-                
-                if statusCode == 403 {
-                    self?.firstTextField.isUserInteractionEnabled = true
-                    self?.secondTextField.isUserInteractionEnabled = true
-                    self?.thirdTextField.isUserInteractionEnabled = true
-                    //self?errorLabel.isHidden = false
-                    self?.firstTextField.becomeFirstResponder()
-                    self?.showAlert(message: "Неверный код sms, либо истекло действие кода.")
-                    self?.firstTextField.text! = ""
-                    self?.secondTextField.text! = ""
-                    self?.thirdTextField.text! = ""
-                    self?.fourthTextField.text! = ""
-                    self?.optString = ""
-                } else {
-                    self?.showAlert(message: NetworkErrors.common)
+
+                   if statusCode == 403 {
+                       self?.firstTextField.isUserInteractionEnabled = true
+                       self?.secondTextField.isUserInteractionEnabled = true
+                       self?.thirdTextField.isUserInteractionEnabled = true
+                       //self?errorLabel.isHidden = false
+                       self?.firstTextField.becomeFirstResponder()
+                       self?.showAlert(message: "Неверный код sms, либо истекло действие кода.")
+                       self?.firstTextField.text! = ""
+                       self?.secondTextField.text! = ""
+                       self?.thirdTextField.text! = ""
+                       self?.fourthTextField.text! = ""
+                       self?.optString = ""
+                   } else {
+                       self?.showAlert(message: NetworkErrors.common)
+                   }
+                } else if let otpResponse = response.result.value {
+                     self?.otpResponse = otpResponse
+                     self?.performSegue(withIdentifier: "seguePassword", sender: nil)
                 }
-            } else if let accessToken = response.result.value?.tokens?.accessToken,
-                        let refreshToken = response.result.value?.tokens?.refreshToken,
-                        let uniqueSess = response.result.value?.uniqueSess,
-                        let status = response.result.value?.status {
-                if status != ProfileStatus.newuser.rawValue {
-                    let user = UserData.init()
-                    user.accessToken = accessToken
-                    user.refreshToken = refreshToken
-                    user.uniqueSess = uniqueSess
-                    user.save()
-                    
-                    if let tokens = NotificationsTokens.loadSaved(),
-                        let notificationToken = tokens.notificationToken,
-                        let deviceToken = tokens.deviceToken {
-                        NetworkManager.shared.sendNotificationToken(notificationToken: notificationToken,
-                                                                    deviceToken: deviceToken,
-                                                                    accessToken: accessToken) { response in
-                                if let vc = UIStoryboard(name: "Home", bundle: nil).instantiateInitialViewController() {
-                                    self?.present(vc, animated: true, completion: nil)
-                                }
-                        }
-                    }
-
-
-                } else {
-                    self?.accessToken = accessToken
-                    self?.uniqueSess = uniqueSess
-                    self?.refreshToken = refreshToken
-                    
-                    if let tokens = NotificationsTokens.loadSaved(),
-                        let notificationToken = tokens.notificationToken,
-                        let deviceToken = tokens.deviceToken {
-                        NetworkManager.shared.sendNotificationToken(notificationToken: notificationToken,
-                                                                    deviceToken: deviceToken,
-                                                                    accessToken: accessToken) { response in
-                            self?.performSegue(withIdentifier: "seguePersonalData", sender: nil)
-                        }
-                    }
-                    
-                    
-                }
-
-            }
-        }
-    }
+           }
+       }
+    
+//    private func verifyCode(code: String) {
+//        guard let smsAttempt = smsResponse.attempt else { return}
+//
+//        NetworkManager.shared.verifyCodeSms(phone: phone,
+//                                            attempt: smsAttempt,
+//                                            code: code) { [weak self] response in
+//            if response.result.error != nil,
+//                let statusCode = response.statusCode {
+//
+//                if statusCode == 403 {
+//                    self?.firstTextField.isUserInteractionEnabled = true
+//                    self?.secondTextField.isUserInteractionEnabled = true
+//                    self?.thirdTextField.isUserInteractionEnabled = true
+//                    //self?errorLabel.isHidden = false
+//                    self?.firstTextField.becomeFirstResponder()
+//                    self?.showAlert(message: "Неверный код sms, либо истекло действие кода.")
+//                    self?.firstTextField.text! = ""
+//                    self?.secondTextField.text! = ""
+//                    self?.thirdTextField.text! = ""
+//                    self?.fourthTextField.text! = ""
+//                    self?.optString = ""
+//                } else {
+//                    self?.showAlert(message: NetworkErrors.common)
+//                }
+//            } else if let accessToken = response.result.value?.tokens?.accessToken,
+//                        let refreshToken = response.result.value?.tokens?.refreshToken,
+//                        let uniqueSess = response.result.value?.uniqueSess,
+//                        let status = response.result.value?.status {
+//                if status != ProfileStatus.newuser.rawValue {
+//                    let user = UserData.init()
+//                    user.accessToken = accessToken
+//                    user.refreshToken = refreshToken
+//                    user.uniqueSess = uniqueSess
+//                    user.save()
+//
+//                    if let tokens = NotificationsTokens.loadSaved(),
+//                        let notificationToken = tokens.notificationToken,
+//                        let deviceToken = tokens.deviceToken {
+//                        NetworkManager.shared.sendNotificationToken(notificationToken: notificationToken,
+//                                                                    deviceToken: deviceToken,
+//                                                                    accessToken: accessToken) { response in
+//                                if let vc = UIStoryboard(name: "Home", bundle: nil).instantiateInitialViewController() {
+//                                    vc.modalPresentationStyle = .fullScreen
+//                                    self?.present(vc, animated: true, completion: nil)
+//                                }
+//                        }
+//                    }
+//
+//
+//                } else {
+//                    self?.accessToken = accessToken
+//                    self?.uniqueSess = uniqueSess
+//                    self?.refreshToken = refreshToken
+//
+//                    if let tokens = NotificationsTokens.loadSaved(),
+//                        let notificationToken = tokens.notificationToken,
+//                        let deviceToken = tokens.deviceToken {
+//                        NetworkManager.shared.sendNotificationToken(notificationToken: notificationToken,
+//                                                                    deviceToken: deviceToken,
+//                                                                    accessToken: accessToken) { response in
+//                            self?.performSegue(withIdentifier: "seguePersonalData", sender: nil)
+//                        }
+//                    }
+//
+//
+//                }
+//
+//            }
+//        }
+//    }
 }

@@ -25,6 +25,7 @@ class Stock: Codable {
     let partner: Partner?
     let category: Category?
     let cities: [City]?
+    var typeImage: StockImageType = .orange
     
     enum CodingKeys: String, CodingKey {
         case idStock
