@@ -18,7 +18,7 @@ class News: Codable {
     let uuidUniver: String?
     let title: String?
     let content: String?
-    let photoUrl: [String]?
+    var photoUrl: [String]?
     let event: Event?
     let pooling: Pooling?
 }

@@ -41,6 +41,8 @@ class CommentTableViewCell: UITableViewCell {
         if let name = model.userCommentInfo?.name,
             let surname = model.userCommentInfo?.surname {
             userNameLabel.text = "\(name) \(surname)"
+        } else {
+            userNameLabel.text = "Пользователь удален"
         }
         
         commentTextLabel.text = model.commentInfo?.comment

@@ -12,7 +12,6 @@ class UniversityDataViewController: BaseViewController {
     @IBOutlet weak var cityTextField: ErrorTextField!
     @IBOutlet weak var instituteTextField: ErrorTextField!
     @IBOutlet weak var facultyTextField: ErrorTextField!
-    @IBOutlet weak var specialtyTextField: ErrorTextField!
     @IBOutlet weak var periodTextField: ErrorTextField!
     @IBOutlet weak var courseTextField: ErrorTextField!
     @IBOutlet weak var levelEducationTextField: ErrorTextField!
@@ -22,7 +21,7 @@ class UniversityDataViewController: BaseViewController {
     var cityPicker: SKSPicker = SKSPicker()
     var institutePicker: SKSPicker = SKSPicker()
     var facultyPicker: SKSPicker = SKSPicker()
-    var specialityPicker: SKSPicker = SKSPicker()
+    
     var periodPicker: PeriodPicker = PeriodPicker()
     var coursePicker: SKSPicker = SKSPicker()
     var levelsPicker: SKSPicker = SKSPicker()
@@ -31,7 +30,7 @@ class UniversityDataViewController: BaseViewController {
     var cities: [City] = []
     var universities: [University] = []
     var faculties: [Faculty] = []
-    var specialties: [Specialty] = []
+    
     var courses: [Course] = [
         Course(title: "1 курс", value: "1"),
         Course(title: "2 курс", value: "2"),
@@ -55,6 +54,7 @@ class UniversityDataViewController: BaseViewController {
     var name = ""
     var patronymic = ""
     var birthday = ""
+    var phone = ""
     
     var startEducation = ""
     var endEducation = ""
@@ -64,7 +64,6 @@ class UniversityDataViewController: BaseViewController {
             let uuidCity = cities[cityPicker.picker.selectedRow(inComponent: 0)].uuidCity
             let uuidUniversity = universities[institutePicker.picker.selectedRow(inComponent: 0)].uuidUniver
             let uuidFaculty = faculties[facultyPicker.picker.selectedRow(inComponent: 0)].uuidDepartment
-            let uuidSpecialty = specialties[specialityPicker.picker.selectedRow(inComponent: 0)].uuidSpecialty
             
             NetworkManager.shared.registration(uniqueSess: uniqueSess,
                                                name: name,
@@ -77,10 +76,11 @@ class UniversityDataViewController: BaseViewController {
                                                uuidCity: uuidCity ?? "",
                                                uuidUniversity: uuidUniversity,
                                                uuidFaculty: uuidFaculty,
-                                               uuidSpecialty: uuidSpecialty,
                                                accessToken: accessToken,
-                                               keyPhoto: keyFile) { [weak self] response in
-                if let user = response.result.value {
+                                               keyPhoto: keyFile,
+                                               phone: phone) { [weak self] response in
+                if let user = response.result.value,
+                        user.uuidUser != nil {
                     user.accessToken = self?.accessToken
                     user.refreshToken = self?.refreshToken
                     user.uniqueSess = self?.uniqueSess
@@ -116,13 +116,11 @@ class UniversityDataViewController: BaseViewController {
     func setupTextFields() {
         instituteTextField.textField.isEnabled = false
         facultyTextField.textField.isEnabled = false
-        specialtyTextField.textField.isEnabled = false
         periodTextField.textField.isEnabled = false
         
         setupImageTextField(textField: cityTextField.textField)
         setupImageTextField(textField: instituteTextField.textField)
         setupImageTextField(textField: facultyTextField.textField)
-        setupImageTextField(textField: specialtyTextField.textField)
         //setupImageTextField(textField: courseTextField.textField)
         setupImageTextField(textField: levelEducationTextField.textField)
         setupImageTextField(textField: periodTextField.textField)
@@ -152,10 +150,6 @@ class UniversityDataViewController: BaseViewController {
         facultyPicker.delegate = self
         facultyTextField.textField.inputAccessoryView = facultyPicker.toolBar
         facultyTextField.textField.inputView = facultyPicker.picker
-        
-        specialityPicker.delegate = self
-        specialtyTextField.textField.inputAccessoryView = specialityPicker.toolBar
-        specialtyTextField.textField.inputView = specialityPicker.picker
         
         periodPicker.delegate = self
         periodTextField.textField.inputAccessoryView = periodPicker.toolBar
@@ -214,20 +208,6 @@ class UniversityDataViewController: BaseViewController {
         }
     }
     
-    func getSpecialties() {
-        let uuidFaculty = faculties[facultyPicker.picker.selectedRow(inComponent: 0)].uuidDepartment
-        
-        NetworkManager.shared.getSpecialties(uuidFaculty: uuidFaculty) { [weak self] response in
-            if let specialties = response.result.value,
-                specialties.count > 0 {
-                self?.specialityPicker.source = specialties
-                self?.specialties = specialties
-                self?.specialtyTextField.textField.isEnabled = true
-                self?.specialtyTextField.textField.becomeFirstResponder()
-            }
-        }
-    }
-    
     func validate() -> Bool {
         var isValid = true
         
@@ -243,11 +223,6 @@ class UniversityDataViewController: BaseViewController {
         
         if facultyTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
             facultyTextField.errorMessage = "Поле не заполнено"
-            isValid = false
-        }
-        
-        if specialtyTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
-            specialtyTextField.errorMessage = "Поле не заполнено"
             isValid = false
         }
         
@@ -285,11 +260,9 @@ extension UniversityDataViewController: SKSPickerDelegate {
             
             instituteTextField.textField.isEnabled = false
             facultyTextField.textField.isEnabled = false
-            specialtyTextField.textField.isEnabled = false
             
             instituteTextField.textField.text = ""
             facultyTextField.textField.text = ""
-            specialtyTextField.textField.text = ""
             
             getInstitutions()
         }
@@ -298,21 +271,16 @@ extension UniversityDataViewController: SKSPickerDelegate {
             instituteTextField.text = value.title
             
             facultyTextField.textField.isEnabled = false
-            specialtyTextField.textField.isEnabled = false
             
             facultyTextField.textField.text = ""
-            specialtyTextField.textField.text = ""
             
             getFaculties()
         }
         
         if picker == facultyPicker {
             facultyTextField.text = value.title
-            
-            specialtyTextField.textField.isEnabled = false
-            specialtyTextField.textField.text = ""
-            
-            getSpecialties()
+
+            levelEducationTextField.textField.becomeFirstResponder()
         }
         
         if picker == levelsPicker {
@@ -347,11 +315,6 @@ extension UniversityDataViewController: SKSPickerDelegate {
             //view.endEditing(true)
         }
         
-        if picker == specialityPicker {
-            specialtyTextField.text = value.title
-            levelEducationTextField.textField.becomeFirstResponder()
-        }
-        
         if picker == coursePicker {
             courseTextField.text = value.title
             view.endEditing(true)
@@ -383,7 +346,13 @@ extension UniversityDataViewController: PeriodPickerDelegate {
                 if let currentYear = Int(Date().year),
                 let dateStart = periodTextField.text,
                 let dateStartInt = Int(dateStart) {
-                    let course = currentYear - dateStartInt + 1
+                    var course = currentYear - dateStartInt
+                    
+                    if let currentMonth = Int(Date().month) {
+                        if currentMonth >= 9 {
+                            course += 1
+                        }
+                    }
 
                     courseTextField.text = String(describing: course)
                 }
@@ -412,7 +381,13 @@ extension UniversityDataViewController: PeriodPickerDelegate {
                 if let currentYear = Int(Date().year),
                 let dateStart = periodTextField.text,
                 let dateStartInt = Int(dateStart) {
-                    let course = currentYear - dateStartInt + 1
+                    var course = currentYear - dateStartInt
+                    
+                    if let currentMonth = Int(Date().month) {
+                        if currentMonth >= 9 {
+                            course += 1
+                        }
+                    }
 
                     courseTextField.text = String(describing: course)
                 }
@@ -424,15 +399,6 @@ extension UniversityDataViewController: PeriodPickerDelegate {
         
         if periodPicker == dateEndPicker {
             dateEndTextField.text = dateStart
-            
-//            if let currentYear = Int(Date().year),
-//            let dateStart = periodTextField.text,
-//            let dateStartInt = Int(dateStart) {
-//                print()
-//                let course = currentYear - dateStartInt + 1
-//                courseTextField.text = String(describing: course)
-//            }
-            
             view.endEditing(true)
         }
     }

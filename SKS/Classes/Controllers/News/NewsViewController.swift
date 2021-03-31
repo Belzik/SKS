@@ -8,14 +8,17 @@
 
 import UIKit
 import XLPagerTabStrip
+import FSPagerView
 
 class NewsViewController: BaseViewController {
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var noDataLabel: UILabel!
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
+        return self.style
     }
+    var style: UIStatusBarStyle = .lightContent
 
     var news: [News] = []
     
@@ -26,6 +29,8 @@ class NewsViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        style = .lightContent
         setupTableView()
         getNews()
     }
@@ -57,11 +62,16 @@ class NewsViewController: BaseViewController {
                     self.isPaginationEnd = true
                 }
                 
-                self.news += news
-                self.offset += self.limit
-                self.tableView.reloadData()
+                if news.count == 0 {
+                    self.noDataLabel.isHidden = false
+                } else {
+                    self.noDataLabel.isHidden = true
+                    self.news += news
+                    self.offset += self.limit
+                    self.tableView.reloadData()
+                }
+
             } else {
-                print("Ошибка", result.result.error)
                 self.showAlert(message: NetworkErrors.common)
             }
             self.isPaginationLoad = false

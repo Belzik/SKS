@@ -29,9 +29,7 @@ class ReachabilityManager {
                                                object: reachability)
         do {
             try reachability.startNotifier()
-        } catch {
-            print("could not start reachability notifier")
-        }
+        } catch {}
     }
     
     @objc private func reachabilityChanged(note: NSNotification) {

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -25,33 +25,49 @@
                     <color key="textColor" red="0.20067340135574341" green="0.20070809125900269" blue="0.20066583156585693" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_pin_green" translatesAutoresizingMaskIntoConstraints="NO" id="z2N-t6-zxs">
-                    <rect key="frame" x="374" y="32.5" width="24" height="24"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mj6-16-Uld">
+                    <rect key="frame" x="289.5" y="24" width="108.5" height="41"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="На карте" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tKm-BU-uN3">
+                            <rect key="frame" x="0.0" y="0.0" width="76.5" height="41"/>
+                            <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="16"/>
+                            <color key="textColor" red="0.10069117695093155" green="0.66996139287948608" blue="0.34534701704978943" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_pin_green" translatesAutoresizingMaskIntoConstraints="NO" id="z2N-t6-zxs">
+                            <rect key="frame" x="84.5" y="8.5" width="24" height="24"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="24" id="dgz-nY-ZBs"/>
+                                <constraint firstAttribute="width" constant="24" id="mqa-ra-A5G"/>
+                            </constraints>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="24" id="dgz-nY-ZBs"/>
-                        <constraint firstAttribute="width" constant="24" id="mqa-ra-A5G"/>
+                        <constraint firstItem="z2N-t6-zxs" firstAttribute="centerY" secondItem="tKm-BU-uN3" secondAttribute="centerY" id="CE4-LK-IUJ"/>
+                        <constraint firstItem="tKm-BU-uN3" firstAttribute="top" secondItem="Mj6-16-Uld" secondAttribute="top" id="I1E-MN-eWG"/>
+                        <constraint firstItem="z2N-t6-zxs" firstAttribute="leading" secondItem="tKm-BU-uN3" secondAttribute="trailing" constant="8" id="UgC-Qx-kto"/>
+                        <constraint firstItem="tKm-BU-uN3" firstAttribute="leading" secondItem="Mj6-16-Uld" secondAttribute="leading" id="XUp-96-Fi1"/>
+                        <constraint firstAttribute="bottom" secondItem="tKm-BU-uN3" secondAttribute="bottom" id="m5W-F8-d3I"/>
+                        <constraint firstAttribute="trailing" secondItem="z2N-t6-zxs" secondAttribute="trailing" id="p3Q-S8-cZT"/>
                     </constraints>
-                </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="На карте" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tKm-BU-uN3">
-                    <rect key="frame" x="289.5" y="34.5" width="76.5" height="20"/>
-                    <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="16"/>
-                    <color key="textColor" red="0.10069117695093155" green="0.66996139287948608" blue="0.34534701704978943" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
+                </view>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
+                <constraint firstItem="Mj6-16-Uld" firstAttribute="centerY" secondItem="huI-WV-55T" secondAttribute="centerY" id="9Gc-0c-hsA"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="huI-WV-55T" secondAttribute="bottom" constant="8" id="Af8-0P-ksb"/>
-                <constraint firstItem="tKm-BU-uN3" firstAttribute="centerY" secondItem="huI-WV-55T" secondAttribute="centerY" id="OLI-Dv-kfX"/>
+                <constraint firstAttribute="trailing" secondItem="Mj6-16-Uld" secondAttribute="trailing" constant="16" id="JuW-g0-FPK"/>
                 <constraint firstItem="huI-WV-55T" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="24" id="TiJ-vb-yhA"/>
-                <constraint firstItem="tKm-BU-uN3" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="huI-WV-55T" secondAttribute="trailing" constant="16" id="f68-0t-9bO"/>
-                <constraint firstItem="z2N-t6-zxs" firstAttribute="leading" secondItem="tKm-BU-uN3" secondAttribute="trailing" constant="8" id="geQ-DR-szt"/>
+                <constraint firstAttribute="bottom" secondItem="Mj6-16-Uld" secondAttribute="bottom" constant="8" id="dov-5R-Nqs"/>
                 <constraint firstItem="huI-WV-55T" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="qPm-oO-dR0"/>
-                <constraint firstAttribute="trailing" secondItem="z2N-t6-zxs" secondAttribute="trailing" constant="16" id="uO7-f6-93S"/>
-                <constraint firstItem="z2N-t6-zxs" firstAttribute="centerY" secondItem="huI-WV-55T" secondAttribute="centerY" id="xl5-X3-agS"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="cityLabel" destination="huI-WV-55T" id="qPe-UZ-Jh7"/>
+                <outlet property="mapView" destination="Mj6-16-Uld" id="GDo-qv-KVa"/>
+            </connections>
             <point key="canvasLocation" x="131.8840579710145" y="-169.08482142857142"/>
         </view>
     </objects>

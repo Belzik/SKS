@@ -77,7 +77,6 @@ class PartnerViewController: BaseViewController {
         
         if let stocks = partner.stocks {
             self.stocks = stocks
-            print("Количество акций", stocks.count)
             header?.collectionView.reloadData()
         }
         

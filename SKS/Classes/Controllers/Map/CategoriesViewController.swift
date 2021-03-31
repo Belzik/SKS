@@ -21,6 +21,7 @@ class CategoriesViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        setupDoneButton()
         setupTableView()
         getCategories()
     }
@@ -33,6 +34,21 @@ class CategoriesViewController: BaseViewController {
     override func viewWillDisappear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
         super.viewWillDisappear(animated)
+    }
+    
+    func setupDoneButton() {
+        let button = UIBarButtonItem(image: nil, style: .done, target: self, action: #selector(doneButtonTapped))
+        button.setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "Montserrat-Medium", size: 16.0)!,
+                                       NSAttributedString.Key.foregroundColor: ColorManager.green.value],
+                                      for: .normal)
+        button.title = "Готово"
+        
+        
+        navigationItem.rightBarButtonItem = button
+    }
+    
+    @objc func doneButtonTapped() {
+        navigationController?.popViewController(animated: true)
     }
     
     private func getCategories() {
@@ -97,7 +113,8 @@ extension CategoriesViewController: UITableViewDelegate, UITableViewDataSource {
                 
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "changeCategory"),
                                                 object: nil,
-                                                userInfo: ["uuidCategory": ""])
+                                                userInfo: ["uuidCategory": "",
+                                                           "nameCategory": ""])
             } else {
                 categories[indexPath.row].isSelected = true
                 categories[selectedIndexPath.row].isSelected = false
@@ -106,10 +123,12 @@ extension CategoriesViewController: UITableViewDelegate, UITableViewDataSource {
                 
                 self.selectedIndexPath = indexPath
                 
-                if let uuidCategory = categories[indexPath.row].uuidCategory {
+                if let uuidCategory = categories[indexPath.row].uuidCategory,
+                    let nameCategory = categories[indexPath.row].name {
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "changeCategory"),
                                                     object: nil,
-                                                    userInfo: ["uuidCategory": uuidCategory])
+                                                    userInfo: ["uuidCategory": uuidCategory,
+                                                               "nameCategory": nameCategory])
                 }
             }
         } else {
@@ -119,10 +138,12 @@ extension CategoriesViewController: UITableViewDelegate, UITableViewDataSource {
             
             selectedIndexPath = indexPath
             
-            if let uuidCategory = categories[indexPath.row].uuidCategory {
+            if let uuidCategory = categories[indexPath.row].uuidCategory,
+                let nameCategory = categories[indexPath.row].name {
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "changeCategory"),
                                                 object: nil,
-                                                userInfo: ["uuidCategory": uuidCategory])
+                                                userInfo: ["uuidCategory": uuidCategory,
+                                                           "nameCategory": nameCategory])
             }
         }
     }
@@ -140,7 +161,8 @@ extension CategoriesViewController: CategoryFilterTableViewCellDelegate {
                 
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "changeCategory"),
                                                 object: nil,
-                                                userInfo: ["uuidCategory": ""])
+                                                userInfo: ["uuidCategory": "",
+                                                           "nameCategory": ""])
             } else {
                 categories[indexPath.row].isSelected = true
                 categories[selectedIndexPath.row].isSelected = false
@@ -149,10 +171,12 @@ extension CategoriesViewController: CategoryFilterTableViewCellDelegate {
                 
                 self.selectedIndexPath = indexPath
                 
-                if let uuidCategory = categories[indexPath.row].uuidCategory {
+                if let uuidCategory = categories[indexPath.row].uuidCategory ,
+                    let nameCategory = categories[indexPath.row].name{
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "changeCategory"),
                                                     object: nil,
-                                                    userInfo: ["uuidCategory": uuidCategory])
+                                                    userInfo: ["uuidCategory": uuidCategory,
+                                                               "nameCategory": nameCategory])
                 }
             }
 
@@ -163,10 +187,12 @@ extension CategoriesViewController: CategoryFilterTableViewCellDelegate {
             
             selectedIndexPath = indexPath
             
-            if let uuidCategory = categories[indexPath.row].uuidCategory {
+            if let uuidCategory = categories[indexPath.row].uuidCategory,
+                let nameCategory = categories[indexPath.row].name {
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "changeCategory"),
                                                 object: nil,
-                                                userInfo: ["uuidCategory": uuidCategory])
+                                                userInfo: ["uuidCategory": uuidCategory,
+                                                           "nameCategory": nameCategory])
             }
         }
     }

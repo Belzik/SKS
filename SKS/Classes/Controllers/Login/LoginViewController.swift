@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftyVK
 
 class LoginViewController: BaseViewController {
     @IBOutlet weak var phoneTextField: SKSTextField!
@@ -15,9 +16,11 @@ class LoginViewController: BaseViewController {
     @IBOutlet weak var bottomConstraintAgreementLabel: NSLayoutConstraint!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var titleLabelBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var acitivityIndicator: UIActivityIndicatorView!
     
     private var keyboardHeight: CGFloat = 0
     private var smsResponse: SmsResponse?
+    var authVKReponse: AuthVKResponse?
     
     @IBAction override func backButtonTapped(_ sender: UIButton) {
         view.endEditing(true)
@@ -28,9 +31,25 @@ class LoginViewController: BaseViewController {
         getSmsWithCode()
     }
     
+    @IBAction func vkButtonTapped(_ sender: UIButton) {
+        VK.sessions.default.logOut()
+        
+        VK.sessions.default.logIn(
+            onSuccess: { _ in
+              
+            },
+            onError: { error in
+                
+            }
+        )
+        
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(UIDevice.modelName)
+        VK.setUp(appId: "7275432", delegate: self)
+        
         if UIDevice.modelName == "iPhone 5s" ||
             UIDevice.modelName ==  "iPhone SE" ||
             UIDevice.modelName ==  "Simulator iPhone SE" {
@@ -73,6 +92,20 @@ class LoginViewController: BaseViewController {
             let dvc = segue.destination as! PasswordViewController
             dvc.smsResponse = self.smsResponse
             dvc.phone = phoneTextField.text!.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
+        }
+        
+        if segue.identifier == "seguePersonalData" {
+            let dvc = segue.destination as! PersonalDataViewController
+            
+            if let uniqueSess = authVKReponse?.uniqueSess,
+                let refreshToken = authVKReponse?.tokens?.refreshToken,
+                let accessToken = authVKReponse?.tokens?.accessToken {
+                dvc.uniqueSess = uniqueSess
+                dvc.refreshToken = refreshToken
+                dvc.accessToken = accessToken
+                dvc.possibleData = authVKReponse?.possibleData
+                dvc.isVK = true
+            }
         }
     }
     
@@ -194,5 +227,98 @@ extension LoginViewController: UITextFieldDelegate {
         
         setupError(forTextField: textField as! SKSTextField, isDeleted: isDeleted)
         return false
+    }
+}
+
+extension LoginViewController: SwiftyVKDelegate {
+    func vkNeedsScopes(for sessionId: String) -> Scopes {
+        let scopes: Scopes = [.offline,.wall]
+      // Called when SwiftyVK attempts to get access to user account
+      // Should return a set of permission scopes
+        return scopes
+    }
+
+    func vkNeedToPresent(viewController: VKViewController) {
+      // Called when SwiftyVK wants to present UI (e.g. webView or captcha)
+//        if var topController = UIApplication.shared.keyWindow?.rootViewController {
+//            while let presentedViewController = topController.presentedViewController {
+//                topController = presentedViewController
+//            }
+//
+//            topController.present(viewController, animated: true)
+//        }
+//
+        present(viewController, animated: true)
+    }
+
+    func vkTokenCreated(for sessionId: String, info: [String : String]) {
+        if let userId = info["user_id"],
+            let accessToken = info["access_token"] {
+            authVK(vkToken: accessToken, userId: userId)
+        }
+    }
+
+    func vkTokenUpdated(for sessionId: String, info: [String : String]) {
+        
+    }
+
+    func vkTokenRemoved(for sessionId: String) {
+    
+    }
+    
+    func authVK(vkToken: String, userId: String) {
+        DispatchQueue.main.sync { [weak self] in
+            self?.acitivityIndicator.startAnimating()
+        }
+        
+        NetworkManager.shared.authVK(userId: userId, vkToken: vkToken) { [weak self] response in
+            self?.acitivityIndicator.stopAnimating()
+            
+            if response.result.error != nil,
+            let statusCode = response.statusCode {
+               if statusCode != 200 {
+                   self?.showAlert(message: NetworkErrors.common)
+               }
+            } else if let authVKResponse = response.result.value {
+                self?.authVKReponse = authVKResponse
+                
+                if let accessToken = response.result.value?.tokens?.accessToken,
+                    let refreshToken = response.result.value?.tokens?.refreshToken,
+                    let uniqueSess = response.result.value?.uniqueSess,
+                    let status = response.result.value?.status {
+                    if status != ProfileStatus.clearuser.rawValue {
+                        let user = UserData.init()
+                        user.accessToken = accessToken
+                        user.refreshToken = refreshToken
+                        user.uniqueSess = uniqueSess
+                        user.status = authVKResponse.status
+                        user.save()
+
+                        if let tokens = NotificationsTokens.loadSaved(),
+                            let notificationToken = tokens.notificationToken,
+                            let deviceToken = tokens.deviceToken {
+                            NetworkManager.shared.sendNotificationToken(notificationToken: notificationToken,
+                                                                        deviceToken: deviceToken,
+                                                                        accessToken: accessToken) { response in
+                                    if let vc = UIStoryboard(name: "Home", bundle: nil).instantiateInitialViewController() {
+                                        vc.modalPresentationStyle = .fullScreen
+                                        self?.present(vc, animated: true, completion: nil)
+                                    }
+                            }
+                        }
+                    } else {
+                        if let tokens = NotificationsTokens.loadSaved(),
+                            let notificationToken = tokens.notificationToken,
+                            let deviceToken = tokens.deviceToken {
+                            NetworkManager.shared.sendNotificationToken(notificationToken: notificationToken,
+                                                                        deviceToken: deviceToken,
+                                                                        accessToken: accessToken) { response in
+                                self?.performSegue(withIdentifier: "seguePersonalData", sender: nil)
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }

@@ -9,21 +9,9 @@
 import Foundation
 import CoreLocation
 
-class LocationManager: NSObject {
+class LocationManager {
     static let shared = LocationManager()
     var location: CLLocation?
-    let locationManager = CLLocationManager()
     
-    private override init() {
-        super.init()
-        locationManager.delegate = self
-    }
-}
-
-extension LocationManager: CLLocationManagerDelegate {
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if let location = locations.first {
-            self.location = location
-        }
-    }
+    private init() {}
 }

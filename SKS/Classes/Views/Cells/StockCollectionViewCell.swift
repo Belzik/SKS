@@ -38,7 +38,6 @@ class StockCollectionViewCell: UICollectionViewCell {
             descriptionLabel.text = model.stockDescription
             periodLabel.text = "\(model.dateBegin) - \(model.dateEnd)"
             
-            print(model.typeImage)
             switch model.typeImage {
             case .orange:
                 stockImage.image = UIImage(named: "orange_stock")

@@ -26,5 +26,15 @@ class TabBarViewController: UITabBarController {
         } else {
             selectedIndex = 4
         }
+        handlePosts()
+        
+    }
+    
+    func handlePosts() {
+                NotificationCenter.default.addObserver(self, selector: #selector(self.setTabbarControllerIndexAction), name: NSNotification.Name(rawValue: "setTabbarControllerIndexAction"), object: nil)
+    }
+    
+    @objc func setTabbarControllerIndexAction() {
+        selectedIndex = 1
     }
 }

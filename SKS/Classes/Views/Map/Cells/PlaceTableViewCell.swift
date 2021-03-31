@@ -25,14 +25,20 @@ class PlaceTableViewCell: UITableViewCell {
     
     func layoutUI() {
         categoryLabel.text = model?.categoryName
-        titleLabel.text = model?.legalName
-        addressLabel.text = model?.point?.address
+        titleLabel.text = model?.name
+        
         ratingLabel.text = model?.rating
+        
+        addressLabel.text = model?.point?.address
         if let distance = model?.point?.distance {
             if distance == -1 {
                 distanceLabel.text = ""
             } else {
-                distanceLabel.text = "\(distance) м"
+                if distance > 1000 {
+                    self.distanceLabel.text = "\(String(format:"%.1f", (Double(distance) / 1000))) км"
+                } else {
+                    self.distanceLabel.text = "\(distance) м"
+                }
             }
         }
     }

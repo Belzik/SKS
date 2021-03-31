@@ -14,9 +14,6 @@
         <array key="Montserrat-Medium.ttf">
             <string>Montserrat-Medium</string>
         </array>
-        <array key="Montserrat-Regular.ttf">
-            <string>Montserrat-Regular</string>
-        </array>
         <array key="OpenSans-Regular.ttf">
             <string>OpenSans-Regular</string>
         </array>
@@ -182,7 +179,7 @@
                                 <constraints>
                                     <constraint firstAttribute="width" constant="111.5" id="Mzs-rE-J51"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="28"/>
+                                <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="28"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -225,7 +222,9 @@
                         <outlet property="noAuthLabel" destination="MuM-Kk-BOM" id="FWJ-Pi-SNY"/>
                         <outlet property="photoImageView" destination="AFb-Q8-Nrt" id="0wO-gD-Y0b"/>
                         <outlet property="statusLabel" destination="wTG-Mi-fcX" id="psu-sS-xIE"/>
+                        <outlet property="statusTitleTopConstraint" destination="sF5-g3-HBf" id="SOF-fP-WPl"/>
                         <outlet property="timeLabel" destination="AM7-j8-Pnp" id="Z0Q-3s-jkd"/>
+                        <outlet property="titleBarcodeBottomConstraint" destination="Z6Y-WU-PRt" id="9a2-vU-JR2"/>
                         <outlet property="universityLabel" destination="m6t-Wb-5or" id="qY4-6G-nCs"/>
                         <outlet property="widthBarcode" destination="EzH-z7-4i8" id="LIY-tl-CXE"/>
                     </connections>

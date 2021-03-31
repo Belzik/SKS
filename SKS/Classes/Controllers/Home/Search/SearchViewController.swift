@@ -59,8 +59,6 @@ class SearchViewController: BaseViewController {
     
     @objc func keyboardWillShow(notification: Notification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-                print(heightOfTabBar)
-                print(keyboardSize)
                 bottomConstraintTableView.constant = keyboardSize.height - heightOfTabBar
         }
     }

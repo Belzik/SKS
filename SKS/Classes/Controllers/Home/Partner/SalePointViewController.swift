@@ -8,9 +8,12 @@
 
 import UIKit
 import XLPagerTabStrip
+import Pulley
 
 protocol SalePointViewControllerDelegate: class {
     func scrollViewDidScroll(scrollView: UIScrollView, tableView: UITableView)
+    func showSalePoints(salePoints: [SalePoint])
+    func showSalePoint(salePoint: SalePoint)
 }
 
 class SalePointViewController: UIViewController {
@@ -24,7 +27,7 @@ class SalePointViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         setupTableView()
 
         NotificationCenter.default.addObserver(self,
@@ -82,15 +85,92 @@ extension SalePointViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: "\(SalePointTableHeader.self)") as! SalePointTableHeader
-            
+        
+        if let nameCity = city?.nameCity {
+            header.cityLabel.text = "г. \(nameCity)"
+        }
+        
+        header.delegate = self
         header.contentView.backgroundColor = .white
         
         return header
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        delegate?.showSalePoint(salePoint: salePoints[indexPath.row])
+        
+        
+//        if let tabbarController = tabBarController {
+//            tabbarController.selectedIndex = 2
+//
+//            Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false) { [weak self] _ in
+//                if let navVc = tabbarController.viewControllers?[2] as? UINavigationController {
+//                    if let pulleyVC = navVc.viewControllers[0] as? PulleyViewController {
+//                        if let mapVC = pulleyVC.primaryContentViewController as? MapViewController {
+//                            mapVC.isFromPartner = true
+//                            var logoString = ""
+//                            if let logo = self?.partner?.logo,
+//                                logo != "" {
+//                                logoString = logo
+//                                //logoImageView.kf.setImage(with: url)
+//                            } else if let logoIllustrate = self?.partner?.category?.illustrate {
+//                                logoString = NetworkManager.shared.baseURI + logoIllustrate
+//                            }
+//
+//                            if let salePoint = self?.salePoints[indexPath.row] {
+//                                mapVC.showSalePoint(salePoint: salePoint, logo: logoString)
+//                            }
+//
+//                            if let partner = self?.partner,
+//                                let salePoint = self?.salePoints[indexPath.row] {
+//                                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "showPartnerPlace"),
+//                                                                object: nil,
+//                                                                userInfo: ["partner": partner,
+//                                                                           "salePoint": salePoint])
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
     }
 }
 
 extension SalePointViewController: IndicatorInfoProvider {
     func indicatorInfo(for pagerTabStripController: PagerTabStripViewController) -> IndicatorInfo {
         return itemInfo
+    }
+}
+
+extension SalePointViewController: SalePointTableHeaderDelegate {
+    func onMapViewTapped() {
+        delegate?.showSalePoints(salePoints: salePoints)
+//        if let tabbarController = tabBarController {
+//            tabbarController.selectedIndex = 2
+//
+//            Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false) { [weak self] _ in
+//                if let navVc = tabbarController.viewControllers?[2] as? UINavigationController {
+//                    if let pulleyVC = navVc.viewControllers[0] as? PulleyViewController {
+//                        if let mapVC = pulleyVC.primaryContentViewController as? MapViewController {
+//                            mapVC.isFromPartner = true
+//
+//                            if let salePoints = self?.salePoints,
+//                                let partner = self?.partner {
+//                                mapVC.showSalePoints(salePoints: salePoints, partner: partner)
+//                            }
+//
+//                            if let partner = self?.partner,
+//                                let salePoints = self?.salePoints {
+//
+//                                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "showSalePoints"),
+//                                                                object: nil,
+//                                                                userInfo: ["salePoints": salePoints,
+//                                                                           "partner": partner])
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
     }
 }

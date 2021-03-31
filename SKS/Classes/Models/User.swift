@@ -13,6 +13,7 @@ class UserData: NSObject, NSCoding, Codable {
     var status: String?
     var statusReason: String?
     var phone: String?
+    var vk: Bool?
     var studentCode: String?
     var studentInfo: StudentInfo?
     
@@ -28,6 +29,7 @@ class UserData: NSObject, NSCoding, Codable {
         case studentCode
         case studentInfo
         case uniqueSess
+        case vk
     }
     
     required override init() {}
@@ -93,6 +95,7 @@ class StudentInfo: Codable {
     var uuidFaculty: String?
     var nameSpecialty: String?
     var uuidSpecialty: String?
+    var shortNameUniversity: String?
     
     var fio: String {
         var string = ""

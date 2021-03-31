@@ -7,13 +7,13 @@
 //
 
 import UIKit
+import FSPagerView
 
 protocol PoolingTableHeaderViewDelegate: class {
     func backButtonTapped()
 }
 
 class PoolingTableHeaderView: UITableViewHeaderFooterView {
-    @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var categoryView: UIView!
     @IBOutlet weak var typeNewsLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
@@ -26,9 +26,25 @@ class PoolingTableHeaderView: UITableViewHeaderFooterView {
     @IBOutlet weak var typeNewsView: UIView!
     @IBOutlet weak var typeNewsTextLabel: UILabel!
     
+    @IBOutlet weak var pagerView: FSPagerView! {
+        didSet {
+            self.pagerView.register(FSPagerViewCell.self, forCellWithReuseIdentifier: "cell")
+            self.pagerView.itemSize = FSPagerView.automaticSize
+            self.pagerView.bounces = false
+        }
+    }
+    
+    @IBOutlet weak var pageControl: FSPageControl! {
+        didSet {
+            self.pageControl.contentHorizontalAlignment = .center
+            self.pageControl.contentInsets = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+        }
+    }
+    
     @IBAction func backButtonTapped(_ sender: UIButton) {
         delegate?.backButtonTapped()
     }
+
     
     weak var model: News? {
         didSet {
@@ -38,26 +54,30 @@ class PoolingTableHeaderView: UITableViewHeaderFooterView {
     weak var delegate: PoolingTableHeaderViewDelegate?
     
     func layoutUI() {
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.frame = imageView.frame
-        let colors = [
-            UIColor(red: 0, green: 0, blue: 0, alpha: 0.9).cgColor,
-            UIColor(red: 0, green: 0, blue: 0, alpha: 0).cgColor
-        ]
-
-        gradientLayer.startPoint = CGPoint(x: 0, y: 0)
-        gradientLayer.endPoint = CGPoint(x: 0, y: 1)
-        gradientLayer.colors = colors
-
-        imageView.layer.addSublayer(gradientLayer)
+        pagerView.delegate = self
+        pagerView.dataSource = self
         
         if let photo = model?.photoUrl?.first,
             photo != "" {
-            let url = URL(string: photo)
-            imageView.kf.setImage(with: url)
+            let gradientLayer = CAGradientLayer()
+            gradientLayer.frame = pagerView.frame
+            let colors = [
+                UIColor(red: 0, green: 0, blue: 0, alpha: 0.9).cgColor,
+                UIColor(red: 0, green: 0, blue: 0, alpha: 0).cgColor
+            ]
+
+            gradientLayer.startPoint = CGPoint(x: 0, y: 0)
+            gradientLayer.endPoint = CGPoint(x: 0, y: 1)
+            gradientLayer.colors = colors
+
+            pagerView.layer.addSublayer(gradientLayer)
+            
+            if let count = model?.photoUrl?.count {
+                self.pageControl.numberOfPages = count
+            }
             
             topImageViewConstraint.constant = -44
-            heightImageView.constant = 200
+            heightImageView.constant = 224
         } else {
             topImageViewConstraint.constant = 0
             heightImageView.constant = 0
@@ -98,5 +118,50 @@ class PoolingTableHeaderView: UITableViewHeaderFooterView {
         }
         
         categoryView.layer.cornerRadius = 4
+    }
+}
+
+extension PoolingTableHeaderView: FSPagerViewDataSource, FSPagerViewDelegate {
+    func numberOfItems(in pagerView: FSPagerView) -> Int {
+        if let count = model?.photoUrl?.count {
+            return count
+        } else {
+            return 0
+        }
+    }
+    
+    func pagerView(_ pagerView: FSPagerView, cellForItemAt index: Int) -> FSPagerViewCell {
+        let cell = pagerView.dequeueReusableCell(withReuseIdentifier: "cell", at: index)
+        
+        if let photoUrl = model?.photoUrl?[index] {
+            let url = URL(string: photoUrl)
+            cell.imageView?.kf.setImage(with: url)
+        }
+        
+        cell.imageView?.contentMode = .scaleAspectFill
+        cell.imageView?.clipsToBounds = true
+
+        let tap = UITapGestureRecognizer(target: self, action: #selector(cellTapped))
+        cell.addGestureRecognizer(tap)
+        
+        return cell
+    }
+    
+    // Заглуша для того, чтобы при тапе на картинку не моргало "черным"
+    @objc func cellTapped() {
+        return
+    }
+    
+    func pagerView(_ pagerView: FSPagerView, didSelectItemAt index: Int) {
+        pagerView.deselectItem(at: index, animated: true)
+        pagerView.scrollToItem(at: index, animated: true)
+    }
+    
+    func pagerViewWillEndDragging(_ pagerView: FSPagerView, targetIndex: Int) {
+        self.pageControl.currentPage = targetIndex
+    }
+    
+    func pagerViewDidEndScrollAnimation(_ pagerView: FSPagerView) {
+        self.pageControl.currentPage = pagerView.currentIndex
     }
 }

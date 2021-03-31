@@ -12,6 +12,7 @@ import XLPagerTabStrip
 protocol CommentViewControllerDelegate: class {
     func scrollViewDidScroll(scrollView: UIScrollView, tableView: UITableView)
     func commentButtonTapped()
+    func partnerRatingChanged(rating: String)
 }
 
 
@@ -25,6 +26,9 @@ class CommentViewController: BaseViewController {
     var ratingStatistic: RatingStatistic?
     var partner: Partner?
     var comments: [Comment] = []
+    
+    var uuidPartner: String = ""
+    var uuidCity: String = ""
     
     var header: CommentTableViewHeader?
     
@@ -44,6 +48,7 @@ class CommentViewController: BaseViewController {
     func loadData() {
         getRatingStatistic()
         getComments()
+        getPartner()
         
         dispatchGroup.notify(queue: .main) { [weak self] in
             if let statistic = self?.ratingStatistic,
@@ -76,6 +81,22 @@ class CommentViewController: BaseViewController {
             self?.dispatchGroup.leave()
             if let ratingStatistic = response.result.value {
                 self?.ratingStatistic = ratingStatistic
+            }
+        }
+    }
+    
+    private func getPartner() {
+        dispatchGroup.enter()
+        NetworkManager.shared.getPartner(uuidPartner: uuidPartner,
+                                         uuidCity: uuidCity) { [weak self] response in
+            self?.dispatchGroup.leave()
+            if let partner = response.result.value {
+                self?.partner = partner
+                if let rating = partner.rating {
+                    self?.delegate?.partnerRatingChanged(rating: rating)
+                }
+            } else {
+                self?.showAlert(message: NetworkErrors.common)
             }
         }
     }

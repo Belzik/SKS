@@ -28,6 +28,8 @@ class MapPoint: Codable {
     let distance: Int?
     let logo: String?
     let geo: GeoMapPoint?
+    let isOpenedNow: Bool?
+    let uuidCity: String?
 }
 
 class GeoMapPoint: Codable {

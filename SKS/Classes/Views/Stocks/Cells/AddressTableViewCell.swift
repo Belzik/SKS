@@ -30,9 +30,9 @@ class AddressTableViewCell: UITableViewCell {
             addressText = address
         }
         
-        if let workTime = model?.workTime {
-            addressText += ", " + workTime
-        }
+//        if let workTime = model?.workTime {
+//            addressText += ", " + workTime
+//        }
         
         addressLabel.text = addressText
     }

@@ -17,11 +17,20 @@ class ResetPasswordViewController: BaseViewController {
     @IBOutlet weak var secondTextField: UITextField!
     @IBOutlet weak var thirdTextField: UITextField!
     @IBOutlet weak var fourthTextField: UITextField!
+    
+    @IBOutlet weak var timerLabel: UILabel!
+    @IBOutlet weak var bottomTimerLabelConstraint: NSLayoutConstraint!
+    
 
+    var keyboardHeight: CGFloat = 0
+    
     var optString = ""
     var phone = ""
     var smsAttempt = ""
     weak var delegate: ResetPasswordViewControllerDelegate?
+    
+    var timeForLabel = 60
+    var timer: Timer = Timer.init()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,8 +40,84 @@ class ResetPasswordViewController: BaseViewController {
         secondTextField.textAlignment = .center
         thirdTextField.textAlignment = .center
         fourthTextField.textAlignment = .center
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillShow),
+                                               name: UIResponder.keyboardWillChangeFrameNotification,
+                                               object: nil)
+        
+        bottomTimerLabelConstraint.constant = keyboardHeight + 16
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(timerLabelTapped))
+        timerLabel.isUserInteractionEnabled = true
+        timerLabel.addGestureRecognizer(tap)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        timer.invalidate()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        runTimer()
     }
 
+    @objc func keyboardWillShow(notification: Notification) {
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            let keyboardHeight = keyboardRectangle.height
+            bottomTimerLabelConstraint.constant = keyboardHeight + 16
+        }
+    }
+    
+    @objc func timerLabelTapped() {
+        if timeForLabel != 0 { return }
+        timeForLabel = 60
+        timerLabel.textColor = UIColor.gray
+        getSmsWithCode()
+    }
+    
+    private func getSmsWithCode() {
+//        NetworkManager.shared.getCodeWithSms(phone: phone) { [weak self] response in
+//            if response.result.error != nil {
+//                self?.showAlert(message: NetworkErrors.common)
+//            } else if let smsResponse = response.result.value {
+//                
+//                if let smsAttempt = smsResponse.attempt {
+//                    self?.smsAttempt = smsAttempt
+//                }
+//                
+//                self?.runTimer()
+//            }
+//        }
+        
+        NetworkManager.shared.resetPassword(phone: phone) { [weak self] response in
+            if response.result.error != nil {
+                self?.showAlert(message: NetworkErrors.common)
+            } else if let smsResponse = response.result.value {
+                                if let smsAttempt = smsResponse.attempt {
+                    self?.smsAttempt = smsAttempt
+                }
+                
+                self?.runTimer()
+            }
+        }
+    }
+    
+    func runTimer() {
+        timerLabel.text = "Отправить код еще раз через \(timeForLabel) сек"
+        
+        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [unowned self] timer in
+            self.timeForLabel -= 1
+            self.timerLabel.text = "Отправить код еще раз через \(self.timeForLabel) сек"
+            
+            if self.timeForLabel == 0 {
+                self.timer.invalidate()
+                self.timerLabel.textColor = ColorManager.green.value
+                self.timerLabel.text = "Отправить код ещё раз"
+
+            }
+        }
+    }
 }
 
 extension ResetPasswordViewController: UITextFieldDelegate {
@@ -64,10 +149,6 @@ extension ResetPasswordViewController: UITextFieldDelegate {
         
         if optString.count == 6 {
             
-            print(newString[0...0])
-            print(newString[1...1])
-            print(newString[3...3])
-            print(newString[5...5])
             firstTextField.text = optString[0...0]
             secondTextField.text = optString[1...1]
             thirdTextField.text = optString[3...3]
@@ -161,14 +242,22 @@ extension ResetPasswordViewController: UITextFieldDelegate {
                        self?.fourthTextField.text! = ""
                        self?.optString = ""
                    } else {
+                        self?.firstTextField.isUserInteractionEnabled = true
+                        self?.secondTextField.isUserInteractionEnabled = true
+                        self?.thirdTextField.isUserInteractionEnabled = true
+                        self?.firstTextField.becomeFirstResponder()
                     
                        self?.showAlert(message: NetworkErrors.common)
+                    
+                        self?.firstTextField.text! = ""
+                        self?.secondTextField.text! = ""
+                        self?.thirdTextField.text! = ""
+                        self?.fourthTextField.text! = ""
+                        self?.optString = ""
                    }
                 } else if let otpResponse = response.result.value {
                     self?.delegate?.getOTP(otp: otpResponse)
-self?.navigationController?.popViewController(animated: true)
-                     //self?.otpResponse = otpResponse
-                     //self?.performSegue(withIdentifier: "seguePassword", sender: nil)
+                    self?.navigationController?.popViewController(animated: true)
                 }
            }
        }

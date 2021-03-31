@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="F6i-Pa-pF6">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="F6i-Pa-pF6">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -103,11 +103,11 @@
                                 <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="5fW-a5-ojr">
-                                <rect key="frame" x="24" y="157.5" width="366" height="182"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="5fW-a5-ojr">
+                                <rect key="frame" x="24" y="157.5" width="366" height="208"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="Ksr-Wk-E0H">
-                                        <rect key="frame" x="0.0" y="0.0" width="366" height="60"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="366" height="85"/>
                                         <subviews>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Пароль" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="I4v-qC-2hg" customClass="SKSTextField" customModule="SKS" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="366" height="60"/>
@@ -120,17 +120,19 @@
                                                     <outlet property="delegate" destination="AqV-eT-REO" id="zym-R5-IIG"/>
                                                 </connections>
                                             </textField>
-                                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="v6k-1Y-Lho">
-                                                <rect key="frame" x="0.0" y="86" width="366" height="0.0"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W9o-6Q-18I">
+                                                <rect key="frame" x="0.0" y="64" width="366" height="21"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="21" id="yS0-c4-4he"/>
+                                                </constraints>
                                                 <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="12"/>
-                                                <color key="textColor" red="0.92457121610000004" green="0.3929765522" blue="0.39103740450000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="textColor" red="0.92549019607843142" green="0.39215686274509803" blue="0.39215686274509803" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="cET-9e-oRg">
-                                        <rect key="frame" x="0.0" y="76" width="366" height="60"/>
+                                        <rect key="frame" x="0.0" y="89" width="366" height="85"/>
                                         <subviews>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Повторите пароль" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="D0M-HZ-Q4a" customClass="SKSTextField" customModule="SKS" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="366" height="60"/>
@@ -143,19 +145,21 @@
                                                     <outlet property="delegate" destination="AqV-eT-REO" id="S3b-EU-P8S"/>
                                                 </connections>
                                             </textField>
-                                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="HZa-UQ-eO9">
-                                                <rect key="frame" x="0.0" y="34" width="366" height="0.0"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Gc-kt-Jk4">
+                                                <rect key="frame" x="0.0" y="64" width="366" height="21"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="21" id="71z-mg-wht"/>
+                                                </constraints>
                                                 <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="12"/>
-                                                <color key="textColor" red="0.92457121610000004" green="0.3929765522" blue="0.39103740450000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="textColor" red="0.92549019610000005" green="0.3921568627" blue="0.3921568627" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
                                     </stackView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q4N-vB-c0i">
-                                        <rect key="frame" x="0.0" y="152" width="366" height="30"/>
+                                        <rect key="frame" x="0.0" y="178" width="366" height="30"/>
                                         <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="14"/>
-                                        <state key="normal" title="Забыли пароль?">
+                                        <state key="normal" title="Получить пароль">
                                             <color key="titleColor" red="0.10069117700000001" green="0.66996139290000001" blue="0.34534701699999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
@@ -165,7 +169,7 @@
                                 </subviews>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AqK-XW-hBe" customClass="SKSButton" customModule="SKS" customModuleProvider="target">
-                                <rect key="frame" x="24" y="379.5" width="366" height="48"/>
+                                <rect key="frame" x="24" y="405.5" width="366" height="48"/>
                                 <color key="backgroundColor" red="0.1019607843" green="0.6705882353" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="o9e-zs-yew"/>
@@ -200,9 +204,9 @@
                     <navigationItem key="navigationItem" id="3ct-zg-QhY"/>
                     <connections>
                         <outlet property="confimPasswordTextField" destination="D0M-HZ-Q4a" id="WdY-3a-0B2"/>
-                        <outlet property="passwordErrorLabel" destination="v6k-1Y-Lho" id="unE-Po-WLM"/>
+                        <outlet property="passwordErrorLabel" destination="W9o-6Q-18I" id="5RP-b4-z12"/>
                         <outlet property="passwordTextField" destination="I4v-qC-2hg" id="hWm-KR-6JV"/>
-                        <outlet property="resetErrorLabel" destination="HZa-UQ-eO9" id="FN0-2b-uGa"/>
+                        <outlet property="resetErrorLabel" destination="2Gc-kt-Jk4" id="cfk-cP-6nq"/>
                         <outlet property="resetPasswordButton" destination="Q4N-vB-c0i" id="55A-TI-rV0"/>
                         <segue destination="Bpn-KQ-ljd" kind="show" identifier="seguePersonalData" id="8zu-0c-bm7"/>
                         <segue destination="F4K-YV-3LS" kind="show" identifier="segueResetPassword" id="Pfq-45-Mmh"/>
@@ -230,7 +234,7 @@
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
-                                    <action selector="backButtonTapped:" destination="eqE-YN-TV7" eventType="touchUpInside" id="A5o-en-Psl"/>
+                                    <action selector="backButtonTapped:" destination="F4K-YV-3LS" eventType="touchUpInside" id="FNJ-zF-kza"/>
                                 </connections>
                             </button>
                             <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Введите код подтверждения" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HSN-O4-Z0M">
@@ -298,29 +302,40 @@
                                     </textField>
                                 </subviews>
                             </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Отправить код еще раз через 24 сек" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ehE-kg-7hP">
+                                <rect key="frame" x="16" y="838.5" width="382" height="17.5"/>
+                                <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="14"/>
+                                <color key="textColor" red="0.63137254899999995" green="0.65098039220000004" blue="0.71764705880000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
+                            <constraint firstItem="ehE-kg-7hP" firstAttribute="leading" secondItem="Blf-hp-68Z" secondAttribute="leading" constant="16" id="9Tg-gS-xhp"/>
                             <constraint firstItem="4du-3o-Avz" firstAttribute="top" secondItem="HSN-O4-Z0M" secondAttribute="bottom" constant="40" id="9sn-mi-mr0"/>
                             <constraint firstItem="4du-3o-Avz" firstAttribute="leading" secondItem="Blf-hp-68Z" secondAttribute="leading" constant="24" id="FKl-qJ-0ti"/>
                             <constraint firstItem="ugM-C0-EP7" firstAttribute="top" secondItem="Blf-hp-68Z" secondAttribute="top" constant="12" id="ONy-xs-Vi5"/>
                             <constraint firstItem="ugM-C0-EP7" firstAttribute="leading" secondItem="Blf-hp-68Z" secondAttribute="leading" constant="8" id="YVy-Oa-PM0"/>
                             <constraint firstItem="HSN-O4-Z0M" firstAttribute="leading" secondItem="Blf-hp-68Z" secondAttribute="leading" constant="24" id="Zak-le-JWd"/>
+                            <constraint firstAttribute="bottom" secondItem="ehE-kg-7hP" secondAttribute="bottom" constant="40" id="c0Z-pk-RcL"/>
                             <constraint firstItem="ruO-1W-GNx" firstAttribute="top" secondItem="4du-3o-Avz" secondAttribute="bottom" id="d8T-08-94G"/>
                             <constraint firstItem="Blf-hp-68Z" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="ugM-C0-EP7" secondAttribute="trailing" constant="8" id="ipr-4n-gmy"/>
                             <constraint firstItem="Blf-hp-68Z" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="HSN-O4-Z0M" secondAttribute="trailing" constant="24" id="jcM-lR-8i0"/>
                             <constraint firstItem="Blf-hp-68Z" firstAttribute="trailing" secondItem="4du-3o-Avz" secondAttribute="trailing" constant="24" id="oQM-ka-nMG"/>
                             <constraint firstItem="ruO-1W-GNx" firstAttribute="leading" secondItem="Blf-hp-68Z" secondAttribute="leading" constant="24" id="obq-cZ-CGa"/>
+                            <constraint firstItem="Blf-hp-68Z" firstAttribute="trailing" secondItem="ehE-kg-7hP" secondAttribute="trailing" constant="16" id="qoJ-Zj-vi7"/>
                             <constraint firstItem="HSN-O4-Z0M" firstAttribute="top" secondItem="ugM-C0-EP7" secondAttribute="bottom" constant="24" id="x3D-bz-jhm"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Blf-hp-68Z"/>
                     </view>
                     <navigationItem key="navigationItem" id="6Tj-Fj-IFz"/>
                     <connections>
+                        <outlet property="bottomTimerLabelConstraint" destination="c0Z-pk-RcL" id="bS4-by-C3l"/>
                         <outlet property="firstTextField" destination="ChP-Gi-gqO" id="Sfx-XB-T5l"/>
                         <outlet property="fourthTextField" destination="fWa-Jh-z9L" id="gEo-Ao-VLX"/>
                         <outlet property="secondTextField" destination="JS6-wR-gr3" id="SyE-Y0-2EH"/>
                         <outlet property="thirdTextField" destination="B6D-kE-x4z" id="eKr-tl-ENt"/>
+                        <outlet property="timerLabel" destination="ehE-kg-7hP" id="ENe-fc-6H9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3Ji-zU-5Yo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -330,7 +345,7 @@
         <!--Login View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="LoginViewController" customModule="SKS" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoginViewController" id="BYZ-38-t0r" customClass="LoginViewController" customModule="SKS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -341,20 +356,6 @@
                                 <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="84t-u7-sDb" customClass="SKSButton" customModule="SKS" customModuleProvider="target">
-                                <rect key="frame" x="24" y="303" width="366" height="48"/>
-                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="48" id="5Wq-PS-Cd2"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="16"/>
-                                <state key="normal" title="Далее">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <action selector="nextbuttonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ICV-gd-WbA"/>
-                                </connections>
-                            </button>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Нажимая кнопку &quot;Далее&quot;, я соглашаюсь с Пользовательски соглашением и Политикой конфиденциальности" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OL1-cQ-R23">
                                 <rect key="frame" x="24" y="812" width="366" height="44"/>
                                 <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="12"/>
@@ -385,31 +386,64 @@
                                     <action selector="backButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="K4Y-79-CCp"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4WN-s8-zxD">
+                                <rect key="frame" x="20" y="287" width="48" height="48"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="48" id="JIh-XE-ijH"/>
+                                    <constraint firstAttribute="width" constant="48" id="qko-Vi-sOs"/>
+                                </constraints>
+                                <state key="normal" image="vk"/>
+                                <connections>
+                                    <action selector="vkButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="vQX-nh-kPA"/>
+                                </connections>
+                            </button>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="84t-u7-sDb" customClass="SKSButton" customModule="SKS" customModuleProvider="target">
+                                <rect key="frame" x="24" y="359" width="366" height="48"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="48" id="5Wq-PS-Cd2"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="16"/>
+                                <state key="normal" title="Далее">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="nextbuttonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ICV-gd-WbA"/>
+                                </connections>
+                            </button>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="IzM-nP-0zR">
+                                <rect key="frame" x="197" y="443" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="84t-u7-sDb" firstAttribute="top" secondItem="4WN-s8-zxD" secondAttribute="bottom" constant="24" id="D7Q-LF-8MZ"/>
                             <constraint firstItem="Bx5-1b-u56" firstAttribute="top" secondItem="XJ7-94-Fpo" secondAttribute="bottom" constant="24" id="D9D-TI-EUb"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Bx5-1b-u56" secondAttribute="trailing" constant="24" id="Ggi-mQ-d2q"/>
                             <constraint firstItem="84t-u7-sDb" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="24" id="Goa-bx-FCX"/>
+                            <constraint firstItem="4WN-s8-zxD" firstAttribute="leading" secondItem="hR8-R3-R1S" secondAttribute="leading" id="HlI-F5-CVo"/>
                             <constraint firstItem="XJ7-94-Fpo" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="8" id="Mgg-nx-QpD"/>
                             <constraint firstItem="hR8-R3-R1S" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="OTu-Sd-Mqo"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="OL1-cQ-R23" secondAttribute="trailing" constant="24" id="PbO-ss-II0"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="XJ7-94-Fpo" secondAttribute="trailing" constant="8" id="Uz2-0y-S5p"/>
-                            <constraint firstItem="84t-u7-sDb" firstAttribute="top" secondItem="hR8-R3-R1S" secondAttribute="bottom" constant="40" id="bvb-pg-cVE"/>
                             <constraint firstItem="Bx5-1b-u56" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="24" id="c1d-gX-mJO"/>
+                            <constraint firstItem="4WN-s8-zxD" firstAttribute="top" secondItem="hR8-R3-R1S" secondAttribute="bottom" constant="24" id="cBc-9Y-j3X"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="hR8-R3-R1S" secondAttribute="trailing" constant="20" id="cNR-4t-mJT"/>
                             <constraint firstItem="XJ7-94-Fpo" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="12" id="dbF-PY-xJC"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="84t-u7-sDb" secondAttribute="trailing" constant="24" id="euV-eK-q5R"/>
                             <constraint firstItem="OL1-cQ-R23" firstAttribute="top" relation="greaterThanOrEqual" secondItem="84t-u7-sDb" secondAttribute="bottom" constant="8" id="giF-Pr-ek9"/>
                             <constraint firstItem="OL1-cQ-R23" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="24" id="j2Q-4Z-Qvw"/>
                             <constraint firstItem="Bx5-1b-u56" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.66" id="oAv-M5-0RL"/>
+                            <constraint firstItem="IzM-nP-0zR" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="q1l-96-PPa"/>
                             <constraint firstItem="hR8-R3-R1S" firstAttribute="top" secondItem="Bx5-1b-u56" secondAttribute="bottom" constant="40" id="sAe-jb-sLB"/>
+                            <constraint firstItem="IzM-nP-0zR" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="ul8-b5-hG9"/>
                             <constraint firstAttribute="bottom" secondItem="OL1-cQ-R23" secondAttribute="bottom" constant="40" id="yFa-ro-Qyg"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="Itw-JK-DkR"/>
                     <connections>
+                        <outlet property="acitivityIndicator" destination="IzM-nP-0zR" id="Jh2-MR-i7z"/>
                         <outlet property="agreementsLabel" destination="OL1-cQ-R23" id="9aU-wn-eiP"/>
                         <outlet property="bottomConstraintAgreementLabel" destination="yFa-ro-Qyg" id="CyL-ZP-8WM"/>
                         <outlet property="nextButton" destination="84t-u7-sDb" id="ewp-cn-6TV"/>
@@ -419,6 +453,7 @@
                         <segue destination="eqE-YN-TV7" kind="show" identifier="segueCode" id="kVN-Wu-eKW"/>
                         <segue destination="qba-DW-Mp6" kind="show" identifier="segueAgreements" id="HrO-fP-7EY"/>
                         <segue destination="AqV-eT-REO" kind="show" identifier="seguePassword" id="ftT-CC-Cej"/>
+                        <segue destination="Bpn-KQ-ljd" kind="show" identifier="seguePersonalData" id="yfE-9B-IOe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -575,7 +610,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="862"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zBr-KZ-TPm">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="624"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="709"/>
                                         <subviews>
                                             <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Введите личные данные" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z1p-Nb-AfV">
                                                 <rect key="frame" x="24" y="60" width="273" height="59"/>
@@ -591,7 +626,7 @@
                                                 </constraints>
                                             </imageView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="rPf-2m-bsk">
-                                                <rect key="frame" x="24" y="211" width="366" height="320"/>
+                                                <rect key="frame" x="24" y="211" width="366" height="405"/>
                                                 <subviews>
                                                     <view tag="1" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Nj-Bw-PhJ" customClass="ErrorTextField" customModule="SKS" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="366" height="65"/>
@@ -633,10 +668,20 @@
                                                             <userDefinedRuntimeAttribute type="string" keyPath="placeholder" value="Дата рождения"/>
                                                         </userDefinedRuntimeAttributes>
                                                     </view>
+                                                    <view tag="3" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="j69-vH-Drg" customClass="ErrorTextField" customModule="SKS" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="340" width="366" height="65"/>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="65" id="9PG-hg-Nf1"/>
+                                                        </constraints>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="string" keyPath="placeholder" value="Введите номер телефона"/>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </view>
                                                 </subviews>
                                             </stackView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ruo-eU-O9C" customClass="SKSButton" customModule="SKS" customModuleProvider="target">
-                                                <rect key="frame" x="24" y="556" width="366" height="48"/>
+                                                <rect key="frame" x="24" y="641" width="366" height="48"/>
                                                 <color key="backgroundColor" red="0.10196078431372549" green="0.6705882352941176" blue="0.34509803921568627" alpha="1" colorSpace="calibratedRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="48" id="Q34-Om-aPk"/>
@@ -725,6 +770,7 @@
                         <outlet property="lastnameTextField" destination="4Nj-Bw-PhJ" id="gGS-5a-U6a"/>
                         <outlet property="loaderPhoto" destination="A0F-as-YPh" id="Sxo-k7-KM9"/>
                         <outlet property="nextButton" destination="Ruo-eU-O9C" id="IUb-ge-sP3"/>
+                        <outlet property="phoneTextField" destination="j69-vH-Drg" id="vfU-cq-mFj"/>
                         <outlet property="photoImageView" destination="dbx-pC-mRA" id="Gm1-rt-Fde"/>
                         <outlet property="secondTextField" destination="13n-Gn-isk" id="3BY-ms-fCf"/>
                         <outlet property="titleLabel" destination="Z1p-Nb-AfV" id="9ql-1a-YgV"/>
@@ -747,10 +793,10 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="966"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6G4-l0-Ub8">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="888"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="803"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="oxK-zh-5Cw">
-                                                <rect key="frame" x="24" y="131" width="366" height="660"/>
+                                                <rect key="frame" x="24" y="131" width="366" height="575"/>
                                                 <subviews>
                                                     <view tag="1" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="efZ-OI-jXl" customClass="ErrorTextField" customModule="SKS" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="366" height="65"/>
@@ -782,18 +828,8 @@
                                                             <userDefinedRuntimeAttribute type="string" keyPath="placeholder" value="Факультет"/>
                                                         </userDefinedRuntimeAttributes>
                                                     </view>
-                                                    <view tag="4" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HE9-4I-ykw" customClass="ErrorTextField" customModule="SKS" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="255" width="366" height="65"/>
-                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="65" id="8GN-sf-gfS"/>
-                                                        </constraints>
-                                                        <userDefinedRuntimeAttributes>
-                                                            <userDefinedRuntimeAttribute type="string" keyPath="placeholder" value="Специальность"/>
-                                                        </userDefinedRuntimeAttributes>
-                                                    </view>
                                                     <view tag="5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x2B-cq-vjS" customClass="ErrorTextField" customModule="SKS" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="340" width="366" height="65"/>
+                                                        <rect key="frame" x="0.0" y="255" width="366" height="65"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="65" id="Y1V-Kj-Xpa"/>
@@ -803,7 +839,7 @@
                                                         </userDefinedRuntimeAttributes>
                                                     </view>
                                                     <view tag="5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CaP-oK-AXw" customClass="ErrorTextField" customModule="SKS" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="425" width="366" height="65"/>
+                                                        <rect key="frame" x="0.0" y="340" width="366" height="65"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="65" id="Ws3-VO-QAB"/>
@@ -813,7 +849,7 @@
                                                         </userDefinedRuntimeAttributes>
                                                     </view>
                                                     <view tag="5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4TB-gi-MIn" customClass="ErrorTextField" customModule="SKS" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="510" width="366" height="65"/>
+                                                        <rect key="frame" x="0.0" y="425" width="366" height="65"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="65" id="tyH-MF-RCI"/>
@@ -823,7 +859,7 @@
                                                         </userDefinedRuntimeAttributes>
                                                     </view>
                                                     <view tag="7" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="peq-YP-XSC" customClass="ErrorTextField" customModule="SKS" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="595" width="366" height="65"/>
+                                                        <rect key="frame" x="0.0" y="510" width="366" height="65"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="65" id="arN-sn-CiR"/>
@@ -841,7 +877,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dS2-Yv-otH" customClass="SKSButton" customModule="SKS" customModuleProvider="target">
-                                                <rect key="frame" x="24" y="816" width="370" height="48"/>
+                                                <rect key="frame" x="24" y="731" width="370" height="48"/>
                                                 <color key="backgroundColor" red="0.10196078431372549" green="0.6705882352941176" blue="0.34509803921568627" alpha="1" colorSpace="calibratedRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="48" id="crL-Sg-LWz"/>
@@ -916,7 +952,6 @@
                         <outlet property="instituteTextField" destination="9jE-rt-9Fn" id="CPd-gw-OlD"/>
                         <outlet property="levelEducationTextField" destination="x2B-cq-vjS" id="0fz-xm-yoB"/>
                         <outlet property="periodTextField" destination="CaP-oK-AXw" id="Qw3-ec-pbC"/>
-                        <outlet property="specialtyTextField" destination="HE9-4I-ykw" id="POR-Wa-NDi"/>
                         <outlet property="titleLabel" destination="Foh-Ln-i7i" id="wJm-Ec-ely"/>
                     </connections>
                 </viewController>
@@ -949,8 +984,10 @@
         <image name="ic_arrow_left" width="24" height="24"/>
         <image name="ic_arrow_left_white" width="24" height="24"/>
         <image name="ic_photo" width="60" height="60"/>
+        <image name="vk" width="120" height="120"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ftT-CC-Cej"/>
+        <segue reference="8zu-0c-bm7"/>
+        <segue reference="Wkh-5R-TAG"/>
     </inferredMetricsTieBreakers>
 </document>

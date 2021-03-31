@@ -18,9 +18,10 @@ class SalePoint: Codable {
     let updatedAt: String?
     let idPartnerCity: Int?
     let address: String?
-    let workTime: String?
+    let timeWork: [TimeWork]?
     let uuidSalePoint: String?
     let latitude: String?
     let longitude: String?
     let distance: Int?
+    let isOpenedNow: Bool?
 }

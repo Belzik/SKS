@@ -18,6 +18,7 @@ extension JSONDecoder {
     func decodeResponse<T: Decodable>(from response: DataResponse<Data>) -> (Result<T>, statusCode: Int?) {
         let statusCode = response.response?.statusCode
         
+        
         if let error = response.error {
             return (.failure(error), statusCode)
         }
@@ -26,16 +27,18 @@ extension JSONDecoder {
             return (.failure(NetworkError.common), statusCode)
         }
         
-        let json = try? JSONSerialization.jsonObject(with: response.data!, options: []) as? [String : Any]
-        print(json)
-        
-        print("-------------------")
-        if let headers = response.response?.allHeaderFields {
-            for header in headers {
-                print(header)
-            }
-        }
-        print("-------------------")
+//        let json = try? JSONSerialization.jsonObject(with: response.data!, options: []) as? [String : Any]
+//        print("JSON", json)
+//        
+//        let str = String(decoding: response.data!, as: UTF8.self)
+//        print("STR", str)
+//        print("-------------------")
+//        if let headers = response.response?.allHeaderFields {
+//            for header in headers {
+//                print(header)
+//            }
+//        }
+//        print("-------------------")
 
         
         //print("Все headers", response.response?.allHeaderFields)

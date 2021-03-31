@@ -16,6 +16,7 @@ class PersonalDataViewController: BaseViewController {
     @IBOutlet weak var firstnameTextField: ErrorTextField!
     @IBOutlet weak var secondTextField: ErrorTextField!
     @IBOutlet weak var birthdayTextField: ErrorTextField!
+    @IBOutlet weak var phoneTextField: ErrorTextField!
     @IBOutlet weak var nextButton: UIButton!
     @IBOutlet weak var titleLabel: UILabel!
     
@@ -31,12 +32,32 @@ class PersonalDataViewController: BaseViewController {
     var refreshToken = ""
     var accessToken = ""
     
+    var possibleData: PossibleData?
+    var isVK: Bool = false
+    
     @IBAction func nextButtonTapped(_ sender: UIButton) {
         toUniversityData()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        phoneTextField.textField.delegate = self
+        phoneTextField.textField.keyboardType = .numberPad
+        
+        if let possibleData = possibleData {
+            lastnameTextField.text = possibleData.surname
+            firstnameTextField.text = possibleData.name
+            birthdayTextField.text = possibleData.birthdate
+        }
+        
+        if isVK {
+            phoneTextField.isHidden = false
+        } else {
+            phoneTextField.isHidden = true
+        }
+        
+        
         
         if UIDevice.modelName == "iPhone 5s" ||
             UIDevice.modelName ==  "iPhone SE" ||
@@ -81,6 +102,11 @@ class PersonalDataViewController: BaseViewController {
             dvc.name = firstnameTextField.text!
             dvc.patronymic = secondTextField.text!
             dvc.birthday = birthdayTextField.text!
+            
+            if isVK {
+                let phone =  phoneTextField.text!.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
+                dvc.phone = phone
+            }
         }
     }
     
@@ -106,6 +132,18 @@ class PersonalDataViewController: BaseViewController {
             isValid = false
         }
         
+        if isVK {
+            if phoneTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
+                phoneTextField.errorMessage = "Поле не заполнено"
+                isValid = false
+            }
+            
+            if !phoneTextField.text!.components(separatedBy: CharacterSet.decimalDigits.inverted).joined().isPhone() {
+                phoneTextField.errorMessage = "Не верный формат телефона"
+                isValid = false
+            }
+        }
+
         if !isImageAdd {
             imageErrorLabel.isHidden = false
             photoImageView.layer.borderColor = ColorManager.red.value.cgColor
@@ -191,5 +229,65 @@ extension PersonalDataViewController: ErrorTextFieldDelegate {
         } else {
             view.endEditing(true)
         }
+    }
+}
+
+extension PersonalDataViewController: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if textField == phoneTextField.textField {
+            if textField.text == "" {
+                textField.text = "+7 "
+            }
+        }
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if textField == phoneTextField.textField {
+            let newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+                   let isDeleted = newString.count < textField.text!.count
+                   
+                   let currentText: NSString = textField.text as NSString? ?? ""
+                   
+                   let newText = currentText.replacingCharacters(in: range, with: string)
+                   let formattedString = newText.with(mask: "+* (***) ***-**-**", replacementChar: "*", isDecimalDigits: true)
+                   
+                   guard let finalText = formattedString as NSString? else { return false }
+                   
+                   if finalText == currentText && range.location < currentText.length && range.location > 0 {
+
+                       
+                       return self.textField(textField, shouldChangeCharactersIn: NSRange(location: range.location - 1, length: range.length + 1) , replacementString: string)
+                   }
+                   
+                   
+                   if finalText != currentText {
+                       textField.text = finalText as String
+
+                       // the user is trying to delete something so we need to
+                       // move the cursor accordingly
+                       if range.location < currentText.length {
+                           var cursorLocation = 0
+                           
+                           if range.location > finalText.length {
+                               cursorLocation = finalText.length
+                           } else if currentText.length > finalText.length {
+                               cursorLocation = range.location
+                           } else {
+                               cursorLocation = range.location + 1
+                           }
+                           
+                           guard let startPosition = textField.position(from: textField.beginningOfDocument, offset: cursorLocation) else { return false }
+                           guard let endPosition = textField.position(from: startPosition, offset: 0) else { return false }
+                           textField.selectedTextRange = textField.textRange(from: startPosition, to: endPosition)
+                       }
+                       
+                       //setupError(forTextField: textField as! SKSTextField, isDeleted: isDeleted)
+                       return false
+                   }
+                   
+                   //setupError(forTextField: textField as! SKSTextField, isDeleted: isDeleted)
+                   return false
+        }
+       return true
     }
 }

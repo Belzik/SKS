@@ -65,16 +65,22 @@ class SendCommentViewController: BaseViewController {
     }
     
     func sendData() {
+        sendRating()
+        
         if chComment?.info?.uuidComment != nil {
             editComment()
         } else {
             if commentTextField.text!.count > 0 {
-                sendComment()
+                dispatchGroup.enter()
             }
         }
         
         
-        sendRating()
+//        else {
+//            if commentTextField.text!.count > 0 {
+//                sendComment()
+//            }
+//        }
         
         dispatchGroup.notify(queue: .main) { [weak self] in
             guard let isHaveErrors = self?.isHaveErrors else { return }
@@ -90,15 +96,21 @@ class SendCommentViewController: BaseViewController {
     }
     
     func sendComment() {
-        dispatchGroup.enter()
+        //dispatchGroup.enter()
         NetworkManager.shared.sendCommentToPartner(uuidPartner: uuidPartner,
                                                    comment: commentTextField.text!) { [weak self] result in
             self?.dispatchGroup.leave()
             if result.statusCode == 200 {
                 self?.isHaveErrors = false
+                
             } else {
                 self?.isHaveErrors = true
-                self?.showAlert(message: NetworkErrors.common)
+                if let statusCode = result.statusCode,
+                    statusCode == 403 {
+                    self?.showAlert(message: "Для того, чтобы оставить отзыв необходимо статус подтвержденного пользователя")
+                } else {
+                    self?.showAlert(message: NetworkErrors.common)
+                }
             }
         }
     }
@@ -114,7 +126,12 @@ class SendCommentViewController: BaseViewController {
                 self?.isHaveErrors = false
             } else {
                 self?.isHaveErrors = true
-                self?.showAlert(message: NetworkErrors.common)
+                if let statusCode = result.statusCode,
+                    statusCode == 403 {
+                    self?.showAlert(message: "Для того, чтобы оставить отзыв необходимо статус подтвержденного пользователя")
+                } else {
+                    self?.showAlert(message: NetworkErrors.common)
+                }
             }
         }
     }
@@ -127,9 +144,22 @@ class SendCommentViewController: BaseViewController {
             self?.dispatchGroup.leave()
             if result.statusCode == 200 {
                 self?.isHaveErrors = false
+                
+                if self?.chComment?.info?.uuidComment == nil {
+                    if self!.commentTextField.text!.count > 0 {
+                        self?.sendComment()
+                    }
+                }
             } else {
                 self?.isHaveErrors = true
-                self?.showAlert(message: NetworkErrors.common)
+                
+                if let statusCode = result.statusCode,
+                    statusCode == 403 {
+                    self?.showAlert(message: "Для того, чтобы оставить отзыв необходимо статус подтвержденного пользователя")
+                } else {
+                    self?.showAlert(message: NetworkErrors.common)
+                }
+                
             }
         }
     }

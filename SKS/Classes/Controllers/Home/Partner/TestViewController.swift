@@ -9,10 +9,16 @@
 import UIKit
 import XLPagerTabStrip
 import Kingfisher
+import FSPagerView
+import Pulley
+
+protocol TestViewContollerDelegate: class {
+    func favoriteButtonTapped(viewController: TestViewController, isFavorite: Bool, uuidPartner: String)
+}
 
 class TestViewController: ButtonBarPagerTabStripViewController {
-    //@IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var pageControl: UIPageControl!
+    
+    // MARK: - IBOutlets
     
     @IBOutlet weak var constraintHeightContentView: NSLayoutConstraint!
     @IBOutlet weak var constraintTopImageView: NSLayoutConstraint!
@@ -22,7 +28,7 @@ class TestViewController: ButtonBarPagerTabStripViewController {
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var headerView: UIView!
     @IBOutlet weak var barView: ButtonBarView!
-    @IBOutlet weak var derkenedImage: UIImageView!
+    
     @IBOutlet weak var logoImageView: UIImageView!
     @IBOutlet weak var acitivityIndicatorView: UIActivityIndicatorView!
     @IBOutlet weak var userLikeImage: UIImageView!
@@ -35,13 +41,39 @@ class TestViewController: ButtonBarPagerTabStripViewController {
     @IBOutlet weak var heightOfImageView: NSLayoutConstraint! // 60 или 200
     @IBOutlet weak var topView: UIView!
     
-    @IBAction func backButtonTapped(_ sender: UIButton) {
-        navigationController?.popViewController(animated: true)
+    @IBOutlet weak var pagerView: FSPagerView! {
+        didSet {
+            self.pagerView.register(FSPagerViewCell.self, forCellWithReuseIdentifier: "cell")
+            self.pagerView.itemSize = FSPagerView.automaticSize
+            self.pagerView.bounces = false
+        }
     }
     
-    @IBAction func complaintButtonTapped(_ sender: UIButton) {
-        performSegue(withIdentifier: "segueComplaint", sender: nil)
+    @IBOutlet weak var pageControl: FSPageControl! {
+        didSet {
+            self.pageControl.contentHorizontalAlignment = .center
+            self.pageControl.contentInsets = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+        }
     }
+    
+    @IBOutlet weak var backButtonTapped: UIButton! {
+        didSet {
+            backButtonTapped.layer.cornerRadius = 8
+        }
+    }
+    @IBOutlet weak var favoriteView: UIView! {
+        didSet {
+            favoriteView.layer.cornerRadius = 8
+        }
+    }
+    @IBOutlet weak var favoriteImageView: UIImageView!
+    
+    @IBOutlet weak var topLogoConstraint: NSLayoutConstraint! // 16 или 24
+    
+    @IBOutlet weak var favotireViewInTopView: UIView!
+    @IBOutlet weak var favoriteImageViewInTopView: UIImageView!
+    
+    // MARK: - Properties
     
     var discountViewController: DiscountViewController?
     
@@ -55,16 +87,12 @@ class TestViewController: ButtonBarPagerTabStripViewController {
     var childScrollingDownDueToParent = false
     var uuidPartner: String = ""
     var city: City?
+    var uuidCity: String = ""
     var partner: Partner?
     var dispatchGroup = DispatchGroup()
     var salePoints: [SalePoint] = []
     var ratingStatistic: RatingStatistic?
     var comments: [Comment] = []
-    
-    @IBOutlet weak var backButtonTapped: UIButton!
-    @IBOutlet weak var barcodeButtonView: UIView!
-    @IBOutlet weak var topLogoConstraint: NSLayoutConstraint! // 16 или 24
-    @IBOutlet weak var barcodeButtonGreenView: UIView!
     
     let photosHeader: [String] = []
 
@@ -72,36 +100,39 @@ class TestViewController: ButtonBarPagerTabStripViewController {
         return self.style
     }
     var style: UIStatusBarStyle = .default
+    weak var testDelegate: TestViewContollerDelegate?
+    private var isLoadingFavorite: Bool = false
+    
+    // MARK: - View life cycle
     
     override func viewDidLoad() {
+
         setupView()
         super.viewDidLoad()
-        //self.navigationController?.setNavigationBarHidden(true, animated: false)
+        
+        if let uuidCity = city?.uuidCity {
+            self.uuidCity = uuidCity
+        }
+
         scrollView.isHidden = true
         
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.frame = derkenedImage.frame
-        let colors = [
-            UIColor(red: 0, green: 0, blue: 0, alpha: 0.9).cgColor,
-            UIColor(red: 0, green: 0, blue: 0, alpha: 0).cgColor
-        ]
-
-        gradientLayer.startPoint = CGPoint(x: 0, y: 0)
-        gradientLayer.endPoint = CGPoint(x: 0, y: 1)
-        gradientLayer.colors = colors
-
-        derkenedImage.layer.addSublayer(gradientLayer)
-
-        let tapBarcodeButton = UITapGestureRecognizer(target: self, action: #selector(tappedBarcodeButton))
-        barcodeButtonView.isUserInteractionEnabled = true
-        barcodeButtonView.addGestureRecognizer(tapBarcodeButton)
+        let tapBarcodeButton = UITapGestureRecognizer(target: self, action: #selector(tappedFavoriteButton))
+        favoriteView.isUserInteractionEnabled = true
+        favoriteView.addGestureRecognizer(tapBarcodeButton)
         
-        let tapBarcodeButton1 = UITapGestureRecognizer(target: self, action: #selector(tappedBarcodeButton))
-        barcodeButtonGreenView.isUserInteractionEnabled = true
-        barcodeButtonGreenView.addGestureRecognizer(tapBarcodeButton1)
+        let tapBarcodeButton1 = UITapGestureRecognizer(target: self, action: #selector(tappedFavoriteButton))
+        favotireViewInTopView.isUserInteractionEnabled = true
+        favotireViewInTopView.addGestureRecognizer(tapBarcodeButton1)
         
         loadData()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+        super.viewWillAppear(animated)
+    }
+    
+    // MARK: - Segues
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "segueComplaint" {
@@ -114,18 +145,28 @@ class TestViewController: ButtonBarPagerTabStripViewController {
             dvc.uuidPartner = uuidPartner
             dvc.delegate = self
         }
-    }
-    
-    @objc func tappedBarcodeButton() {
-        NetworkManager.shared.upusesPartner(uuidPartner: uuidPartner) { result in
+        
+        if segue.identifier == "segueMap",
+            let salePoint = sender as? SalePoint {
+            let dvc = segue.destination as! PulleyPartnerViewController
+            
+            dvc.salePoint = salePoint
+            dvc.partner = self.partner
+
         }
         
-        if let tabbarController = tabBarController {
-            tabbarController.selectedIndex = 3
+        if segue.identifier == "segueMap",
+            let salePoints = sender as? [SalePoint] {
+            let dvc = segue.destination as! PulleyPartnerViewController
+            
+            dvc.salePoints = salePoints
+            dvc.partner = self.partner
         }
     }
     
-    private func setupView() {
+    // MARK: - Internal methods
+    
+    func setupView() {
         if UIDevice.current.type == .iPhone11 ||
             UIDevice.current.type ==  .iPhone11Pro ||
             UIDevice.current.type == .iPhone11ProMax ||
@@ -161,15 +202,7 @@ class TestViewController: ButtonBarPagerTabStripViewController {
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
-        super.viewWillAppear(animated)
-    }
 
-    override func viewWillDisappear(_ animated: Bool) {
-        self.navigationController?.setNavigationBarHidden(false, animated: false)
-        super.viewWillDisappear(animated)
-    }
 
     override func viewControllers(for pagerTabStripController: PagerTabStripViewController) -> [UIViewController] {
         let storyboard = UIStoryboard(name: "Home", bundle: nil)
@@ -235,12 +268,20 @@ class TestViewController: ButtonBarPagerTabStripViewController {
         }
     }
     
-    private func getSalePoints() {
-        guard let uuidCity = city?.uuidCity else { return }
+    func getSalePoints() {
+        var latitude = ""
+        var longitude = ""
+        
+        if let location = LocationManager.shared.location {
+            latitude = String(describing: location.coordinate.latitude)
+            longitude = String(describing: location.coordinate.longitude)
+        }
         
         dispatchGroup.enter()
         NetworkManager.shared.getSalePoints(uuidPartner: uuidPartner,
-                                            uuidCity: uuidCity) { [weak self] response in
+                                            uuidCity: uuidCity,
+                                            latitude: latitude,
+                                            longitude: longitude) { [weak self] response in
             self?.dispatchGroup.leave()
             if let salePoints = response.result.value?.points {
                 self?.salePoints = salePoints
@@ -250,9 +291,7 @@ class TestViewController: ButtonBarPagerTabStripViewController {
         }
     }
 
-    private func getPartner() {
-        guard let uuidCity = city?.uuidCity else { return }
-        
+    func getPartner() {
         dispatchGroup.enter()
         NetworkManager.shared.getPartner(uuidPartner: uuidPartner,
                                          uuidCity: uuidCity) { [weak self] response in
@@ -289,6 +328,10 @@ class TestViewController: ButtonBarPagerTabStripViewController {
         сommentViewController?.partner = self.partner
         сommentViewController?.ratingStatistic = self.ratingStatistic
         сommentViewController?.comments = self.comments
+        if let uuidCity = self.city?.uuidCity {
+            сommentViewController?.uuidCity = uuidCity
+        }
+        сommentViewController?.uuidPartner = self.uuidPartner
     }
     
     func layoutUI() {
@@ -300,14 +343,30 @@ class TestViewController: ButtonBarPagerTabStripViewController {
         }
         setNeedsStatusBarAppearanceUpdate()
         
-        
-        
-        let baseURI = "http://sksapp.px2x.ru"
+        let baseURI = NetworkManager.shared.baseURI
         
         if let firstHeaderLink = partner?.headerPictures?.first,
             let url = URL(string: firstHeaderLink) {
-            derkenedImage.kf.setImage(with: url)
-            heightOfImageView.constant = 200
+            
+            let gradientLayer = CAGradientLayer()
+            gradientLayer.frame = pagerView.frame
+            let colors = [
+                UIColor(red: 0, green: 0, blue: 0, alpha: 0.9).cgColor,
+                UIColor(red: 0, green: 0, blue: 0, alpha: 0).cgColor
+            ]
+
+            gradientLayer.startPoint = CGPoint(x: 0, y: 0)
+            gradientLayer.endPoint = CGPoint(x: 0, y: 1)
+            gradientLayer.colors = colors
+
+            pagerView.layer.addSublayer(gradientLayer)
+            
+            if let count = partner?.headerPictures?.count {
+                self.pageControl.numberOfPages = count
+            }
+            
+            //derkenedImage.kf.setImage(with: url)
+            heightOfImageView.constant = 240
             topLogoConstraint.constant = 16
             topView.isHidden = true
         } else {
@@ -327,6 +386,8 @@ class TestViewController: ButtonBarPagerTabStripViewController {
         
         titleLabel.text = partner?.name
         categoryLabel.text = partner?.category?.name
+        categoryLabel.text = categoryLabel.text!.uppercased()
+        
         ratingLabel.text = partner?.rating
         
         if let userRating = ratingStatistic?.userRating {
@@ -339,18 +400,111 @@ class TestViewController: ButtonBarPagerTabStripViewController {
         
         if UserData.loadSaved() == nil {
             complaintButton.isHidden = true
+            favoriteView.isHidden = true
+            favoriteImageViewInTopView.isHidden = true
+        }
+        
+        setStateFavoriteButtons()
+        pagerView.reloadData()
+    }
+    
+    // MARK: - Private methods
+    
+    private func setStateFavoriteButtons() {
+        if let isFavorite = partner?.isFavorite {
+            if isFavorite {
+                favoriteImageView.image = UIImage(named: "ic_heart_fill")
+                favoriteImageViewInTopView.image = UIImage(named: "ic_heart_fill")
+            } else {
+                favoriteImageView.image = UIImage(named: "ic_heart_empty")
+                favoriteImageViewInTopView.image = UIImage(named: "ic_heart_empty")
+            }
+        } else {
+            favoriteView.isHidden = true
+            favoriteImageViewInTopView.isHidden = true
         }
     }
+    
+    private func addPartnerToFavorite() {
+        isLoadingFavorite = true
+        NetworkManager.shared.addPartnerToFavorite(uuidPartner: uuidPartner) { [weak self] result in
+            guard let self = self else { return }
+            defer { self.isLoadingFavorite = false }
+            
+            if let statucCode = result.statusCode,
+               statucCode == 200 {
+                self.partner?.isFavorite = true
+                self.testDelegate?.favoriteButtonTapped(viewController: self,
+                                                        isFavorite: true,
+                                                        uuidPartner: self.uuidPartner)
+                self.setStateFavoriteButtons()
+            } else {
+                self.showAlert(message: NetworkErrors.common)
+            }
+        }
+    }
+    
+    private func deletePartnerFromFavorite() {
+        isLoadingFavorite = true
+        NetworkManager.shared.deletePartnerFromFavorite(uuidPartner: uuidPartner) { [weak self] result in
+            guard let self = self else { return }
+            defer { self.isLoadingFavorite = false }
+            
+            if let statucCode = result.statusCode,
+               statucCode == 200 {
+                self.partner?.isFavorite = true
+                self.testDelegate?.favoriteButtonTapped(viewController: self,
+                                                        isFavorite: false,
+                                                        uuidPartner: self.uuidPartner)
+                self.setStateFavoriteButtons()
+            } else {
+                self.showAlert(message: NetworkErrors.common)
+            }
+        }
+    }
+    
+    // MARK: - Actions
+    
+    @objc func tappedFavoriteButton() {
+        guard let isFavorite = partner?.isFavorite else { return }
+        if isLoadingFavorite { return }
+        
+        if isFavorite {
+            deletePartnerFromFavorite()
+        } else {
+            addPartnerToFavorite()
+        }
+    }
+    
+    @IBAction func backButtonTapped(_ sender: UIButton) {
+        navigationController?.popViewController(animated: true)
+    }
+    
+    @IBAction func complaintButtonTapped(_ sender: UIButton) {
+        performSegue(withIdentifier: "segueComplaint",
+                     sender: nil)
+    }
+    
 }
 
-extension TestViewController: DiscountViewControllerDelegate, SalePointViewControllerDelegate, CommentViewControllerDelegate {    func scrollViewDidScroll(scrollView: UIScrollView, tableView: UITableView) {
+// MARK: - DiscountViewControllerDelegate, SalePointViewControllerDelegate, CommentViewControllerDelegate
+
+extension TestViewController: DiscountViewControllerDelegate, SalePointViewControllerDelegate, CommentViewControllerDelegate {
+    func showSalePoints(salePoints: [SalePoint]) {
+        performSegue(withIdentifier: "segueMap", sender: salePoints)
+    }
+    
+    func showSalePoint(salePoint: SalePoint) {
+        performSegue(withIdentifier: "segueMap", sender: salePoint)
+    }
+    
+    func scrollViewDidScroll(scrollView: UIScrollView, tableView: UITableView) {
         goingUp = scrollView.panGestureRecognizer.translation(in: scrollView).y < 0
         
         let parentViewMaxContentYOffset = self.scrollView.contentSize.height - self.scrollView.frame.height
         
         if goingUp! {
             if scrollView == tableView {
-                
                 if self.scrollView.contentOffset.y < parentViewMaxContentYOffset && !childScrollingDownDueToParent {
                     self.scrollView.contentOffset.y = max(min(self.scrollView.contentOffset.y + tableView.contentOffset.y, parentViewMaxContentYOffset), 0)
                     tableView.contentOffset.y = 0
@@ -359,7 +513,9 @@ extension TestViewController: DiscountViewControllerDelegate, SalePointViewContr
         } else {
             if scrollView == tableView {
                 if tableView.contentOffset.y < 0 && self.scrollView.contentOffset.y > 0 {
-                    self.scrollView.contentOffset.y = max(self.scrollView.contentOffset.y - abs(tableView.contentOffset.y), 0)
+                    UIView.animate(withDuration: 0.25) {
+                        self.scrollView.contentOffset.y = max(self.scrollView.contentOffset.y - abs(tableView.contentOffset.y), 0)
+                    }
                 }
             }
             if scrollView == self.scrollView {
@@ -376,62 +532,66 @@ extension TestViewController: DiscountViewControllerDelegate, SalePointViewContr
     func commentButtonTapped() {
         performSegue(withIdentifier: "segueComment", sender: nil)
     }
+    
+    func partnerRatingChanged(rating: String) {
+        ratingLabel.text = rating
+        userLikeImage.image = UIImage(named: "ic_star_filled")
+    }
+    
 }
-
+ 
+// MARK: - SendCommentViewControllerDelegate
+ 
 extension TestViewController: SendCommentViewControllerDelegate {
     func commentSent() {
         сommentViewController?.loadData()
     }
 }
-//extension TestViewController: UICollectionViewDelegateFlowLayout {
-//    func setupCollectionView() {
-////        collectionView.delegate = self
-////        collectionView.dataSource = self
-//        collectionView.register(UINib(nibName: "\(CarPhotosCollectionViewCell.self)",
-//                                 bundle: nil),
-//                                forCellWithReuseIdentifier: "\(CarPhotosCollectionViewCell.self)")
-//
 
-//        collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-//        collectionView.collectionViewLayout.invalidateLayout()
-//        collectionView.setNeedsLayout()
-//        collectionView.layoutIfNeeded()
-//    
-//        //collectionView.reloadData()
-//    }
-//    
-//    func setPageControl() {
-//        pageControl.numberOfPages = photos.count
-//    }
-//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        return photos.count
-//    }
-//    
-//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(CarPhotosCollectionViewCell.self)",
-//            for: indexPath) as? CarPhotosCollectionViewCell {
-//                
-//            cell.model = photos[indexPath.row]
-//            
-//            return cell
-//        }
-//        
-//        return UICollectionViewCell()
-//    }
-//    
-//    override func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        
-//        return CGSize(width: 200,
-//                      height: 200)
-//
-//    }
-//}
-//
-//extension TestViewController: UIScrollViewDelegate {
-//    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-//        if scrollView is UICollectionView {
-//            pageControl?.currentPage = Int(scrollView.contentOffset.x) / Int(scrollView.frame.width)
-//        }
-//
-//    }
-//}
+// MARK: - FSPagerViewDataSource, FSPagerViewDelegate
+
+extension TestViewController: FSPagerViewDataSource, FSPagerViewDelegate {
+    func numberOfItems(in pagerView: FSPagerView) -> Int {
+        if let count = partner?.headerPictures?.count {
+            return count
+        } else {
+            return 0
+        }
+    }
+    
+    func pagerView(_ pagerView: FSPagerView, cellForItemAt index: Int) -> FSPagerViewCell {
+        let cell = pagerView.dequeueReusableCell(withReuseIdentifier: "cell", at: index)
+        
+        if let photoUrl = partner?.headerPictures?[index] {
+            let url = URL(string: photoUrl)
+            cell.imageView?.kf.setImage(with: url)
+        }
+        
+        cell.imageView?.contentMode = .scaleAspectFill
+        cell.imageView?.clipsToBounds = true
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(cellTapped))
+        cell.addGestureRecognizer(tap)
+        
+        return cell
+    }
+    
+    // Заглуша для того, чтобы при тапе на картинку не моргало "черным"
+    @objc func cellTapped() {
+        return
+    }
+    
+    func pagerView(_ pagerView: FSPagerView, didSelectItemAt index: Int) {
+        pagerView.deselectItem(at: index, animated: true)
+        pagerView.scrollToItem(at: index, animated: true)
+    }
+    
+    func pagerViewWillEndDragging(_ pagerView: FSPagerView, targetIndex: Int) {
+        self.pageControl.currentPage = targetIndex
+    }
+    
+    func pagerViewDidEndScrollAnimation(_ pagerView: FSPagerView) {
+        self.pageControl.currentPage = pagerView.currentIndex
+    }
+    
+}

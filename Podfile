@@ -15,7 +15,7 @@ target 'SKS' do
   pod 'Kingfisher', '~> 5.0'
   pod 'EAN13BarcodeGenerator'
   pod 'Cosmos'
-  pod 'Pulley', '~> 2.8.0'
+  pod 'Pulley'
   pod 'XLPagerTabStrip', '~> 9.0'
   pod 'FSPagerView'
   
@@ -35,7 +35,8 @@ target 'SKS' do
   pod 'YandexMapKitPlaces', '3.4'
   #pod ‘YandexMapKitSearch’, ’3.4’
   
-  
+  # VK
+  pod 'SwiftyVK'
 
   target 'SKSTests' do
     inherit! :search_paths

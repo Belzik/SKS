@@ -28,11 +28,11 @@ class EditProfileViewController: BaseViewController {
     @IBOutlet weak var firstnameTextField: ErrorTextField!
     @IBOutlet weak var secondTextField: ErrorTextField!
     @IBOutlet weak var birthdayTextField: ErrorTextField!
+    @IBOutlet weak var phoneTextField: ErrorTextField!
     
     @IBOutlet weak var cityTextField: ErrorTextField!
     @IBOutlet weak var instituteTextField: ErrorTextField!
     @IBOutlet weak var facultyTextField: ErrorTextField!
-    @IBOutlet weak var specialtyTextField: ErrorTextField!
     @IBOutlet weak var levelEducationTextField: ErrorTextField!
     @IBOutlet weak var periodTextField: ErrorTextField!
     @IBOutlet weak var dateEndTextField: ErrorTextField!
@@ -40,7 +40,6 @@ class EditProfileViewController: BaseViewController {
     
     @IBAction func doneButtonTapped(_ sender: UIButton) {
         if validate() {
-            print("Сессия", uniqueSess)
             
             NetworkManager.shared.updateUserInfo(uniqueSess: uniqueSess,
                                                  name: firstnameTextField.text!,
@@ -54,7 +53,7 @@ class EditProfileViewController: BaseViewController {
                                                  photo: photo,
                                                  uuidUniversity: uuidUniversity,
                                                  uuidFaculty: uuidFaculty,
-                                                 uuidSpecialty: uuidSpecialty) { [weak self] response in
+                                                 phone: phoneTextField.text!.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()) { [weak self] response in
                 if let statusCode = response.statusCode,
                     statusCode == 200 {
                     let action = UIAlertAction(title: "OK", style: .default) { [weak self] _ in
@@ -81,7 +80,6 @@ class EditProfileViewController: BaseViewController {
     var cityPicker: SKSPicker = SKSPicker()
     var institutePicker: SKSPicker = SKSPicker()
     var facultyPicker: SKSPicker = SKSPicker()
-    var specialityPicker: SKSPicker = SKSPicker()
     var periodPicker: PeriodPicker = PeriodPicker()
     var levelsPicker: SKSPicker = SKSPicker()
     var coursePicker: SKSPicker = SKSPicker()
@@ -91,11 +89,11 @@ class EditProfileViewController: BaseViewController {
     var cities: [City] = []
     var universities: [University] = []
     var faculties: [Faculty] = []
-    var specialties: [Specialty] = []
     var levels: [LevelEducation] = [
         LevelEducation(title: "Бакалавр", value: "4"),
         LevelEducation(title: "Специалитет", value: "5"),
-        LevelEducation(title: "Магистратура", value: "2"),
+        LevelEducation(title: "Магистратура", value: "2")
+//        LevelEducation(title: "Аспирантура", value: "6")
     ]
     
     var isFirstLoad = true
@@ -106,7 +104,6 @@ class EditProfileViewController: BaseViewController {
     var photo: String = ""
     var uuidUniversity: String = ""
     var uuidFaculty: String = ""
-    var uuidSpecialty: String = ""
     var accessToken: String = ""
     var startEducation: String = ""
     var endEducation: String = ""
@@ -119,6 +116,14 @@ class EditProfileViewController: BaseViewController {
         photoImageView.addGestureRecognizer(imageTap)
 
         
+        phoneTextField.textField.delegate = self
+        phoneTextField.textField.keyboardType = .numberPad
+        if let isVk = user.vk,
+            isVk {
+            phoneTextField.isHidden = false
+        } else {
+            phoneTextField.isHidden = true
+        }
         
         lastnameTextField.delegate = self
         firstnameTextField.delegate = self
@@ -127,7 +132,6 @@ class EditProfileViewController: BaseViewController {
         setupImageTextField(textField: cityTextField.textField)
         setupImageTextField(textField: instituteTextField.textField)
         setupImageTextField(textField: facultyTextField.textField)
-        setupImageTextField(textField: specialtyTextField.textField)
         setupImageTextField(textField: levelEducationTextField.textField)
         dateEndTextField.textField.isUserInteractionEnabled = false
         courseTextField.textField.isUserInteractionEnabled = false
@@ -148,7 +152,6 @@ class EditProfileViewController: BaseViewController {
         photo = user.studentInfo?.photo ?? ""
         uuidUniversity = user.studentInfo?.uuidUniversity ?? ""
         uuidFaculty = user.studentInfo?.uuidFaculty ?? ""
-        uuidSpecialty = user.studentInfo?.uuidSpecialty ?? ""
         accessToken = user.accessToken ?? ""
         startEducation = user.studentInfo?.startEducation ?? ""
         endEducation = user.studentInfo?.endEducation ?? ""
@@ -167,7 +170,6 @@ class EditProfileViewController: BaseViewController {
         cityTextField.text = user.studentInfo?.nameCity
         instituteTextField.text = user.studentInfo?.nameUniversity
         facultyTextField.text = user.studentInfo?.nameFaculty
-        specialtyTextField.text = user.studentInfo?.nameSpecialty
         
         periodTextField.text = user.studentInfo?.startEducation
         dateEndTextField.text = user.studentInfo?.endEducation
@@ -182,7 +184,6 @@ class EditProfileViewController: BaseViewController {
                 if let value = Int(level.value),
                     value == diff {
                     levelEducationTextField.text = level.title
-                    print("Индекс", index)
                     levelsPicker.picker.selectRow(index,
                                                   inComponent: 0,
                                                   animated: false)
@@ -217,8 +218,6 @@ class EditProfileViewController: BaseViewController {
         getInstitutions()
 
         getFaculties()
-
-        getSpecialties()
 
         dispatchGroup.notify(queue: .main) { [weak self] in
             self?.navbarView.isHidden = false
@@ -309,35 +308,6 @@ class EditProfileViewController: BaseViewController {
         }
     }
     
-    func getSpecialties() {
-        dispatchGroup.enter()
-        NetworkManager.shared.getSpecialties(uuidFaculty: uuidFaculty) { [unowned self] response in
-            self.dispatchGroup.leave()
-            if let specialties = response.result.value,
-                specialties.count > 0 {
-                self.specialityPicker.source = specialties
-                self.specialties = specialties
-                self.specialtyTextField.textField.isEnabled = true
-                
-                if !self.isFirstLoad {
-                    self.specialtyTextField.textField.becomeFirstResponder()
-                }
-                
-                if self.isFirstLoad {
-                    if let speciality = self.user.studentInfo?.nameSpecialty {
-                        for (index, value) in specialties.enumerated() {
-                            if value.nameSpecialty == speciality {
-                                self.specialityPicker.picker.selectRow(index,
-                                                                       inComponent: 0,
-                                                                       animated: false)
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-    
     func setupPickers() {
         cityPicker.delegate = self
         cityTextField.textField.inputAccessoryView = cityPicker.toolBar
@@ -350,10 +320,6 @@ class EditProfileViewController: BaseViewController {
         facultyPicker.delegate = self
         facultyTextField.textField.inputAccessoryView = facultyPicker.toolBar
         facultyTextField.textField.inputView = facultyPicker.picker
-        
-        specialityPicker.delegate = self
-        specialtyTextField.textField.inputAccessoryView = specialityPicker.toolBar
-        specialtyTextField.textField.inputView = specialityPicker.picker
         
         periodPicker.delegate = self
         periodTextField.textField.inputAccessoryView = periodPicker.toolBar
@@ -380,11 +346,6 @@ class EditProfileViewController: BaseViewController {
         
         if facultyTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
             facultyTextField.errorMessage = "Поле не заполнено"
-            isValid = false
-        }
-        
-        if specialtyTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
-            specialtyTextField.errorMessage = "Поле не заполнено"
             isValid = false
         }
         
@@ -468,11 +429,9 @@ extension EditProfileViewController: SKSPickerDelegate {
             
             instituteTextField.textField.isEnabled = false
             facultyTextField.textField.isEnabled = false
-            specialtyTextField.textField.isEnabled = false
             
             instituteTextField.textField.text = ""
             facultyTextField.textField.text = ""
-            specialtyTextField.textField.text = ""
             
             let uuidCity = cities[cityPicker.picker.selectedRow(inComponent: 0)].uuidCity
             self.uuidCity = uuidCity ?? ""
@@ -483,10 +442,8 @@ extension EditProfileViewController: SKSPickerDelegate {
             instituteTextField.text = value.title
             
             facultyTextField.textField.isEnabled = false
-            specialtyTextField.textField.isEnabled = false
             
             facultyTextField.textField.text = ""
-            specialtyTextField.textField.text = ""
             
             let uuidUniver = universities[institutePicker.picker.selectedRow(inComponent: 0)].uuidUniver
             self.uuidUniversity = uuidUniver
@@ -496,17 +453,8 @@ extension EditProfileViewController: SKSPickerDelegate {
         if picker == facultyPicker {
             facultyTextField.text = value.title
             
-            specialtyTextField.textField.isEnabled = false
-            specialtyTextField.textField.text = ""
-            
             let uuidFaculty = faculties[facultyPicker.picker.selectedRow(inComponent: 0)].uuidDepartment
             self.uuidFaculty = uuidFaculty
-            getSpecialties()
-        }
-        
-        if picker == specialityPicker {
-            specialtyTextField.text = value.title
-            self.uuidSpecialty = specialties[specialityPicker.picker.selectedRow(inComponent: 0)].uuidSpecialty
             view.endEditing(true)
         }
         
@@ -564,8 +512,14 @@ extension EditProfileViewController: PeriodPickerDelegate {
         if let currentYear = Int(Date().year),
             let dateStart = periodTextField.text,
             let dateStartInt = Int(dateStart) {
-            let course = currentYear - dateStartInt + 1
+            var course = currentYear - dateStartInt
             
+            if let currentMonth = Int(Date().month) {
+                if currentMonth >= 9 {
+                    course += 1
+                }
+            }
+
             courseTextField.text = String(describing: course)
         }
         
@@ -595,5 +549,65 @@ extension EditProfileViewController: ImagePickerDelegate {
 extension EditProfileViewController: ErrorTextFieldDelegate {
     func nextTextField(errorTextField: ErrorTextField) {
         view.endEditing(true)
+    }
+}
+
+extension EditProfileViewController: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if textField == phoneTextField.textField {
+            if textField.text == "" {
+                textField.text = "+7 "
+            }
+        }
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if textField == phoneTextField.textField {
+            let newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+                   let isDeleted = newString.count < textField.text!.count
+                   
+                   let currentText: NSString = textField.text as NSString? ?? ""
+                   
+                   let newText = currentText.replacingCharacters(in: range, with: string)
+                   let formattedString = newText.with(mask: "+* (***) ***-**-**", replacementChar: "*", isDecimalDigits: true)
+                   
+                   guard let finalText = formattedString as NSString? else { return false }
+                   
+                   if finalText == currentText && range.location < currentText.length && range.location > 0 {
+
+                       
+                       return self.textField(textField, shouldChangeCharactersIn: NSRange(location: range.location - 1, length: range.length + 1) , replacementString: string)
+                   }
+                   
+                   
+                   if finalText != currentText {
+                       textField.text = finalText as String
+
+                       // the user is trying to delete something so we need to
+                       // move the cursor accordingly
+                       if range.location < currentText.length {
+                           var cursorLocation = 0
+                           
+                           if range.location > finalText.length {
+                               cursorLocation = finalText.length
+                           } else if currentText.length > finalText.length {
+                               cursorLocation = range.location
+                           } else {
+                               cursorLocation = range.location + 1
+                           }
+                           
+                           guard let startPosition = textField.position(from: textField.beginningOfDocument, offset: cursorLocation) else { return false }
+                           guard let endPosition = textField.position(from: startPosition, offset: 0) else { return false }
+                           textField.selectedTextRange = textField.textRange(from: startPosition, to: endPosition)
+                       }
+                       
+                       //setupError(forTextField: textField as! SKSTextField, isDeleted: isDeleted)
+                       return false
+                   }
+                   
+                   //setupError(forTextField: textField as! SKSTextField, isDeleted: isDeleted)
+                   return false
+        }
+       return true
     }
 }

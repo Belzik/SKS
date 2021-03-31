@@ -30,7 +30,7 @@ class PasswordViewController: BaseViewController {
             resetPasswordUser()
             return
         }
-        
+
         if isNewsUser {
             setPasswordUser()
         } else {
@@ -95,7 +95,7 @@ class PasswordViewController: BaseViewController {
         if segue.identifier == "segueResetPassword" {
             let dvc = segue.destination as! ResetPasswordViewController
             dvc.delegate = self
-            
+            dvc.phone = phone
             if let attempt = smsResponse?.attempt {
                 dvc.smsAttempt = attempt
             }
@@ -107,7 +107,7 @@ class PasswordViewController: BaseViewController {
             let textRepeat = confimPasswordTextField.text {
             if text != textRepeat {
                 resetErrorLabel.text = "Пароли не совпадают"
-                resetErrorLabel.isHidden = false
+                //resetErrorLabel.isHidden = false
                 passwordTextField.selectedLineColor = ColorManager.red.value
                 passwordTextField.lineColor = ColorManager.red.value
                 passwordTextField.tintColor = ColorManager.red.value
@@ -154,7 +154,7 @@ class PasswordViewController: BaseViewController {
                  //showAlert(message: "Пароли не совпадают")
                 
                 resetErrorLabel.text = "Пароли не совпадают"
-                resetErrorLabel.isHidden = false
+                //resetErrorLabel.isHidden = false
                 passwordTextField.selectedLineColor = ColorManager.red.value
                 passwordTextField.lineColor = ColorManager.red.value
                 passwordTextField.tintColor = ColorManager.red.value
@@ -251,16 +251,14 @@ class PasswordViewController: BaseViewController {
                 return
             }
         }
-        
          guard let loginKey = smsResponse?.loginKey,
              let password = passwordTextField.text else { return }
              
         NetworkManager.shared.enterPassword(loginKey: loginKey,
                                             password: password) { [weak self] response in
-                                             if response.result.error != nil,
+            if response.result.error != nil,
              let statusCode = response.statusCode {
                 if statusCode == 401 {
-                    //self?.showAlert(message: "Не верный пароль")
                     self?.passwordErrorLabel.text = "Не верный пароль"
                     self?.passwordErrorLabel.isHidden = false
                     self?.passwordTextField.selectedLineColor = ColorManager.red.value
@@ -308,7 +306,11 @@ class PasswordViewController: BaseViewController {
                         }
                     }
                 }
-             }
+            }
+                                                
+            if response.result.value?.error != nil  {
+                self?.showAlert(message: "Пожалуйста, получите пароль.")
+            }
         }
     }
 }
@@ -320,7 +322,10 @@ extension PasswordViewController: ResetPasswordViewControllerDelegate {
         resetPasswordButton.isHidden = true
         confimPasswordTextField.isHidden = false
         
-        passwordErrorLabel.isHidden = true
+        //passwordErrorLabel.isHidden = true
+        passwordErrorLabel.text = ""
+        passwordTextField.text = ""
+        
         passwordTextField.selectedLineColor = ColorManager.green.value
         passwordTextField.lineColor = ColorManager.gray.value
         passwordTextField.tintColor = ColorManager.green.value
@@ -328,13 +333,13 @@ extension PasswordViewController: ResetPasswordViewControllerDelegate {
 }
 
 extension PasswordViewController: UITextFieldDelegate {
- 
-    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
         if textField == passwordTextField {
             if passwordErrorLabel.isHidden == false {
-                passwordErrorLabel.isHidden = true
+                //passwordErrorLabel.isHidden = true
+                
+                passwordErrorLabel.text = ""
                 passwordTextField.selectedLineColor = ColorManager.green.value
                 passwordTextField.lineColor = ColorManager.gray.value
                 passwordTextField.tintColor = ColorManager.green.value
@@ -347,7 +352,9 @@ extension PasswordViewController: UITextFieldDelegate {
         
         if textField == confimPasswordTextField {
             if resetErrorLabel.isHidden == false {
-                resetErrorLabel.isHidden = true
+                //resetErrorLabel.isHidden = true
+                
+                resetErrorLabel.text = ""
                 confimPasswordTextField.selectedLineColor = ColorManager.green.value
                 confimPasswordTextField.lineColor = ColorManager.gray.value
                 confimPasswordTextField.tintColor = ColorManager.green.value

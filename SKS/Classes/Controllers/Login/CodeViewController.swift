@@ -146,13 +146,7 @@ extension CodeViewController: UITextFieldDelegate {
         newString = newString.replacingOccurrences(of: "*", with: "")
         
         optString += newString
-        print(optString)
         if optString.count == 6 {
-            
-            print(newString[0...0])
-            print(newString[1...1])
-            print(newString[3...3])
-            print(newString[5...5])
             firstTextField.text = optString[0...0]
             secondTextField.text = optString[1...1]
             thirdTextField.text = optString[3...3]
@@ -248,7 +242,18 @@ extension CodeViewController: UITextFieldDelegate {
                        self?.fourthTextField.text! = ""
                        self?.optString = ""
                    } else {
+                        self?.firstTextField.isUserInteractionEnabled = true
+                        self?.secondTextField.isUserInteractionEnabled = true
+                        self?.thirdTextField.isUserInteractionEnabled = true
+                        self?.firstTextField.becomeFirstResponder()
+                    
                        self?.showAlert(message: NetworkErrors.common)
+                    
+                        self?.firstTextField.text! = ""
+                        self?.secondTextField.text! = ""
+                        self?.thirdTextField.text! = ""
+                        self?.fourthTextField.text! = ""
+                        self?.optString = ""
                    }
                 } else if let otpResponse = response.result.value {
                      self?.otpResponse = otpResponse

@@ -33,6 +33,9 @@ class BarcodeViewController: BaseViewController {
         return .lightContent
     }
     
+    @IBOutlet weak var titleBarcodeBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var statusTitleTopConstraint: NSLayoutConstraint!
+    
     var timer: Timer?
     
     override func viewDidLoad() {
@@ -56,6 +59,12 @@ class BarcodeViewController: BaseViewController {
             self.fioLabel.font = font
             universityLabel.numberOfLines = 1
             fioLabel.numberOfLines = 2
+            
+            
+            noAuthLabel.font = font
+            
+            titleBarcodeBottomConstraint.constant = 8
+            statusTitleTopConstraint.constant = 8
         }
         
         photoImageView.makeCircular()
@@ -128,7 +137,7 @@ class BarcodeViewController: BaseViewController {
         photoImageView.layer.borderWidth = 2.0
         
         fioLabel.text = user.studentInfo?.fio
-        universityLabel.text = user.studentInfo?.nameUniversity
+        universityLabel.text = user.studentInfo?.shortNameUniversity
         
         self.barcodeViewGenerate.isHidden = true
         if let status = user.status {

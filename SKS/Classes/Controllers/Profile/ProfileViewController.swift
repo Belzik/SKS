@@ -34,10 +34,15 @@ class ProfileViewController: BaseViewController {
     @IBOutlet weak var universityLabel: UILabel!
     @IBOutlet weak var facultyLabel: UILabel!
     @IBOutlet weak var specialityLabel: UILabel!
+    @IBOutlet weak var speacialityStackView: UIStackView!
     @IBOutlet weak var periodLabel: UILabel!
     @IBOutlet weak var courseLabel: UILabel!
     @IBOutlet weak var phoneLabel: UILabel!
     @IBOutlet weak var editButton: UIButton!
+    
+    @IBOutlet weak var sheverevImage: UIImageView!
+    @IBOutlet weak var sheverevLabel: UILabel!
+    
     
     weak var delegate: ProfileDelegate?
     var user: UserData?
@@ -62,11 +67,28 @@ class ProfileViewController: BaseViewController {
             self.fioLabel.font = font
             
         }
-
+        setupSheverev()
+        
         profileImage.makeCircular()
         profileImage.layer.masksToBounds = true
         profileImage.layer.borderColor = UIColor.white.cgColor
         profileImage.layer.borderWidth = 2.0
+    }
+    
+    func setupSheverev() {
+        let tapImage = UITapGestureRecognizer(target: self, action: #selector(sheverevTapped))
+        sheverevImage.isUserInteractionEnabled = true
+        sheverevImage.addGestureRecognizer(tapImage)
+        
+        let tapLabel = UITapGestureRecognizer(target: self, action: #selector(sheverevTapped))
+        sheverevLabel.isUserInteractionEnabled = true
+        sheverevLabel.addGestureRecognizer(tapLabel)
+    }
+    
+    @objc func sheverevTapped() {
+        if let url = URL(string: "http://www.sheverev.com"), UIApplication.shared.canOpenURL(url) {
+              UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
     }
     
     func getInfoUser() {
@@ -76,7 +98,6 @@ class ProfileViewController: BaseViewController {
             self?.activityIndicator.stopAnimating()
             if let user = response.result.value {
                 self?.user = user
-                
                 self?.layoutViews(withUser: user)
             } else {
                 self?.showAlert(message: NetworkErrors.common)
@@ -87,7 +108,6 @@ class ProfileViewController: BaseViewController {
     func layoutViews(withUser user: UserData) {
         if let photoPath = user.studentInfo?.photo,
             let url = URL(string: photoPath) {
-            //profileImage.kf.setImage(with: url)
             profileImage.kf.setImage(with: url) { [weak self] (image, _, _, _) in
                 if image == nil {
                     self?.profileImage.image = UIImage(named: "ic_photo")
@@ -100,7 +120,15 @@ class ProfileViewController: BaseViewController {
         cityLabel.text = user.studentInfo?.nameCity
         universityLabel.text = user.studentInfo?.nameUniversity
         facultyLabel.text = user.studentInfo?.nameFaculty
-        specialityLabel.text = user.studentInfo?.nameSpecialty
+        
+        
+        if let nameSpecialty = user.studentInfo?.nameSpecialty,
+            nameSpecialty != "" {
+            specialityLabel.text = nameSpecialty
+        } else {
+            speacialityStackView.isHidden = true
+        }
+        
         
         if let startEdu = user.studentInfo?.startEducation,
             let endEdu = user.studentInfo?.endEducation {

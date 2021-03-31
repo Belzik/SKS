@@ -88,8 +88,6 @@ class StockViewController: BaseViewController {
         if isShowSalePoints {
             for (key, _) in salePoints.enumerated().reversed() {
                 if key != 0 && key != 1 {
-                    print(key)
-                    print(salePoints.count)
                     salePoints.remove(at: key)
                     indexPaths.append(IndexPath(row: key, section: 0))
                 }

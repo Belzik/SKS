@@ -21,13 +21,16 @@ class PlacesViewController: UIViewController {
     @IBOutlet weak var gripperView: UIView!
     @IBOutlet weak var tableView: UITableView!
 
+    @IBOutlet weak var categoryLabel: UILabel!
     @IBOutlet weak var sortedView: UIView!
     @IBOutlet weak var sortedTextField: UITextField!
     @IBOutlet weak var sortedLabel: UILabel!
     
     @IBOutlet weak var placeView: UIView!
+    @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
     
     var partners: [MapPartner] = []
+    var savedPartners: [MapPartner] = []
     
     var picker = SKSPicker()
     var currentSort = "По рейтингу"
@@ -38,6 +41,10 @@ class PlacesViewController: UIViewController {
     var latUser = ""
     var lngUser = ""
     var isFirstLoad = false
+    var searchString = ""
+    var uuidCategory = ""
+    
+    var isFakePartners = false
     
     private lazy var placeViewController: PlaceViewController = {
         let storyboard = UIStoryboard(name: "Map", bundle: Bundle.main)
@@ -56,7 +63,14 @@ class PlacesViewController: UIViewController {
         setupNotificationCenter()
         
         setupLocManager()
-        
+        if CLLocationManager.locationServicesEnabled() {
+            switch CLLocationManager.authorizationStatus() {
+            case .notDetermined, .restricted, .denied:
+                getPoints()
+            case .authorizedAlways, .authorizedWhenInUse:
+                break
+            }
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -81,10 +95,192 @@ class PlacesViewController: UIViewController {
     func setupNotificationCenter() {
         NotificationCenter.default.addObserver(self, selector: #selector(self.hideMapPoint), name: NSNotification.Name(rawValue: "hideMapPoint"), object: nil)
         
+        NotificationCenter.default.addObserver(self, selector: #selector(self.hideMapPointClose), name: NSNotification.Name(rawValue: "hideMapPointClose"), object: nil)
+        
         NotificationCenter.default.addObserver(self, selector: #selector(self.showMapPointMap), name: NSNotification.Name(rawValue: "showMapPointMap"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.changeSearchString), name: NSNotification.Name(rawValue: "changeSearchString"), object: nil)
+        
+                
+        NotificationCenter.default.addObserver(self, selector: #selector(self.handleCategory), name: NSNotification.Name(rawValue: "changeCategory"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.showPartner), name: NSNotification.Name(rawValue: "showPartnerPlace"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.showSalePoints), name: NSNotification.Name(rawValue: "showSalePoints"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.hideSalePoints), name: NSNotification.Name(rawValue: "hideSalePoints"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.showMapPointSalePoint), name: NSNotification.Name(rawValue: "showMapPointSalePoint"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.changedCity), name: NSNotification.Name(rawValue: "changedCity"), object: nil)
+    }
+    
+    @objc func changedCity() {
+        getPoints()
+    }
+    
+    @objc func showMapPointSalePoint(_ notification: NSNotification) {
+        if let uuidSalePoint = notification.userInfo?["uuidSalePoint"] as? String {
+//            let salePoint = salePointsObjects.first { object -> Bool in
+//                if let data = object.userData as? (uuid: String, logo: String),
+//                    let uuidSalePoint = mapPartner.point?.uuidSalePoint {
+//                    return data.uuid == uuidSalePoint
+//                }
+//
+//                return false
+//            }
+            let mapPartner = partners.first { object -> Bool in
+                if let uuid = object.point?.uuidSalePoint {
+                    return uuid == uuidSalePoint
+                }
+                return false
+            }
+            
+            if let mapPartner = mapPartner {
+                if let cv = currentViewController {
+                    remove(asChildViewController: cv)
+                }
+                
+                placeViewController.mapPoint = nil
+                placeViewController.mapPartner = mapPartner
+                
+                placeViewController.partner = nil
+                placeViewController.salePoint = nil
+                    
+                
+                currentViewController = self.placeViewController
+                self.add(asChildViewController: self.placeViewController)
+                placeView.isHidden = false
+            }
+
+        }
+    }
+    
+    @objc func showSalePoints(_ notification: NSNotification) {
+        if let salePoints = notification.userInfo?["salePoints"] as? [SalePoint],
+            let partner = notification.userInfo?["partner"] as? Partner {
+            
+            var fakePartners: [MapPartner] = []
+            
+            for salePoint in salePoints {
+                let pointPartner = PointPartner(address: salePoint.address,
+                                                latitude: salePoint.latitude,
+                                                longitude: salePoint.longitude,
+                                                timeWork: salePoint.timeWork,
+                                                distance: salePoint.distance,
+                                                isOpenedNow: salePoint.isOpenedNow,
+                                                uuidSalePoint: salePoint.uuidSalePoint)
+                
+                
+                let mapPartner = MapPartner(categoryName: partner.category?.name,
+                                            name: partner.name,
+                                            rating: partner.rating,
+                                            logo: partner.category?.illustrate,
+                                            legalName: partner.legalName,
+                                            description: partner.description,
+                                            point: pointPartner)
+                
+                fakePartners.append(mapPartner)
+            }
+            
+
+            
+            partners = fakePartners
+            
+            tableView.reloadData()
+            
+            isFakePartners = true
+            sortedView.isHidden = true
+            categoryLabel.text = "Все филиалы"
+        }
+    }
+    
+    @objc func hideSalePoints() {
+        if savedPartners.count == 0 {
+            getPoints()
+        } else {
+            partners = savedPartners
+            tableView.reloadData()
+        }
+        
+        if !placeView.isHidden {
+            if let cv = currentViewController {
+                remove(asChildViewController: cv)
+            }
+            
+            placeView.isHidden = true
+        }
+        
+        isFakePartners = false
+        sortedView.isHidden = false
+        categoryLabel.text = "Все категории"
+    }
+    
+    @objc func showPartner(_ notification: NSNotification) {
+        if let partner = notification.userInfo?["partner"] as? Partner,
+            let salePoint = notification.userInfo?["salePoint"] as? SalePoint {
+            if let cv = currentViewController {
+                remove(asChildViewController: cv)
+            }
+            
+            placeViewController.mapPoint = nil
+            placeViewController.mapPartner = nil
+            
+            placeViewController.partner = partner
+            placeViewController.salePoint = salePoint
+        }
+        
+        currentViewController = self.placeViewController
+        self.add(asChildViewController: self.placeViewController)
+        placeView.isHidden = false
+    }
+    
+    @objc func handleCategory(_ notification: NSNotification) {
+        if let uuidCategory = notification.userInfo?["uuidCategory"] as? String,
+            let nameCategory = notification.userInfo?["nameCategory"] as? String {
+            if uuidCategory == "" {
+                categoryLabel.text = "Все категории"
+            } else {
+                categoryLabel.text = nameCategory
+            }
+
+            self.uuidCategory = uuidCategory
+            isFakePartners = false
+            
+            getPoints()
+        }
     }
     
     @objc func hideMapPoint() {
+        if let cv = currentViewController {
+            remove(asChildViewController: cv)
+        }
+        
+        placeView.isHidden = true
+        
+        if isFakePartners {
+            if savedPartners.count == 0 {
+                getPoints()
+            } else {
+                partners = savedPartners
+                tableView.reloadData()
+            }
+            
+            if !placeView.isHidden {
+                if let cv = currentViewController {
+                    remove(asChildViewController: cv)
+                }
+                
+                placeView.isHidden = true
+            }
+            
+            isFakePartners = false
+            sortedView.isHidden = false
+            categoryLabel.text = "Все категории"
+        }
+    }
+    
+    @objc func hideMapPointClose() {
         if let cv = currentViewController {
             remove(asChildViewController: cv)
         }
@@ -100,9 +296,20 @@ class PlacesViewController: UIViewController {
             
             placeViewController.mapPartner = nil
             placeViewController.mapPoint = point
+            
+            placeViewController.partner = nil
+            placeViewController.salePoint = nil
+            
             currentViewController = self.placeViewController
             self.add(asChildViewController: self.placeViewController)
             placeView.isHidden = false
+        }
+    }
+    
+    @objc func changeSearchString(_ notification: NSNotification) {
+        if let searchString = notification.userInfo?["searchString"] as? String {
+            self.searchString = searchString
+            getPoints()
         }
     }
     
@@ -149,6 +356,9 @@ class PlacesViewController: UIViewController {
             placeViewController.mapPoint = nil
             placeViewController.mapPartner = partners[indexPath.row]
             
+            placeViewController.partner = nil
+            placeViewController.salePoint = nil
+            
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "showMapPoint"),
                                             object: nil,
                                             userInfo: ["mapPoint": partners[indexPath.row]])
@@ -178,18 +388,34 @@ class PlacesViewController: UIViewController {
         var longitude = ""
         
         if latUser == "" {
-            uuidCity = uuidCityPetr
+            if let rememberCity = RememberCity.loadSaved() {
+                if let uuid = rememberCity.uuidCity {
+                    uuidCity = uuid
+                }
+            } else {
+                uuidCity = uuidCityPetr
+            }
         } else {
             latitude = latUser
             longitude = lngUser
         }
-                
+        
+        activityIndicatorView.startAnimating()
         NetworkManager.shared.getPartnersMap(uuidCity: uuidCity,
-                                             uuidCategory: "",
+                                             uuidCategory: uuidCategory,
                                              latUser: latitude,
-                                             lngUser: longitude) { [weak self] result in
+                                             lngUser: longitude,
+                                             searchString: searchString) { [weak self] result in
+            self?.activityIndicatorView.stopAnimating()
+            if let isFakePartners = self?.isFakePartners {
+                if isFakePartners {
+                    return
+                }
+            }
+                   
             if let value = result.result.value {
                 self?.partners = value
+                self?.savedPartners = value
                 self?.tableView.reloadData()
             }
         }
@@ -216,6 +442,7 @@ extension PlacesViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        //if isFakePartners { return }
         showPlace()
     }
 }

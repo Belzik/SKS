@@ -13,6 +13,7 @@ class SetPasswordResponse: Codable {
     let status: String?
     let uniqueSess: String?
     let statusReason: String?
+    let error: String?
 }
 
 class Tokens: Codable {

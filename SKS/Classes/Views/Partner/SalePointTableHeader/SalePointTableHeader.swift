@@ -8,14 +8,25 @@
 
 import UIKit
 
+protocol SalePointTableHeaderDelegate: class {
+    func onMapViewTapped()
+}
+
 class SalePointTableHeader: UITableViewHeaderFooterView {
+    @IBOutlet weak var cityLabel: UILabel!
+    @IBOutlet weak var mapView: UIView!
+    
+    weak var delegate: SalePointTableHeaderDelegate?
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
 
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
+        let tap = UITapGestureRecognizer(target: self, action: #selector(onMapViewTapped))
+        mapView.isUserInteractionEnabled = true
+        mapView.addGestureRecognizer(tap)
     }
-    */
-
+    
+    @objc func onMapViewTapped() {
+        delegate?.onMapViewTapped()
+    }
 }

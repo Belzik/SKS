@@ -93,10 +93,13 @@ class ComplaintViewController: BaseViewController {
                 let alertAction = UIAlertAction(title: "OK", style: .default) { [weak self] _ in
                     self?.dismiss(animated: true, completion: nil)
                 }
-                self?.showAlert(actions: [alertAction], title: "Успех", message: "Ваша жалоба отправлена")
-            } else {
-                self?.showAlert(message: NetworkErrors.common)
-            }
+                self?.showAlert(actions: [alertAction], title: "Успех", message: "Спасибо, вместе мы делаем СКС РФ лучше")
+            } else if let statuCode = result.statusCode,
+               statuCode == 403 {
+               self?.showAlert(message: "Для того, чтобы отправить жалобу необходимо статус подтвержденного пользователя")
+           } else {
+               self?.showAlert(message: NetworkErrors.common)
+           }
         }
     }
 }

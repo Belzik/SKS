@@ -9,6 +9,9 @@
 import UIKit
 
 class HomeViewController: BaseViewController {
+    
+    // MARK: - IBOutlets
+    
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var categoryCollectionView: UICollectionView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
@@ -19,6 +22,8 @@ class HomeViewController: BaseViewController {
     
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var searchButton: UIButton!
+    
+    // MARK: - Properties
     
     var selectedIndex: Int = -1
     var sections: [String] = [""]
@@ -94,10 +99,8 @@ class HomeViewController: BaseViewController {
         super.viewWillAppear(animated)
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        //self.navigationController?.setNavigationBarHidden(false, animated: animated)
-        super.viewWillDisappear(animated)
-    }
+    
+    // MARK: - Segues
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "segueStock",
@@ -117,10 +120,6 @@ class HomeViewController: BaseViewController {
     
     private func setupCategoryCollection() {
         categoryCollectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-//        categoryCollectionView.collectionViewLayout.invalidateLayout()
-//        categoryCollectionView.setNeedsLayout()
-//        categoryCollectionView.layoutIfNeeded()
-        
         categoryCollectionView.register(UINib(nibName: "\(CategoryCollectionViewCell.self)",
                                               bundle: nil),
                                         forCellWithReuseIdentifier: "\(CategoryCollectionViewCell.self)")
@@ -164,12 +163,47 @@ class HomeViewController: BaseViewController {
                         self?.currentCity = city
                         self?.cityLabel.text = city.nameCity
                         
+                        if let name = city.nameCity,
+                            let uuid = city.uuidCity {
+                            
+                            if RememberCity.loadSaved() == nil  {
+                                let rememberCity = RememberCity.init()
+                                rememberCity.name = name
+                                rememberCity.uuidCity = uuid
+                                rememberCity.save()
+                            }
+                        }
+                        
                         for (index, value) in cities.enumerated() {
                             if value.nameCity == "Петрозаводск" {
                                 self?.picker.picker.selectRow(index,
-                                                             inComponent: 0,
-                                                             animated: false)
+                                                              inComponent: 0,
+                                                              animated: false)
                              }
+                        }
+                    }
+                }
+                
+                if let rememberCity = RememberCity.loadSaved() {
+                    for city in cities {
+                        if let name = rememberCity.name,
+                            let nameCity = city.nameCity {
+                            
+                            if name == nameCity {
+                                self?.currentCity = city
+                                self?.cityLabel.text = city.nameCity
+                                
+                                for (index, value) in cities.enumerated() {
+                                    if let nameCityEn = value.nameCity {
+                                        if nameCityEn == name {
+                                            self?.picker.picker.selectRow(index,
+                                                                          inComponent: 0,
+                                                                          animated: false)
+                                        }
+                                    }
+
+                                }
+                            }
                         }
                     }
                 }
@@ -246,10 +280,6 @@ class HomeViewController: BaseViewController {
             if let categories = response.result.value {
                 self?.categories = categories
             }
-            
-            if let error = response.result.error {
-                print(error.localizedDescription)
-            }
         }
     }
     
@@ -269,10 +299,6 @@ class HomeViewController: BaseViewController {
                 
                 self.partners = partners
             }
-            
-            if let error = response.result.error {
-                print(error.localizedDescription)
-            }
         }
     }
     
@@ -291,10 +317,6 @@ class HomeViewController: BaseViewController {
                 
                 self?.stocks = stocks
                 
-            }
-            
-            if let error = response.result.error {
-                print(error.localizedDescription)
             }
         }
     }
@@ -336,12 +358,10 @@ class HomeViewController: BaseViewController {
                 let tableOffset = self.offsetPartners + partners.count
                 var indexPaths: [IndexPath] = []
                 for index in self.offsetPartners..<tableOffset {
-                    print(index)
                     let indexSection = self.sections.count - 1
                     indexPaths.append(IndexPath(row: index, section: indexSection))
                 }
                 self.tableView.reloadData()
-                //self.tableView.insertRows(at: indexPaths, with: .top)
                 
                 self.offsetPartners += self.limitPartners
             }
@@ -376,12 +396,13 @@ class HomeViewController: BaseViewController {
     }
     
     func add(asChildViewController viewController: UIViewController) {
-        print("Контроллер", viewController)
         contentView.addSubview(viewController.view)
         viewController.view.frame = contentView.bounds
         viewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
     }
 }
+
+// MARK: - UITableViewDelegate, UITableViewDataSource
 
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     private func setupTableView() {
@@ -409,7 +430,6 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         self.tableView.contentInset = UIEdgeInsets(top: -dummyViewHeight, left: 0, bottom: 0, right: 0)
         
         tableView.tableFooterView = UIActivityIndicatorView.init()
-        //tableView.tableFooterView = UIView(frame: CGRect.zero)
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -468,10 +488,6 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 1 ||
             stocks.count == 0 {
-//            if let uuidPartner = partners[indexPath.row].uuidPartner {
-//                performSegue(withIdentifier: "seguePartner", sender: uuidPartner)
-//            }
-            
             if let uuidPartner = partners[indexPath.row].uuidPartner {
                 performSegue(withIdentifier: "segueNewPartner", sender: uuidPartner)
             }
@@ -494,6 +510,8 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         return UITableView.automaticDimension
     }
 }
+
+// MARK: - UICollectionViewDelegate, UICollectionViewDataSource
 
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource , UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -665,6 +683,8 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
 }
 
+// MARK: - SKSPickerDelegate
+
 extension HomeViewController: SKSPickerDelegate {    
     func donePicker(picker: SKSPicker, value: TypeOfSourcePicker) {
         if value.title == currentCity?.nameCity {
@@ -676,9 +696,20 @@ extension HomeViewController: SKSPickerDelegate {
         for city in cities {
             if city.nameCity == value.title {
                 currentCity = city
+                
+                if let rememberCity = RememberCity.loadSaved() {
+                    rememberCity.name = city.nameCity
+                    rememberCity.uuidCity = city.uuidCity
+                    rememberCity.save()
+                }
+                
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "changedCity"),
+                                                object: nil,
+                                                userInfo: nil)
                 break
             }
         }
+        
         clearPaginations()
         loadData()
         //currentCity
@@ -691,6 +722,8 @@ extension HomeViewController: SKSPickerDelegate {
     }
 }
 
+// MARK: - SearchViewControllerDelegate
+ 
 extension HomeViewController: SearchViewControllerDelegate {
     func detailSearch(value: SearchTableViewCellType) {
         if value.type == .partner {
