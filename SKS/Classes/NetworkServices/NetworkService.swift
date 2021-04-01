@@ -246,10 +246,21 @@ class NetworkManager {
             parameters["searchString"] = searchString
         }
         
-        let headers = [
+        if let uuidCategory = category {
+            if uuidCategory == "favorite" {
+                parameters = [:]
+                parameters["onlyFavorite"] = true
+            }
+        }
+        
+        var headers = [
             "X-Limit": String(describing: limit),
             "X-Offset": String(describing: offset)
         ]
+        
+        if let accessToken = UserData.loadSaved()?.accessToken {
+            headers[HeaderKey.token.rawValue] = accessToken
+        }
         
         getResult(url: url,
                   method: .put,
@@ -268,9 +279,15 @@ class NetworkManager {
         //let url = "http://sksapp.px2x.ru/v2/partner" + "/\(uuidPartner)"
         let parameters: Parameters = ["uuidCity": uuidCity]
         
+        var headers: [String: String] = [:]
+        if let accessToken = UserData.loadSaved()?.accessToken {
+            headers[HeaderKey.token.rawValue] = accessToken
+        }
+        
         getResult(url: url,
                   method: .put,
-                  parameters: parameters) { result in
+                  parameters: parameters,
+                  headers: headers) { result in
             completion(result)
         }
     }

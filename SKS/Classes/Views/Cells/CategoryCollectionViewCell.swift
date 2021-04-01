@@ -24,8 +24,8 @@ class CategoryCollectionViewCell: UICollectionViewCell {
 
     func layoutCell() {
         if let model = model {
-            if let link = model.pict {
-                let url = URL(string: NetworkManager.shared.baseURI + link)
+            if let link = model.pict,
+               let url = URL(string: NetworkManager.shared.baseURI + link) {
                 iconImageView.kf.setImage(with: url) { [weak self] (image, _, _, _) in
                     if model.isSelected {
                         self?.titleLabel.textColor = .white
@@ -43,6 +43,9 @@ class CategoryCollectionViewCell: UICollectionViewCell {
                         self?.iconImageView.tintColor = ColorManager.lightBlack.value
                     }
                 }
+            } else {
+                iconImageView.image = UIImage(named: model.illustrate ?? "")?.withRenderingMode(.alwaysTemplate)
+                iconImageView.tintColor = ColorManager.lightBlack.value
             }
             
             titleLabel.text = model.name

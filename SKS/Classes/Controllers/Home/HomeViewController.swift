@@ -70,16 +70,11 @@ class HomeViewController: BaseViewController {
         return viewController
     }()
     
-    @IBAction func searchButtonTapped(_ sender: UIButton) {
-        
-        searchViewController.currentCity = self.currentCity
-        add(asChildViewController: searchViewController)
-        contentView.isHidden = false
-    }
-    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
+    
+    // MARK: - View life cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -99,7 +94,6 @@ class HomeViewController: BaseViewController {
         super.viewWillAppear(animated)
     }
     
-    
     // MARK: - Segues
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -115,6 +109,7 @@ class HomeViewController: BaseViewController {
             let dvc = segue.destination as! TestViewController
             dvc.uuidPartner = uuidStock
             dvc.city = currentCity
+            dvc.testDelegate = self
         }
     }
     
@@ -141,15 +136,7 @@ class HomeViewController: BaseViewController {
         cityTextField.inputView = picker.picker
     }
     
-    @objc func cityViewTapped() {
-        if isCityTextFieldEditing {
-            view.endEditing(true)
-            isCityTextFieldEditing = false
-        } else {
-            cityTextField.becomeFirstResponder()
-            isCityTextFieldEditing = true
-        }
-    }
+
     
     private func getCities() {
         activityIndicator.startAnimating()
@@ -278,7 +265,10 @@ class HomeViewController: BaseViewController {
         NetworkManager.shared.getCategories { [weak self] response in
             self?.dispatchGroup.leave()
             if let categories = response.result.value {
-                self?.categories = categories
+                let favoriteCaregory = Category(uuidCategory: "favorite", name: "Избранное", hexcolor: "#F75151", illustrate: "ic_favorite_40")
+                self?.categories.append(favoriteCaregory)
+                
+                self?.categories += categories
             }
         }
     }
@@ -291,7 +281,6 @@ class HomeViewController: BaseViewController {
                                           offset: offsetPartners) { [unowned self] response in
             self.dispatchGroup.leave()
             if let partners = response.result.value {
-                
                 if partners.count < self.limitPartners {
                     self.isPaginationPartners = true
                 }
@@ -400,6 +389,26 @@ class HomeViewController: BaseViewController {
         viewController.view.frame = contentView.bounds
         viewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
     }
+    
+    // MARK: Actions
+    
+    @objc func cityViewTapped() {
+        if isCityTextFieldEditing {
+            view.endEditing(true)
+            isCityTextFieldEditing = false
+        } else {
+            cityTextField.becomeFirstResponder()
+            isCityTextFieldEditing = true
+        }
+    }
+    
+    @IBAction func searchButtonTapped(_ sender: UIButton) {
+        
+        searchViewController.currentCity = self.currentCity
+        add(asChildViewController: searchViewController)
+        contentView.isHidden = false
+    }
+    
 }
 
 // MARK: - UITableViewDelegate, UITableViewDataSource
@@ -472,6 +481,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
                 for: indexPath) as! PartnerTableViewCell
             
             cell.model = partners[indexPath.row]
+            cell.delegate = self
 
             if indexPath.row == partners.count - 3 { // last cell
                 if !isPaginationPartners &&
@@ -597,8 +607,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        //if collectionView.tag == 1 ||
-           if collectionView == categoryCollectionView {
+        if collectionView == categoryCollectionView {
             if isLoading { return }
             clearPaginations()
             isLoading = true
@@ -609,7 +618,6 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 if let uuid = categories[indexPath.row].uuidCategory { currentUiidCategory = uuid }
                 
                 changeBackgroundColorCell(collectionView, indexPath: indexPath)
-                //collectionView.reloadItems(at: [indexPath])
                 
                 loadData()
             } else if selectedIndex == indexPath.row {
@@ -617,7 +625,6 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 currentUiidCategory = nil
                 selectedIndex = -1
                 
-                //collectionView.reloadItems(at: [indexPath])
                 changeBackgroundColorCell(collectionView, indexPath: indexPath)
                 loadData()
             } else {
@@ -625,9 +632,6 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 categories[indexPath.row].isSelected = true
                 if let uuid = categories[indexPath.row].uuidCategory { currentUiidCategory = uuid }
                 
-                //collectionView.reloadItems(at: [indexPath,
-                 //                               IndexPath(row: selectedIndex, section: 0)]
-                //                           )
                 changeBackgroundColorCell(collectionView, indexPath: IndexPath(row: selectedIndex, section: 0))
                 changeBackgroundColorCell(collectionView, indexPath: indexPath)
                 
@@ -740,4 +744,104 @@ extension HomeViewController: SearchViewControllerDelegate {
         
         contentView.isHidden = true
     }
+}
+
+// MARK: - PartnerTableViewCellDelegate
+
+extension HomeViewController: PartnerTableViewCellDelegate {
+    
+    func favoriteButtonTapped(cell: PartnerTableViewCell) {
+        if UserData.loadSaved() == nil { return }
+        
+        if let indexPath = tableView.indexPath(for: cell) {
+            if let isFavorite = partners[indexPath.row].isFavorite {
+                if isFavorite {
+                    deletePartnerFromFavorite(indexPath: indexPath)
+                } else {
+                    addPartnerToFavorite(indexPath: indexPath)
+                }
+            }
+        }
+    }
+    
+    private func addPartnerToFavorite(indexPath: IndexPath) {
+        guard let uuidPartner = partners[indexPath.row].uuidPartner else { return }
+        
+        NetworkManager.shared.addPartnerToFavorite(uuidPartner: uuidPartner) { [weak self] result in
+            guard let self = self else { return }
+            
+            if let statucCode = result.statusCode,
+               statucCode == 200 {
+                self.partners[indexPath.row].isFavorite = true
+                self.setStateIsFavoriteButtonForCell(indexPath: indexPath)
+            } else {
+                self.showAlert(message: NetworkErrors.common)
+            }
+        }
+    }
+    
+    private func deletePartnerFromFavorite(indexPath: IndexPath) {
+        guard let uuidPartner = partners[indexPath.row].uuidPartner else { return }
+        
+        NetworkManager.shared.deletePartnerFromFavorite(uuidPartner: uuidPartner) { [weak self] result in
+            guard let self = self else { return }
+            
+            if let statucCode = result.statusCode,
+               statucCode == 200 {
+                self.partners[indexPath.row].isFavorite = false
+                
+                if let selectedCategoty = self.currentUiidCategory,
+                   selectedCategoty == "favorite" {
+                    self.partners.remove(at: indexPath.row)
+                    self.tableView.reloadData()
+                } else {
+                    self.setStateIsFavoriteButtonForCell(indexPath: indexPath)
+                }
+                
+            } else {
+                self.showAlert(message: NetworkErrors.common)
+            }
+        }
+    }
+    
+    private func setStateIsFavoriteButtonForCell(indexPath: IndexPath) {
+        if let cell = tableView.cellForRow(at: indexPath) as? PartnerTableViewCell {
+            cell.setStateForFavoriteButton()
+        }
+    }
+    
+}
+
+// MARK: - TestViewContollerDelegate
+
+extension HomeViewController: TestViewContollerDelegate {
+    
+    func favoriteButtonTapped(viewController: TestViewController, isFavorite: Bool, partner: Partner) {
+        guard let uuidPartner = partner.uuidPartner else { return }
+        
+        if let uuidCategory = currentUiidCategory,
+           uuidCategory == "favorite" {
+            if isFavorite {
+                partners.append(partner)
+            } else {
+                if let index = partners.firstIndex(where: { partner -> Bool in
+                    guard let uuid = partner.uuidPartner else { return false }
+                    return uuid == uuidPartner
+                }) {
+                    partners.remove(at: index)
+                }
+            }
+        } else {
+            if let partner = partners.first(where: { partner -> Bool in
+                guard let uuid = partner.uuidPartner else { return false }
+                return uuid == uuidPartner
+            }) {
+                partner.isFavorite = isFavorite
+            }
+            
+        }
+        
+        tableView.reloadData()
+    }
+    
 }

@@ -13,6 +13,9 @@ import CoreLocation
 import Kingfisher
 
 class MapViewController: BaseViewController {
+    
+    // MARK: - IBOutlets
+    
     @IBOutlet weak var searchView: UIView!
     @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet weak var filterButton: UIButton!
@@ -24,6 +27,8 @@ class MapViewController: BaseViewController {
     
     @IBOutlet weak var salePointView: UIView!
     @IBOutlet weak var salePointTitleLabel: UILabel!
+    
+    // MARK: - Properties
     
     var timer: Timer = Timer.init()
     var searchTimer: Timer = Timer.init()
@@ -126,7 +131,7 @@ class MapViewController: BaseViewController {
         
         setupNotificationCenter()
         setupMap()
-        setupUI()
+        //setupUI()
         setupSearch()
     }
     
@@ -600,6 +605,8 @@ class MapViewController: BaseViewController {
     }
 }
 
+// MARK: - YMKUserLocationObjectListener
+
 extension MapViewController: YMKUserLocationObjectListener {
     func onObjectAdded(with view: YMKUserLocationView) {
         view.arrow.setIconWith(UIImage(named:"UserResult")!)
@@ -631,11 +638,15 @@ extension MapViewController: YMKUserLocationObjectListener {
     }
 }
 
+// MARK: - YMKMapLoadedListener
+
 extension MapViewController: YMKMapLoadedListener {
     func onMapLoaded(with statistics: YMKMapLoadStatistics) {
         
     }
 }
+
+// MARK: - YMKLocationDelegate
 
 extension MapViewController: YMKLocationDelegate {
     func onLocationUpdated(with location: YMKLocation) {
@@ -657,6 +668,8 @@ extension MapViewController: YMKLocationDelegate {
     
     
 }
+
+// MARK: - YMKClusterListener, YMKClusterTapListener
 
 extension MapViewController: YMKClusterListener, YMKClusterTapListener {
     func onClusterAdded(with cluster: YMKCluster) {
@@ -713,6 +726,8 @@ extension MapViewController: YMKClusterListener, YMKClusterTapListener {
     }
 }
 
+// MARK: - YMKMapCameraListener
+
 extension MapViewController: YMKMapCameraListener {
     func onCameraPositionChanged(with map: YMKMap, cameraPosition: YMKCameraPosition, cameraUpdateSource: YMKCameraUpdateSource, finished: Bool) {
         
@@ -743,6 +758,8 @@ extension PulleyViewController {
         }
     }
 }
+
+// MARK: - UITextFieldDelegate
 
 extension MapViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

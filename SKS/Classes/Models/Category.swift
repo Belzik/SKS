@@ -33,4 +33,16 @@ class Category: Codable {
         case hexcolor
         case illustrateHeader
     }
+    
+    init(uuidCategory: String, name: String, hexcolor: String, illustrate: String) {
+        self.uuidCategory = uuidCategory
+        self.name = name
+        self.hexcolor = hexcolor
+        self.illustrate = illustrate
+        createdAt = nil
+        updatedAt = nil
+        idCategory = nil
+        pict = nil
+        illustrateHeader = nil
+    }
 }

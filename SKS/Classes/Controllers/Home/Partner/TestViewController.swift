@@ -13,7 +13,7 @@ import FSPagerView
 import Pulley
 
 protocol TestViewContollerDelegate: class {
-    func favoriteButtonTapped(viewController: TestViewController, isFavorite: Bool, uuidPartner: String)
+    func favoriteButtonTapped(viewController: TestViewController, isFavorite: Bool, partner: Partner)
 }
 
 class TestViewController: ButtonBarPagerTabStripViewController {
@@ -386,7 +386,7 @@ class TestViewController: ButtonBarPagerTabStripViewController {
         
         titleLabel.text = partner?.name
         categoryLabel.text = partner?.category?.name
-        categoryLabel.text = categoryLabel.text!.uppercased()
+        categoryLabel.text = categoryLabel.text?.uppercased()
         
         ratingLabel.text = partner?.rating
         
@@ -426,6 +426,8 @@ class TestViewController: ButtonBarPagerTabStripViewController {
     }
     
     private func addPartnerToFavorite() {
+        guard let partner = partner else { return }
+        
         isLoadingFavorite = true
         NetworkManager.shared.addPartnerToFavorite(uuidPartner: uuidPartner) { [weak self] result in
             guard let self = self else { return }
@@ -436,7 +438,7 @@ class TestViewController: ButtonBarPagerTabStripViewController {
                 self.partner?.isFavorite = true
                 self.testDelegate?.favoriteButtonTapped(viewController: self,
                                                         isFavorite: true,
-                                                        uuidPartner: self.uuidPartner)
+                                                        partner: partner)
                 self.setStateFavoriteButtons()
             } else {
                 self.showAlert(message: NetworkErrors.common)
@@ -445,6 +447,8 @@ class TestViewController: ButtonBarPagerTabStripViewController {
     }
     
     private func deletePartnerFromFavorite() {
+        guard let partner = partner else { return }
+        
         isLoadingFavorite = true
         NetworkManager.shared.deletePartnerFromFavorite(uuidPartner: uuidPartner) { [weak self] result in
             guard let self = self else { return }
@@ -452,10 +456,10 @@ class TestViewController: ButtonBarPagerTabStripViewController {
             
             if let statucCode = result.statusCode,
                statucCode == 200 {
-                self.partner?.isFavorite = true
+                self.partner?.isFavorite = false
                 self.testDelegate?.favoriteButtonTapped(viewController: self,
                                                         isFavorite: false,
-                                                        uuidPartner: self.uuidPartner)
+                                                        partner: partner)
                 self.setStateFavoriteButtons()
             } else {
                 self.showAlert(message: NetworkErrors.common)
@@ -466,6 +470,7 @@ class TestViewController: ButtonBarPagerTabStripViewController {
     // MARK: - Actions
     
     @objc func tappedFavoriteButton() {
+        if UserData.loadSaved() == nil { return }
         guard let isFavorite = partner?.isFavorite else { return }
         if isLoadingFavorite { return }
         
@@ -595,3 +600,5 @@ extension TestViewController: FSPagerViewDataSource, FSPagerViewDelegate {
     }
     
 }
+
+

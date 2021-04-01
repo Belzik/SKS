@@ -24,6 +24,7 @@ enum ColorManager {
     case blueNews
     case orangeNews
     case purpleNews
+    case selectedRed
     
     case custom(hexString: String, alpha: Double)
     
@@ -67,6 +68,8 @@ extension ColorManager {
             instanceColor = UIColor(hexString: "#D57BEC")
         case .blueNews:
             instanceColor = UIColor(hexString: "#598AEA")
+        case .selectedRed:
+            instanceColor = UIColor(hexString: "#F75151")
             
         case .custom(let hexValue, let opacity):
             instanceColor = UIColor(hexString: hexValue).withAlphaComponent(CGFloat(opacity))
