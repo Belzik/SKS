@@ -131,7 +131,7 @@ class MapViewController: BaseViewController {
         
         setupNotificationCenter()
         setupMap()
-        //setupUI()
+        setupUI()
         setupSearch()
     }
     
