@@ -22,6 +22,7 @@ class HomeViewController: BaseViewController {
     
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var searchButton: UIButton!
+    @IBOutlet weak var favoritesEmptyStackView: UIStackView!
     
     // MARK: - Properties
     
@@ -257,6 +258,17 @@ class HomeViewController: BaseViewController {
             }
             
             self.isLoading = false
+            
+            if let selectedCategoty = self.currentUiidCategory,
+               selectedCategoty == "favorite" {
+                if partners.count == 0 {
+                    self.favoritesEmptyStackView.isHidden = false
+                } else {
+                    self.favoritesEmptyStackView.isHidden = true
+                }
+            } else {
+                self.favoritesEmptyStackView.isHidden = true
+            }
         }
     }
     
@@ -265,9 +277,11 @@ class HomeViewController: BaseViewController {
         NetworkManager.shared.getCategories { [weak self] response in
             self?.dispatchGroup.leave()
             if let categories = response.result.value {
-                let favoriteCaregory = Category(uuidCategory: "favorite", name: "Избранное", hexcolor: "#F75151", illustrate: "ic_favorite_40")
-                self?.categories.append(favoriteCaregory)
                 
+                if UserData.loadSaved() != nil {
+                    let favoriteCaregory = Category(uuidCategory: "favorite", name: "Избранное", hexcolor: "#F75151", illustrate: "ic_favorite_40")
+                    self?.categories.append(favoriteCaregory)
+                }
                 self?.categories += categories
             }
         }
@@ -751,7 +765,10 @@ extension HomeViewController: SearchViewControllerDelegate {
 extension HomeViewController: PartnerTableViewCellDelegate {
     
     func favoriteButtonTapped(cell: PartnerTableViewCell) {
-        if UserData.loadSaved() == nil { return }
+        if UserData.loadSaved() == nil {
+            showAlert(message: "Войдите или зарегистрируйтесь, чтобы добавить партнера в Избранное")
+            return
+        }
         
         if let indexPath = tableView.indexPath(for: cell) {
             if let isFavorite = partners[indexPath.row].isFavorite {
@@ -794,6 +811,10 @@ extension HomeViewController: PartnerTableViewCellDelegate {
                    selectedCategoty == "favorite" {
                     self.partners.remove(at: indexPath.row)
                     self.tableView.reloadData()
+                    
+                    if self.partners.count == 0 {
+                        self.favoritesEmptyStackView.isHidden = false
+                    }
                 } else {
                     self.setStateIsFavoriteButtonForCell(indexPath: indexPath)
                 }
@@ -829,6 +850,9 @@ extension HomeViewController: TestViewContollerDelegate {
                     return uuid == uuidPartner
                 }) {
                     partners.remove(at: index)
+                    if self.partners.count == 0 {
+                        self.favoritesEmptyStackView.isHidden = false
+                    }
                 }
             }
         } else {

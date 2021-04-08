@@ -134,16 +134,35 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="725"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </view>
+                            <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="U70-nY-Jgn">
+                                <rect key="frame" x="24" y="435" width="366" height="52"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="В избранном пока ничего нет" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ff5-ke-nKd">
+                                        <rect key="frame" x="0.0" y="0.0" width="366" height="17.5"/>
+                                        <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="14"/>
+                                        <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Добавляйте партнеров в Избранное с помощью ❤️" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Pc-gs-4jM">
+                                        <rect key="frame" x="0.0" y="17.5" width="366" height="34.5"/>
+                                        <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="14"/>
+                                        <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="fRS-ly-Dnz"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="fkf-Ui-Acf" firstAttribute="top" secondItem="fRS-ly-Dnz" secondAttribute="top" id="2lb-x2-mzI"/>
                             <constraint firstItem="1aL-Hk-NuL" firstAttribute="centerX" secondItem="fRS-ly-Dnz" secondAttribute="centerX" id="8T2-IC-XZ4"/>
+                            <constraint firstItem="U70-nY-Jgn" firstAttribute="centerY" secondItem="rQS-UR-InB" secondAttribute="centerY" id="94M-tC-TIB"/>
                             <constraint firstItem="fRS-ly-Dnz" firstAttribute="trailing" secondItem="U3C-OR-Afv" secondAttribute="trailing" constant="16" id="AEs-4b-o5d"/>
                             <constraint firstItem="fRS-ly-Dnz" firstAttribute="leading" secondItem="fqm-i1-6u8" secondAttribute="leading" id="IIY-Fv-Lj6"/>
                             <constraint firstItem="1aL-Hk-NuL" firstAttribute="centerY" secondItem="fRS-ly-Dnz" secondAttribute="centerY" id="IeO-2l-12s"/>
                             <constraint firstItem="fqm-i1-6u8" firstAttribute="top" secondItem="fRS-ly-Dnz" secondAttribute="top" id="M9e-B5-GtS"/>
+                            <constraint firstItem="fRS-ly-Dnz" firstAttribute="trailing" secondItem="U70-nY-Jgn" secondAttribute="trailing" constant="24" id="OD0-PA-Poj"/>
                             <constraint firstItem="U3C-OR-Afv" firstAttribute="centerY" secondItem="y0a-AB-RGH" secondAttribute="centerY" id="QPD-Xx-YCg"/>
                             <constraint firstItem="xDe-17-wN7" firstAttribute="top" secondItem="y0a-AB-RGH" secondAttribute="bottom" constant="20" id="Qu5-KW-KX7"/>
                             <constraint firstItem="fkf-Ui-Acf" firstAttribute="leading" secondItem="fRS-ly-Dnz" secondAttribute="leading" id="T1U-8p-U8j"/>
@@ -161,6 +180,7 @@
                             <constraint firstItem="rQS-UR-InB" firstAttribute="leading" secondItem="fRS-ly-Dnz" secondAttribute="leading" id="lSl-yX-pZf"/>
                             <constraint firstItem="fRS-ly-Dnz" firstAttribute="bottom" secondItem="rQS-UR-InB" secondAttribute="bottom" id="oEX-VF-1qc"/>
                             <constraint firstItem="fRS-ly-Dnz" firstAttribute="bottom" secondItem="fkf-Ui-Acf" secondAttribute="bottom" id="roG-2k-USG"/>
+                            <constraint firstItem="U70-nY-Jgn" firstAttribute="leading" secondItem="fRS-ly-Dnz" secondAttribute="leading" constant="24" id="uUC-tl-DCh"/>
                             <constraint firstItem="fRS-ly-Dnz" firstAttribute="trailing" secondItem="UB5-nQ-aZ6" secondAttribute="trailing" id="xox-ed-bwy"/>
                         </constraints>
                     </view>
@@ -172,6 +192,7 @@
                         <outlet property="cityTextField" destination="979-5K-TMN" id="e5v-FJ-KvC"/>
                         <outlet property="cityView" destination="y0a-AB-RGH" id="fOq-e6-cDN"/>
                         <outlet property="contentView" destination="fkf-Ui-Acf" id="hq0-Lc-93Z"/>
+                        <outlet property="favoritesEmptyStackView" destination="U70-nY-Jgn" id="xBH-JX-lBV"/>
                         <outlet property="searchButton" destination="U3C-OR-Afv" id="XPH-sk-990"/>
                         <outlet property="tableView" destination="rQS-UR-InB" id="ad9-NB-CdZ"/>
                         <segue destination="KF9-00-iUt" kind="show" identifier="segueStock" id="pzT-FQ-MWh"/>
@@ -1542,7 +1563,7 @@
         </designable>
     </designables>
     <inferredMetricsTieBreakers>
-        <segue reference="uK2-IF-oNa"/>
+        <segue reference="pzT-FQ-MWh"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="chevron-down-green" width="16" height="16"/>

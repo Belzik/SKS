@@ -163,6 +163,9 @@ class PersonalDataViewController: BaseViewController {
         datePicker.locale = Locale(identifier: "ru")
         datePicker.backgroundColor = UIColor.white
         datePicker.maximumDate = Date()
+        if #available(iOS 13.4, *) {
+            datePicker.preferredDatePickerStyle = .wheels
+        }
         
         //ToolBar
         let toolBar = UIToolbar()

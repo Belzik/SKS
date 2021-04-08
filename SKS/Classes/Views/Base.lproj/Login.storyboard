@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="F6i-Pa-pF6">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="F6i-Pa-pF6">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -56,6 +57,7 @@
                                 </connections>
                             </button>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="k3U-BP-bSs"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="1WN-hB-C1r" firstAttribute="top" secondItem="k3U-BP-bSs" secondAttribute="top" constant="12" id="9li-Pb-GHC"/>
@@ -65,7 +67,6 @@
                             <constraint firstItem="Hup-Ey-guM" firstAttribute="top" secondItem="k3U-BP-bSs" secondAttribute="top" id="uGb-1I-45s"/>
                             <constraint firstItem="Hup-Ey-guM" firstAttribute="leading" secondItem="k3U-BP-bSs" secondAttribute="leading" id="uqf-p8-zah"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="k3U-BP-bSs"/>
                     </view>
                     <connections>
                         <outlet property="webView" destination="Hup-Ey-guM" id="D2W-jr-FdU"/>
@@ -98,13 +99,13 @@
                                 </connections>
                             </button>
                             <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Введите пароль" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RD0-Nb-pwi">
-                                <rect key="frame" x="24" y="104" width="210.5" height="29.5"/>
+                                <rect key="frame" x="24" y="104" width="181.5" height="28"/>
                                 <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="24"/>
                                 <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="5fW-a5-ojr">
-                                <rect key="frame" x="24" y="157.5" width="366" height="208"/>
+                                <rect key="frame" x="24" y="156" width="366" height="207"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="Ksr-Wk-E0H">
                                         <rect key="frame" x="0.0" y="0.0" width="366" height="85"/>
@@ -156,8 +157,8 @@
                                             </label>
                                         </subviews>
                                     </stackView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q4N-vB-c0i">
-                                        <rect key="frame" x="0.0" y="178" width="366" height="30"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q4N-vB-c0i">
+                                        <rect key="frame" x="0.0" y="178" width="366" height="29"/>
                                         <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="14"/>
                                         <state key="normal" title="Получить пароль">
                                             <color key="titleColor" red="0.10069117700000001" green="0.66996139290000001" blue="0.34534701699999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -168,8 +169,8 @@
                                     </button>
                                 </subviews>
                             </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AqK-XW-hBe" customClass="SKSButton" customModule="SKS" customModuleProvider="target">
-                                <rect key="frame" x="24" y="405.5" width="366" height="48"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AqK-XW-hBe" customClass="SKSButton" customModule="SKS" customModuleProvider="target">
+                                <rect key="frame" x="24" y="403" width="366" height="48"/>
                                 <color key="backgroundColor" red="0.1019607843" green="0.6705882353" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="o9e-zs-yew"/>
@@ -184,7 +185,8 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="UiO-pu-6ii"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="5fW-a5-ojr" firstAttribute="top" secondItem="RD0-Nb-pwi" secondAttribute="bottom" constant="24" id="0yJ-0a-ecj"/>
                             <constraint firstItem="RD0-Nb-pwi" firstAttribute="leading" secondItem="UiO-pu-6ii" secondAttribute="leading" constant="24" id="9qs-bk-0DQ"/>
@@ -199,7 +201,6 @@
                             <constraint firstItem="UiO-pu-6ii" firstAttribute="trailing" secondItem="5fW-a5-ojr" secondAttribute="trailing" constant="24" id="t1n-cx-80H"/>
                             <constraint firstItem="AqK-XW-hBe" firstAttribute="top" secondItem="5fW-a5-ojr" secondAttribute="bottom" constant="40" id="vuJ-7B-2mt"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="UiO-pu-6ii"/>
                     </view>
                     <navigationItem key="navigationItem" id="3ct-zg-QhY"/>
                     <connections>
@@ -309,7 +310,8 @@
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="Blf-hp-68Z"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="ehE-kg-7hP" firstAttribute="leading" secondItem="Blf-hp-68Z" secondAttribute="leading" constant="16" id="9Tg-gS-xhp"/>
                             <constraint firstItem="4du-3o-Avz" firstAttribute="top" secondItem="HSN-O4-Z0M" secondAttribute="bottom" constant="40" id="9sn-mi-mr0"/>
@@ -326,7 +328,6 @@
                             <constraint firstItem="Blf-hp-68Z" firstAttribute="trailing" secondItem="ehE-kg-7hP" secondAttribute="trailing" constant="16" id="qoJ-Zj-vi7"/>
                             <constraint firstItem="HSN-O4-Z0M" firstAttribute="top" secondItem="ugM-C0-EP7" secondAttribute="bottom" constant="24" id="x3D-bz-jhm"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="Blf-hp-68Z"/>
                     </view>
                     <navigationItem key="navigationItem" id="6Tj-Fj-IFz"/>
                     <connections>
@@ -351,19 +352,19 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Введите номер телефона" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="Bx5-1b-u56">
-                                <rect key="frame" x="24" y="104" width="273" height="59"/>
+                                <rect key="frame" x="24" y="104" width="273" height="56"/>
                                 <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="24"/>
                                 <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Нажимая кнопку &quot;Далее&quot;, я соглашаюсь с Пользовательски соглашением и Политикой конфиденциальности" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OL1-cQ-R23">
-                                <rect key="frame" x="24" y="812" width="366" height="44"/>
+                                <rect key="frame" x="24" y="828" width="366" height="28"/>
                                 <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="12"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Номер телефона" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hR8-R3-R1S" customClass="SKSTextField" customModule="SKS" customModuleProvider="target">
-                                <rect key="frame" x="20" y="203" width="374" height="60"/>
+                                <rect key="frame" x="20" y="200" width="374" height="60"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="6e3-Su-kuC"/>
                                 </constraints>
@@ -387,7 +388,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4WN-s8-zxD">
-                                <rect key="frame" x="20" y="287" width="48" height="48"/>
+                                <rect key="frame" x="20" y="284" width="48" height="48"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="JIh-XE-ijH"/>
                                     <constraint firstAttribute="width" constant="48" id="qko-Vi-sOs"/>
@@ -397,8 +398,8 @@
                                     <action selector="vkButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="vQX-nh-kPA"/>
                                 </connections>
                             </button>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="84t-u7-sDb" customClass="SKSButton" customModule="SKS" customModuleProvider="target">
-                                <rect key="frame" x="24" y="359" width="366" height="48"/>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="84t-u7-sDb" customClass="SKSButton" customModule="SKS" customModuleProvider="target">
+                                <rect key="frame" x="24" y="356" width="366" height="48"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="5Wq-PS-Cd2"/>
@@ -415,6 +416,7 @@
                                 <rect key="frame" x="197" y="443" width="20" height="20"/>
                             </activityIndicatorView>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="84t-u7-sDb" firstAttribute="top" secondItem="4WN-s8-zxD" secondAttribute="bottom" constant="24" id="D7Q-LF-8MZ"/>
@@ -439,7 +441,6 @@
                             <constraint firstItem="IzM-nP-0zR" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="ul8-b5-hG9"/>
                             <constraint firstAttribute="bottom" secondItem="OL1-cQ-R23" secondAttribute="bottom" constant="40" id="yFa-ro-Qyg"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="Itw-JK-DkR"/>
                     <connections>
@@ -559,6 +560,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="LGf-WS-7ML"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="gen-gr-Eyj" secondAttribute="bottom" constant="40" id="3DI-bZ-x4N"/>
@@ -580,7 +582,6 @@
                             <constraint firstItem="cjs-Sy-YTO" firstAttribute="top" secondItem="LGf-WS-7ML" secondAttribute="top" constant="12" id="woJ-6s-GCL"/>
                             <constraint firstItem="yDj-v3-i9v" firstAttribute="leading" secondItem="LGf-WS-7ML" secondAttribute="leading" constant="24" id="xbt-I7-oCu"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="LGf-WS-7ML"/>
                     </view>
                     <connections>
                         <outlet property="bottomConstraintTimerLabel" destination="3DI-bZ-x4N" id="fbQ-OI-q5j"/>
@@ -680,7 +681,7 @@
                                                     </view>
                                                 </subviews>
                                             </stackView>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ruo-eU-O9C" customClass="SKSButton" customModule="SKS" customModuleProvider="target">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ruo-eU-O9C" customClass="SKSButton" customModule="SKS" customModuleProvider="target">
                                                 <rect key="frame" x="24" y="641" width="366" height="48"/>
                                                 <color key="backgroundColor" red="0.10196078431372549" green="0.6705882352941176" blue="0.34509803921568627" alpha="1" colorSpace="calibratedRGB"/>
                                                 <constraints>
@@ -751,6 +752,7 @@
                                 </constraints>
                             </scrollView>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="ZrB-gE-xy5"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="9Am-3s-eM9" firstAttribute="leading" secondItem="GSm-GS-OEJ" secondAttribute="leading" id="J1j-Bh-RA1"/>
@@ -760,7 +762,6 @@
                             <constraint firstItem="zBr-KZ-TPm" firstAttribute="height" secondItem="GSm-GS-OEJ" secondAttribute="height" priority="250" id="y0T-Ns-J0w"/>
                             <constraint firstItem="9Am-3s-eM9" firstAttribute="top" secondItem="GSm-GS-OEJ" secondAttribute="top" id="yss-fi-vUW"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="ZrB-gE-xy5"/>
                     </view>
                     <navigationItem key="navigationItem" id="8P7-ko-AEu"/>
                     <connections>
@@ -876,7 +877,7 @@
                                                 <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dS2-Yv-otH" customClass="SKSButton" customModule="SKS" customModuleProvider="target">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dS2-Yv-otH" customClass="SKSButton" customModule="SKS" customModuleProvider="target">
                                                 <rect key="frame" x="24" y="731" width="370" height="48"/>
                                                 <color key="backgroundColor" red="0.10196078431372549" green="0.6705882352941176" blue="0.34509803921568627" alpha="1" colorSpace="calibratedRGB"/>
                                                 <constraints>
@@ -931,6 +932,7 @@
                                 </constraints>
                             </scrollView>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="mJu-y3-Npg"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="XCC-7X-aQi" firstAttribute="leading" secondItem="C1m-Wo-sGb" secondAttribute="leading" id="IEv-57-3b6"/>
@@ -940,7 +942,6 @@
                             <constraint firstItem="6G4-l0-Ub8" firstAttribute="width" secondItem="C1m-Wo-sGb" secondAttribute="width" id="knk-dM-cYf"/>
                             <constraint firstItem="XCC-7X-aQi" firstAttribute="top" secondItem="C1m-Wo-sGb" secondAttribute="top" id="xbi-ew-GWH"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="mJu-y3-Npg"/>
                     </view>
                     <navigationItem key="navigationItem" id="Zgf-6W-W4Y"/>
                     <size key="freeformSize" width="414" height="1000"/>
@@ -980,14 +981,52 @@
             <point key="canvasLocation" x="269.56521739130437" y="125.89285714285714"/>
         </scene>
     </scenes>
+    <designables>
+        <designable name="B6D-kE-x4z">
+            <size key="intrinsicContentSize" width="34" height="34"/>
+        </designable>
+        <designable name="ChP-Gi-gqO">
+            <size key="intrinsicContentSize" width="34" height="34"/>
+        </designable>
+        <designable name="D0M-HZ-Q4a">
+            <size key="intrinsicContentSize" width="166.5" height="34"/>
+        </designable>
+        <designable name="I4v-qC-2hg">
+            <size key="intrinsicContentSize" width="84.5" height="34"/>
+        </designable>
+        <designable name="Ibf-DS-CAS">
+            <size key="intrinsicContentSize" width="34" height="34"/>
+        </designable>
+        <designable name="JS6-wR-gr3">
+            <size key="intrinsicContentSize" width="34" height="34"/>
+        </designable>
+        <designable name="OOT-5w-Cch">
+            <size key="intrinsicContentSize" width="34" height="34"/>
+        </designable>
+        <designable name="fWa-Jh-z9L">
+            <size key="intrinsicContentSize" width="34" height="34"/>
+        </designable>
+        <designable name="hR8-R3-R1S">
+            <size key="intrinsicContentSize" width="155.5" height="34"/>
+        </designable>
+        <designable name="iEb-pG-qji">
+            <size key="intrinsicContentSize" width="34" height="34"/>
+        </designable>
+        <designable name="vhe-LD-zOw">
+            <size key="intrinsicContentSize" width="34" height="34"/>
+        </designable>
+    </designables>
+    <inferredMetricsTieBreakers>
+        <segue reference="8zu-0c-bm7"/>
+        <segue reference="Wkh-5R-TAG"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="ic_arrow_left" width="24" height="24"/>
         <image name="ic_arrow_left_white" width="24" height="24"/>
         <image name="ic_photo" width="60" height="60"/>
         <image name="vk" width="120" height="120"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="8zu-0c-bm7"/>
-        <segue reference="Wkh-5R-TAG"/>
-    </inferredMetricsTieBreakers>
 </document>
