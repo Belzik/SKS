@@ -158,7 +158,7 @@ class PlaceViewController: BaseViewController {
                                              lngUser: longitude,
                                              searchString: searchString) { [weak self] result in
             
-            if let value = result.result.value {
+            if let value = result.value {
                 if let points = value.first?.points {
                     self?.salePoints = points
                     self?.countOfficesLabel.text = "\(points.count)"

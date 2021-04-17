@@ -94,7 +94,7 @@ class DetailNewsViewController: BaseViewController {
         activityIndicatorView.startAnimating()
         NetworkManager.shared.getSingleNews(uuidNews: uuidNews) { [weak self] result in
             self?.activityIndicatorView.stopAnimating()
-            if let news = result.result.value {
+            if let news = result.value {
                 self?.model = news
                 self?.scrollView.isHidden = false
                 self?.headerView.isHidden = false
@@ -210,7 +210,7 @@ class DetailNewsViewController: BaseViewController {
     func registrationOnEvent() {
         guard let idEvent = model?.event?.uuidEvent else { return }
         NetworkManager.shared.registrationOnEvent(idEvent: idEvent) { [weak self] result in
-            if let statusCode = result.statusCode,
+            if let statusCode = result.responseCode,
                 statusCode == 200 {
                 self?.showAlert(message: "Вы успешно зарегистрировались на мероприятие")
                 self?.eventButton.setTitle("ОТМЕНИТЬ РЕГИСТРАЦИЮ", for: .normal)
@@ -222,7 +222,7 @@ class DetailNewsViewController: BaseViewController {
                     self?.model?.event?.placesCountBooked = placeCountBooked + 1
                     self?.model?.event?.bookedForMe = true
                 }
-            } else if let statusCode = result.statusCode,
+            } else if let statusCode = result.responseCode,
                     statusCode == 409 {
                 self?.showAlert(message: "Для того, чтобы учавствовать в мероприятие, ваш аккаунт должен быть подтвержден")
            } else {
@@ -234,7 +234,7 @@ class DetailNewsViewController: BaseViewController {
     func cancelRegistrationOnEvent() {
         guard let idEvent = model?.event?.uuidEvent else { return }
         NetworkManager.shared.cancelRegistrationOnEvent(idEvent: idEvent) { [weak self] result in
-            if let statusCode = result.statusCode,
+            if let statusCode = result.responseCode,
                 statusCode == 200 {
                 self?.showAlert(message: "Вы отменили запись на мероприятие")
                 self?.eventButton.setTitle("ЗАРЕГИСТРИРОВАТЬСЯ", for: .normal)

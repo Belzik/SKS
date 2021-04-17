@@ -58,7 +58,7 @@ class OnboardingViewController:  BaseViewController {
         pageViewController.view.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(pageViewController.view)
         
-        let views: [String: Any] = ["pageView": pageViewController.view]
+        let views: [String: Any] = ["pageView": pageViewController.view as Any]
         
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[pageView]-0-|",
                                                                  options: NSLayoutConstraint.FormatOptions(rawValue: 0),

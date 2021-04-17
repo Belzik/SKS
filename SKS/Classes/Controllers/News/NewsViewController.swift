@@ -57,7 +57,7 @@ class NewsViewController: BaseViewController {
         NetworkManager.shared.getNews(limit: limit,
                                       offset: offset) { [unowned self] result in
             self.activityIndicatorView.stopAnimating()
-            if let news = result.result.value {
+            if let news = result.value {
                 if news.count < self.limit {
                     self.isPaginationEnd = true
                 }
@@ -70,7 +70,6 @@ class NewsViewController: BaseViewController {
                     self.offset += self.limit
                     self.tableView.reloadData()
                 }
-
             } else {
                 self.showAlert(message: NetworkErrors.common)
             }

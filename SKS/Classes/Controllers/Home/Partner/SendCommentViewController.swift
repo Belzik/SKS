@@ -53,7 +53,7 @@ class SendCommentViewController: BaseViewController {
         activityIndicator.startAnimating()
         NetworkManager.shared.getCommentUser(uuidPartner: uuidPartner) { [weak self] result in
             self?.activityIndicator.stopAnimating()
-            if let chComment = result.result.value {
+            if let chComment = result.value {
                 self?.chComment = chComment
                 self?.commentTextField.text = chComment.info?.comment
                 
@@ -100,12 +100,12 @@ class SendCommentViewController: BaseViewController {
         NetworkManager.shared.sendCommentToPartner(uuidPartner: uuidPartner,
                                                    comment: commentTextField.text!) { [weak self] result in
             self?.dispatchGroup.leave()
-            if result.statusCode == 200 {
+            if result.responseCode == 200 {
                 self?.isHaveErrors = false
                 
             } else {
                 self?.isHaveErrors = true
-                if let statusCode = result.statusCode,
+                if let statusCode = result.responseCode,
                     statusCode == 403 {
                     self?.showAlert(message: "Для того, чтобы оставить отзыв необходимо статус подтвержденного пользователя")
                 } else {
@@ -122,11 +122,12 @@ class SendCommentViewController: BaseViewController {
         NetworkManager.shared.editCommentToPartner(uuidComment: uuidComment,
                                                    comment: commentTextField.text!) { [weak self] result in
             self?.dispatchGroup.leave()
-            if result.statusCode == 200 {
+            if let responseCode = result.responseCode,
+               responseCode == 200 {
                 self?.isHaveErrors = false
             } else {
                 self?.isHaveErrors = true
-                if let statusCode = result.statusCode,
+                if let statusCode = result.responseCode,
                     statusCode == 403 {
                     self?.showAlert(message: "Для того, чтобы оставить отзыв необходимо статус подтвержденного пользователя")
                 } else {
@@ -142,7 +143,8 @@ class SendCommentViewController: BaseViewController {
         NetworkManager.shared.sendRatingToPartner(uuidPartner: uuidPartner,
                                                   rating: ratingView.rating) { [weak self] result in
             self?.dispatchGroup.leave()
-            if result.statusCode == 200 {
+            if let responseCode = result.responseCode,
+               responseCode == 200 {
                 self?.isHaveErrors = false
                 
                 if self?.chComment?.info?.uuidComment == nil {
@@ -153,7 +155,7 @@ class SendCommentViewController: BaseViewController {
             } else {
                 self?.isHaveErrors = true
                 
-                if let statusCode = result.statusCode,
+                if let statusCode = result.responseCode,
                     statusCode == 403 {
                     self?.showAlert(message: "Для того, чтобы оставить отзыв необходимо статус подтвержденного пользователя")
                 } else {

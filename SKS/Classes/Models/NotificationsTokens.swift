@@ -28,9 +28,10 @@ class NotificationsTokens: NSObject, NSCoding {
     }
     
     func save() {
-        let data = NSKeyedArchiver.archivedData(withRootObject: self)
-        UserDefaults.standard.set(data, forKey: "tokens")
-        UserDefaults.standard.synchronize()
+        if let data = try? NSKeyedArchiver.archivedData(withRootObject: self, requiringSecureCoding: true) {
+            UserDefaults.standard.set(data, forKey: "tokens")
+            UserDefaults.standard.synchronize()
+        }
     }
     
     class func clear() {

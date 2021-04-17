@@ -212,7 +212,7 @@ extension PersonalDataViewController: ImagePickerDelegate {
         loaderPhoto.startAnimating()
         NetworkManager.shared.uploadImage(image: image) { [weak self] response in
             self?.loaderPhoto.stopAnimating()
-            if let keyFile = response.result.value?.keyFile {
+            if let keyFile = response.value?.keyFile {
                 self?.photoImageView.image = image
                 self?.isImageAdd = true
                 self?.photoImageView.layer.borderWidth = 0
@@ -246,9 +246,6 @@ extension PersonalDataViewController: UITextFieldDelegate {
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if textField == phoneTextField.textField {
-            let newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
-                   let isDeleted = newString.count < textField.text!.count
-                   
                    let currentText: NSString = textField.text as NSString? ?? ""
                    
                    let newText = currentText.replacingCharacters(in: range, with: string)

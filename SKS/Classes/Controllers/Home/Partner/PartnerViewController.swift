@@ -62,7 +62,7 @@ class PartnerViewController: BaseViewController {
         
         NetworkManager.shared.getPartner(uuidPartner: uuidPartner,
                                          uuidCity: uuidCIty) { [weak self] response in
-            if let partner = response.result.value {
+            if let partner = response.value {
                 self?.layout(withPartner: partner)
             } else {
                 self?.showAlert(message: NetworkErrors.common)

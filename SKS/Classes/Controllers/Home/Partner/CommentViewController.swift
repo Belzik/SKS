@@ -67,7 +67,7 @@ class CommentViewController: BaseViewController {
         dispatchGroup.enter()
         NetworkManager.shared.getComments(uuidPartner: uuidPartner) { [weak self] response in
             self?.dispatchGroup.leave()
-            if let comments = response.result.value {
+            if let comments = response.value {
                 self?.comments = comments
             }
         }
@@ -79,7 +79,7 @@ class CommentViewController: BaseViewController {
         dispatchGroup.enter()
         NetworkManager.shared.getRatingStatictis(uuidPartner: uuidPartner) { [weak self] response in
             self?.dispatchGroup.leave()
-            if let ratingStatistic = response.result.value {
+            if let ratingStatistic = response.value {
                 self?.ratingStatistic = ratingStatistic
             }
         }
@@ -90,7 +90,7 @@ class CommentViewController: BaseViewController {
         NetworkManager.shared.getPartner(uuidPartner: uuidPartner,
                                          uuidCity: uuidCity) { [weak self] response in
             self?.dispatchGroup.leave()
-            if let partner = response.result.value {
+            if let partner = response.value {
                 self?.partner = partner
                 if let rating = partner.rating {
                     self?.delegate?.partnerRatingChanged(rating: rating)
@@ -180,7 +180,7 @@ extension CommentViewController: CommentTableViewCellDelegate {
         guard let uuidComment = comments[indexPath.row].commentInfo?.uuidComment else { return }
         
         NetworkManager.shared.likeComment(uuidComment: uuidComment) { [weak self] result in
-            if let toggleLike = result.result.value?.toggleLike {
+            if let toggleLike = result.value?.toggleLike {
                 if toggleLike == "1" {
                     self?.comments[indexPath.row].commentInfo?.likes! += 1
                     self?.comments[indexPath.row].userLike = "true"
@@ -189,7 +189,7 @@ extension CommentViewController: CommentTableViewCellDelegate {
                     self?.comments[indexPath.row].userLike = "false"
                 }
                 self?.tableView.reloadData()
-            } else if let statuCode = result.statusCode,
+            } else if let statuCode = result.responseCode,
                 statuCode == 403 {
                 self?.showAlert(message: "Для того, чтобы поставить лайк необходимо статус подтвержденного пользователя")
             } else {

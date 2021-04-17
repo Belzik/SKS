@@ -79,7 +79,7 @@ class UniversityDataViewController: BaseViewController {
                                                accessToken: accessToken,
                                                keyPhoto: keyFile,
                                                phone: phone) { [weak self] response in
-                if let user = response.result.value,
+                if let user = response.value,
                         user.uuidUser != nil {
                     user.accessToken = self?.accessToken
                     user.refreshToken = self?.refreshToken
@@ -172,7 +172,7 @@ class UniversityDataViewController: BaseViewController {
     
     func getCities() {
         NetworkManager.shared.getСityUniversities { [weak self] response in
-            if let cities = response.result.value,
+            if let cities = response.value,
                 cities.count > 0 {
                 self?.cityPicker.source = cities
                 self?.cities = cities
@@ -184,7 +184,7 @@ class UniversityDataViewController: BaseViewController {
         let uuidCity = cities[cityPicker.picker.selectedRow(inComponent: 0)].uuidCity
         
         NetworkManager.shared.getUniversities(uuidCity: uuidCity ?? "") { [weak self] response in
-            if let universities = response.result.value,
+            if let universities = response.value,
                 universities.count > 0 {
                 self?.institutePicker.source = universities
                 self?.universities = universities
@@ -198,7 +198,7 @@ class UniversityDataViewController: BaseViewController {
         let uuidUniver = universities[institutePicker.picker.selectedRow(inComponent: 0)].uuidUniver
         
         NetworkManager.shared.getFaculties(uuidUniver: uuidUniver) { [weak self] response in
-            if let faculties = response.result.value,
+            if let faculties = response.value,
                 faculties.count > 0 {
                 self?.facultyPicker.source = faculties
                 self?.faculties = faculties

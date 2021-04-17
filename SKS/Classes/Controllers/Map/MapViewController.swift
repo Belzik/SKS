@@ -32,7 +32,7 @@ class MapViewController: BaseViewController {
     
     var timer: Timer = Timer.init()
     var searchTimer: Timer = Timer.init()
-    let locationManager = YMKMapKit.sharedInstance()!.createLocationManager()
+    let locationManager = YMKMapKit.sharedInstance().createLocationManager()
     var collection: YMKClusterizedPlacemarkCollection?
     private let FONT_SIZE: CGFloat = 15
     private let MARGIN_SIZE: CGFloat = 3
@@ -204,7 +204,7 @@ class MapViewController: BaseViewController {
     }
     
     func addedUserLocation() {
-        let mapKit = YMKMapKit.sharedInstance()!
+        let mapKit = YMKMapKit.sharedInstance()
         let userLocationLayer = mapKit.createUserLocationLayer(with: mapView.mapWindow)
 
         userLocationLayer.setVisibleWithOn(true)
@@ -258,7 +258,7 @@ class MapViewController: BaseViewController {
                                         searchString: searchString) { [weak self] result in
             
             DispatchQueue.global(qos: .background).sync {
-                if let resultPoints = result.result.value,
+                if let resultPoints = result.value,
                     var pointsOfPartners = self?.pointsOfPartners {
                     var points: [YMKPoint] = []
                     
@@ -368,7 +368,7 @@ class MapViewController: BaseViewController {
                         logo != "",
                         let url = URL(string: NetworkManager.shared.baseURI + logo) {
                         
-                        view.logoImage.kf.setImage(with: url) { [weak self] (_, _, _, _) in
+                        view.logoImage.kf.setImage(with: url) { [weak self] (_, _) in
                             if let yrtView = YRTViewProvider.init(uiView: view) {
                                 let placeMark = mapObjects.addPlacemark(with: point, view: yrtView)
                                 placeMark.zIndex = 1
@@ -416,7 +416,7 @@ class MapViewController: BaseViewController {
                 if let logo = mapPartner.logo,
                     logo != "",
                     let url = URL(string: NetworkManager.shared.baseURI + logo) {
-                    view.logoImage.kf.setImage(with: url) { (_, _, _, _) in
+                    view.logoImage.kf.setImage(with: url) { (_, _) in
                         if let yrtView = YRTViewProvider.init(uiView: view) {
                             salePoint?.setViewWithView(yrtView)
                             salePoint?.zIndex = 1
@@ -818,7 +818,7 @@ extension MapViewController: YMKMapObjectTapListener {
                     logo != "",
                     let url = URL(string: logo) {
                     //view.logoImage.kf.setImage(with: url)
-                    view.logoImage.kf.setImage(with: url) { (_, _, _, _) in
+                    view.logoImage.kf.setImage(with: url) { (_, _) in
                         if let yrtView = YRTViewProvider.init(uiView: view) {
                             tPoint.setViewWithView(yrtView)
                             tPoint.zIndex = 1
@@ -829,7 +829,7 @@ extension MapViewController: YMKMapObjectTapListener {
                     let url = URL(string: NetworkManager.shared.baseURI + logoIllustrate) {
                     //view.logoImage.kf.setImage(with: url)
                     
-                    view.logoImage.kf.setImage(with: url) { (_, _, _, _) in
+                    view.logoImage.kf.setImage(with: url) { (_, _) in
                         if let yrtView = YRTViewProvider.init(uiView: view) {
                             tPoint.setViewWithView(yrtView)
                             tPoint.zIndex = 1
@@ -863,7 +863,7 @@ extension MapViewController: YMKMapObjectTapListener {
                 
                 if let url = URL(string: NetworkManager.shared.baseURI + data.logo) {
                     
-                    view.logoImage.kf.setImage(with: url) { (_, _, _, _) in
+                    view.logoImage.kf.setImage(with: url) { (_, _) in
                         if let yrtView = YRTViewProvider.init(uiView: view) {
                             tPoint.setViewWithView(yrtView)
                             tPoint.zIndex = 1

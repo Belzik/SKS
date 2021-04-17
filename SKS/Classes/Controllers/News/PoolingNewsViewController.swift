@@ -92,7 +92,7 @@ class PoolingNewsViewController: BaseViewController {
                 let uuidAnswer = answerTypes[selectedIndex.row].uuidAnswerType else { return }
         
         NetworkManager.shared.sendAnswer(idAnswer: uuidAnswer) { [weak self] result in
-            if let statusCode = result.statusCode,
+            if let statusCode = result.responseCode,
                 statusCode == 200 {
                 self?.showAlert(message: "Ваш ответ принят")
                 
@@ -106,7 +106,7 @@ class PoolingNewsViewController: BaseViewController {
                 self?.model?.pooling?.voted = true
                 self?.tableView.tableFooterView = UIView(frame: CGRect.zero)
                 self?.tableView.reloadData()
-            } else if let statusCode = result.statusCode,
+            } else if let statusCode = result.responseCode,
                     statusCode == 409 {
                 self?.showAlert(message: "Для того, чтобы проголосовать, ваш аккаунт должен быть подтвержден")
             } else {

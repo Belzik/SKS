@@ -131,9 +131,8 @@ class LoginViewController: BaseViewController {
     
     private func getSmsWithCode() {
         NetworkManager.shared.getCodeWithSms(phone: phoneTextField.text!.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()) { [weak self] response in
-            if response.result.error != nil {
-                self?.showAlert(message: NetworkErrors.common)
-            } else if let smsResponse = response.result.value {
+            
+            if let smsResponse = response.value {
                 self?.smsResponse = smsResponse
                 
                 if let loginKey = smsResponse.loginKey,
@@ -142,7 +141,8 @@ class LoginViewController: BaseViewController {
                 } else {
                     self?.performSegue(withIdentifier: "seguePassword", sender: nil)
                 }
-                
+            } else {
+                self?.showAlert(message: NetworkErrors.common)
             }
         }
     }
@@ -274,18 +274,13 @@ extension LoginViewController: SwiftyVKDelegate {
         NetworkManager.shared.authVK(userId: userId, vkToken: vkToken) { [weak self] response in
             self?.acitivityIndicator.stopAnimating()
             
-            if response.result.error != nil,
-            let statusCode = response.statusCode {
-               if statusCode != 200 {
-                   self?.showAlert(message: NetworkErrors.common)
-               }
-            } else if let authVKResponse = response.result.value {
+            if let authVKResponse = response.value {
                 self?.authVKReponse = authVKResponse
                 
-                if let accessToken = response.result.value?.tokens?.accessToken,
-                    let refreshToken = response.result.value?.tokens?.refreshToken,
-                    let uniqueSess = response.result.value?.uniqueSess,
-                    let status = response.result.value?.status {
+                if let accessToken = response.value?.tokens?.accessToken,
+                    let refreshToken = response.value?.tokens?.refreshToken,
+                    let uniqueSess = response.value?.uniqueSess,
+                    let status = response.value?.status {
                     if status != ProfileStatus.clearuser.rawValue {
                         let user = UserData.init()
                         user.accessToken = accessToken
@@ -318,6 +313,8 @@ extension LoginViewController: SwiftyVKDelegate {
                         }
                     }
                 }
+            } else {
+                self?.showAlert(message: NetworkErrors.common)
             }
         }
     }

@@ -91,14 +91,14 @@ class ResetPasswordViewController: BaseViewController {
 //        }
         
         NetworkManager.shared.resetPassword(phone: phone) { [weak self] response in
-            if response.result.error != nil {
-                self?.showAlert(message: NetworkErrors.common)
-            } else if let smsResponse = response.result.value {
-                                if let smsAttempt = smsResponse.attempt {
+            if let smsResponse = response.value {
+                if let smsAttempt = smsResponse.attempt {
                     self?.smsAttempt = smsAttempt
                 }
                 
                 self?.runTimer()
+            } else {
+                self?.showAlert(message: NetworkErrors.common)
             }
         }
     }
@@ -226,39 +226,37 @@ extension ResetPasswordViewController: UITextFieldDelegate {
            NetworkManager.shared.verifyCodeSms(phone: phone,
                                                attempt: smsAttempt,
                                                code: code) { [weak self] response in
-                                                if response.result.error != nil,
-                let statusCode = response.statusCode {
-
-                   if statusCode == 403 {
-                       self?.firstTextField.isUserInteractionEnabled = true
-                       self?.secondTextField.isUserInteractionEnabled = true
-                       self?.thirdTextField.isUserInteractionEnabled = true
-                       //self?errorLabel.isHidden = false
-                       self?.firstTextField.becomeFirstResponder()
-                       self?.showAlert(message: "Неверный код sms, либо истекло действие кода.")
-                       self?.firstTextField.text! = ""
-                       self?.secondTextField.text! = ""
-                       self?.thirdTextField.text! = ""
-                       self?.fourthTextField.text! = ""
-                       self?.optString = ""
-                   } else {
-                        self?.firstTextField.isUserInteractionEnabled = true
-                        self?.secondTextField.isUserInteractionEnabled = true
-                        self?.thirdTextField.isUserInteractionEnabled = true
-                        self?.firstTextField.becomeFirstResponder()
-                    
-                       self?.showAlert(message: NetworkErrors.common)
-                    
-                        self?.firstTextField.text! = ""
-                        self?.secondTextField.text! = ""
-                        self?.thirdTextField.text! = ""
-                        self?.fourthTextField.text! = ""
-                        self?.optString = ""
-                   }
-                } else if let otpResponse = response.result.value {
-                    self?.delegate?.getOTP(otp: otpResponse)
-                    self?.navigationController?.popViewController(animated: true)
+            if let otpResponse = response.value {
+                self?.delegate?.getOTP(otp: otpResponse)
+                self?.navigationController?.popViewController(animated: true)
+            } else if let statusCode = response.responseCode {
+                if statusCode == 403 {
+                    self?.firstTextField.isUserInteractionEnabled = true
+                    self?.secondTextField.isUserInteractionEnabled = true
+                    self?.thirdTextField.isUserInteractionEnabled = true
+                    //self?errorLabel.isHidden = false
+                    self?.firstTextField.becomeFirstResponder()
+                    self?.showAlert(message: "Неверный код sms, либо истекло действие кода.")
+                    self?.firstTextField.text! = ""
+                    self?.secondTextField.text! = ""
+                    self?.thirdTextField.text! = ""
+                    self?.fourthTextField.text! = ""
+                    self?.optString = ""
+                } else {
+                     self?.firstTextField.isUserInteractionEnabled = true
+                     self?.secondTextField.isUserInteractionEnabled = true
+                     self?.thirdTextField.isUserInteractionEnabled = true
+                     self?.firstTextField.becomeFirstResponder()
+                 
+                    self?.showAlert(message: NetworkErrors.common)
+                 
+                     self?.firstTextField.text! = ""
+                     self?.secondTextField.text! = ""
+                     self?.thirdTextField.text! = ""
+                     self?.fourthTextField.text! = ""
+                     self?.optString = ""
                 }
-           }
+            }
        }
+    }
 }

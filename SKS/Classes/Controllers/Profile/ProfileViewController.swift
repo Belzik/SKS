@@ -96,7 +96,7 @@ class ProfileViewController: BaseViewController {
         activityIndicator.startAnimating()
         NetworkManager.shared.getInfoUser { [weak self] response in
             self?.activityIndicator.stopAnimating()
-            if let user = response.result.value {
+            if let user = response.value {
                 self?.user = user
                 self?.layoutViews(withUser: user)
             } else {
@@ -108,10 +108,10 @@ class ProfileViewController: BaseViewController {
     func layoutViews(withUser user: UserData) {
         if let photoPath = user.studentInfo?.photo,
             let url = URL(string: photoPath) {
-            profileImage.kf.setImage(with: url) { [weak self] (image, _, _, _) in
-                if image == nil {
-                    self?.profileImage.image = UIImage(named: "ic_photo")
-                }
+            profileImage.kf.setImage(with: url) { (image, _) in
+//                if image == nil {
+//                    self?.profileImage.image = UIImage(named: "ic_photo")
+//                }
             }
         }
         

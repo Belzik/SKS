@@ -201,6 +201,8 @@
 		B5EE2AD02315666B0013A6E5 /* Specialty.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5EE2ACF2315666B0013A6E5 /* Specialty.swift */; };
 		B5EE2AD22315797E0013A6E5 /* PeriodPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5EE2AD12315797E0013A6E5 /* PeriodPicker.swift */; };
 		B5EEE95A26144B2E006B061F /* AddToFavoriteResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5EEE95926144B2E006B061F /* AddToFavoriteResponse.swift */; };
+		B5F108CD2623703100AD77C6 /* HTTPHeadersFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F108CC2623703100AD77C6 /* HTTPHeadersFactory.swift */; };
+		B5F108D226237D1500AD77C6 /* BaseRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F108D126237D1500AD77C6 /* BaseRequest.swift */; };
 		B5F8C3112305F5E700092FF1 /* Otp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F8C3102305F5E700092FF1 /* Otp.swift */; };
 		B5FD083F2329FE0A00AE995B /* UIDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FD083E2329FE0A00AE995B /* UIDevice.swift */; };
 		B5FE0359237812590003D429 /* BasicCellCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FE0358237812590003D429 /* BasicCellCollectionViewCell.swift */; };
@@ -431,6 +433,8 @@
 		B5EE2ACF2315666B0013A6E5 /* Specialty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Specialty.swift; sourceTree = "<group>"; };
 		B5EE2AD12315797E0013A6E5 /* PeriodPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodPicker.swift; sourceTree = "<group>"; };
 		B5EEE95926144B2E006B061F /* AddToFavoriteResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToFavoriteResponse.swift; sourceTree = "<group>"; };
+		B5F108CC2623703100AD77C6 /* HTTPHeadersFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPHeadersFactory.swift; sourceTree = "<group>"; };
+		B5F108D126237D1500AD77C6 /* BaseRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseRequest.swift; sourceTree = "<group>"; };
 		B5F8C3102305F5E700092FF1 /* Otp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Otp.swift; sourceTree = "<group>"; };
 		B5FD083E2329FE0A00AE995B /* UIDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDevice.swift; sourceTree = "<group>"; };
 		B5FE0358237812590003D429 /* BasicCellCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicCellCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -932,35 +936,35 @@
 		B5C9C66122C7775200DCF18F /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				B5EEE95926144B2E006B061F /* AddToFavoriteResponse.swift */,
+				8A09E89C23D99C400022E3C4 /* AuthVKResponse.swift */,
 				B51B601022C9DEDA003F24F3 /* Category.swift */,
-				B51B601422C9EAB5003F24F3 /* Stock.swift */,
-				B52EFFD222CBA56500518949 /* Partner.swift */,
+				8A0E19A423CDCCD60025D407 /* CheckComment.swift */,
 				B51B601222C9E796003F24F3 /* City.swift */,
+				B595A3142395AE4900F6CFCC /* Comment.swift */,
+				B5EE2ACD231550CA0013A6E5 /* Course.swift */,
 				B559E97022CBC67700301F85 /* Discount.swift */,
+				B522FE4B2311789A00FCE704 /* Faculty.swift */,
+				B5AFE8B523C67D9100A3BBC1 /* LikeResponse.swift */,
+				8A0EE45C23CCA8CC005A17B2 /* MapPartner.swift */,
+				8A09A93123B35D1900264F7F /* MapPoint.swift */,
+				8A0800532397A9BE004AB286 /* News.swift */,
+				8A0BCBC72329027000D898D9 /* NotificationsTokens.swift */,
+				B5F8C3102305F5E700092FF1 /* Otp.swift */,
+				B52EFFD222CBA56500518949 /* Partner.swift */,
+				B5AC14542315D67F00F23102 /* Path.swift */,
+				B595A3122395A16400F6CFCC /* RatingStatistic.swift */,
+				8A13423923EB1AF90013FE2D /* RememberCity.swift */,
+				B5DBA73022FCC73D003DEB43 /* SalePoint.swift */,
+				8AAB582F23C7671A002AE5BC /* SetPasswordResponse.swift */,
 				B57755E822DDB53200ABA9CA /* SmsResponse.swift */,
 				B5DBA72E22FCC6DE003DEB43 /* SocialNetwork.swift */,
-				B5DBA73022FCC73D003DEB43 /* SalePoint.swift */,
-				B5F8C3102305F5E700092FF1 /* Otp.swift */,
+				B5EE2ACF2315666B0013A6E5 /* Specialty.swift */,
+				8AECB066239A393100AB0244 /* StatusResponse.swift */,
+				B51B601422C9EAB5003F24F3 /* Stock.swift */,
+				B56A3AEE232866D5007B8BA3 /* TokensResponse.swift */,
 				B522FE432311450600FCE704 /* University.swift */,
 				B522FE492311528600FCE704 /* User.swift */,
-				B522FE4B2311789A00FCE704 /* Faculty.swift */,
-				B5EE2ACD231550CA0013A6E5 /* Course.swift */,
-				B5EE2ACF2315666B0013A6E5 /* Specialty.swift */,
-				B5AC14542315D67F00F23102 /* Path.swift */,
-				8A0BCBC72329027000D898D9 /* NotificationsTokens.swift */,
-				B56A3AEE232866D5007B8BA3 /* TokensResponse.swift */,
-				B595A3122395A16400F6CFCC /* RatingStatistic.swift */,
-				B595A3142395AE4900F6CFCC /* Comment.swift */,
-				8A0800532397A9BE004AB286 /* News.swift */,
-				8AECB066239A393100AB0244 /* StatusResponse.swift */,
-				8A09A93123B35D1900264F7F /* MapPoint.swift */,
-				B5AFE8B523C67D9100A3BBC1 /* LikeResponse.swift */,
-				8AAB582F23C7671A002AE5BC /* SetPasswordResponse.swift */,
-				8A0EE45C23CCA8CC005A17B2 /* MapPartner.swift */,
-				8A0E19A423CDCCD60025D407 /* CheckComment.swift */,
-				8A09E89C23D99C400022E3C4 /* AuthVKResponse.swift */,
-				8A13423923EB1AF90013FE2D /* RememberCity.swift */,
-				B5EEE95926144B2E006B061F /* AddToFavoriteResponse.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -983,7 +987,9 @@
 		B5C9C66322C7776500DCF18F /* NetworkServices */ = {
 			isa = PBXGroup;
 			children = (
+				B5F108CB26236D9A00AD77C6 /* Factories */,
 				B51B600422C9D2EF003F24F3 /* NetworkService.swift */,
+				B5F108D126237D1500AD77C6 /* BaseRequest.swift */,
 			);
 			path = NetworkServices;
 			sourceTree = "<group>";
@@ -1097,6 +1103,14 @@
 			path = Login;
 			sourceTree = "<group>";
 		};
+		B5F108CB26236D9A00AD77C6 /* Factories */ = {
+			isa = PBXGroup;
+			children = (
+				B5F108CC2623703100AD77C6 /* HTTPHeadersFactory.swift */,
+			);
+			path = Factories;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1166,7 +1180,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1020;
-				LastUpgradeCheck = 1020;
+				LastUpgradeCheck = 1240;
 				ORGANIZATIONNAME = Katrych;
 				TargetAttributes = {
 					B5C9C61C22C76C6C00DCF18F = {
@@ -1493,6 +1507,7 @@
 				B5AC14572315EB7300F23102 /* TokensManager.swift in Sources */,
 				B527534822DCFF720003BDE6 /* ColorManager.swift in Sources */,
 				B5AC14512315ADDA00F23102 /* OnboardingPageViewController.swift in Sources */,
+				B5F108CD2623703100AD77C6 /* HTTPHeadersFactory.swift in Sources */,
 				B5671DFB23A52A56006F8327 /* PoolingTableHeaderView.swift in Sources */,
 				B527534C22DD013B0003BDE6 /* ErrorTextField.swift in Sources */,
 				B57F510022E70A4C0053A7D2 /* StockCollectionViewCell.swift in Sources */,
@@ -1504,6 +1519,7 @@
 				B56A3AEF232866D5007B8BA3 /* TokensResponse.swift in Sources */,
 				8A8C9D2D2382C79C00A20271 /* AboutPartnerViewController.swift in Sources */,
 				B559E97122CBC67800301F85 /* Discount.swift in Sources */,
+				B5F108D226237D1500AD77C6 /* BaseRequest.swift in Sources */,
 				B52EFFD322CBA56500518949 /* Partner.swift in Sources */,
 				B522FE4A2311528600FCE704 /* User.swift in Sources */,
 				B5DC7545230955EF008DD09C /* PartnerViewController.swift in Sources */,
@@ -1634,6 +1650,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -1659,7 +1676,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1696,6 +1713,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -1715,7 +1733,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -1732,15 +1750,15 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = SKS/SKS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = GSK4YJALAB;
 				INFOPLIST_FILE = SKS/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1.0;
+				MARKETING_VERSION = 2.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ru.petrsu.sks;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -1755,15 +1773,15 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = SKS/SKS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = GSK4YJALAB;
 				INFOPLIST_FILE = SKS/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1.0;
+				MARKETING_VERSION = 2.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ru.petrsu.sks;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

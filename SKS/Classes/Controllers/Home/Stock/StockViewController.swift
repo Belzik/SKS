@@ -45,7 +45,7 @@ class StockViewController: BaseViewController {
         NetworkManager.shared.getStock(idStock: uuid,
                                        uuidCity: uuidCity) { [weak self] response in
             self?.activityIndicator.stopAnimating()
-            if let stock = response.result.value {
+            if let stock = response.value {
                 self?.layout(withModel: stock)
             } else {
                 self?.showAlert(message: NetworkErrors.common)

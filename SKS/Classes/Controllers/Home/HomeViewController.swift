@@ -142,7 +142,7 @@ class HomeViewController: BaseViewController {
     private func getCities() {
         activityIndicator.startAnimating()
         NetworkManager.shared.getCityPartners { [weak self] response in
-            if let cities = response.result.value {
+            if let cities = response.value {
                 self?.cities = cities
                 self?.picker.source = cities
                 
@@ -276,7 +276,7 @@ class HomeViewController: BaseViewController {
         dispatchGroup.enter()
         NetworkManager.shared.getCategories { [weak self] response in
             self?.dispatchGroup.leave()
-            if let categories = response.result.value {
+            if let categories = response.value {
                 
                 if UserData.loadSaved() != nil {
                     let favoriteCaregory = Category(uuidCategory: "favorite", name: "Избранное", hexcolor: "#F75151", illustrate: "ic_favorite_40")
@@ -294,7 +294,7 @@ class HomeViewController: BaseViewController {
                                           limit: limitPartners,
                                           offset: offsetPartners) { [unowned self] response in
             self.dispatchGroup.leave()
-            if let partners = response.result.value {
+            if let partners = response.value {
                 if partners.count < self.limitPartners {
                     self.isPaginationPartners = true
                 }
@@ -312,7 +312,7 @@ class HomeViewController: BaseViewController {
                                         limit: limitStocks,
                                         offset: offsetStocks) { [weak self] response in
             self?.dispatchGroup.leave()
-            if let stocks = response.result.value {
+            if let stocks = response.value {
                 if stocks.count < self!.limitStocks {
                     self?.isPaginationStocks = true
                 }
@@ -351,7 +351,7 @@ class HomeViewController: BaseViewController {
                                           limit: limitPartners,
                                           offset: offsetPartners) { [unowned self] response in
             self.activityIndicator.stopAnimating()
-            if let partners = response.result.value {
+            if let partners = response.value {
                 if partners.count < self.limitPartners {
                     self.isPaginationPartners = true
                 }
@@ -378,7 +378,7 @@ class HomeViewController: BaseViewController {
                                         uuidCity: currentCity?.uuidCity,
                                         limit: limitStocks,
                                         offset: offsetStocks) { [unowned self] response in
-            if let stocks = response.result.value {
+            if let stocks = response.value {
                 if stocks.count < self.limitStocks {
                     self.isPaginationStocks = true
                 }
@@ -784,45 +784,30 @@ extension HomeViewController: PartnerTableViewCellDelegate {
     private func addPartnerToFavorite(indexPath: IndexPath) {
         guard let uuidPartner = partners[indexPath.row].uuidPartner else { return }
         
-        NetworkManager.shared.addPartnerToFavorite(uuidPartner: uuidPartner) { [weak self] result in
-            guard let self = self else { return }
-            
-            if let statucCode = result.statusCode,
-               statucCode == 200 {
-                self.partners[indexPath.row].isFavorite = true
-                self.setStateIsFavoriteButtonForCell(indexPath: indexPath)
-            } else {
-                self.showAlert(message: NetworkErrors.common)
-            }
-        }
+        partners[indexPath.row].isFavorite = true
+        setStateIsFavoriteButtonForCell(indexPath: indexPath)
+        
+        NetworkManager.shared.addPartnerToFavorite(uuidPartner: uuidPartner) { _ in }
     }
     
     private func deletePartnerFromFavorite(indexPath: IndexPath) {
         guard let uuidPartner = partners[indexPath.row].uuidPartner else { return }
         
-        NetworkManager.shared.deletePartnerFromFavorite(uuidPartner: uuidPartner) { [weak self] result in
-            guard let self = self else { return }
+        partners[indexPath.row].isFavorite = false
+        
+        if let selectedCategoty = currentUiidCategory,
+           selectedCategoty == "favorite" {
+            partners.remove(at: indexPath.row)
+            tableView.reloadData()
             
-            if let statucCode = result.statusCode,
-               statucCode == 200 {
-                self.partners[indexPath.row].isFavorite = false
-                
-                if let selectedCategoty = self.currentUiidCategory,
-                   selectedCategoty == "favorite" {
-                    self.partners.remove(at: indexPath.row)
-                    self.tableView.reloadData()
-                    
-                    if self.partners.count == 0 {
-                        self.favoritesEmptyStackView.isHidden = false
-                    }
-                } else {
-                    self.setStateIsFavoriteButtonForCell(indexPath: indexPath)
-                }
-                
-            } else {
-                self.showAlert(message: NetworkErrors.common)
+            if partners.count == 0 {
+                favoritesEmptyStackView.isHidden = false
             }
+        } else {
+            setStateIsFavoriteButtonForCell(indexPath: indexPath)
         }
+        
+        NetworkManager.shared.deletePartnerFromFavorite(uuidPartner: uuidPartner) { _ in }
     }
     
     private func setStateIsFavoriteButtonForCell(indexPath: IndexPath) {

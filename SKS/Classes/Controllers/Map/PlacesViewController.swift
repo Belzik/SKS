@@ -69,6 +69,8 @@ class PlacesViewController: UIViewController {
                 getPoints()
             case .authorizedAlways, .authorizedWhenInUse:
                 break
+            @unknown default:
+                break
             }
         }
     }
@@ -413,7 +415,7 @@ class PlacesViewController: UIViewController {
                 }
             }
                    
-            if let value = result.result.value {
+            if let value = result.value {
                 self?.partners = value
                 self?.savedPartners = value
                 self?.tableView.reloadData()

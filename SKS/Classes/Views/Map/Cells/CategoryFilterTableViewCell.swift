@@ -33,7 +33,7 @@ class CategoryFilterTableViewCell: UITableViewCell {
                 
             if let pict = model.pict {
                 let url = URL(string: NetworkManager.shared.baseURI + pict)
-                    iconView.kf.setImage(with: url) { [weak self] (image, _, _, _) in
+                    iconView.kf.setImage(with: url) { [weak self] (image, _) in
                     if model.isSelected {
                         self?.titleLabel.textColor = ColorManager.green.value
                         

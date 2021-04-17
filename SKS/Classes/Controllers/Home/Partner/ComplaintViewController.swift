@@ -89,13 +89,14 @@ class ComplaintViewController: BaseViewController {
         
         NetworkManager.shared.sendComplaintToPartner(uuidPartner: uuidPartner,
                                                      complaint: complaint) { [weak self] result in
-            if result.statusCode == 200 {
+            if let statusCode = result.responseCode,
+               statusCode == 200 {
                 let alertAction = UIAlertAction(title: "OK", style: .default) { [weak self] _ in
                     self?.dismiss(animated: true, completion: nil)
                 }
                 self?.showAlert(actions: [alertAction], title: "Успех", message: "Спасибо, вместе мы делаем СКС РФ лучше")
-            } else if let statuCode = result.statusCode,
-               statuCode == 403 {
+            } else if let statusCode = result.responseCode,
+               statusCode == 403 {
                self?.showAlert(message: "Для того, чтобы отправить жалобу необходимо статус подтвержденного пользователя")
            } else {
                self?.showAlert(message: NetworkErrors.common)

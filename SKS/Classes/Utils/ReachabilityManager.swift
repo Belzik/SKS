@@ -17,10 +17,12 @@ enum ReachabilityManagerType {
 class ReachabilityManager {
     static let sharedInstance = ReachabilityManager()
     
-    private var reachability = Reachability()!
+    private var reachability: Reachability
     private var reachabilityManagerType: ReachabilityManagerType = .none
     
     private init() {
+        self.reachability = try! Reachability()
+        
         reachabilityManagerTypуChanged(reachability)
         
         NotificationCenter.default.addObserver(self,
@@ -44,6 +46,8 @@ class ReachabilityManager {
         case .cellular:
             self.reachabilityManagerType = .cellular
         case .none:
+            self.reachabilityManagerType = .none
+        case .unavailable:
             self.reachabilityManagerType = .none
         }
     }

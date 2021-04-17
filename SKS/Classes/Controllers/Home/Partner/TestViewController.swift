@@ -250,7 +250,7 @@ class TestViewController: ButtonBarPagerTabStripViewController {
         dispatchGroup.enter()
         NetworkManager.shared.getComments(uuidPartner: uuidPartner) { [weak self] response in
             self?.dispatchGroup.leave()
-            if let comments = response.result.value {
+            if let comments = response.value {
                 self?.comments = comments
             }
         }
@@ -260,7 +260,7 @@ class TestViewController: ButtonBarPagerTabStripViewController {
         dispatchGroup.enter()
         NetworkManager.shared.getRatingStatictis(uuidPartner: uuidPartner) { [weak self] response in
             self?.dispatchGroup.leave()
-            if let ratingStatistic = response.result.value {
+            if let ratingStatistic = response.value {
                 self?.ratingStatistic = ratingStatistic
             } else {
                 self?.showAlert(message: NetworkErrors.common)
@@ -283,7 +283,7 @@ class TestViewController: ButtonBarPagerTabStripViewController {
                                             latitude: latitude,
                                             longitude: longitude) { [weak self] response in
             self?.dispatchGroup.leave()
-            if let salePoints = response.result.value?.points {
+            if let salePoints = response.value?.points {
                 self?.salePoints = salePoints
             } else {
                 self?.showAlert(message: NetworkErrors.common)
@@ -296,7 +296,7 @@ class TestViewController: ButtonBarPagerTabStripViewController {
         NetworkManager.shared.getPartner(uuidPartner: uuidPartner,
                                          uuidCity: uuidCity) { [weak self] response in
             self?.dispatchGroup.leave()
-            if let partner = response.result.value {
+            if let partner = response.value {
                 self?.partner = partner
             } else {
                 self?.showAlert(message: NetworkErrors.common)
@@ -346,7 +346,7 @@ class TestViewController: ButtonBarPagerTabStripViewController {
         let baseURI = NetworkManager.shared.baseURI
         
         if let firstHeaderLink = partner?.headerPictures?.first,
-            let url = URL(string: firstHeaderLink) {
+           URL(string: firstHeaderLink) != nil {
             
             let gradientLayer = CAGradientLayer()
             gradientLayer.frame = pagerView.frame
@@ -433,7 +433,7 @@ class TestViewController: ButtonBarPagerTabStripViewController {
             guard let self = self else { return }
             defer { self.isLoadingFavorite = false }
             
-            if let statucCode = result.statusCode,
+            if let statucCode = result.responseCode,
                statucCode == 200 {
                 self.partner?.isFavorite = true
                 self.testDelegate?.favoriteButtonTapped(viewController: self,
@@ -454,7 +454,7 @@ class TestViewController: ButtonBarPagerTabStripViewController {
             guard let self = self else { return }
             defer { self.isLoadingFavorite = false }
             
-            if let statucCode = result.statusCode,
+            if let statucCode = result.responseCode,
                statucCode == 200 {
                 self.partner?.isFavorite = false
                 self.testDelegate?.favoriteButtonTapped(viewController: self,

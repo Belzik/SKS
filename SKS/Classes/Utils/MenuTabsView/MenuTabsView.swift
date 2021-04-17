@@ -98,7 +98,7 @@ class MenuTabsView: UIView, UICollectionViewDelegate, UICollectionViewDataSource
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let index = Int(indexPath.item)
+        //let index = Int(indexPath.item)
         
         //menuDelegate?.menuBarDidSelectItemAt(menu: self, index: index)
     }

@@ -13,7 +13,7 @@ public extension UIWindow {
         
         var rootVC = rootViewController
         if rootVC == nil {
-            rootVC = UIApplication.shared.keyWindow?.rootViewController
+            rootVC = UIApplication.shared.windows.filter {$0.isKeyWindow}.first?.rootViewController
         }
         
         if rootVC?.presentedViewController == nil {

@@ -55,7 +55,7 @@ class MapPartnerViewController: BaseViewController {
     }
 
     var selectedPoint: YMKPlacemarkMapObject?
-    let locationManager = YMKMapKit.sharedInstance()!.createLocationManager()
+    let locationManager = YMKMapKit.sharedInstance().createLocationManager()
     var locManager = CLLocationManager()
     
     var salePoint: SalePoint?
@@ -126,7 +126,7 @@ class MapPartnerViewController: BaseViewController {
     }
     
     func addedUserLocation() {
-        let mapKit = YMKMapKit.sharedInstance()!
+        let mapKit = YMKMapKit.sharedInstance()
         let userLocationLayer = mapKit.createUserLocationLayer(with: mapView.mapWindow)
 
         userLocationLayer.setVisibleWithOn(true)
@@ -170,7 +170,7 @@ class MapPartnerViewController: BaseViewController {
                                  longitude: longitude)
             
             if let url = URL(string: logoString) {
-                view.logoImage.kf.setImage(with: url) { [weak self] (_, _, _, _) in
+                view.logoImage.kf.setImage(with: url) { (_, _) in
                     if let yrtView = YRTViewProvider.init(uiView: view) {
                         mapObjects.addPlacemark(with: point, view: yrtView)
                     }
@@ -273,7 +273,7 @@ class MapPartnerViewController: BaseViewController {
         if let logo = mapPartner.logo,
             logo != "",
             let url = URL(string: NetworkManager.shared.baseURI + logo) {
-            view.logoImage.kf.setImage(with: url) { (_, _, _, _) in
+            view.logoImage.kf.setImage(with: url) { (_, _) in
                 if let yrtView = YRTViewProvider.init(uiView: view) {
                     salePoint?.setViewWithView(yrtView)
                     salePoint?.zIndex = 1
@@ -374,7 +374,7 @@ extension MapPartnerViewController: YMKMapObjectTapListener {
             }
             
             if let url = URL(string: logoString) {
-                view.logoImage.kf.setImage(with: url) { (_, _, _, _) in
+                view.logoImage.kf.setImage(with: url) { (_, _) in
                     if let yrtView = YRTViewProvider.init(uiView: view) {
                         tPoint.setViewWithView(yrtView)
                         tPoint.zIndex = 1

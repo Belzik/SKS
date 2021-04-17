@@ -40,11 +40,11 @@ class PasswordViewController: BaseViewController {
     
     @IBAction func resetPasswordButtonTapped(_ sender: UIButton) {
         NetworkManager.shared.resetPassword(phone: phone) { [weak self] response in
-            if response.result.error != nil {
+            if let smsResponse = response.value {
+                    self?.smsResponse = smsResponse
+                    self?.performSegue(withIdentifier: "segueResetPassword", sender: nil)
+            } else {
                 self?.showAlert(message: NetworkErrors.common)
-            } else if let smsResponse = response.result.value {
-                self?.smsResponse = smsResponse
-                self?.performSegue(withIdentifier: "segueResetPassword", sender: nil)
             }
         }
     }
@@ -135,16 +135,14 @@ class PasswordViewController: BaseViewController {
             
         NetworkManager.shared.setPassword(passwordKey: passwordKey,
                                            password: password) { [weak self] response in
-                                            if response.result.error != nil,
-            let statusCode = response.statusCode {
-               if statusCode != 200 {
-                   self?.showAlert(message: NetworkErrors.common)
-               }
-            } else if let setPassword = response.result.value {
+            
+            if let setPassword = response.value {
                 self?.setPassword = setPassword
                 self?.performSegue(withIdentifier: "seguePersonalData", sender: nil)
+            } else {
+                self?.showAlert(message: NetworkErrors.common)
             }
-       }
+        }
    }
     
      private func resetPasswordUser() {
@@ -183,97 +181,13 @@ class PasswordViewController: BaseViewController {
              
          NetworkManager.shared.setPassword(passwordKey: passwordKey,
                                             password: password) { [weak self] response in
-                                             if response.result.error != nil,
-             let statusCode = response.statusCode {
-                if statusCode != 200 {
-                    self?.showAlert(message: NetworkErrors.common)
-                }
-             } else if let setPassword = response.result.value {
-                 self?.setPassword = setPassword
-                                 self?.setPassword = setPassword
-                 if let accessToken = response.result.value?.tokens?.accessToken,
-                                         let refreshToken = response.result.value?.tokens?.refreshToken,
-                                         let uniqueSess = response.result.value?.uniqueSess,
-                                         let status = response.result.value?.status {
-                     if status != ProfileStatus.clearuser.rawValue {
-                         let user = UserData.init()
-                         user.accessToken = accessToken
-                         user.refreshToken = refreshToken
-                         user.uniqueSess = uniqueSess
-                         user.status = setPassword.status
-                         user.save()
-
-                         if let tokens = NotificationsTokens.loadSaved(),
-                             let notificationToken = tokens.notificationToken,
-                             let deviceToken = tokens.deviceToken {
-                             NetworkManager.shared.sendNotificationToken(notificationToken: notificationToken,
-                                                                         deviceToken: deviceToken,
-                                                                         accessToken: accessToken) { response in
-                                     if let vc = UIStoryboard(name: "Home", bundle: nil).instantiateInitialViewController() {
-                                         vc.modalPresentationStyle = .fullScreen
-                                         self?.present(vc, animated: true, completion: nil)
-                                     }
-                             }
-                         }
-                     } else {
-                         if let tokens = NotificationsTokens.loadSaved(),
-                             let notificationToken = tokens.notificationToken,
-                             let deviceToken = tokens.deviceToken {
-                             NetworkManager.shared.sendNotificationToken(notificationToken: notificationToken,
-                                                                         deviceToken: deviceToken,
-                                                                         accessToken: accessToken) { response in
-                                 self?.performSegue(withIdentifier: "seguePersonalData", sender: nil)
-                             }
-                         }
-                     }
-                 }
-             }
-        }
-    }
-    
-//    if errorMessage == "" {
-//        textField.selectedLineColor = ColorManager.green.value
-//        textField.lineColor = ColorManager.gray.value
-//    } else {
-//        textField.selectedLineColor = ColorManager.red.value
-//        textField.lineColor = ColorManager.red.value
-//    }
-    
-    private func auth() {
-        if let text = passwordTextField.text {
-            if text.count < 4 {
-                //showAlert(message: "Слишком короткий пароль")
-                passwordErrorLabel.text = "Слишком короткий пароль"
-                passwordErrorLabel.isHidden = false
-                passwordTextField.selectedLineColor = ColorManager.red.value
-                passwordTextField.lineColor = ColorManager.red.value
-                passwordTextField.tintColor = ColorManager.red.value
-                return
-            }
-        }
-         guard let loginKey = smsResponse?.loginKey,
-             let password = passwordTextField.text else { return }
-             
-        NetworkManager.shared.enterPassword(loginKey: loginKey,
-                                            password: password) { [weak self] response in
-            if response.result.error != nil,
-             let statusCode = response.statusCode {
-                if statusCode == 401 {
-                    self?.passwordErrorLabel.text = "Не верный пароль"
-                    self?.passwordErrorLabel.isHidden = false
-                    self?.passwordTextField.selectedLineColor = ColorManager.red.value
-                    self?.passwordTextField.lineColor = ColorManager.red.value
-                    self?.passwordTextField.tintColor = ColorManager.red.value
-                    self?.passwordTextField.text = ""
-                } else {
-                    self?.showAlert(message: NetworkErrors.common)
-                }
-             } else if let setPassword = response.result.value {
+            if let setPassword = response.value {
                 self?.setPassword = setPassword
-                if let accessToken = response.result.value?.tokens?.accessToken,
-                                        let refreshToken = response.result.value?.tokens?.refreshToken,
-                                        let uniqueSess = response.result.value?.uniqueSess,
-                                        let status = response.result.value?.status {
+                                self?.setPassword = setPassword
+                if let accessToken = response.value?.tokens?.accessToken,
+                    let refreshToken = response.value?.tokens?.refreshToken,
+                    let uniqueSess = response.value?.uniqueSess,
+                    let status = response.value?.status {
                     if status != ProfileStatus.clearuser.rawValue {
                         let user = UserData.init()
                         user.accessToken = accessToken
@@ -306,9 +220,87 @@ class PasswordViewController: BaseViewController {
                         }
                     }
                 }
+            } else {
+                self?.showAlert(message: NetworkErrors.common)
             }
-                                                
-            if response.result.value?.error != nil  {
+        }
+    }
+    
+//    if errorMessage == "" {
+//        textField.selectedLineColor = ColorManager.green.value
+//        textField.lineColor = ColorManager.gray.value
+//    } else {
+//        textField.selectedLineColor = ColorManager.red.value
+//        textField.lineColor = ColorManager.red.value
+//    }
+    
+    private func auth() {
+        if let text = passwordTextField.text {
+            if text.count < 4 {
+                //showAlert(message: "Слишком короткий пароль")
+                passwordErrorLabel.text = "Слишком короткий пароль"
+                passwordErrorLabel.isHidden = false
+                passwordTextField.selectedLineColor = ColorManager.red.value
+                passwordTextField.lineColor = ColorManager.red.value
+                passwordTextField.tintColor = ColorManager.red.value
+                return
+            }
+        }
+         guard let loginKey = smsResponse?.loginKey,
+             let password = passwordTextField.text else { return }
+             
+        NetworkManager.shared.enterPassword(loginKey: loginKey,
+                                            password: password) { [weak self] response in
+            if let setPassword = response.value {
+                self?.setPassword = setPassword
+                if let accessToken = response.value?.tokens?.accessToken,
+                    let refreshToken = response.value?.tokens?.refreshToken,
+                    let uniqueSess = response.value?.uniqueSess,
+                    let status = response.value?.status {
+                    if status != ProfileStatus.clearuser.rawValue {
+                        let user = UserData.init()
+                        user.accessToken = accessToken
+                        user.refreshToken = refreshToken
+                        user.uniqueSess = uniqueSess
+                        user.status = setPassword.status
+                        user.save()
+
+                        if let tokens = NotificationsTokens.loadSaved(),
+                            let notificationToken = tokens.notificationToken,
+                            let deviceToken = tokens.deviceToken {
+                            NetworkManager.shared.sendNotificationToken(notificationToken: notificationToken,
+                                                                        deviceToken: deviceToken,
+                                                                        accessToken: accessToken) { response in
+                                    if let vc = UIStoryboard(name: "Home", bundle: nil).instantiateInitialViewController() {
+                                        vc.modalPresentationStyle = .fullScreen
+                                        self?.present(vc, animated: true, completion: nil)
+                                    }
+                            }
+                        }
+                    } else {
+                        if let tokens = NotificationsTokens.loadSaved(),
+                            let notificationToken = tokens.notificationToken,
+                            let deviceToken = tokens.deviceToken {
+                            NetworkManager.shared.sendNotificationToken(notificationToken: notificationToken,
+                                                                        deviceToken: deviceToken,
+                                                                        accessToken: accessToken) { response in
+                                self?.performSegue(withIdentifier: "seguePersonalData", sender: nil)
+                            }
+                        }
+                    }
+                }
+            } else if let statusCode = response.responseCode {
+                if statusCode == 401 {
+                    self?.passwordErrorLabel.text = "Не верный пароль"
+                    self?.passwordErrorLabel.isHidden = false
+                    self?.passwordTextField.selectedLineColor = ColorManager.red.value
+                    self?.passwordTextField.lineColor = ColorManager.red.value
+                    self?.passwordTextField.tintColor = ColorManager.red.value
+                    self?.passwordTextField.text = ""
+                } else {
+                    self?.showAlert(message: NetworkErrors.common)
+                }
+            } else {
                 self?.showAlert(message: "Пожалуйста, получите пароль.")
             }
         }

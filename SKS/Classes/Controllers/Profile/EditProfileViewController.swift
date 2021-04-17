@@ -54,7 +54,7 @@ class EditProfileViewController: BaseViewController {
                                                  uuidUniversity: uuidUniversity,
                                                  uuidFaculty: uuidFaculty,
                                                  phone: phoneTextField.text!.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()) { [weak self] response in
-                if let statusCode = response.statusCode,
+                if let statusCode = response.responseCode,
                     statusCode == 200 {
                     let action = UIAlertAction(title: "OK", style: .default) { [weak self] _ in
                         self?.navigationController?.popViewController(animated: true)
@@ -231,7 +231,7 @@ class EditProfileViewController: BaseViewController {
         dispatchGroup.enter()
         NetworkManager.shared.getСityUniversities { [weak self] response in
             self?.dispatchGroup.leave()
-            if let cities = response.result.value,
+            if let cities = response.value,
                 cities.count > 0 {
                 self?.cityPicker.source = cities
                 self?.cities = cities
@@ -255,7 +255,7 @@ class EditProfileViewController: BaseViewController {
         dispatchGroup.enter()
         NetworkManager.shared.getUniversities(uuidCity: uuidCity) { [unowned self] response in
             self.dispatchGroup.leave()
-            if let universities = response.result.value,
+            if let universities = response.value,
                 universities.count > 0 {
                 self.institutePicker.source = universities
                 self.universities = universities
@@ -284,7 +284,7 @@ class EditProfileViewController: BaseViewController {
         dispatchGroup.enter()
         NetworkManager.shared.getFaculties(uuidUniver: uuidUniversity) { [unowned self] response in
             self.dispatchGroup.leave()
-            if let faculties = response.result.value,
+            if let faculties = response.value,
                 faculties.count > 0 {
                 self.facultyPicker.source = faculties
                 self.faculties = faculties
@@ -539,7 +539,7 @@ extension EditProfileViewController: ImagePickerDelegate {
     
     func uploadImage(image: UIImage) {
         NetworkManager.shared.uploadImage(image: image) { [weak self] response in
-            if let path = response.result.value?.urlFile {
+            if let path = response.value?.urlFile {
                 self?.photoImageView.image = image
                 self?.photo = path
             } else {
@@ -566,9 +566,7 @@ extension EditProfileViewController: UITextFieldDelegate {
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if textField == phoneTextField.textField {
-            let newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
-                   let isDeleted = newString.count < textField.text!.count
-                   
+            let newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)                   
                    let currentText: NSString = textField.text as NSString? ?? ""
                    
                    let newText = currentText.replacingCharacters(in: range, with: string)

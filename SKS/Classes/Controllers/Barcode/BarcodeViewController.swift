@@ -113,7 +113,7 @@ class BarcodeViewController: BaseViewController {
         activityIndicator.startAnimating()
         NetworkManager.shared.getInfoUser { [weak self] response in
             self?.activityIndicator.stopAnimating()
-            if let user = response.result.value {
+            if let user = response.value {
                 self?.layoutViews(withUser: user)
             } else {
                 self?.showAlert(message: NetworkErrors.common)
@@ -124,10 +124,10 @@ class BarcodeViewController: BaseViewController {
     func layoutViews(withUser user: UserData) {
         if let photoPath = user.studentInfo?.photo,
             let url = URL(string: photoPath) {
-            photoImageView.kf.setImage(with: url) { [weak self] (image, _, _, _) in
-                if image == nil {
-                    self?.photoImageView.image = UIImage(named: "logo")
-                }
+            photoImageView.kf.setImage(with: url) { (image, error) in
+//                if error != nil {
+//                    self?.photoImageView.image = UIImage(named: "logo")
+//                }
             }
         }
         

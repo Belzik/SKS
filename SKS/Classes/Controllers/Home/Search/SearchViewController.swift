@@ -118,7 +118,7 @@ class SearchViewController: BaseViewController {
                                           limit: 10,
                                           offset: 0) { [unowned self] response in
             self.dispatchGroup.leave()
-            if let partners = response.result.value {
+            if let partners = response.value {
                 self.partners = partners
             }
         }
@@ -132,7 +132,7 @@ class SearchViewController: BaseViewController {
                                         offset: 0) { [unowned self] response in
                                             
             self.dispatchGroup.leave()
-            if let stocks = response.result.value {
+            if let stocks = response.value {
                 self.stocks = stocks
             }
         }

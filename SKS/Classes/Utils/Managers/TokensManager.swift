@@ -22,8 +22,8 @@ class TokensManager {
                let refreshToken = user.refreshToken else { return }
         
         NetworkManager.shared.refreshToken(refreshToken: refreshToken) { response in
-            if let refreshToken = response.result.value?.refreshToken,
-                let accessToken = response.result.value?.accessToken {
+            if let refreshToken = response.value?.refreshToken,
+                let accessToken = response.value?.accessToken {
                 user.refreshToken = refreshToken
                 user.accessToken = accessToken
             }

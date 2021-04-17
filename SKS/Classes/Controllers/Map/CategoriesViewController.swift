@@ -57,7 +57,7 @@ class CategoriesViewController: BaseViewController {
         
         NetworkManager.shared.getCategories { [weak self] response in
             self?.activityIndicatorView.stopAnimating()
-            if let categories = response.result.value {
+            if let categories = response.value {
                 for (index, category) in categories.enumerated() {
                     if let uuidCategory = self?.uuidCategory,
                         let uuid = category.uuidCategory,
