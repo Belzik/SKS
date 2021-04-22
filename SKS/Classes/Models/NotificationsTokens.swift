@@ -28,10 +28,14 @@ class NotificationsTokens: NSObject, NSCoding {
     }
     
     func save() {
-        if let data = try? NSKeyedArchiver.archivedData(withRootObject: self, requiringSecureCoding: true) {
+        do {
+            let data = try NSKeyedArchiver.archivedData(withRootObject: self, requiringSecureCoding: false)
             UserDefaults.standard.set(data, forKey: "tokens")
             UserDefaults.standard.synchronize()
+        } catch(let error) {
+            print(error.localizedDescription)
         }
+
     }
     
     class func clear() {
@@ -41,8 +45,8 @@ class NotificationsTokens: NSObject, NSCoding {
     }
     
     class func loadSaved() -> NotificationsTokens? {
-        if let data = UserDefaults.standard.object(forKey: "tokens") as? NSData {
-            let tokens = NSKeyedUnarchiver.unarchiveObject(with: data as Data) as? NotificationsTokens
+        if let data = UserDefaults.standard.object(forKey: "tokens") as? Data {
+            let tokens = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? NotificationsTokens
             return tokens
         }
         return nil

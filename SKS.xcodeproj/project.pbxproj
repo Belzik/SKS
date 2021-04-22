@@ -51,6 +51,7 @@
 		B527535722DD199A0003BDE6 /* NSMutableAttributedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = B527535622DD199A0003BDE6 /* NSMutableAttributedString.swift */; };
 		B52EFFD122CB896400518949 /* JSONEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52EFFD022CB896400518949 /* JSONEncoder.swift */; };
 		B52EFFD322CBA56500518949 /* Partner.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52EFFD222CBA56500518949 /* Partner.swift */; };
+		B53301AD262EB5060005D8D2 /* DownloadButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B53301AC262EB5060005D8D2 /* DownloadButton.swift */; };
 		B539AD24239BE78E00AB5F8C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B539AD23239BE78E00AB5F8C /* GoogleService-Info.plist */; };
 		B54766BC22E879FC006D97DC /* UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54766BB22E879FC006D97DC /* UIApplication.swift */; };
 		B54766BE22E87B39006D97DC /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54766BD22E87B39006D97DC /* ProfileViewController.swift */; };
@@ -274,6 +275,7 @@
 		B527535622DD199A0003BDE6 /* NSMutableAttributedString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSMutableAttributedString.swift; sourceTree = "<group>"; };
 		B52EFFD022CB896400518949 /* JSONEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONEncoder.swift; sourceTree = "<group>"; };
 		B52EFFD222CBA56500518949 /* Partner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Partner.swift; sourceTree = "<group>"; };
+		B53301AC262EB5060005D8D2 /* DownloadButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadButton.swift; sourceTree = "<group>"; };
 		B539AD23239BE78E00AB5F8C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B54766BB22E879FC006D97DC /* UIApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplication.swift; sourceTree = "<group>"; };
 		B54766BD22E87B39006D97DC /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -1004,6 +1006,7 @@
 				B5A380D92313D96C004F8FB7 /* Pickers */,
 				B527534722DCFF720003BDE6 /* ColorManager.swift */,
 				B5C9C66B22C7856F00DCF18F /* ReachabilityManager.swift */,
+				B53301AC262EB5060005D8D2 /* DownloadButton.swift */,
 				B559E96F22CBC37B00301F85 /* Extension */,
 				B5A380D62312BAF4004F8FB7 /* Managers */,
 				B527534922DD01150003BDE6 /* SKS */,
@@ -1545,6 +1548,7 @@
 				B5FD083F2329FE0A00AE995B /* UIDevice.swift in Sources */,
 				8A09A93223B35D1900264F7F /* MapPoint.swift in Sources */,
 				B5DC7552230979C6008DD09C /* PartnerTableViewFooter.swift in Sources */,
+				B53301AD262EB5060005D8D2 /* DownloadButton.swift in Sources */,
 				B5E0DCBB237FC9EB00D90E01 /* PlaceTableViewCell.swift in Sources */,
 				B527535522DD08E60003BDE6 /* SKSButton.swift in Sources */,
 				B586E9DA22E1EE9600790CF3 /* BaseViewController.swift in Sources */,
@@ -1750,7 +1754,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = SKS/SKS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = GSK4YJALAB;
 				INFOPLIST_FILE = SKS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -1773,7 +1777,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = SKS/SKS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = GSK4YJALAB;
 				INFOPLIST_FILE = SKS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;

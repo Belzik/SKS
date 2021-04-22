@@ -9,11 +9,17 @@
 import UIKit
 
 class PasswordViewController: BaseViewController {
+    
+    // MARK: - IBOutlets
+    
     @IBOutlet weak var passwordTextField: SKSTextField!
     @IBOutlet weak var confimPasswordTextField: SKSTextField!
     @IBOutlet weak var resetPasswordButton: UIButton!
     @IBOutlet weak var passwordErrorLabel: UILabel!
     @IBOutlet weak var resetErrorLabel: UILabel!
+    @IBOutlet weak var nextButton: DownloadButton!
+    
+    // MARK: - Properties
     
     var otpResponse: OtpResponse?
     var smsResponse: SmsResponse?
@@ -25,29 +31,7 @@ class PasswordViewController: BaseViewController {
     var otpResponseSms: SmsResponse?
     var isResetPassword = false
     
-    @IBAction func nextButtonTapped(_ sender: SKSButton) {
-        if isResetPassword {
-            resetPasswordUser()
-            return
-        }
-
-        if isNewsUser {
-            setPasswordUser()
-        } else {
-            auth()
-        }
-    }
-    
-    @IBAction func resetPasswordButtonTapped(_ sender: UIButton) {
-        NetworkManager.shared.resetPassword(phone: phone) { [weak self] response in
-            if let smsResponse = response.value {
-                    self?.smsResponse = smsResponse
-                    self?.performSegue(withIdentifier: "segueResetPassword", sender: nil)
-            } else {
-                self?.showAlert(message: NetworkErrors.common)
-            }
-        }
-    }
+    // MARK: - View life cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -78,6 +62,8 @@ class PasswordViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         passwordTextField.becomeFirstResponder()
     }
+    
+    // MARK: - Segues
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "seguePersonalData" {
@@ -101,6 +87,8 @@ class PasswordViewController: BaseViewController {
             }
         }
     }
+    
+    // MARK: - Methods
     
     private func setPasswordUser() {
         if let text = passwordTextField.text,
@@ -133,9 +121,10 @@ class PasswordViewController: BaseViewController {
         guard let passwordKey = otpResponse?.setPasswordKey,
             let password = passwordTextField.text else { return }
             
+        nextButton.isDownload = true
         NetworkManager.shared.setPassword(passwordKey: passwordKey,
                                            password: password) { [weak self] response in
-            
+            defer { self?.nextButton.isDownload = false }
             if let setPassword = response.value {
                 self?.setPassword = setPassword
                 self?.performSegue(withIdentifier: "seguePersonalData", sender: nil)
@@ -179,8 +168,10 @@ class PasswordViewController: BaseViewController {
          guard let passwordKey = otpResponseReset?.setPasswordKey,
              let password = passwordTextField.text else { return }
              
+        nextButton.isDownload = true
          NetworkManager.shared.setPassword(passwordKey: passwordKey,
                                             password: password) { [weak self] response in
+            defer { self?.nextButton.isDownload = false }
             if let setPassword = response.value {
                 self?.setPassword = setPassword
                                 self?.setPassword = setPassword
@@ -246,13 +237,33 @@ class PasswordViewController: BaseViewController {
                 return
             }
         }
-         guard let loginKey = smsResponse?.loginKey,
-             let password = passwordTextField.text else { return }
-             
+        
+        guard let loginKey = smsResponse?.loginKey,
+                let password = passwordTextField.text else { return }
+
+        nextButton.isDownload = true
         NetworkManager.shared.enterPassword(loginKey: loginKey,
                                             password: password) { [weak self] response in
-            if let setPassword = response.value {
+            defer { self?.nextButton.isDownload = false }
+            
+            guard let responseCode = response.responseCode else {
+                self?.showAlert(message: "Пожалуйста, получите пароль.")
+                return
+            }
+            
+            
+            
+            if responseCode == 401 {
+                self?.passwordErrorLabel.text = "Не верный пароль"
+                self?.passwordErrorLabel.isHidden = false
+                self?.passwordTextField.selectedLineColor = ColorManager.red.value
+                self?.passwordTextField.lineColor = ColorManager.red.value
+                self?.passwordTextField.tintColor = ColorManager.red.value
+                self?.passwordTextField.text = ""
+            } else if responseCode == 200,
+                      let setPassword = response.value {
                 self?.setPassword = setPassword
+                
                 if let accessToken = response.value?.tokens?.accessToken,
                     let refreshToken = response.value?.tokens?.refreshToken,
                     let uniqueSess = response.value?.uniqueSess,
@@ -289,24 +300,46 @@ class PasswordViewController: BaseViewController {
                         }
                     }
                 }
-            } else if let statusCode = response.responseCode {
-                if statusCode == 401 {
-                    self?.passwordErrorLabel.text = "Не верный пароль"
-                    self?.passwordErrorLabel.isHidden = false
-                    self?.passwordTextField.selectedLineColor = ColorManager.red.value
-                    self?.passwordTextField.lineColor = ColorManager.red.value
-                    self?.passwordTextField.tintColor = ColorManager.red.value
-                    self?.passwordTextField.text = ""
-                } else {
-                    self?.showAlert(message: NetworkErrors.common)
-                }
             } else {
-                self?.showAlert(message: "Пожалуйста, получите пароль.")
+                self?.showAlert(message: NetworkErrors.common)
             }
         }
     }
+    
+//    private auth() {
+//
+//    }
+    
+    // MARK: - Actions
+    
+    @IBAction func nextButtonTapped(_ sender: SKSButton) {
+        if isResetPassword {
+            resetPasswordUser()
+            return
+        }
+
+        if isNewsUser {
+            setPasswordUser()
+        } else {
+            auth()
+        }
+    }
+    
+    @IBAction func resetPasswordButtonTapped(_ sender: UIButton) {
+        NetworkManager.shared.resetPassword(phone: phone) { [weak self] response in
+            if let smsResponse = response.value {
+                    self?.smsResponse = smsResponse
+                    self?.performSegue(withIdentifier: "segueResetPassword", sender: nil)
+            } else {
+                self?.showAlert(message: NetworkErrors.common)
+            }
+        }
+    }
+    
 }
 
+// MARK: - ResetPasswordViewControllerDelegate
+ 
 extension PasswordViewController: ResetPasswordViewControllerDelegate {
     func getOTP(otp: OtpResponse) {
         isResetPassword = true
@@ -323,6 +356,8 @@ extension PasswordViewController: ResetPasswordViewControllerDelegate {
         passwordTextField.tintColor = ColorManager.green.value
     }
 }
+
+// MARK: - UITextFieldDelegate
 
 extension PasswordViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {

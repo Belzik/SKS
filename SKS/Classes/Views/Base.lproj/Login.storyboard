@@ -169,7 +169,7 @@
                                     </button>
                                 </subviews>
                             </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AqK-XW-hBe" customClass="SKSButton" customModule="SKS" customModuleProvider="target">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AqK-XW-hBe" customClass="DownloadButton" customModule="SKS" customModuleProvider="target">
                                 <rect key="frame" x="24" y="403" width="366" height="48"/>
                                 <color key="backgroundColor" red="0.1019607843" green="0.6705882353" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -205,6 +205,7 @@
                     <navigationItem key="navigationItem" id="3ct-zg-QhY"/>
                     <connections>
                         <outlet property="confimPasswordTextField" destination="D0M-HZ-Q4a" id="WdY-3a-0B2"/>
+                        <outlet property="nextButton" destination="AqK-XW-hBe" id="jwx-PA-hos"/>
                         <outlet property="passwordErrorLabel" destination="W9o-6Q-18I" id="5RP-b4-z12"/>
                         <outlet property="passwordTextField" destination="I4v-qC-2hg" id="hWm-KR-6JV"/>
                         <outlet property="resetErrorLabel" destination="2Gc-kt-Jk4" id="cfk-cP-6nq"/>
@@ -1018,7 +1019,7 @@
     </designables>
     <inferredMetricsTieBreakers>
         <segue reference="8zu-0c-bm7"/>
-        <segue reference="Wkh-5R-TAG"/>
+        <segue reference="ftT-CC-Cej"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="ic_arrow_left" width="24" height="24"/>
