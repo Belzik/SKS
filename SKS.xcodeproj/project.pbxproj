@@ -69,6 +69,7 @@
 		B5671E0623A53303006F8327 /* ResultPoolingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5671E0423A53303006F8327 /* ResultPoolingTableViewCell.swift */; };
 		B5671E0723A53303006F8327 /* ResultPoolingTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5671E0523A53303006F8327 /* ResultPoolingTableViewCell.xib */; };
 		B56A3AEF232866D5007B8BA3 /* TokensResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56A3AEE232866D5007B8BA3 /* TokensResponse.swift */; };
+		B56A6E80263311E900698811 /* DashboardMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56A6E7F263311E900698811 /* DashboardMapViewController.swift */; };
 		B56BBF1D2372DA9600CAA0B1 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56BBF1C2372DA9600CAA0B1 /* MapViewController.swift */; };
 		B56BBF212372DD4D00CAA0B1 /* Map.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B56BBF202372DD4D00CAA0B1 /* Map.storyboard */; };
 		B56BFB36232BCA3500D0FCA2 /* UIWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56BFB35232BCA3500D0FCA2 /* UIWindow.swift */; };
@@ -293,6 +294,7 @@
 		B5671E0423A53303006F8327 /* ResultPoolingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultPoolingTableViewCell.swift; sourceTree = "<group>"; };
 		B5671E0523A53303006F8327 /* ResultPoolingTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ResultPoolingTableViewCell.xib; sourceTree = "<group>"; };
 		B56A3AEE232866D5007B8BA3 /* TokensResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokensResponse.swift; sourceTree = "<group>"; };
+		B56A6E7F263311E900698811 /* DashboardMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardMapViewController.swift; sourceTree = "<group>"; };
 		B56BBF1C2372DA9600CAA0B1 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		B56BBF202372DD4D00CAA0B1 /* Map.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Map.storyboard; sourceTree = "<group>"; };
 		B56BFB35232BCA3500D0FCA2 /* UIWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIWindow.swift; sourceTree = "<group>"; };
@@ -583,6 +585,7 @@
 				B5E0DCB7237FC96F00D90E01 /* PlacesViewController.swift */,
 				B5D06F7C237FCFD2000BA45C /* CategoriesViewController.swift */,
 				B5821CAB23CB99EA00C8D78F /* PlaceViewController.swift */,
+				B56A6E7F263311E900698811 /* DashboardMapViewController.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -1452,6 +1455,7 @@
 				B586E9D622E1E58D00790CF3 /* PersonalDataViewController.swift in Sources */,
 				B5BFDA2B238B192C00818BC0 /* NewsTableViewCell.swift in Sources */,
 				8A09E89D23D99C400022E3C4 /* AuthVKResponse.swift in Sources */,
+				B56A6E80263311E900698811 /* DashboardMapViewController.swift in Sources */,
 				B56BBF1D2372DA9600CAA0B1 /* MapViewController.swift in Sources */,
 				B5DC7556230C4EB0008DD09C /* BarcodeViewController.swift in Sources */,
 				B5DBA72F22FCC6DE003DEB43 /* SocialNetwork.swift in Sources */,
@@ -1754,7 +1758,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = SKS/SKS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 16;
 				DEVELOPMENT_TEAM = GSK4YJALAB;
 				INFOPLIST_FILE = SKS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -1777,7 +1781,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = SKS/SKS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 16;
 				DEVELOPMENT_TEAM = GSK4YJALAB;
 				INFOPLIST_FILE = SKS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;

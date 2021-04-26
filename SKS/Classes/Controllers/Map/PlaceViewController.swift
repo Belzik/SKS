@@ -12,6 +12,9 @@ import Cosmos
 
 
 class PlaceViewController: BaseViewController {
+    
+    // MARK: - IBOutlets
+    
     @IBOutlet weak var logoImageView: UIImageView!
     @IBOutlet weak var categoryLabel: UILabel!
     @IBOutlet weak var ratingView: CosmosView!
@@ -30,6 +33,8 @@ class PlaceViewController: BaseViewController {
     @IBOutlet weak var widthCloseButton: NSLayoutConstraint!
     @IBOutlet weak var leftConstrainCloseButton: NSLayoutConstraint!
     
+    // MARK: - Properties
+    
     var mapPoint: MapPoint?
     var mapPartner: MapPartner?
     
@@ -40,15 +45,7 @@ class PlaceViewController: BaseViewController {
     
     var isPartner = false
     
-    @IBAction func routeButtonTapped(_ sender: UIButton) {
-        openGoogleMap()
-    }
-    
-    @IBAction func closeButtonTapped(_ sender: UIButton) {
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "hideMapPointClose"),
-                                        object: nil,
-                                        userInfo: nil)
-    }
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -458,7 +455,6 @@ class PlaceViewController: BaseViewController {
             uuidCity = uuidCt
             uuidPartner = uuidPr
         }
-
 
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "showPartnerDetail"),
                                         object: nil,

@@ -25,9 +25,13 @@ class RememberCity: NSObject, NSCoding {
     }
 
     func save() {
-        let data = NSKeyedArchiver.archivedData(withRootObject: self)
-        UserDefaults.standard.set(data, forKey: "rememberCity")
-        UserDefaults.standard.synchronize()
+        do {
+            let data = try NSKeyedArchiver.archivedData(withRootObject: self, requiringSecureCoding: false)
+            UserDefaults.standard.set(data, forKey: "rememberCity")
+            UserDefaults.standard.synchronize()
+        } catch(let error) {
+            print(error.localizedDescription)
+        }
     }
 
     class func clear() {
@@ -37,8 +41,8 @@ class RememberCity: NSObject, NSCoding {
     }
 
     class func loadSaved() -> RememberCity? {
-        if let data = UserDefaults.standard.object(forKey: "rememberCity") as? NSData {
-            let rememberCity = NSKeyedUnarchiver.unarchiveObject(with: data as Data) as? RememberCity
+        if let data = UserDefaults.standard.object(forKey: "rememberCity") as? Data {
+            let rememberCity = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? RememberCity
             return rememberCity
         }
         return nil

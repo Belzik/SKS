@@ -83,6 +83,7 @@ class HomeViewController: BaseViewController {
         backButton.tintColor = UIColor(hexString: "#333333")
         navigationItem.backBarButtonItem = backButton
         
+        addObservers()
         setupCategoryCollection()
         getCities()
         //loadData()
@@ -93,6 +94,10 @@ class HomeViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
         super.viewWillAppear(animated)
+    }
+    
+    deinit {
+        removeObservers()
     }
     
     // MARK: - Segues
@@ -110,7 +115,27 @@ class HomeViewController: BaseViewController {
             let dvc = segue.destination as! TestViewController
             dvc.uuidPartner = uuidStock
             dvc.city = currentCity
-            dvc.testDelegate = self
+        }
+    }
+    
+    // MARK: - Private methods
+    
+    private func addObservers() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(handelChangeFavorite(_:)),
+                                               name: .favoriteChangeEvent,
+                                               object: nil)
+    }
+    
+    private func removeObservers() {
+        NotificationCenter.default.removeObserver(self,
+                                                  name: .favoriteChangeEvent,
+                                                  object: nil)
+    }
+    
+    @objc func handelChangeFavorite(_ notification: Notification) {
+        if let partner = notification.object as? Partner {
+            eventChangeFavoriteHandler(partner: partner)
         }
     }
     
@@ -820,10 +845,11 @@ extension HomeViewController: PartnerTableViewCellDelegate {
 
 // MARK: - TestViewContollerDelegate
 
-extension HomeViewController: TestViewContollerDelegate {
+extension HomeViewController {
     
-    func favoriteButtonTapped(viewController: TestViewController, isFavorite: Bool, partner: Partner) {
-        guard let uuidPartner = partner.uuidPartner else { return }
+    func eventChangeFavoriteHandler(partner: Partner) {
+        guard let uuidPartner = partner.uuidPartner,
+              let isFavorite = partner.isFavorite else { return }
         
         if let uuidCategory = currentUiidCategory,
            uuidCategory == "favorite" {

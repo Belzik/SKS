@@ -58,9 +58,13 @@ class UserData: NSObject, NSCoding, Codable {
     }
     
     func save() {
-        let data = NSKeyedArchiver.archivedData(withRootObject: self)
-        UserDefaults.standard.set(data, forKey: "userData")
-        UserDefaults.standard.synchronize()
+        do {
+            let data = try NSKeyedArchiver.archivedData(withRootObject: self, requiringSecureCoding: false)
+            UserDefaults.standard.set(data, forKey: "userData")
+            UserDefaults.standard.synchronize()
+        } catch(let error) {
+            print(error.localizedDescription)
+        }
     }
     
     class func clear() {
@@ -70,8 +74,8 @@ class UserData: NSObject, NSCoding, Codable {
     }
     
     class func loadSaved() -> UserData? {
-        if let data = UserDefaults.standard.object(forKey: "userData") as? NSData {
-            let userData = NSKeyedUnarchiver.unarchiveObject(with: data as Data) as? UserData
+        if let data = UserDefaults.standard.object(forKey: "userData") as? Data {
+            let userData = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? UserData
             return userData
         }
         return nil

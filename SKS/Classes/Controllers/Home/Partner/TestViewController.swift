@@ -12,10 +12,9 @@ import Kingfisher
 import FSPagerView
 import Pulley
 
-protocol TestViewContollerDelegate: class {
-    func favoriteButtonTapped(viewController: TestViewController, isFavorite: Bool, partner: Partner)
+extension Notification.Name {
+    static let favoriteChangeEvent = Notification.Name("FavoriteChangeEvent")
 }
-
 class TestViewController: ButtonBarPagerTabStripViewController {
     
     // MARK: - IBOutlets
@@ -100,7 +99,6 @@ class TestViewController: ButtonBarPagerTabStripViewController {
         return self.style
     }
     var style: UIStatusBarStyle = .default
-    weak var testDelegate: TestViewContollerDelegate?
     private var isLoadingFavorite: Bool = false
     
     // MARK: - View life cycle
@@ -285,7 +283,8 @@ class TestViewController: ButtonBarPagerTabStripViewController {
             self?.dispatchGroup.leave()
             if let salePoints = response.value?.points {
                 self?.salePoints = salePoints
-            } else {
+            } else if let responseCode = response.responseCode,
+                      responseCode != 200 {
                 self?.showAlert(message: NetworkErrors.common)
             }
         }
@@ -427,7 +426,6 @@ class TestViewController: ButtonBarPagerTabStripViewController {
     
     private func addPartnerToFavorite() {
         guard let partner = partner else { return }
-        
         isLoadingFavorite = true
         NetworkManager.shared.addPartnerToFavorite(uuidPartner: uuidPartner) { [weak self] result in
             guard let self = self else { return }
@@ -436,9 +434,8 @@ class TestViewController: ButtonBarPagerTabStripViewController {
             if let statucCode = result.responseCode,
                statucCode == 200 {
                 self.partner?.isFavorite = true
-                self.testDelegate?.favoriteButtonTapped(viewController: self,
-                                                        isFavorite: true,
-                                                        partner: partner)
+                NotificationCenter.default.post(name: .favoriteChangeEvent,
+                                                object: partner)
                 self.setStateFavoriteButtons()
             } else {
                 self.showAlert(message: NetworkErrors.common)
@@ -457,9 +454,8 @@ class TestViewController: ButtonBarPagerTabStripViewController {
             if let statucCode = result.responseCode,
                statucCode == 200 {
                 self.partner?.isFavorite = false
-                self.testDelegate?.favoriteButtonTapped(viewController: self,
-                                                        isFavorite: false,
-                                                        partner: partner)
+                NotificationCenter.default.post(name: .favoriteChangeEvent,
+                                                object: partner)
                 self.setStateFavoriteButtons()
             } else {
                 self.showAlert(message: NetworkErrors.common)

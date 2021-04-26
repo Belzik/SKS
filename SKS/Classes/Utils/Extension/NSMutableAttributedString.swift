@@ -15,9 +15,4 @@ extension NSMutableAttributedString {
         self.addAttribute(NSAttributedString.Key.foregroundColor, value: color, range: range)
     }
     
-    func setSizeFOntForText(textForAttribute: String, withColor color: UIColor) {
-        let range: NSRange = self.mutableString.range(of: textForAttribute, options: .caseInsensitive)
-        
-        self.addAttribute(NSAttributedString.Key.font, value: UIFont.systemFont(ofSize: 1), range: range)
-    }
 }

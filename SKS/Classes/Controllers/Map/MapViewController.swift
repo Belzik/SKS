@@ -55,68 +55,7 @@ class MapViewController: BaseViewController {
     
     var salePointsObjects: [YMKPlacemarkMapObject] = []
     
-    @IBAction func filterButtonTapped(_ sender: UIButton) {
-        
-        self.pulleyViewController?.performSegue(withIdentifier: "segueFilter", sender: uuidCategory)
-        view.endEditing(false)
-    }
-    
-    @IBAction func backButtonPlaceTapped(_ sender: UIButton) {
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "hideMapPoint"),
-                                        object: nil,
-                                        userInfo: nil)
-        
-        let mapObjects = mapView.mapWindow.map.mapObjects
-        
-        selectedPoint?.setIconWith(UIImage(named: "SearchResult")!)
-        
-        if let selectedPointPartner = selectedPointPartner {
-            mapObjects.remove(with: selectedPointPartner)
-            //self.selectedPointPartner = nil
-        }
-        
-        searchView.isHidden = false
-        filterButton.isHidden = false
-        backButtonPlace.isHidden = true
-    }
-    
-    @IBAction func salePointBackButtonTapped(_ sender: UIButton) {
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "hideSalePoints"),
-                                        object: nil,
-                                        userInfo: nil)
-        
-        let mapObjects = mapView.mapWindow.map.mapObjects
-        
-        for mapObject in salePointsObjects {
-            mapObjects.remove(with: mapObject)
-        }
-        salePointsObjects.removeAll()
-        
-        searchView.isHidden = false
-        filterButton.isHidden = false
-        salePointView.isHidden = true
-    }
-    
-    @IBAction func zoom(_ sender: UIButton) {
-        let zoomStep: Float = sender.tag == 0 ? -1 : 1
-        //collection?.clear() очистить коллекцию
-        let position = YMKCameraPosition(target: mapView.mapWindow.map.cameraPosition.target,
-                                         zoom: mapView.mapWindow.map.cameraPosition.zoom + zoomStep,
-                                         azimuth: 0,
-                                         tilt: 0)
-        
-        mapView.mapWindow.map.move(with: position,
-                                   animationType: .init(type: .smooth,
-                                                        duration: 0.2),
-                                   cameraCallback: nil)
-        
-        
-    }
-    
-    @IBAction func userPosition(_ sender: UIButton) {
-        locationManager.requestSingleUpdate(withLocationListener: self)
-        
-    }
+    // MARK: - View life cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -139,6 +78,8 @@ class MapViewController: BaseViewController {
         self.navigationController?.setNavigationBarHidden(true, animated: false)
         super.viewWillAppear(animated)
     }
+    
+    // MARK: - Methods
     
     func setupSearch() {
         searchTextField.addTarget(self, action: #selector(textFieldDidchange), for: .editingChanged)
@@ -257,7 +198,7 @@ class MapViewController: BaseViewController {
                                         lngUser: lngUser,
                                         searchString: searchString) { [weak self] result in
             
-            DispatchQueue.global(qos: .background).sync {
+            DispatchQueue.main.async {
                 if let resultPoints = result.value,
                     var pointsOfPartners = self?.pointsOfPartners {
                     var points: [YMKPoint] = []
@@ -273,27 +214,24 @@ class MapViewController: BaseViewController {
                                         self?.pointsOfPartners.append(point)
                                         pointsOfPartners.append(point)
                                         
-                                        DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
-                                            let placemark = self?.collection?.addPlacemark(with: YMKPoint.init(latitude: latitude,
-                                                                                                           longitude: longitude),
-                                                                                       image: UIImage(named: "SearchResult")!,
-                                                                                       style: YMKIconStyle.init())
-                                            
-                                            placemark?.userData = point
-                                            
-                                        })
+                                        let placemark = self?.collection?.addPlacemark(with: YMKPoint.init(latitude: latitude,
+                                                                                                       longitude: longitude),
+                                                                                   image: UIImage(named: "SearchResult")!,
+                                                                                   style: YMKIconStyle.init())
+
+                                        placemark?.userData = point
                                     }
                                 }
                         }
                     }
                     
-                    DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
-                        if let collection = self?.collection {
-                            if points.count > 0 {
-                                collection.clusterPlacemarks(withClusterRadius: 60, minZoom: 15)
-                            }
+                    if let collection = self?.collection {
+                        if points.count > 0 {
+                            collection.clusterPlacemarks(withClusterRadius: 60, minZoom: 15)
                         }
-                    })
+                    }
+                } else {
+                    
                 }
             }
 
@@ -333,8 +271,17 @@ class MapViewController: BaseViewController {
     @objc func showPartnerDetail(_ notification: NSNotification) {
         if let uuidCity = notification.userInfo?["uuidCity"] as? String,
             let uuidPartner = notification.userInfo?["uuidPartner"] as? String {
-            self.pulleyViewController?.performSegue(withIdentifier: "seguePartner",
-                                                    sender: (uuidPartner: uuidPartner, uuidCity: uuidCity))
+            
+            var parentVC = parent
+            while parentVC != nil {
+                if let dashboardMapViewController = parentVC as? DashboardMapViewController {
+                    dashboardMapViewController.performSegue(withIdentifier: "seguePartner",
+                                                            sender: (uuidPartner: uuidPartner, uuidCity: uuidCity))
+                    break
+                }
+                parentVC = parentVC?.parent
+            }
+            
         }
         
         
@@ -603,6 +550,71 @@ class MapViewController: BaseViewController {
         }
         return nil
     }
+    
+    // MARK: - Actions
+    
+    @IBAction func filterButtonTapped(_ sender: UIButton) {
+        self.pulleyViewController?.performSegue(withIdentifier: "segueFilter", sender: uuidCategory)
+        view.endEditing(false)
+    }
+    
+    @IBAction func backButtonPlaceTapped(_ sender: UIButton) {
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "hideMapPoint"),
+                                        object: nil,
+                                        userInfo: nil)
+        
+        let mapObjects = mapView.mapWindow.map.mapObjects
+        
+        selectedPoint?.setIconWith(UIImage(named: "SearchResult")!)
+        
+        if let selectedPointPartner = selectedPointPartner {
+            mapObjects.remove(with: selectedPointPartner)
+            //self.selectedPointPartner = nil
+        }
+        
+        searchView.isHidden = false
+        filterButton.isHidden = false
+        backButtonPlace.isHidden = true
+    }
+    
+    @IBAction func salePointBackButtonTapped(_ sender: UIButton) {
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "hideSalePoints"),
+                                        object: nil,
+                                        userInfo: nil)
+        
+        let mapObjects = mapView.mapWindow.map.mapObjects
+        
+        for mapObject in salePointsObjects {
+            mapObjects.remove(with: mapObject)
+        }
+        salePointsObjects.removeAll()
+        
+        searchView.isHidden = false
+        filterButton.isHidden = false
+        salePointView.isHidden = true
+    }
+    
+    @IBAction func zoom(_ sender: UIButton) {
+        let zoomStep: Float = sender.tag == 0 ? -1 : 1
+        //collection?.clear() очистить коллекцию
+        let position = YMKCameraPosition(target: mapView.mapWindow.map.cameraPosition.target,
+                                         zoom: mapView.mapWindow.map.cameraPosition.zoom + zoomStep,
+                                         azimuth: 0,
+                                         tilt: 0)
+        
+        mapView.mapWindow.map.move(with: position,
+                                   animationType: .init(type: .smooth,
+                                                        duration: 0.2),
+                                   cameraCallback: nil)
+        
+        
+    }
+    
+    @IBAction func userPosition(_ sender: UIButton) {
+        locationManager.requestSingleUpdate(withLocationListener: self)
+        
+    }
+    
 }
 
 // MARK: - YMKUserLocationObjectListener
@@ -731,7 +743,9 @@ extension MapViewController: YMKClusterListener, YMKClusterTapListener {
 extension MapViewController: YMKMapCameraListener {
     func onCameraPositionChanged(with map: YMKMap, cameraPosition: YMKCameraPosition, cameraUpdateSource: YMKCameraUpdateSource, finished: Bool) {
         
-        runTimer()
+        if cameraPosition.zoom > 10.455058 { // Вычисленно эксперементально, оптимальный зум для поиска партнеров
+            runTimer()
+        }
     }
     
     func runTimer() {
@@ -787,12 +801,6 @@ extension MapViewController: YMKMapObjectTapListener {
         }
         
         if salePointView.isHidden {
-     //let mapObjects = mapView.mapWindow.map.mapObjects
-            
-    //        if let selectedPointPartner = selectedPointPartner {
-    //            mapObjects.remove(with: selectedPointPartner)
-    //
-    //        }
             self.selectedPointPartner = nil
             selectedPoint?.setIconWith(UIImage(named: "SearchResult")!)
             
@@ -809,31 +817,27 @@ extension MapViewController: YMKMapObjectTapListener {
             salePointView.isHidden = true
             backButtonPlace.isHidden = false
             
-            if let point = tPoint.userData as? MapPoint {
+            if let pointUser = tPoint.userData as? MapPoint {
                 let view = SelectedPointView(frame: CGRect.init(x: 0, y: 0, width: 36, height: 88))
                 view.isOpaque = false
                 view.backgroundColor = UIColor.clear.withAlphaComponent(0.0)
                 
-                if let logo = point.logo,
+                if let logo = pointUser.logo,
                     logo != "",
                     let url = URL(string: logo) {
-                    //view.logoImage.kf.setImage(with: url)
                     view.logoImage.kf.setImage(with: url) { (_, _) in
                         if let yrtView = YRTViewProvider.init(uiView: view) {
                             tPoint.setViewWithView(yrtView)
                             tPoint.zIndex = 1
-                            //mapObjects.addPlace
                         }
                     }
-                } else if let logoIllustrate = point.illustrate,
+                } else if let logoIllustrate = pointUser.illustrate,
                     let url = URL(string: NetworkManager.shared.baseURI + logoIllustrate) {
-                    //view.logoImage.kf.setImage(with: url)
                     
                     view.logoImage.kf.setImage(with: url) { (_, _) in
                         if let yrtView = YRTViewProvider.init(uiView: view) {
                             tPoint.setViewWithView(yrtView)
                             tPoint.zIndex = 1
-                            //mapObjects.addPlace
                         }
                     }
                 }
@@ -842,7 +846,7 @@ extension MapViewController: YMKMapObjectTapListener {
                 
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "showMapPointMap"),
                                                 object: nil,
-                                                userInfo: ["point": point])
+                                                userInfo: ["point": pointUser])
             }
             selectedPoint = tPoint
         } else {

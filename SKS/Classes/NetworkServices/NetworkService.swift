@@ -69,11 +69,11 @@ class NetworkManager: BaseRequest {
     static let shared = NetworkManager()
     let decoder = JSONDecoder()
     
-        let baseURI = "https://sks-mobile.develophost.ru"
-       let authURI = "https://sks-auth.develophost.ru"
+//        let baseURI = "https://sks-mobile.develophost.ru"
+//       let authURI = "https://sks-auth.develophost.ru"
     
-//    let baseURI = "http://46.161.53.41:9999"
-//    let authURI = "http://46.161.53.41:9997"
+    let baseURI = "http://46.161.53.41:9999"
+    let authURI = "http://46.161.53.41:9997"
     
     let apiVersion1 = "/v1/"
     let apiVersion2 = "/v2/"
