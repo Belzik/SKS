@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="OTq-GW-41k">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="OTq-GW-41k">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -1003,7 +1003,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Оставить отзыв" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kkj-WV-B6P">
-                                <rect key="frame" x="16" y="24" width="149.5" height="23.5"/>
+                                <rect key="frame" x="16" y="24" width="171" height="24.5"/>
                                 <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -1016,7 +1016,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GAf-ev-wG9">
-                                <rect key="frame" x="374" y="24" width="24" height="24"/>
+                                <rect key="frame" x="374" y="24.5" width="24" height="24"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="24" id="T2F-ug-Lo2"/>
                                     <constraint firstAttribute="height" constant="24" id="TqT-8l-ygF"/>
@@ -1027,13 +1027,13 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Оценить" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="10c-ZQ-jgl">
-                                <rect key="frame" x="16" y="71.5" width="382" height="14"/>
+                                <rect key="frame" x="16" y="72.5" width="382" height="16.5"/>
                                 <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="12"/>
                                 <color key="textColor" red="0.6324622631072998" green="0.65120464563369751" blue="0.71688646078109741" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JEb-T8-TOo" customClass="CosmosView" customModule="Cosmos">
-                                <rect key="frame" x="91" y="89.5" width="232" height="40"/>
+                                <rect key="frame" x="91" y="93" width="232" height="40"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="232" id="ttT-ua-kiN"/>
@@ -1053,14 +1053,14 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wt2-AT-kMf">
-                                <rect key="frame" x="0.0" y="153.5" width="414" height="6"/>
+                                <rect key="frame" x="0.0" y="157" width="414" height="6"/>
                                 <color key="backgroundColor" red="0.94183081388473511" green="0.94254469871520996" blue="0.94194132089614868" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="6" id="Tdd-2X-eVy"/>
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ваш отзыв" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ljq-aK-2yh">
-                                <rect key="frame" x="16" y="183.5" width="101.5" height="23.5"/>
+                                <rect key="frame" x="16" y="187" width="116.5" height="24.5"/>
                                 <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -1081,7 +1081,7 @@
                                 </connections>
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Напишите отзыв" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tt2-Zm-4hx" customClass="SKSTextField" customModule="SKS" customModuleProvider="target">
-                                <rect key="frame" x="16" y="223" width="382" height="48"/>
+                                <rect key="frame" x="16" y="227.5" width="382" height="48"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="ViW-zK-OWi"/>
                                 </constraints>
@@ -1137,7 +1137,7 @@
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="aVp-Qf-MNB">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="selectedImageTintColor" red="0.1019607843" green="0.6705882353" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
                     </tabBar>
                     <connections>
@@ -1221,7 +1221,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="725"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <view key="tableFooterView" contentMode="scaleToFill" id="UGZ-Ju-7gS">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="31"/>
+                                    <rect key="frame" x="0.0" y="35" width="414" height="31"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="S6F-ah-fgB">
@@ -1559,7 +1559,7 @@
             <size key="intrinsicContentSize" width="232" height="40"/>
         </designable>
         <designable name="tt2-Zm-4hx">
-            <size key="intrinsicContentSize" width="152.5" height="34"/>
+            <size key="intrinsicContentSize" width="160.5" height="34"/>
         </designable>
     </designables>
     <inferredMetricsTieBreakers>

@@ -10,6 +10,10 @@ import UIKit
 import XLPagerTabStrip
 import FSPagerView
 
+protocol NewsViewControllerDelegate: AnyObject {
+    func newsTapped(news: News)
+}
+
 class NewsViewController: BaseViewController {
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
     @IBOutlet weak var tableView: UITableView!
@@ -26,6 +30,7 @@ class NewsViewController: BaseViewController {
     var limit = 15
     var isPaginationEnd = false
     var isPaginationLoad = false
+    weak var delegate: NewsViewControllerDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -106,10 +111,6 @@ extension NewsViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if news[indexPath.row].pooling?.uuidPooling != nil {
-            performSegue(withIdentifier: "seguePoolingNews", sender: nil)
-        } else {
-            performSegue(withIdentifier: "segueDetailNews", sender: nil)
-        }
+        delegate?.newsTapped(news: news[indexPath.row])
     }
 }
