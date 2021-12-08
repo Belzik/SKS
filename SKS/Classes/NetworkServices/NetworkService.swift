@@ -45,6 +45,12 @@ struct APIPath {
     static let authVK          = "auth/vk"
     static let addToFavorite   = "partners/add-to-favorite"
     static let deleteFromFavorite = "partners/delete-from-favorite"
+    static let getKnowledges   = "/knowledge-base-categories"
+    static let getKnowledge    = "/knowledge-base-questions"
+    static let getQuestion     = "/knowledge-base-question-show"
+    static let votesQuestion   = "/knowledge-base-vote-add"
+    static let sendComplaintOnNews = "news/complaint/new"
+    static let getLinkToMessager = "get-link-to-messenger"
 }
 
 enum HeaderKey: String {
@@ -69,11 +75,11 @@ class NetworkManager: BaseRequest {
     static let shared = NetworkManager()
     let decoder = JSONDecoder()
     
-//        let baseURI = "https://sks-mobile.develophost.ru"
-//       let authURI = "https://sks-auth.develophost.ru"
+        let baseURI = "https://sks-mobile.develophost.ru"
+       let authURI = "https://sks-auth.develophost.ru"
     
-    let baseURI = "http://46.161.53.41:9999"
-    let authURI = "http://46.161.53.41:9997"
+//    let baseURI = "http://46.161.53.41:9999"
+//    let authURI = "http://46.161.53.41:9997"
     
     let apiVersion1 = "/v1/"
     let apiVersion2 = "/v2/"
@@ -1002,5 +1008,125 @@ class NetworkManager: BaseRequest {
             completion(result)
         }
     }
-    
+
+    // MARK: - База знаний
+    func getKnowledges(
+        limit: Int = 100,
+        offset: Int = 0,
+        completion: @escaping (_ result: BaseResponse<KnowledgesResponse>) -> Void) {
+        let url = baseURI + APIPath.getKnowledges
+
+        var headers: HTTPHeaders = [
+            HTTPHeader(name: "X-Limit", value: String(describing: limit)),
+            HTTPHeader(name: "X-Offset", value: String(describing: offset))
+        ]
+
+        if let accessToken = UserData.loadSaved()?.accessToken {
+            headers.add(HTTPHeader(name: HeaderKey.token.rawValue, value: accessToken))
+        }
+
+        request(url: url,
+                  headers: headers) { result in
+            completion(result)
+        }
+    }
+
+    // MARK: - Список вопросов
+    func getKnowledge(
+        limit: Int = 100,
+        offset: Int = 0,
+        uuid: String,
+        completion: @escaping (_ result: BaseResponse<KnowledgeResponse>) -> Void) {
+        let url = baseURI + APIPath.getKnowledge + "?uuid=\(uuid)"
+
+        var headers: HTTPHeaders = [
+            HTTPHeader(name: "X-Limit", value: String(describing: limit)),
+            HTTPHeader(name: "X-Offset", value: String(describing: offset)),
+        ]
+
+        if let accessToken = UserData.loadSaved()?.accessToken {
+            headers.add(HTTPHeader(name: HeaderKey.token.rawValue, value: accessToken))
+        }
+
+        request(url: url,
+                headers: headers) { result in
+            completion(result)
+        }
+    }
+
+    // MARK: - Вопрос
+    func getQuestion(uuid: String, completion: @escaping (_ result: BaseResponse<Question>) -> Void) {
+        let url = baseURI + APIPath.getQuestion + "?uuid=\(uuid)"
+
+        var headers: HTTPHeaders = []
+        if let accessToken = UserData.loadSaved()?.accessToken {
+            headers.add(HTTPHeader(name: HeaderKey.token.rawValue, value: accessToken))
+        }
+
+        request(url: url,
+                headers: headers) { result in
+            completion(result)
+        }
+    }
+
+    // MARK: - Голосовать
+    func sendVote(uuid: String, isUseful: Bool, completion: @escaping (_ result: BaseResponse<Vote>) -> Void) {
+        let url = baseURI + APIPath.votesQuestion
+
+        var headers: HTTPHeaders = []
+        if let accessToken = UserData.loadSaved()?.accessToken {
+            headers.add(HTTPHeader(name: HeaderKey.token.rawValue, value: accessToken))
+        }
+
+        var parametrs: Parameters = [:]
+        parametrs["uuid"] = uuid
+        parametrs["vote"] = isUseful ? 1 : 0
+
+        request(url: url,
+                method: .post,
+                parameters: parametrs,
+                headers: headers) { result in
+            completion(result)
+        }
+    }
+
+    // MARK: - Отправить жалобу на Новость
+    func sendComplaintAboutNews(uuidNews: String, complaint: String, completion: @escaping (_ result: BaseResponse<StatusResponse>) -> Void) {
+        let url = baseURI + apiVersion2 + APIPath.sendComplaintOnNews
+
+        var headers: HTTPHeaders = []
+        if let accessToken = UserData.loadSaved()?.accessToken {
+            headers.add(HTTPHeader(name: HeaderKey.token.rawValue, value: accessToken))
+        }
+
+        var parametrs: Parameters = [:]
+        parametrs["uuidNews"] = uuidNews
+        parametrs["complaint"] = complaint
+
+        request(url: url,
+                method: .post,
+                parameters: parametrs,
+                headers: headers) { result in
+            completion(result)
+        }
+    }
+
+    // MARK: - Получить ссылку на месснеджер универа
+    func getLinkToMessager(completion: @escaping (_ result: BaseResponse<String>) -> Void) -> Void {
+        let url = baseURI + apiVersion1 + APIPath.getLinkToMessager
+
+        var headers: HTTPHeaders = []
+        if let accessToken = UserData.loadSaved()?.accessToken {
+            headers.add(HTTPHeader(name: HeaderKey.token.rawValue, value: accessToken))
+        }
+
+        AF.request(
+            url,
+            headers: headers)
+            .responseString { response in
+                let baseResponse = BaseResponse(value: response.value,
+                                                responseCode: response.response?.statusCode)
+                completion(baseResponse)
+            }
+    }
 }

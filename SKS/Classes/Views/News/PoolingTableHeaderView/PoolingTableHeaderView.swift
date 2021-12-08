@@ -14,6 +14,8 @@ protocol PoolingTableHeaderViewDelegate: class {
 }
 
 class PoolingTableHeaderView: UITableViewHeaderFooterView {
+    // MARK: - Views
+
     @IBOutlet weak var categoryView: UIView!
     @IBOutlet weak var typeNewsLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
@@ -40,11 +42,16 @@ class PoolingTableHeaderView: UITableViewHeaderFooterView {
             self.pageControl.contentInsets = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         }
     }
-    
-    @IBAction func backButtonTapped(_ sender: UIButton) {
-        delegate?.backButtonTapped()
+
+    @IBOutlet weak var complaintImageView: UIImageView! {
+        didSet {
+            complaintImageView.isUserInteractionEnabled = true
+            let tap = UITapGestureRecognizer(target: self, action: #selector(complaintImageViewTapped))
+            complaintImageView.addGestureRecognizer(tap)
+        }
     }
 
+    // MARK: - Properties
     
     weak var model: News? {
         didSet {
@@ -52,6 +59,9 @@ class PoolingTableHeaderView: UITableViewHeaderFooterView {
         }
     }
     weak var delegate: PoolingTableHeaderViewDelegate?
+    var complaintHandler: (() -> Void)?
+
+    // MARK: - Methods
     
     func layoutUI() {
         pagerView.delegate = self
@@ -118,6 +128,20 @@ class PoolingTableHeaderView: UITableViewHeaderFooterView {
         }
         
         categoryView.layer.cornerRadius = 4
+
+        if UserData.loadSaved() == nil {
+            complaintImageView.isHidden = true
+        }
+    }
+
+    // MARK: - Actions
+
+    @IBAction func backButtonTapped(_ sender: UIButton) {
+        delegate?.backButtonTapped()
+    }
+
+    @objc func complaintImageViewTapped() {
+        complaintHandler?()
     }
 }
 

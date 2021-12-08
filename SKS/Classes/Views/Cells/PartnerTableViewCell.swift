@@ -35,6 +35,7 @@ class PartnerTableViewCell: UITableViewCell {
     @IBOutlet weak var stockImage: UIImageView!
     @IBOutlet weak var favoriteButton: UIButton!
     
+    @IBOutlet weak var isFederalImageView: UIImageView!
     // MARK: - Properties
     
     weak var model: Partner? {
@@ -69,45 +70,9 @@ class PartnerTableViewCell: UITableViewCell {
         } else {
             stockImage.isHidden = true
         }
-        
-        firstDiscountView.layer.cornerRadius = 12
-        secondDiscountView.layer.cornerRadius = 12
-        thirdDiscountView.layer.cornerRadius = 12
-        
-        var sizeFirst: Int?
-        var sizeSecond: Int?
-        var sizeThird: Int?
-        
-        if let discounts = model.discounts {
-            for (key, discount) in discounts.enumerated() {
-                switch key {
-                case 0: sizeFirst = discount.size
-                case 1: sizeSecond = discount.size
-                case 2: sizeThird = discount.size
-                default: break
-                }
-            }
-        }
-        
-        
-        if let size = sizeFirst {
-            firstDiscountLabel.text = String(describing: size) + " %"
-        }
-        
-        if let size = sizeSecond {
-            secondDiscountLabel.text = String(describing: size) + " %"
-            secondDiscountView.isHidden = false
-        } else {
-            secondDiscountView.isHidden = true
-        }
-        
-        if let size = sizeThird {
-            thirdDiscountLabel.text = String(describing: size) + " %"
-            thirdDiscountLabel.isHidden = false
-        } else {
-            thirdDiscountView.isHidden = true
-        }
-        
+
+        setupRatingView()
+
         if let rating = model.rating,
             let doubleRating = Double(rating) {
             ratingView.rating = doubleRating
@@ -115,10 +80,71 @@ class PartnerTableViewCell: UITableViewCell {
         
         ratingView.settings.updateOnTouch = false
         setStateForFavoriteButton()
+
+        if let isFederal = model.isFederalPartner {
+            isFederalImageView.isHidden = !isFederal
+        }
     }
     
     func setupRatingView() {
-        
+        guard let model = model else { return }
+
+        firstDiscountView.layer.cornerRadius = 12
+        secondDiscountView.layer.cornerRadius = 12
+        thirdDiscountView.layer.cornerRadius = 12
+
+        var isDiscountType = false
+        if let discounts = model.discounts {
+            for discount in discounts {
+                if let type = discount.type,
+                   type == "free" {
+                    isDiscountType = true
+                }
+            }
+        }
+
+        if isDiscountType {
+            firstDiscountLabel.text = "Скидка"
+            secondDiscountView.isHidden = true
+            thirdDiscountView.isHidden = true
+        } else {
+            var sizeFirst: Int?
+            var sizeSecond: Int?
+            var sizeThird: Int?
+
+            if let discounts = model.discounts {
+                for (key, discount) in discounts.enumerated() {
+                    switch key {
+                    case 0: sizeFirst = discount.size
+                    case 1: sizeSecond = discount.size
+                    case 2: sizeThird = discount.size
+                    default: break
+                    }
+                }
+            }
+
+            if let size = sizeFirst {
+                firstDiscountLabel.text = String(describing: size) + " %"
+            }
+
+            if let size = sizeSecond {
+                secondDiscountLabel.text = String(describing: size) + " %"
+                secondDiscountView.isHidden = false
+            } else {
+                secondDiscountView.isHidden = true
+            }
+
+            if let size = sizeThird {
+                thirdDiscountLabel.text = String(describing: size) + " %"
+                thirdDiscountLabel.isHidden = false
+            } else {
+                thirdDiscountView.isHidden = true
+            }
+        }
+    }
+
+    func setDiscounts() {
+
     }
         
     func setStateForFavoriteButton() {

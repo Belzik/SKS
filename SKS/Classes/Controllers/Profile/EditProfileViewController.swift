@@ -253,7 +253,9 @@ class EditProfileViewController: BaseViewController {
     
     func getInstitutions() {
         dispatchGroup.enter()
-        NetworkManager.shared.getUniversities(uuidCity: uuidCity) { [unowned self] response in
+        NetworkManager.shared.getUniversities(uuidCity: uuidCity) { [weak self] response in
+            guard let self = self else { return }
+
             self.dispatchGroup.leave()
             if let universities = response.value,
                 universities.count > 0 {
@@ -282,7 +284,9 @@ class EditProfileViewController: BaseViewController {
     
     func getFaculties() {
         dispatchGroup.enter()
-        NetworkManager.shared.getFaculties(uuidUniver: uuidUniversity) { [unowned self] response in
+        NetworkManager.shared.getFaculties(uuidUniver: uuidUniversity) { [weak self] response in
+            guard let self = self else { return }
+
             self.dispatchGroup.leave()
             if let faculties = response.value,
                 faculties.count > 0 {

@@ -175,7 +175,7 @@ class BarcodeViewController: BaseViewController {
                 barcodeImage.image = UIImage(named: "unavailable_barcode")
                 noAuthBarcodeLabel.isHidden = false
             case ProfileStatus.moderation.rawValue:
-                statusLabel.text = "Ждем в профкоме"
+                statusLabel.text = "Для завершения регистрации загляни в Профком"
                 statusLabel.textColor = ColorManager.yellow.value
                 barcodeImage.image = UIImage(named: "unavailable_barcode")
                 noAuthBarcodeLabel.isHidden = false

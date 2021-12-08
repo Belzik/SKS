@@ -152,7 +152,7 @@ class ProfileViewController: BaseViewController {
                 reasonLabel.text = user.statusReason
                 reasonLabel.isHidden = false
             case ProfileStatus.moderation.rawValue:
-                statusLabel.text = "Ждем в профкоме"
+                statusLabel.text = "Для завершения регистрации загляни в Профком"
                 statusLabel.textColor = ColorManager.yellow.value
                 reasonLabel.isHidden = true
             case ProfileStatus.rejected.rawValue:

@@ -8,7 +8,7 @@
 
 import UIKit
 import Pulley
-import YandexMapKit
+import YandexMapsMobile
 import CoreLocation
 import Kingfisher
 
@@ -741,8 +741,7 @@ extension MapViewController: YMKClusterListener, YMKClusterTapListener {
 // MARK: - YMKMapCameraListener
 
 extension MapViewController: YMKMapCameraListener {
-    func onCameraPositionChanged(with map: YMKMap, cameraPosition: YMKCameraPosition, cameraUpdateSource: YMKCameraUpdateSource, finished: Bool) {
-        
+    func onCameraPositionChanged(with map: YMKMap, cameraPosition: YMKCameraPosition, cameraUpdateReason: YMKCameraUpdateReason, finished: Bool) {
         if cameraPosition.zoom > 10.455058 { // Вычисленно эксперементально, оптимальный зум для поиска партнеров
             runTimer()
         }
@@ -750,8 +749,8 @@ extension MapViewController: YMKMapCameraListener {
     
     func runTimer() {
         timer.invalidate()
-        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { [unowned self] timer in
-            self.getPoints()
+        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { [weak self] timer in
+            self?.getPoints()
         }
     }
 }

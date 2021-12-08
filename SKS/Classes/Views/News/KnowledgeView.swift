@@ -13,24 +13,31 @@ class KnowledgeView: SnapKitView {
         return view
     }()
 
-    private var titleLabel: UILabel = {
+    var titleLabel: UILabel = {
         let label = UILabel()
         label.font = Fonts.montserrat.bold.s20
         label.textColor = ColorManager.lightBlack.value
-        label.text = "Кто и как защищает интересы студентов в вузе"
         label.numberOfLines = 0
 
         return label
     }()
 
-    private let tableView: UITableView = {
+    let tableView: UITableView = {
         let tableView = UITableView()
         tableView.hideScrollIndicators()
         tableView.register(KnowledgeTableViewCell.self)
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         tableView.separatorColor = ColorManager._EFF2F5.value
+        tableView.tableFooterView = UIView(frame: .zero)
 
         return tableView
+    }()
+
+    let activityIndicatorView: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView.init(style: .medium)
+        activityIndicator.hidesWhenStopped = true
+
+        return activityIndicator
     }()
 
     // MARK: - Properties
@@ -47,6 +54,7 @@ class KnowledgeView: SnapKitView {
         addSubview(backView)
         addSubview(titleLabel)
         addSubview(tableView)
+        addSubview(activityIndicatorView)
     }
 
     override func setConstraints() {
@@ -63,6 +71,10 @@ class KnowledgeView: SnapKitView {
         tableView.snp.makeConstraints {
             $0.left.right.bottom.equalToSuperview()
             $0.top.equalTo(titleLabel.snp.bottom).offset(16)
+        }
+
+        activityIndicatorView.snp.makeConstraints {
+            $0.centerY.centerX.equalToSuperview()
         }
     }
 

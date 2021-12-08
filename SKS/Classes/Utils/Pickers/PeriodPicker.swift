@@ -96,7 +96,7 @@ class PeriodPicker: NSObject {
             
             dateStart = []
             
-            for value in year...(year + levelValue + 1) {
+            for value in year...(year + levelValue + 2) {
                 dateStart.append(String(describing: value))
             }
             
@@ -108,7 +108,7 @@ class PeriodPicker: NSObject {
             
             dateStart = []
             
-            for value in (year - levelValue + 1)...year {
+            for value in (year - levelValue)...year {
                 dateStart.append(String(describing: value))
             }
             picker.reloadComponent(0)

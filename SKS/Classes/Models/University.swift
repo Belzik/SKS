@@ -13,7 +13,7 @@ typealias UniversitiesResponse = [University]
 class University: Codable, TypeOfSourcePicker {
     var title: String {
         get {
-            return nameUniver
+            return shortName ?? nameUniver
         }
     }
     

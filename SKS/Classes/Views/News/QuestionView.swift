@@ -1,15 +1,17 @@
 import UIKit
 import SnapKit
-import SwiftyVK
 
 class QuestionView: SnapKitView {
     // MARK: - Views
 
+    let activityIndicatorView = UIActivityIndicatorView(style: .medium)
     private let mainView = UIView()
 
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView(frame: .zero)
         scrollView.hideScrollIndicators()
+        scrollView.isHidden = true
+
         return scrollView
     }()
     private let contentView = UIView(frame: .zero)
@@ -27,20 +29,20 @@ class QuestionView: SnapKitView {
         let label = UILabel()
         label.font = Fonts.montserrat.bold.s20
         label.textColor = ColorManager.lightBlack.value
-        label.text = "Длинное название вопроса или нормативного акта"
         label.numberOfLines = 0
 
         return label
     }()
 
-    private var descriptionLabel: UILabel = {
-        let label = UILabel()
-        label.font = Fonts.montserrat.regular.s16
-        label.textColor = ColorManager.lightBlack.value
-        label.text = "Сеть пиццерий №1 в России. Международная сеть пиццерий. Быстрая бесплатная доставка домой и в офис. Показываем в прямом эфире, как готовим вашу пиццу. \n\n Сеть пиццерий №1 в России. Международная сеть пиццерий. Быстрая бесплатная доставка домой и в офис. Показываем в прямом эфире, как готовим вашу пиццу."
-        label.numberOfLines = 0
+    private var descriptionTextView: UITextView = {
+        let textView = UITextView()
+        textView.textContainerInset = .zero
+        textView.contentInset = UIEdgeInsets(top: -4, left: -6, bottom: 0, right: -6)
+        textView.dataDetectorTypes = UIDataDetectorTypes.link
+        textView.isScrollEnabled = false
+        textView.isEditable = false
 
-        return label
+        return textView
     }()
 
     private var separatorOneView: UIView = {
@@ -96,6 +98,8 @@ class QuestionView: SnapKitView {
             opacity: 0.25
         )
 
+        button.addTarget(self, action: #selector(yesButtonTapped), for: .touchUpInside)
+
         return button
     }()
 
@@ -114,7 +118,19 @@ class QuestionView: SnapKitView {
             opacity: 0.25
         )
 
+        button.addTarget(self, action: #selector(noButtonTapped), for: .touchUpInside)
+
         return button
+    }()
+
+    var thanksLabel: UILabel = {
+        let label = UILabel()
+        label.font = Fonts.montserrat.regular.s16
+        label.textColor = ColorManager.lightBlack.value
+        label.text = "Спасибо за ваш отзыв"
+        label.textAlignment = .center
+
+        return label
     }()
 
     private let separatorButton: UIView = {
@@ -141,30 +157,86 @@ class QuestionView: SnapKitView {
         button.titleLabel?.font = Fonts.montserrat.bold.s16
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = ColorManager.green.value
+        button.addTarget(self, action: #selector(writeButtonTapped), for: .touchUpInside)
 
         return button
     }()
 
+
+
     // MARK: - Properties
 
     var backHandler: (() -> Void)?
+    var yesHandler: (() -> Void)?
+    var noHandler: (() -> Void)?
+    var writeHandler: (() -> Void)?
 
     // MARK: - Internal methods
 
+    func setView(withQuestion question: Question, linkToMessenger: String?) {
+        titleLabel.text = question.question
+
+        if let answer = question.answer {
+            descriptionTextView.attributedText = answer.html2Attributed
+            descriptionTextView.font = Fonts.montserrat.regular.s16
+        }
+
+        if linkToMessenger == nil {
+            hideQuestionsViews()
+        }
+
+        if var link = linkToMessenger {
+            link = link.replacingOccurrences(of: "\"", with: "", options: .literal, range: nil)
+            if link == "null" || link == "" {
+               hideQuestionsViews()
+            }
+        }
+
+        setVotedState(isVoted: question.user_voted)
+        scrollView.isHidden = false
+    }
+
+    func setVotedState(isVoted: Bool?) {
+        if let isVoted = isVoted,
+           isVoted {
+            yesButton.isHidden = true
+            noButton.isHidden = true
+            thanksLabel.isHidden = false
+
+            yesButton.snp.makeConstraints {
+                $0.height.equalTo(22)
+            }
+
+            noButton.snp.makeConstraints {
+                $0.height.equalTo(22)
+            }
+        } else {
+            thanksLabel.isHidden = true
+        }
+    }
+
+    override func setup() {
+        backgroundColor = .white
+        addSubviews()
+        setConstraints()
+    }
+
     override func addSubviews() {
         addSubview(mainView)
+        mainView.addSubview(activityIndicatorView)
         mainView.addSubview(backView)
         mainView.addSubview(scrollView)
         scrollView.addSubview(contentView)
         contentView.addSubview(titleLabel)
-        contentView.addSubview(descriptionLabel)
+        contentView.addSubview(descriptionTextView)
         contentView.addSubview(separatorOneView)
-        contentView.addSubview(documentView)
-        contentView.addSubview(separatorTwoView)
+//        contentView.addSubview(documentView)
+//        contentView.addSubview(separatorTwoView)
         contentView.addSubview(infoLabel)
         contentView.addSubview(stackButton)
         stackButton.addArrangedSubview(yesButton)
         stackButton.addArrangedSubview(noButton)
+        stackButton.addArrangedSubview(thanksLabel)
         contentView.addSubview(separatorButton)
         contentView.addSubview(questionLabel)
         contentView.addSubview(writeUsButton)
@@ -176,9 +248,14 @@ class QuestionView: SnapKitView {
             $0.top.bottom.equalTo(safeAreaLayoutGuide)
         }
 
+        activityIndicatorView.snp.makeConstraints {
+            $0.centerY.centerX.equalToSuperview()
+        }
+
         backView.snp.makeConstraints {
             $0.left.equalToSuperview().inset(16)
             $0.top.equalToSuperview().inset(16)
+            $0.height.equalTo(20)
         }
 
         scrollView.snp.makeConstraints {
@@ -197,31 +274,31 @@ class QuestionView: SnapKitView {
             $0.top.equalToSuperview()
         }
 
-        descriptionLabel.snp.makeConstraints {
+        descriptionTextView.snp.makeConstraints {
             $0.left.right.equalToSuperview().inset(16)
             $0.top.equalTo(titleLabel.snp.bottom).offset(24)
         }
 
         separatorOneView.snp.makeConstraints {
             $0.left.right.equalToSuperview()
-            $0.top.equalTo(descriptionLabel.snp.bottom).offset(32)
+            $0.top.equalTo(descriptionTextView.snp.bottom).offset(32)
             $0.height.equalTo(6)
         }
 
-        documentView.snp.makeConstraints {
-            $0.left.right.equalToSuperview().inset(16)
-            $0.top.equalTo(separatorOneView.snp.bottom).offset(28)
-        }
-
-        separatorTwoView.snp.makeConstraints {
-            $0.left.right.equalToSuperview()
-            $0.top.equalTo(documentView.snp.bottom).offset(28)
-            $0.height.equalTo(6)
-        }
+//        documentView.snp.makeConstraints {
+//            $0.left.right.equalToSuperview().inset(16)
+//            $0.top.equalTo(separatorOneView.snp.bottom).offset(28)
+//        }
+//
+//        separatorTwoView.snp.makeConstraints {
+//            $0.left.right.equalToSuperview()
+//            $0.top.equalTo(documentView.snp.bottom).offset(28)
+//            $0.height.equalTo(6)
+//        }
 
         infoLabel.snp.makeConstraints {
             $0.left.right.equalToSuperview().inset(16)
-            $0.top.equalTo(separatorTwoView.snp.bottom).offset(28)
+            $0.top.equalTo(separatorOneView.snp.bottom).offset(28)
         }
 
         stackButton.snp.makeConstraints {
@@ -258,9 +335,48 @@ class QuestionView: SnapKitView {
         }
     }
 
+    // MARK: - Private methods
+
+    private func hideQuestionsViews() {
+        questionLabel.removeFromSuperview()
+        writeUsButton.removeFromSuperview()
+        separatorButton.snp.makeConstraints {
+            $0.top.equalTo(stackButton.snp.bottom).offset(28)
+            $0.left.right.equalToSuperview().inset(16)
+            $0.height.equalTo(1)
+            $0.bottom.equalToSuperview().inset(16)
+        }
+    }
+
     // MARK: - Actions
 
     @objc func backTapped() {
         backHandler?()
+    }
+
+    @objc func yesButtonTapped() {
+        yesHandler?()
+    }
+
+    @objc func noButtonTapped() {
+        noHandler?()
+    }
+
+    @objc func writeButtonTapped() {
+        writeHandler?()
+    }
+}
+
+extension String {
+    var htmlToAttributedString: NSAttributedString? {
+        guard let data = data(using: .utf8) else { return nil }
+        do {
+            return try NSAttributedString(data: data, options: [.documentType: NSAttributedString.DocumentType.html, .characterEncoding:String.Encoding.utf8.rawValue], documentAttributes: nil)
+        } catch {
+            return nil
+        }
+    }
+    var htmlToString: String {
+        return htmlToAttributedString?.string ?? ""
     }
 }

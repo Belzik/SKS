@@ -394,4 +394,20 @@ extension PasswordViewController: UITextFieldDelegate {
         
         return true
     }
+
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == passwordTextField {
+            if confimPasswordTextField.isHidden == false {
+                confimPasswordTextField.becomeFirstResponder()
+            } else {
+                view.endEditing(true)
+            }
+        }
+
+        if textField == confimPasswordTextField {
+            view.endEditing(true)
+        }
+
+        return true
+    }
 }

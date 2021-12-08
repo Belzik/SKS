@@ -93,7 +93,9 @@ class SearchViewController: BaseViewController {
         getPartners()
         //getStocks()
         
-        dispatchGroup.notify(queue: .main) { [unowned self] in
+        dispatchGroup.notify(queue: .main) { [weak self] in
+            guard let self = self else { return }
+
             self.searchResult = self.stocks + self.partners
 
             self.tableView.reloadData()
@@ -102,8 +104,8 @@ class SearchViewController: BaseViewController {
 
     func runTimer() {
         timer.invalidate()
-        timer = Timer.scheduledTimer(withTimeInterval: 0.4, repeats: false) { [unowned self] timer in
-            self.loadData()
+        timer = Timer.scheduledTimer(withTimeInterval: 0.4, repeats: false) { [weak self] timer in
+            self?.loadData()
         }
     }
     
@@ -116,10 +118,10 @@ class SearchViewController: BaseViewController {
         NetworkManager.shared.getPartners(uuidCity: currentCity?.uuidCity,
                                           searchString: searchTextField.text!,
                                           limit: 10,
-                                          offset: 0) { [unowned self] response in
-            self.dispatchGroup.leave()
+                                          offset: 0) { [weak self] response in
+            self?.dispatchGroup.leave()
             if let partners = response.value {
-                self.partners = partners
+                self?.partners = partners
             }
         }
     }
@@ -129,11 +131,11 @@ class SearchViewController: BaseViewController {
         NetworkManager.shared.getStocks(uuidCity: currentCity?.uuidCity,
                                         searchString: searchTextField.text!,
                                         limit: 10,
-                                        offset: 0) { [unowned self] response in
+                                        offset: 0) { [weak self] response in
                                             
-            self.dispatchGroup.leave()
+            self?.dispatchGroup.leave()
             if let stocks = response.value {
-                self.stocks = stocks
+                self?.stocks = stocks
             }
         }
     }

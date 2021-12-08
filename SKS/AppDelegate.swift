@@ -13,7 +13,7 @@ import IQKeyboardManagerSwift
 import Firebase
 import UserNotifications
 import Messages
-import YandexMapKit
+import YandexMapsMobile
 import CoreLocation
 import SwiftyVK
 

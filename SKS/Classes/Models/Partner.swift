@@ -34,6 +34,8 @@ class Partner: Codable {
     let logo: String?
     let headerPictures: [String]?
     var isFavorite: Bool?
+    var isFederalPartner: Bool?
+    var linkToSite: String?
     
     enum CodingKeys: String, CodingKey {
         case uuidPartner
@@ -58,6 +60,8 @@ class Partner: Codable {
         case logo
         case headerPictures
         case isFavorite
+        case isFederalPartner
+        case linkToSite
     }
 }
 

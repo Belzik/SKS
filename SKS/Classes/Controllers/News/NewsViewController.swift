@@ -60,14 +60,17 @@ class NewsViewController: BaseViewController {
         isPaginationLoad = true
         activityIndicatorView.startAnimating()
         NetworkManager.shared.getNews(limit: limit,
-                                      offset: offset) { [unowned self] result in
+                                      offset: offset) { [weak self] result in
+            guard let self = self else { return }
+
             self.activityIndicatorView.stopAnimating()
             if let news = result.value {
                 if news.count < self.limit {
                     self.isPaginationEnd = true
                 }
                 
-                if news.count == 0 {
+                if news.count == 0
+                    && self.news.count == 0 {
                     self.noDataLabel.isHidden = false
                 } else {
                     self.noDataLabel.isHidden = true

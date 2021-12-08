@@ -36,7 +36,8 @@ class TestViewController: ButtonBarPagerTabStripViewController {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var ratingLabel: UILabel!
     @IBOutlet weak var complaintButton: UIButton!
-    
+    @IBOutlet weak var federalImageView: UIImageView!
+
     @IBOutlet weak var heightOfImageView: NSLayoutConstraint! // 60 или 200
     @IBOutlet weak var topView: UIView!
     
@@ -203,28 +204,39 @@ class TestViewController: ButtonBarPagerTabStripViewController {
 
 
     override func viewControllers(for pagerTabStripController: PagerTabStripViewController) -> [UIViewController] {
+
+        var  controllers: [UIViewController] = []
         let storyboard = UIStoryboard(name: "Home", bundle: nil)
         
         let discountViewController = storyboard.instantiateViewController(withIdentifier: "DiscountViewController") as! DiscountViewController
         discountViewController.itemInfo = IndicatorInfo(title: "Скидки и акции")
         discountViewController.delegate = self
         self.discountViewController = discountViewController
-        
-        let salePointViewController = storyboard.instantiateViewController(withIdentifier: "SalePointViewController") as! SalePointViewController
-        salePointViewController.itemInfo = IndicatorInfo(title: "Торговые точки")
-        salePointViewController.delegate = self
-        self.salePointViewController = salePointViewController
+        controllers.append(discountViewController)
+
+
+        if let isFederalPartner = partner?.isFederalPartner,
+            isFederalPartner {
+        } else {
+            let salePointViewController = storyboard.instantiateViewController(withIdentifier: "SalePointViewController") as! SalePointViewController
+            salePointViewController.itemInfo = IndicatorInfo(title: "Торговые точки")
+            salePointViewController.delegate = self
+            self.salePointViewController = salePointViewController
+            controllers.append(salePointViewController)
+        }
         
         let aboutPartnerViewController = storyboard.instantiateViewController(withIdentifier: "AboutPartnerViewController") as! AboutPartnerViewController
         aboutPartnerViewController.itemInfo = IndicatorInfo(title: "Описание")
         self.aboutPartnerViewController = aboutPartnerViewController
+        controllers.append(aboutPartnerViewController)
         
         let сommentViewController = storyboard.instantiateViewController(withIdentifier: "CommentViewController") as! CommentViewController
         сommentViewController.itemInfo = IndicatorInfo(title: "Отзывы")
         сommentViewController.delegate = self
         self.сommentViewController = сommentViewController
+        controllers.append(сommentViewController)
         
-        return [discountViewController, aboutPartnerViewController, salePointViewController, сommentViewController]
+        return controllers
     }
     
     func loadData() {
@@ -237,7 +249,8 @@ class TestViewController: ButtonBarPagerTabStripViewController {
         
         dispatchGroup.notify(queue: .main) { [weak self] in
             self?.acitivityIndicatorView.stopAnimating()
-            
+
+            self?.reloadPagerTabStripView()
             self?.reloadData()
             self?.layoutUI()
             self?.scrollView.isHidden = false
@@ -402,7 +415,11 @@ class TestViewController: ButtonBarPagerTabStripViewController {
             favoriteView.isHidden = true
             favoriteImageViewInTopView.isHidden = true
         }
-        
+
+        if let isFederal = partner?.isFederalPartner {
+            federalImageView.isHidden = !isFederal
+        }
+
         setStateFavoriteButtons()
         pagerView.reloadData()
     }

@@ -17,6 +17,7 @@ class Discount: Codable {
     let name: String?
     let discountDescription: String?
     let size: Int?
+    let type: String?
     
     enum CodingKeys: String, CodingKey {
         case idDiscount
@@ -26,6 +27,7 @@ class Discount: Codable {
         case name
         case discountDescription = "description"
         case size
+        case type
     }
 }
 

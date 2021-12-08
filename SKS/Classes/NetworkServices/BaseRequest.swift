@@ -65,7 +65,7 @@ class BaseRequest {
                 requestHeaders.add(header)
             }
         }
-        
+
         return AF.request(url, method: method,
                    parameters: parameters,
                    encoding: encoding,

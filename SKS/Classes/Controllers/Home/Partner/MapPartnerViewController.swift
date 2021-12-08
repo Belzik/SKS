@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import YandexMapKit
+import YandexMapsMobile
 import Pulley
 import Kingfisher
 import CoreLocation

@@ -53,12 +53,14 @@
 		B52EFFD322CBA56500518949 /* Partner.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52EFFD222CBA56500518949 /* Partner.swift */; };
 		B53301AD262EB5060005D8D2 /* DownloadButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B53301AC262EB5060005D8D2 /* DownloadButton.swift */; };
 		B539AD24239BE78E00AB5F8C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B539AD23239BE78E00AB5F8C /* GoogleService-Info.plist */; };
+		B545C85D273D1B4100D57983 /* Knowledge.swift in Sources */ = {isa = PBXBuildFile; fileRef = B545C85C273D1B4100D57983 /* Knowledge.swift */; };
 		B54766BC22E879FC006D97DC /* UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54766BB22E879FC006D97DC /* UIApplication.swift */; };
 		B54766BE22E87B39006D97DC /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54766BD22E87B39006D97DC /* ProfileViewController.swift */; };
 		B5530D9622E2E97900948A07 /* ErrorTextField.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5530D9522E2E97900948A07 /* ErrorTextField.xib */; };
 		B559E97122CBC67800301F85 /* Discount.swift in Sources */ = {isa = PBXBuildFile; fileRef = B559E97022CBC67700301F85 /* Discount.swift */; };
 		B55B63B223746D7700541BB9 /* NewPartnerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55B63B123746D7700541BB9 /* NewPartnerViewController.swift */; };
 		B55B63B5237572F500541BB9 /* MenuTabsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55B63B4237572F500541BB9 /* MenuTabsView.swift */; };
+		B55C18AA27358DCA00443EE4 /* Knowledges.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55C18A927358DCA00443EE4 /* Knowledges.swift */; };
 		B5656C6622E50B0B008BCCD8 /* PartnerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5656C6522E50B0B008BCCD8 /* PartnerTableViewCell.swift */; };
 		B5656C6822E50B49008BCCD8 /* PartnerTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5656C6722E50B49008BCCD8 /* PartnerTableViewCell.xib */; };
 		B5671DF923A528EE006F8327 /* PoolingNewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5671DF823A528EE006F8327 /* PoolingNewsViewController.swift */; };
@@ -95,6 +97,8 @@
 		B586E9D622E1E58D00790CF3 /* PersonalDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B586E9D522E1E58D00790CF3 /* PersonalDataViewController.swift */; };
 		B586E9D822E1E64400790CF3 /* UniversityDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B586E9D722E1E64400790CF3 /* UniversityDataViewController.swift */; };
 		B586E9DA22E1EE9600790CF3 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B586E9D922E1EE9600790CF3 /* BaseViewController.swift */; };
+		B58F2AB62746800400CDDAB1 /* ComplaintAboutNewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58F2AB52746800400CDDAB1 /* ComplaintAboutNewsViewController.swift */; };
+		B58F2AB82746801E00CDDAB1 /* ComplaintAboutNewsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58F2AB72746801E00CDDAB1 /* ComplaintAboutNewsView.swift */; };
 		B590074D22EC4AF50029A445 /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B590073B22EC4AF50029A445 /* Montserrat-Regular.ttf */; };
 		B590074E22EC4AF50029A445 /* Montserrat-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B590073C22EC4AF50029A445 /* Montserrat-SemiBold.ttf */; };
 		B590074F22EC4AF50029A445 /* Montserrat-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B590073D22EC4AF50029A445 /* Montserrat-ExtraBoldItalic.ttf */; };
@@ -304,12 +308,14 @@
 		B52EFFD222CBA56500518949 /* Partner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Partner.swift; sourceTree = "<group>"; };
 		B53301AC262EB5060005D8D2 /* DownloadButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadButton.swift; sourceTree = "<group>"; };
 		B539AD23239BE78E00AB5F8C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		B545C85C273D1B4100D57983 /* Knowledge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Knowledge.swift; sourceTree = "<group>"; };
 		B54766BB22E879FC006D97DC /* UIApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplication.swift; sourceTree = "<group>"; };
 		B54766BD22E87B39006D97DC /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		B5530D9522E2E97900948A07 /* ErrorTextField.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ErrorTextField.xib; sourceTree = "<group>"; };
 		B559E97022CBC67700301F85 /* Discount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Discount.swift; sourceTree = "<group>"; };
 		B55B63B123746D7700541BB9 /* NewPartnerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPartnerViewController.swift; sourceTree = "<group>"; };
 		B55B63B4237572F500541BB9 /* MenuTabsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTabsView.swift; sourceTree = "<group>"; };
+		B55C18A927358DCA00443EE4 /* Knowledges.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Knowledges.swift; sourceTree = "<group>"; };
 		B5656C6522E50B0B008BCCD8 /* PartnerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnerTableViewCell.swift; sourceTree = "<group>"; };
 		B5656C6722E50B49008BCCD8 /* PartnerTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PartnerTableViewCell.xib; sourceTree = "<group>"; };
 		B5671DF823A528EE006F8327 /* PoolingNewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoolingNewsViewController.swift; sourceTree = "<group>"; };
@@ -348,6 +354,8 @@
 		B586E9D522E1E58D00790CF3 /* PersonalDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalDataViewController.swift; sourceTree = "<group>"; };
 		B586E9D722E1E64400790CF3 /* UniversityDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversityDataViewController.swift; sourceTree = "<group>"; };
 		B586E9D922E1EE9600790CF3 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		B58F2AB52746800400CDDAB1 /* ComplaintAboutNewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplaintAboutNewsViewController.swift; sourceTree = "<group>"; };
+		B58F2AB72746801E00CDDAB1 /* ComplaintAboutNewsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplaintAboutNewsView.swift; sourceTree = "<group>"; };
 		B590073B22EC4AF50029A445 /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Regular.ttf"; sourceTree = "<group>"; };
 		B590073C22EC4AF50029A445 /* Montserrat-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-SemiBold.ttf"; sourceTree = "<group>"; };
 		B590073D22EC4AF50029A445 /* Montserrat-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
@@ -856,6 +864,7 @@
 				B5F00ED6271B1E8800660244 /* BackView.swift */,
 				B5F00ED8271B1FE100660244 /* QuestionView.swift */,
 				B5F00EDC271B235F00660244 /* DocumentView.swift */,
+				B58F2AB72746801E00CDDAB1 /* ComplaintAboutNewsView.swift */,
 			);
 			path = News;
 			sourceTree = "<group>";
@@ -863,12 +872,13 @@
 		B5BFDA1C238AEAE900818BC0 /* News */ = {
 			isa = PBXGroup;
 			children = (
+				B58F2AB52746800400CDDAB1 /* ComplaintAboutNewsViewController.swift */,
 				B5BFDA25238AF68800818BC0 /* DetailNewsViewController.swift */,
 				B5F00EBE271AECFC00660244 /* NewsDashboardViewController.swift */,
 				B5BFDA23238AF5CB00818BC0 /* NewsViewController.swift */,
 				B5671DF823A528EE006F8327 /* PoolingNewsViewController.swift */,
 				B5F00EDA271B206600660244 /* QuestionViewController.swift */,
-				B5F00ECC271B0ECD00660244 /* KnowledgesBaseViewController */,
+				B5F00ECC271B0ECD00660244 /* KnowledgesViewController */,
 				B5F00ECF271B143300660244 /* KnowledgeViewController */,
 			);
 			path = News;
@@ -1035,6 +1045,8 @@
 				B56A3AEE232866D5007B8BA3 /* TokensResponse.swift */,
 				B522FE432311450600FCE704 /* University.swift */,
 				B522FE492311528600FCE704 /* User.swift */,
+				B55C18A927358DCA00443EE4 /* Knowledges.swift */,
+				B545C85C273D1B4100D57983 /* Knowledge.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1281,13 +1293,13 @@
 			path = Base;
 			sourceTree = "<group>";
 		};
-		B5F00ECC271B0ECD00660244 /* KnowledgesBaseViewController */ = {
+		B5F00ECC271B0ECD00660244 /* KnowledgesViewController */ = {
 			isa = PBXGroup;
 			children = (
 				B5F00EC2271B09A300660244 /* KnowledgesViewController.swift */,
 				B5F00ECD271B0EE500660244 /* KnowledgesViewController+UITableViewDelegate.swift */,
 			);
-			path = KnowledgesBaseViewController;
+			path = KnowledgesViewController;
 			sourceTree = "<group>";
 		};
 		B5F00ECF271B143300660244 /* KnowledgeViewController */ = {
@@ -1649,6 +1661,7 @@
 				B56A6E80263311E900698811 /* DashboardMapViewController.swift in Sources */,
 				B56BBF1D2372DA9600CAA0B1 /* MapViewController.swift in Sources */,
 				B5DC7556230C4EB0008DD09C /* BarcodeViewController.swift in Sources */,
+				B545C85D273D1B4100D57983 /* Knowledge.swift in Sources */,
 				B5DBA72F22FCC6DE003DEB43 /* SocialNetwork.swift in Sources */,
 				B5DF57FC2317E633004444A8 /* AgreementsViewController.swift in Sources */,
 				B5DBE0DE22F5E90D004441B0 /* CALayer.swift in Sources */,
@@ -1712,6 +1725,7 @@
 				8AAB583023C7671A002AE5BC /* SetPasswordResponse.swift in Sources */,
 				B527534E22DD03A30003BDE6 /* LoginTextField.swift in Sources */,
 				B5DBA73122FCC73D003DEB43 /* SalePoint.swift in Sources */,
+				B55C18AA27358DCA00443EE4 /* Knowledges.swift in Sources */,
 				B5671E0223A532ED006F8327 /* AnswerTableViewCell.swift in Sources */,
 				B5AC14572315EB7300F23102 /* TokensManager.swift in Sources */,
 				B527534822DCFF720003BDE6 /* ColorManager.swift in Sources */,
@@ -1723,6 +1737,7 @@
 				B57F510022E70A4C0053A7D2 /* StockCollectionViewCell.swift in Sources */,
 				B5F00E9C271AE62600660244 /* UIScrollView.swift in Sources */,
 				B527535722DD199A0003BDE6 /* NSMutableAttributedString.swift in Sources */,
+				B58F2AB62746800400CDDAB1 /* ComplaintAboutNewsViewController.swift in Sources */,
 				B5F00E91271AE44800660244 /* TabSegmentContol.swift in Sources */,
 				B5FE0359237812590003D429 /* BasicCellCollectionViewCell.swift in Sources */,
 				B590E6942382FE8E00442576 /* CommentTableViewHeader.swift in Sources */,
@@ -1776,6 +1791,7 @@
 				B56BFB36232BCA3500D0FCA2 /* UIWindow.swift in Sources */,
 				B5858B2722E36FAA003B67B0 /* UIView.swift in Sources */,
 				B56DFF4D23DC7664006796A0 /* SelectedPointView.swift in Sources */,
+				B58F2AB82746801E00CDDAB1 /* ComplaintAboutNewsView.swift in Sources */,
 				8A0800542397A9BE004AB286 /* News.swift in Sources */,
 				8A8C9D2F2382CB5F00A20271 /* CommentViewController.swift in Sources */,
 				8AECB065239A37E000AB0244 /* ComplaintViewController.swift in Sources */,
@@ -1974,7 +1990,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = SKS/SKS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 16;
+				CURRENT_PROJECT_VERSION = 32;
 				DEVELOPMENT_TEAM = GSK4YJALAB;
 				INFOPLIST_FILE = SKS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -1982,7 +1998,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.2.0;
+				MARKETING_VERSION = 2.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = ru.petrsu.sks;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -1997,7 +2013,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = SKS/SKS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 16;
+				CURRENT_PROJECT_VERSION = 32;
 				DEVELOPMENT_TEAM = GSK4YJALAB;
 				INFOPLIST_FILE = SKS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -2005,7 +2021,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.2.0;
+				MARKETING_VERSION = 2.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = ru.petrsu.sks;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

@@ -21,7 +21,6 @@ class NewPartnerViewController: BaseViewController {
         menuBarView.isSizeToSitCellsNeeded = true
         menuBarView.collectionView.backgroundColor = UIColor.white
     }
-    
 
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(true, animated: animated)

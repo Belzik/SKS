@@ -42,8 +42,6 @@ class LoginViewController: BaseViewController {
                 
             }
         )
-        
-        
     }
     
     override func viewDidLoad() {

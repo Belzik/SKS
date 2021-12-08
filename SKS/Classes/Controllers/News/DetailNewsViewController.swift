@@ -15,7 +15,13 @@ class DetailNewsViewController: BaseViewController {
     @IBOutlet weak var categoryView: UIView!
     @IBOutlet weak var categoryLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var contentLabel: UILabel!
+    @IBOutlet weak var contentLabel: UITextView! {
+        didSet {
+            contentLabel.textContainerInset = .zero
+            contentLabel.contentInset = UIEdgeInsets(top: -4, left: -6, bottom: 0, right: -6)
+            contentLabel.dataDetectorTypes = UIDataDetectorTypes.link
+        }
+    }
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var scrollBottomConstraint: NSLayoutConstraint!
     
@@ -48,7 +54,8 @@ class DetailNewsViewController: BaseViewController {
             self.pageControl.contentInsets = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         }
     }
-    
+    @IBOutlet weak var complaintImageView: UIImageView!
+
     @IBAction func eventButtonTapped(_ sender: UIButton) {
         if UserData.loadSaved() == nil {
             showAlert(message: "Для того, чтобы зарегистрироваться на мероприятие необходимо авторизоваться.")
@@ -170,7 +177,14 @@ class DetailNewsViewController: BaseViewController {
         }
         
         titleLabel.text = model?.title
-        contentLabel.text = model?.content
+
+
+        if let htmlString = model?.content {
+//            contentLabel.attributedText = htmlString.htmlAttributed(family: "OpenSans-Regular", size: 14, color: ColorManager.lightBlack.value)
+            print(htmlString)
+            contentLabel.text = htmlString.htmlStripped
+            //contentLabel.text = htmlString
+        }
         
         if let dateString = model?.publishBegin {
             timeLabel.text = DateManager.shared.getDifferenceTime(from: dateString)
@@ -203,6 +217,10 @@ class DetailNewsViewController: BaseViewController {
             eventView.isHidden = true
             scrollBottomConstraint.constant = 0
         }
+
+        if UserData.loadSaved() == nil {
+            complaintImageView.isHidden = true
+        }
         
         pagerView.reloadData()
     }
@@ -224,7 +242,7 @@ class DetailNewsViewController: BaseViewController {
                 }
             } else if let statusCode = result.responseCode,
                     statusCode == 409 {
-                self?.showAlert(message: "Для того, чтобы учавствовать в мероприятие, ваш аккаунт должен быть подтвержден")
+                self?.showAlert(message: "Для того, чтобы учавствовать в мероприятии, ваш аккаунт должен быть подтвержден")
            } else {
                 self?.showAlert(message: NetworkErrors.common)
            }
@@ -250,6 +268,14 @@ class DetailNewsViewController: BaseViewController {
                 self?.showAlert(message: NetworkErrors.common)
             }
         }
+    }
+
+    // MARK: - Actions
+
+    @IBAction func complaintImageViewTapped(_ sender: UITapGestureRecognizer) {
+        let vc = ComplaintAboutNewViewController()
+        vc.uuidNews = model?.uuidNews
+        present(vc, animated: true, completion: nil)
     }
 }
 
@@ -295,5 +321,117 @@ extension DetailNewsViewController: FSPagerViewDataSource, FSPagerViewDelegate {
     
     func pagerViewDidEndScrollAnimation(_ pagerView: FSPagerView) {
         self.pageControl.currentPage = pagerView.currentIndex
+    }
+}
+
+extension UIColor {
+    var hexString:String? {
+        if let components = self.cgColor.components {
+            let r = components[0]
+            let g = components[1]
+            let b = components[2]
+            return  String(format: "%02X%02X%02X", (Int)(r * 255), (Int)(g * 255), (Int)(b * 255))
+        }
+        return nil
+    }
+}
+
+extension String {
+    var html2Attributed: NSAttributedString? {
+        do {
+            guard let data = data(using: String.Encoding.utf8) else {
+                return nil
+            }
+            return try NSAttributedString(data: data,
+                                          options: [.documentType: NSAttributedString.DocumentType.html,
+                                                    .characterEncoding: String.Encoding.utf8.rawValue],
+                                          documentAttributes: nil)
+        } catch {
+            print("error: ", error)
+            return nil
+        }
+    }
+
+    var htmlAttributed: (NSAttributedString?, NSDictionary?) {
+        do {
+            guard let data = data(using: String.Encoding.utf8) else {
+                return (nil, nil)
+            }
+
+            var dict:NSDictionary?
+            dict = NSMutableDictionary()
+
+            return try (NSAttributedString(data: data,
+                                          options: [.documentType: NSAttributedString.DocumentType.html,
+                                                    .characterEncoding: String.Encoding.utf8.rawValue],
+                                          documentAttributes: &dict), dict)
+        } catch {
+            print("error: ", error)
+            return (nil, nil)
+        }
+    }
+
+    func htmlAttributed(using font: UIFont, color: UIColor) -> NSAttributedString? {
+        do {
+            let htmlCSSString = "<style>" +
+                "html *" +
+                "{" +
+                "font-size: \(font.pointSize)pt !important;" +
+                "color: #\(color.hexString!) !important;" +
+                "font-family: \(font.familyName);" +
+                "}</style> \(self)"
+
+            guard let data = htmlCSSString.data(using: String.Encoding.utf8) else {
+                return nil
+            }
+
+            return try NSAttributedString(data: data,
+                                          options: [.documentType: NSAttributedString.DocumentType.html,
+                                                    .characterEncoding: String.Encoding.utf8.rawValue],
+                                          documentAttributes: nil)
+        } catch {
+            print("error: ", error)
+            return nil
+        }
+    }
+
+    func htmlAttributed(family: String?, size: CGFloat, color: UIColor) -> NSAttributedString? {
+        do {
+            let htmlCSSString = "<style>" +
+                "html *" +
+                "{" +
+                "font-size: \(size)pt !important;" +
+                "color: #\(color.hexString!) !important;" +
+                "font-family: \(family ?? "Helvetica");" +
+            "}</style> \(self)"
+
+            guard let data = htmlCSSString.data(using: String.Encoding.utf8) else {
+                return nil
+            }
+
+            return try NSAttributedString(data: data,
+                                          options: [.documentType: NSAttributedString.DocumentType.html,
+                                                    .characterEncoding: String.Encoding.utf8.rawValue],
+                                          documentAttributes: nil)
+        } catch {
+            print("error: ", error)
+            return nil
+        }
+    }
+
+    func stripOutHtml() -> String? {
+        do {
+            guard let data = self.data(using: .unicode) else {
+                return nil
+            }
+            let attributed = try NSAttributedString(data: data, options: [.documentType: NSAttributedString.DocumentType.html, .characterEncoding: String.Encoding.utf8.rawValue], documentAttributes: nil)
+            return attributed.string
+        } catch {
+            return nil
+        }
+    }
+
+    var htmlStripped : String{
+        return self.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
     }
 }

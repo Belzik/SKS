@@ -35,6 +35,11 @@ class DiscountTableViewCell: UITableViewCell {
             sizeLabel.text = "Скидки \(size)%"
             descriptionLabel.text = description
         }
-        
+
+        guard let type = model?.type else { return }
+        if type == "free" {
+            sizeLabel.text = model?.name
+            descriptionLabel.text = model?.discountDescription
+        }
     }
 }

@@ -42,6 +42,13 @@ class NewsDashboardViewController: ViewController<NewsDashboardView> {
                 dvc.model = news
             }
         }
+
+        if segue.identifier == "segueKnowledge" {
+            let dvc = segue.destination as! KnowledgeViewController
+            if let knowledge = sender as? Knowledge {
+                dvc.knowledge = knowledge
+            }
+        }
     }
 
 }

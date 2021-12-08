@@ -9,6 +9,8 @@
 import UIKit
 
 class UniversityDataViewController: BaseViewController {
+    // MARK: - Views
+
     @IBOutlet weak var cityTextField: ErrorTextField!
     @IBOutlet weak var instituteTextField: ErrorTextField!
     @IBOutlet weak var facultyTextField: ErrorTextField!
@@ -17,7 +19,9 @@ class UniversityDataViewController: BaseViewController {
     @IBOutlet weak var levelEducationTextField: ErrorTextField!
     @IBOutlet weak var dateEndTextField: ErrorTextField!
     @IBOutlet weak var titleLabel: UILabel!
-    
+
+    // MARK: - Properties
+
     var cityPicker: SKSPicker = SKSPicker()
     var institutePicker: SKSPicker = SKSPicker()
     var facultyPicker: SKSPicker = SKSPicker()
@@ -58,44 +62,6 @@ class UniversityDataViewController: BaseViewController {
     
     var startEducation = ""
     var endEducation = ""
-    
-    @IBAction func nextButtonTapped() {
-        if validate() {
-            let uuidCity = cities[cityPicker.picker.selectedRow(inComponent: 0)].uuidCity
-            let uuidUniversity = universities[institutePicker.picker.selectedRow(inComponent: 0)].uuidUniver
-            let uuidFaculty = faculties[facultyPicker.picker.selectedRow(inComponent: 0)].uuidDepartment
-            
-            NetworkManager.shared.registration(uniqueSess: uniqueSess,
-                                               name: name,
-                                               patronymic: patronymic,
-                                               surname: surname,
-                                               birthdate: birthday,
-                                               startEducation: periodTextField.text!,
-                                               endEducation: dateEndTextField.text!,
-                                               course: courseTextField.text!,
-                                               uuidCity: uuidCity ?? "",
-                                               uuidUniversity: uuidUniversity,
-                                               uuidFaculty: uuidFaculty,
-                                               accessToken: accessToken,
-                                               keyPhoto: keyFile,
-                                               phone: phone) { [weak self] response in
-                if let user = response.value,
-                        user.uuidUser != nil {
-                    user.accessToken = self?.accessToken
-                    user.refreshToken = self?.refreshToken
-                    user.uniqueSess = self?.uniqueSess
-                    user.save()
-                    
-                    if let vc = UIStoryboard(name: "Home", bundle: nil).instantiateInitialViewController() {
-                        vc.modalPresentationStyle = .fullScreen
-                        self?.present(vc, animated: true, completion: nil)
-                    }
-                } else {
-                    self?.showAlert(message: NetworkErrors.common)
-                }
-            }
-        }
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -250,6 +216,46 @@ class UniversityDataViewController: BaseViewController {
         
         
         return isValid
+    }
+
+    // MARK: - Actions
+
+    @IBAction func nextButtonTapped() {
+        if validate() {
+            let uuidCity = cities[cityPicker.picker.selectedRow(inComponent: 0)].uuidCity
+            let uuidUniversity = universities[institutePicker.picker.selectedRow(inComponent: 0)].uuidUniver
+            let uuidFaculty = faculties[facultyPicker.picker.selectedRow(inComponent: 0)].uuidDepartment
+
+            NetworkManager.shared.registration(uniqueSess: uniqueSess,
+                                               name: name,
+                                               patronymic: patronymic,
+                                               surname: surname,
+                                               birthdate: birthday,
+                                               startEducation: periodTextField.text!,
+                                               endEducation: dateEndTextField.text!,
+                                               course: courseTextField.text!,
+                                               uuidCity: uuidCity ?? "",
+                                               uuidUniversity: uuidUniversity,
+                                               uuidFaculty: uuidFaculty,
+                                               accessToken: accessToken,
+                                               keyPhoto: keyFile,
+                                               phone: phone) { [weak self] response in
+                if let user = response.value,
+                        user.uuidUser != nil {
+                    user.accessToken = self?.accessToken
+                    user.refreshToken = self?.refreshToken
+                    user.uniqueSess = self?.uniqueSess
+                    user.save()
+
+                    if let vc = UIStoryboard(name: "Home", bundle: nil).instantiateInitialViewController() {
+                        vc.modalPresentationStyle = .fullScreen
+                        self?.present(vc, animated: true, completion: nil)
+                    }
+                } else {
+                    self?.showAlert(message: NetworkErrors.common)
+                }
+            }
+        }
     }
 }
 

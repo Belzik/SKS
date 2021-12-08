@@ -1,12 +1,16 @@
 import UIKit
 import SnapKit
+import Kingfisher
 
 protocol KnowledgeTableViewCellSource {
     var title: String { get }
+    var pict: String? { get }
 }
 
 class KnowledgeTableViewCell: BaseTableViewCell {
     // MARK: - Views
+
+    private let iconView = UIImageView()
 
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -17,7 +21,7 @@ class KnowledgeTableViewCell: BaseTableViewCell {
         return label
     }()
 
-    private let iconView: UIImageView = {
+    private let arrowImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "ic_right_arrow"))
 
         return imageView
@@ -34,17 +38,24 @@ class KnowledgeTableViewCell: BaseTableViewCell {
     // MARK: - Internal methods
 
     override func addSubviews() {
-        addSubview(titleLabel)
         addSubview(iconView)
+        addSubview(titleLabel)
+        addSubview(arrowImageView)
     }
 
     override func setConstraints() {
-        titleLabel.snp.makeConstraints {
+        iconView.snp.makeConstraints {
+            $0.width.height.equalTo(24)
             $0.left.equalToSuperview().inset(16)
-            $0.top.bottom.equalToSuperview().inset(12)
+            $0.centerY.equalToSuperview()
         }
 
-        iconView.snp.makeConstraints {
+        titleLabel.snp.makeConstraints {
+            $0.top.bottom.equalToSuperview().inset(12)
+            $0.left.equalTo(iconView.snp.right).offset(12)
+        }
+
+        arrowImageView.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.right.equalToSuperview().inset(16)
             $0.left.equalTo(titleLabel.snp.right).offset(8)
@@ -57,5 +68,18 @@ class KnowledgeTableViewCell: BaseTableViewCell {
 
     private func layout() {
         titleLabel.text = model?.title
+        if let link = model?.pict,
+           let url = URL(string: NetworkManager.shared.baseURI + link) {
+            iconView.isHidden = false
+            iconView.kf.setImage(with: url)
+        } else {
+            iconView.isHidden = true
+            iconView.snp.removeConstraints()
+
+            titleLabel.snp.makeConstraints {
+                $0.top.bottom.equalToSuperview().inset(12)
+                $0.left.equalToSuperview().offset(12)
+            }
+        }
     }
 }

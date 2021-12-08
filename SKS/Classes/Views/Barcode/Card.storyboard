@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="1uE-Ee-8Se">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="1uE-Ee-8Se">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -58,11 +59,11 @@
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hYe-cD-V2d">
                                 <rect key="frame" x="0.0" y="-256" width="414" height="300"/>
+                                <viewLayoutGuide key="safeArea" id="8jQ-Oz-iwS"/>
                                 <color key="backgroundColor" red="0.22352941176470587" green="0.23529411764705882" blue="0.26666666666666666" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="300" id="xlD-ar-Yn5"/>
                                 </constraints>
-                                <viewLayoutGuide key="safeArea" id="8jQ-Oz-iwS"/>
                             </view>
                             <view hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RBG-xd-gu9">
                                 <rect key="frame" x="16" y="116.5" width="382" height="654.5"/>
@@ -95,7 +96,7 @@
                                                 <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Статус подтвержден" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wTG-Mi-fcX">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Статус подтвержден" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wTG-Mi-fcX">
                                                 <rect key="frame" x="0.0" y="94" width="350" height="20"/>
                                                 <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="16"/>
                                                 <color key="textColor" red="0.10061267763376236" green="0.66990530490875244" blue="0.34544321894645691" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -108,7 +109,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="Gzr-dN-gxg" secondAttribute="trailing" id="CSh-P8-sNG"/>
                                             <constraint firstItem="06i-1w-bnz" firstAttribute="top" secondItem="m6t-Wb-5or" secondAttribute="bottom" constant="4" id="FD2-ir-SJm"/>
@@ -187,6 +188,7 @@
                                 <rect key="frame" x="197" y="418.5" width="20" height="20"/>
                             </activityIndicatorView>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="WaE-dN-Zly"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="WaE-dN-Zly" firstAttribute="trailing" secondItem="hYe-cD-V2d" secondAttribute="trailing" id="2Rj-1N-Lk6"/>
@@ -206,7 +208,6 @@
                             <constraint firstItem="q9l-53-uQZ" firstAttribute="top" secondItem="WaE-dN-Zly" secondAttribute="top" id="vse-01-AQu"/>
                             <constraint firstItem="RBG-xd-gu9" firstAttribute="leading" secondItem="WaE-dN-Zly" secondAttribute="leading" constant="16" id="ywZ-x0-h9q"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="WaE-dN-Zly"/>
                     </view>
                     <navigationItem key="navigationItem" id="iSs-7c-KM5"/>
                     <connections>
@@ -239,5 +240,8 @@
         <image name="ic_card" width="24" height="24"/>
         <image name="logo" width="120" height="120"/>
         <image name="navbar" width="1125" height="444"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>

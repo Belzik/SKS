@@ -177,6 +177,12 @@ extension PoolingNewsViewController: UITableViewDelegate, UITableViewDataSource 
 
         header.model = self.model
         header.delegate = self
+        header.complaintHandler = { [weak self] in
+            let vc = ComplaintAboutNewViewController()
+            vc.uuidNews = self?.model?.uuidNews
+            self?.present(vc, animated: true, completion: nil)
+        }
+
         return header
     }
     

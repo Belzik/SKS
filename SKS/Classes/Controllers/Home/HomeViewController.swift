@@ -248,7 +248,8 @@ class HomeViewController: BaseViewController {
         getStocks()
         
         activityIndicator.startAnimating()
-        dispatchGroup.notify(queue: .main) { [unowned self] in
+        dispatchGroup.notify(queue: .main) { [weak self] in
+            guard let self = self else { return }
             
             if self.isFirstLoad {
                 self.categoryCollectionView.reloadData()
@@ -286,7 +287,7 @@ class HomeViewController: BaseViewController {
             
             if let selectedCategoty = self.currentUiidCategory,
                selectedCategoty == "favorite" {
-                if partners.count == 0 {
+                if self.partners.count == 0 {
                     self.favoritesEmptyStackView.isHidden = false
                 } else {
                     self.favoritesEmptyStackView.isHidden = true
@@ -317,7 +318,9 @@ class HomeViewController: BaseViewController {
         NetworkManager.shared.getPartners(category: currentUiidCategory,
                                           uuidCity: currentCity?.uuidCity,
                                           limit: limitPartners,
-                                          offset: offsetPartners) { [unowned self] response in
+                                          offset: offsetPartners) { [weak self] response in
+            guard let self = self else { return }
+
             self.dispatchGroup.leave()
             if let partners = response.value {
                 if partners.count < self.limitPartners {
@@ -374,7 +377,9 @@ class HomeViewController: BaseViewController {
         NetworkManager.shared.getPartners(category: currentUiidCategory,
                                           uuidCity: currentCity?.uuidCity,
                                           limit: limitPartners,
-                                          offset: offsetPartners) { [unowned self] response in
+                                          offset: offsetPartners) { [weak self] response in
+            guard let self = self else { return }
+
             self.activityIndicator.stopAnimating()
             if let partners = response.value {
                 if partners.count < self.limitPartners {
@@ -402,7 +407,9 @@ class HomeViewController: BaseViewController {
         NetworkManager.shared.getStocks(category: currentUiidCategory,
                                         uuidCity: currentCity?.uuidCity,
                                         limit: limitStocks,
-                                        offset: offsetStocks) { [unowned self] response in
+                                        offset: offsetStocks) { [weak self] response in
+            guard let self = self else { return }
+
             if let stocks = response.value {
                 if stocks.count < self.limitStocks {
                     self.isPaginationStocks = true

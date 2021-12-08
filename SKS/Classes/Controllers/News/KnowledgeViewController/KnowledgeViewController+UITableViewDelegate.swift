@@ -4,13 +4,13 @@ import UIKit
 
 extension KnowledgeViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return knowledges.count
+        return questions.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(for: indexPath) as KnowledgeTableViewCell
 
-        cell.model = knowledges[indexPath.row]
+        cell.model = questions[indexPath.row]
 
         return cell
     }
@@ -20,6 +20,6 @@ extension KnowledgeViewController: UITableViewDataSource {
 
 extension KnowledgeViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "segueQuestion", sender: nil)
+        performSegue(withIdentifier: "segueQuestion", sender: questions[indexPath.row])
     }
 }

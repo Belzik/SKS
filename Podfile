@@ -1,8 +1,8 @@
-# Uncomment the next line to define a global platform for your project
 platform :ios, '13.0'
 
+inhibit_all_warnings!
+
 target 'SKS' do
-  # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
   
   # Networking
@@ -30,8 +30,7 @@ target 'SKS' do
   pod 'Firebase/Analytics', '= 7.10.0'
   
   # Map
-  pod 'YandexMapKit', '= 3.5.0'
-  pod 'YandexMapKitPlaces', '= 3.5.0'
+  pod 'YandexMapsMobile', '4.0.0-lite'
   
   # VK
   pod 'SwiftyVK', '= 3.4.2'

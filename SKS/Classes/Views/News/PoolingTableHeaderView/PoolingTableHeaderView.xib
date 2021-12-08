@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -33,7 +34,7 @@
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="scO-4H-ssz" customClass="FSPagerView" customModule="FSPagerView">
                             <rect key="frame" x="0.0" y="-44" width="414" height="224"/>
-                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="224" id="93a-oj-MaS"/>
                             </constraints>
@@ -117,8 +118,15 @@
                             <color key="textColor" red="0.20067340135574341" green="0.20070809125900269" blue="0.20066583156585693" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="complaint" translatesAutoresizingMaskIntoConstraints="NO" id="hbm-aH-JdJ">
+                            <rect key="frame" x="374" y="196" width="24" height="24"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="24" id="ADy-uX-f76"/>
+                                <constraint firstAttribute="height" constant="24" id="MQt-iL-2S5"/>
+                            </constraints>
+                        </imageView>
                     </subviews>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="scO-4H-ssz" secondAttribute="trailing" id="134-gF-1Sh"/>
                         <constraint firstItem="fYe-kc-R7b" firstAttribute="top" secondItem="kJP-rw-0fP" secondAttribute="top" id="4ki-l9-4O9"/>
@@ -126,10 +134,12 @@
                         <constraint firstAttribute="trailing" secondItem="ogq-vy-3fd" secondAttribute="trailing" constant="16" id="IDi-uO-XEp"/>
                         <constraint firstItem="uUP-Km-eXJ" firstAttribute="leading" secondItem="fEp-lY-Zgc" secondAttribute="trailing" constant="8" id="Iy1-FC-1Ql"/>
                         <constraint firstAttribute="trailing" secondItem="44u-WI-Ib5" secondAttribute="trailing" constant="16" id="Lrh-y6-85x"/>
+                        <constraint firstAttribute="trailing" secondItem="hbm-aH-JdJ" secondAttribute="trailing" constant="16" id="Lya-dj-g52"/>
                         <constraint firstItem="LZ8-Aa-hTj" firstAttribute="trailing" secondItem="scO-4H-ssz" secondAttribute="trailing" id="QIo-9X-pBD"/>
                         <constraint firstItem="LZ8-Aa-hTj" firstAttribute="leading" secondItem="scO-4H-ssz" secondAttribute="leading" id="Sfb-sq-b1A"/>
                         <constraint firstItem="scO-4H-ssz" firstAttribute="leading" secondItem="kJP-rw-0fP" secondAttribute="leading" id="VqN-hy-xUE"/>
                         <constraint firstAttribute="trailing" secondItem="mG6-Ca-uIp" secondAttribute="trailing" constant="16" id="Xdg-hB-lhN"/>
+                        <constraint firstItem="hbm-aH-JdJ" firstAttribute="top" secondItem="scO-4H-ssz" secondAttribute="bottom" constant="16" id="Y1m-xF-nq3"/>
                         <constraint firstItem="mG6-Ca-uIp" firstAttribute="leading" secondItem="kJP-rw-0fP" secondAttribute="leading" constant="16" id="aMq-sE-kK0"/>
                         <constraint firstItem="44u-WI-Ib5" firstAttribute="top" secondItem="ogq-vy-3fd" secondAttribute="bottom" constant="40" id="aZ9-aR-ljJ"/>
                         <constraint firstItem="44u-WI-Ib5" firstAttribute="leading" secondItem="kJP-rw-0fP" secondAttribute="leading" constant="16" id="bZC-S1-rf0"/>
@@ -147,6 +157,7 @@
                     </constraints>
                 </view>
             </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="kJP-rw-0fP" secondAttribute="trailing" id="4CO-y5-NUm"/>
@@ -155,9 +166,9 @@
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="top" secondItem="kJP-rw-0fP" secondAttribute="top" id="fyc-JH-Jfx"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <connections>
                 <outlet property="categoryView" destination="fEp-lY-Zgc" id="aRc-GG-B8i"/>
+                <outlet property="complaintImageView" destination="hbm-aH-JdJ" id="ZiK-YH-iTO"/>
                 <outlet property="dateLabel" destination="bzU-8o-G1X" id="GUU-cE-g34"/>
                 <outlet property="heightImageView" destination="93a-oj-MaS" id="srV-uc-UqJ"/>
                 <outlet property="pageControl" destination="LZ8-Aa-hTj" id="wDW-01-H5S"/>
@@ -173,6 +184,10 @@
         </view>
     </objects>
     <resources>
+        <image name="complaint" width="72" height="72"/>
         <image name="ic_arrow_left_white" width="24" height="24"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>
