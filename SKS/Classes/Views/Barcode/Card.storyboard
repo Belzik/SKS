@@ -126,6 +126,9 @@
                                             <constraint firstAttribute="bottom" secondItem="Gzr-dN-gxg" secondAttribute="bottom" id="wWi-Cb-6ay"/>
                                         </constraints>
                                     </view>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2EZ-6U-dAw">
+                                        <rect key="frame" x="16" y="474.5" width="350" height="164"/>
+                                    </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BARCODE" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mAh-YG-ykU">
                                         <rect key="frame" x="159.5" y="491.5" width="63.5" height="15"/>
                                         <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="12"/>
@@ -140,7 +143,7 @@
                                         </constraints>
                                     </imageView>
                                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="t42-uh-5Io">
-                                        <rect key="frame" x="41" y="522.5" width="300" height="100"/>
+                                        <rect key="frame" x="41" y="518.5" width="300" height="100"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="300" id="EzH-z7-4i8"/>
@@ -163,13 +166,17 @@
                                     <constraint firstItem="iL6-uG-CYE" firstAttribute="top" secondItem="AFb-Q8-Nrt" secondAttribute="bottom" constant="16" id="DYp-F2-enk"/>
                                     <constraint firstAttribute="bottom" secondItem="iQg-BP-2jd" secondAttribute="bottom" constant="32" id="F9Y-PK-HW2"/>
                                     <constraint firstItem="iL6-uG-CYE" firstAttribute="leading" secondItem="RBG-xd-gu9" secondAttribute="leading" constant="16" id="GN1-8j-Sof"/>
-                                    <constraint firstAttribute="bottom" secondItem="t42-uh-5Io" secondAttribute="bottom" constant="32" id="Knb-JG-1eq"/>
+                                    <constraint firstItem="2EZ-6U-dAw" firstAttribute="leading" secondItem="RBG-xd-gu9" secondAttribute="leading" constant="16" id="Hws-t1-EW2"/>
+                                    <constraint firstAttribute="bottom" secondItem="t42-uh-5Io" secondAttribute="bottom" constant="36" id="Knb-JG-1eq"/>
                                     <constraint firstAttribute="trailing" secondItem="MuM-Kk-BOM" secondAttribute="trailing" constant="36" id="QKr-Jr-uKf"/>
                                     <constraint firstItem="iQg-BP-2jd" firstAttribute="top" secondItem="mAh-YG-ykU" secondAttribute="bottom" constant="16" id="Z6Y-WU-PRt"/>
+                                    <constraint firstItem="2EZ-6U-dAw" firstAttribute="top" secondItem="mAh-YG-ykU" secondAttribute="bottom" constant="-32" id="aRU-Og-zk6"/>
                                     <constraint firstItem="AFb-Q8-Nrt" firstAttribute="centerX" secondItem="8OQ-Zo-tvJ" secondAttribute="centerX" id="bhr-C9-W3r"/>
                                     <constraint firstAttribute="trailing" secondItem="iL6-uG-CYE" secondAttribute="trailing" constant="16" id="cNB-r2-DV6"/>
+                                    <constraint firstAttribute="bottom" secondItem="2EZ-6U-dAw" secondAttribute="bottom" constant="16" id="f0f-w5-aj5"/>
                                     <constraint firstAttribute="trailing" secondItem="8OQ-Zo-tvJ" secondAttribute="trailing" id="j9M-nw-llR"/>
                                     <constraint firstItem="8OQ-Zo-tvJ" firstAttribute="leading" secondItem="RBG-xd-gu9" secondAttribute="leading" id="lUx-i4-ZGo"/>
+                                    <constraint firstAttribute="trailing" secondItem="2EZ-6U-dAw" secondAttribute="trailing" constant="16" id="nAW-3G-Loj"/>
                                     <constraint firstItem="MuM-Kk-BOM" firstAttribute="leading" secondItem="RBG-xd-gu9" secondAttribute="leading" constant="36" id="pCd-pM-TLj"/>
                                     <constraint firstItem="MuM-Kk-BOM" firstAttribute="top" secondItem="AFb-Q8-Nrt" secondAttribute="bottom" constant="16" id="pHZ-Rb-b53"/>
                                     <constraint firstItem="AFb-Q8-Nrt" firstAttribute="top" secondItem="RBG-xd-gu9" secondAttribute="top" constant="20" id="x1k-Gf-hUU"/>
@@ -218,6 +225,7 @@
                         <outlet property="bottomConstraintBarcode" destination="F9Y-PK-HW2" id="5Vn-VU-O0L"/>
                         <outlet property="fioLabel" destination="06i-1w-bnz" id="Gmi-aK-4Cm"/>
                         <outlet property="gifImage" destination="8OQ-Zo-tvJ" id="vs5-Ng-wWQ"/>
+                        <outlet property="gitBorderImageView" destination="2EZ-6U-dAw" id="6LV-xL-dbj"/>
                         <outlet property="infoUserView" destination="iL6-uG-CYE" id="bHh-AK-pG0"/>
                         <outlet property="noAuthBarcodeLabel" destination="Gzr-dN-gxg" id="yUS-fK-rAj"/>
                         <outlet property="noAuthLabel" destination="MuM-Kk-BOM" id="FWJ-Pi-SNY"/>

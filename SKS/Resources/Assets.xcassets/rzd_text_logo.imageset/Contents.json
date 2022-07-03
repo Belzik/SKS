@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "rzd_text_logo.pdf",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

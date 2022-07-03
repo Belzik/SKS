@@ -51,6 +51,8 @@ struct APIPath {
     static let votesQuestion   = "/knowledge-base-vote-add"
     static let sendComplaintOnNews = "news/complaint/new"
     static let getLinkToMessager = "get-link-to-messenger"
+    static let createRzdRequest = "create-request"
+    static let getRzdRequest = "get-request"
 }
 
 enum HeaderKey: String {
@@ -75,11 +77,11 @@ class NetworkManager: BaseRequest {
     static let shared = NetworkManager()
     let decoder = JSONDecoder()
     
-        let baseURI = "https://sks-mobile.develophost.ru"
-       let authURI = "https://sks-auth.develophost.ru"
+//        let baseURI = "https://sks-mobile.develophost.ru"
+//       let authURI = "https://sks-auth.develophost.ru"
     
-//    let baseURI = "http://46.161.53.41:9999"
-//    let authURI = "http://46.161.53.41:9997"
+    let baseURI = "https://app.sksadmin.ru"
+    let authURI = "https://auth.sksadmin.ru"
     
     let apiVersion1 = "/v1/"
     let apiVersion2 = "/v2/"
@@ -1128,5 +1130,40 @@ class NetworkManager: BaseRequest {
                                                 responseCode: response.response?.statusCode)
                 completion(baseResponse)
             }
+    }
+
+    // MARK: - Получить статус заявки РЖД
+    func getRzdRequest(completion: @escaping (_ result: BaseResponse<RzdRequest>) -> Void) {
+        let url = baseURI + apiVersion1 + APIPath.getRzdRequest
+
+        var headers: HTTPHeaders = []
+        if let accessToken = UserData.loadSaved()?.accessToken {
+            headers.add(HTTPHeader(name: HeaderKey.token.rawValue, value: accessToken))
+        }
+
+        request(url: url,
+                headers: headers) { result in
+            completion(result)
+        }
+    }
+
+    // MARK: - Отправить заявку на РЖД
+    func sendRzdRequest(id: String, completion: @escaping (_ result: BaseResponse<RzdRequest>) -> Void) {
+        let url = baseURI + apiVersion1 + APIPath.createRzdRequest
+
+        var headers: HTTPHeaders = []
+        if let accessToken = UserData.loadSaved()?.accessToken {
+            headers.add(HTTPHeader(name: HeaderKey.token.rawValue, value: accessToken))
+        }
+
+        var parametrs: Parameters = [:]
+        parametrs["id"] = id
+
+        request(url: url,
+                method: .post,
+                parameters: parametrs,
+                headers: headers) { result in
+            completion(result)
+        }
     }
 }

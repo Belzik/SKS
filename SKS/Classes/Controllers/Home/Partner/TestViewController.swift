@@ -14,6 +14,7 @@ import Pulley
 
 extension Notification.Name {
     static let favoriteChangeEvent = Notification.Name("FavoriteChangeEvent")
+    static let favoriteChangeRzd = Notification.Name("FavoriteChangeRzd")
 }
 class TestViewController: ButtonBarPagerTabStripViewController {
     

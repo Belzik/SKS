@@ -26,7 +26,8 @@ class BarcodeViewController: BaseViewController {
     @IBOutlet weak var fioLabel: UILabel!
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
-    
+    @IBOutlet weak var gitBorderImageView: UIImageView!
+
     @IBOutlet weak var widthBarcode: NSLayoutConstraint!
     @IBOutlet weak var bottomConstraintBarcode: NSLayoutConstraint!
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -41,6 +42,7 @@ class BarcodeViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         timeLabel.adjustsFontSizeToFitWidth = true
+        barcodeViewGenerate.layer.cornerRadius = 8
         
         if gifImage.image != UIImage.gifImageWithName(name: "waves") {
             let gif = UIImage.gifImageWithName(name: "waves")
@@ -49,7 +51,13 @@ class BarcodeViewController: BaseViewController {
             gifImage.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
         }
 
-        
+        if gitBorderImageView.image != UIImage.gifImageWithName(name: "composition") {
+            let gif = UIImage.gifImageWithName(name: "composition")
+            gitBorderImageView.image = gif
+            gitBorderImageView.layer.cornerRadius = 16
+            gitBorderImageView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
+        }
+
         if UIDevice.modelName == "iPhone 5s" ||
             UIDevice.modelName ==  "iPhone SE" ||
             UIDevice.modelName ==  "Simulator iPhone SE" {

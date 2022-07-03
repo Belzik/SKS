@@ -52,6 +52,7 @@ class SKSPicker: NSObject {
     }
     
     @objc private func donePicker() {
+        if source.count == 0 { return }
         let value = source[picker.selectedRow(inComponent: 0)]
         delegate?.donePicker(picker: self, value: value)
     }

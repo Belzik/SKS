@@ -28,7 +28,7 @@ class HomeViewController: BaseViewController {
     
     var selectedIndex: Int = -1
     var sections: [String] = [""]
-    let sectionsBuffer: [String] = ["Акции", "Партнеры"]
+    let sectionsBuffer: [String] = ["Акции", "РЖД Бонус", "Партнеры"]
     
     var categories: [Category] = []
     var stocks: [Stock] = []
@@ -57,6 +57,7 @@ class HomeViewController: BaseViewController {
     var isPaginationStocksLoad = false
     
     var isFirstLoad = true
+    var rzdPartner: Partner? = nil
     
     private lazy var searchViewController: SearchViewController = {
         let storyboard = UIStoryboard(name: "Home", bundle: Bundle.main)
@@ -82,6 +83,7 @@ class HomeViewController: BaseViewController {
         let backButton = UIBarButtonItem(title: "Назад", style: .plain, target: nil, action: nil)
         backButton.tintColor = UIColor(hexString: "#333333")
         navigationItem.backBarButtonItem = backButton
+        self.navigationController?.view.backgroundColor = .white
         
         addObservers()
         setupCategoryCollection()
@@ -105,6 +107,7 @@ class HomeViewController: BaseViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "segueStock",
             let uuidStock = sender as? String {
+            
             let dvc = segue.destination as! StockViewController
             dvc.uuid = uuidStock
             dvc.city = currentCity
@@ -116,6 +119,12 @@ class HomeViewController: BaseViewController {
             dvc.uuidPartner = uuidStock
             dvc.city = currentCity
         }
+
+        if segue.identifier == "segueRzdPartner" {
+            let dvc = segue.destination as! RZDPartnerViewController
+            dvc.uuidPartner = rzdPartner?.uuidPartner ?? ""
+            dvc.uuidCity = currentCity?.uuidCity ?? ""
+        }
     }
     
     // MARK: - Private methods
@@ -125,17 +134,30 @@ class HomeViewController: BaseViewController {
                                                selector: #selector(handelChangeFavorite(_:)),
                                                name: .favoriteChangeEvent,
                                                object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(handelChangeFavoriteRzd(_:)),
+                                               name: .favoriteChangeRzd,
+                                               object: nil)
     }
     
     private func removeObservers() {
         NotificationCenter.default.removeObserver(self,
                                                   name: .favoriteChangeEvent,
                                                   object: nil)
+        NotificationCenter.default.removeObserver(self,
+                                                  name: .favoriteChangeRzd,
+                                                  object: nil)
     }
     
     @objc func handelChangeFavorite(_ notification: Notification) {
         if let partner = notification.object as? Partner {
             eventChangeFavoriteHandler(partner: partner)
+        }
+    }
+
+    @objc func handelChangeFavoriteRzd(_ notification: Notification) {
+        if let partner = notification.object as? Partner {
+            setFavoriteRzd(partner: partner)
         }
     }
     
@@ -236,6 +258,7 @@ class HomeViewController: BaseViewController {
     
     private func loadData() {
         sections = []
+        rzdPartner = nil
         
         if categories.count == 0 { getCategories() }
         if categories.count != 0 {
@@ -265,10 +288,20 @@ class HomeViewController: BaseViewController {
             if self.stocks.count > 0 {
                 self.sections.append("Акции")
             }
+
+            if let firstPartner = self.partners.first,
+               let type = firstPartner.uniqueType,
+               type == "rzhd" {
+                self.sections.append("РЖД Бонус")
+                self.rzdPartner = firstPartner
+                self.partners.removeFirst()
+            }
             
             if self.partners.count > 0 {
                 self.sections.append("Партнеры")
             }
+
+            
             
             if self.tableView.isHidden {
                 self.tableView.reloadData()
@@ -287,7 +320,8 @@ class HomeViewController: BaseViewController {
             
             if let selectedCategoty = self.currentUiidCategory,
                selectedCategoty == "favorite" {
-                if self.partners.count == 0 {
+                if self.partners.count == 0 &&
+                    self.rzdPartner == nil {
                     self.favoritesEmptyStackView.isHidden = false
                 } else {
                     self.favoritesEmptyStackView.isHidden = true
@@ -478,6 +512,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         tableView.register(UINib(nibName: "\(TitleTableViewHeader.self)",
                                  bundle: nil),
                            forHeaderFooterViewReuseIdentifier: "\(TitleTableViewHeader.self)")
+        tableView.register(RZDTableViewCell.self)
 
         // Для того, чтобы не плавал header
         let dummyViewHeight = CGFloat(40)
@@ -493,28 +528,27 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //if section == 0 { return 1 }
-        if section == 0 {
-            if stocks.count == 0 {
-                return partners.count
-            } else {
-                return 1
-            }
+        let item = sections[section]
+
+        if item == "Акции" {
+            return 1
+        }
+
+        if item == "РЖД Бонус" {
+            return 1
+        }
+
+        if item == "Партнеры" {
+            return partners.count
         }
         
-        return partners.count
+        return 0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        if indexPath.section == 0 {
-//            let cell = tableView.dequeueReusableCell(withIdentifier: "\(CategoryTableViewCell.self)",
-//                                                     for: indexPath) as! CategoryTableViewCell
-//
-//            cell.setCollectionViewDataSourceDelegate(self)
-//            cell.collectionView.tag = 1
-//
-//            return cell
-//        } else
-        if indexPath.section == 0 && stocks.count != 0 {
+        let section = sections[indexPath.section]
+
+        if section == "Акции" {
             let cell = tableView.dequeueReusableCell(withIdentifier: "\(StockTableViewCell.self)",
                 for: indexPath) as! StockTableViewCell
 
@@ -522,10 +556,20 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             cell.collectionView.tag = 2
 
             return cell
-        } else {
+        }
+
+        if section == "РЖД Бонус" {
+            let cell = tableView.dequeueReusableCell(for: indexPath) as RZDTableViewCell
+            cell.model = rzdPartner
+            cell.delegate = self
+
+            return cell
+        }
+
+        if section == "Партнеры" {
             let cell = tableView.dequeueReusableCell(withIdentifier: "\(PartnerTableViewCell.self)",
                 for: indexPath) as! PartnerTableViewCell
-            
+
             cell.model = partners[indexPath.row]
             cell.delegate = self
 
@@ -535,15 +579,21 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
                     getPartnersPagination() // increment `fromIndex` by 20 before server call
                 }
             }
-            
+
             return cell
         }
 
+        return UITableViewCell()
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.section == 1 ||
-            stocks.count == 0 {
+        let item = sections[indexPath.section]
+
+        if item == "РЖД Бонус" {
+            performSegue(withIdentifier: "segueRzdPartner", sender: nil)
+        }
+
+        if item == "Партнеры" {
             if let uuidPartner = partners[indexPath.row].uuidPartner {
                 performSegue(withIdentifier: "segueNewPartner", sender: uuidPartner)
             }
@@ -830,9 +880,14 @@ extension HomeViewController: PartnerTableViewCellDelegate {
         if let selectedCategoty = currentUiidCategory,
            selectedCategoty == "favorite" {
             partners.remove(at: indexPath.row)
-            tableView.reloadData()
-            
             if partners.count == 0 {
+                sections.removeLast()
+            }
+
+            tableView.reloadData()
+
+            if partners.count == 0 &&
+                rzdPartner == nil {
                 favoritesEmptyStackView.isHidden = false
             }
         } else {
@@ -868,8 +923,14 @@ extension HomeViewController {
                     return uuid == uuidPartner
                 }) {
                     partners.remove(at: index)
-                    if self.partners.count == 0 {
-                        self.favoritesEmptyStackView.isHidden = false
+
+                    if partners.count == 0 {
+                        sections.removeLast()
+                    }
+
+                    if partners.count == 0 &&
+                        rzdPartner == nil {
+                        favoritesEmptyStackView.isHidden = false
                     }
                 }
             }
@@ -886,4 +947,61 @@ extension HomeViewController {
         tableView.reloadData()
     }
     
+}
+
+extension HomeViewController: RZDTableViewCellDelegate {
+    func favoriteButtonTapped() {
+        if UserData.loadSaved() == nil {
+            showAlert(message: "Войдите или зарегистрируйтесь, чтобы добавить партнера в Избранное")
+            return
+        }
+
+        guard let uuidPartner = rzdPartner?.uuidPartner,
+                let isFavorite = rzdPartner?.isFavorite else { return }
+
+        if isFavorite {
+            rzdPartner?.isFavorite = false
+
+            if let uuidCategory = currentUiidCategory,
+               uuidCategory == "favorite" {
+                rzdPartner = nil
+                sections.removeFirst()
+            }
+
+            if partners.count == 0 &&
+                rzdPartner == nil {
+                favoritesEmptyStackView.isHidden = false
+            }
+
+            tableView.reloadData()
+            NetworkManager.shared.deletePartnerFromFavorite(uuidPartner: uuidPartner) { _ in }
+        } else {
+            rzdPartner?.isFavorite = true
+            NetworkManager.shared.addPartnerToFavorite(uuidPartner: uuidPartner) { _ in }
+        }
+    }
+
+    func setFavoriteRzd(partner: Partner) {
+        guard let isFavorite = partner.isFavorite else { return }
+
+        if isFavorite {
+            rzdPartner?.isFavorite = true
+            tableView.reloadData()
+        } else {
+            rzdPartner?.isFavorite = false
+
+            if let uuidCategory = currentUiidCategory,
+               uuidCategory == "favorite" {
+                rzdPartner = nil
+                sections.removeFirst()
+            }
+
+            if partners.count == 0 &&
+                rzdPartner == nil {
+                favoritesEmptyStackView.isHidden = false
+            }
+
+            tableView.reloadData()
+        }
+    }
 }

@@ -156,11 +156,16 @@
 		B5AC14552315D67F00F23102 /* Path.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AC14542315D67F00F23102 /* Path.swift */; };
 		B5AC14572315EB7300F23102 /* TokensManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AC14562315EB7300F23102 /* TokensManager.swift */; };
 		B5AFE8B623C67D9100A3BBC1 /* LikeResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AFE8B523C67D9100A3BBC1 /* LikeResponse.swift */; };
+		B5B392D227DCC1220022E329 /* RZDTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B392D127DCC1220022E329 /* RZDTableViewCell.swift */; };
+		B5B392D527DD17B30022E329 /* RZDPartnerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B392D427DD17B30022E329 /* RZDPartnerViewController.swift */; };
 		B5BFDA1B238AE8A100818BC0 /* News.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B5BFDA1A238AE8A100818BC0 /* News.storyboard */; };
 		B5BFDA24238AF5CB00818BC0 /* NewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BFDA23238AF5CB00818BC0 /* NewsViewController.swift */; };
 		B5BFDA26238AF68800818BC0 /* DetailNewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BFDA25238AF68800818BC0 /* DetailNewsViewController.swift */; };
 		B5BFDA2B238B192C00818BC0 /* NewsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BFDA29238B192C00818BC0 /* NewsTableViewCell.swift */; };
 		B5BFDA2C238B192C00818BC0 /* NewsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5BFDA2A238B192C00818BC0 /* NewsTableViewCell.xib */; };
+		B5C62E1D27DE35E00041E2AC /* AboutRZDProgrammViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C62E1C27DE35E00041E2AC /* AboutRZDProgrammViewController.swift */; };
+		B5C62E1F27DE37110041E2AC /* RZDRequestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C62E1E27DE37110041E2AC /* RZDRequestViewController.swift */; };
+		B5C9A09627F06BBA004CF479 /* RzdRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C9A09527F06BBA004CF479 /* RzdRequest.swift */; };
 		B5C9C62122C76C6C00DCF18F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C9C62022C76C6C00DCF18F /* AppDelegate.swift */; };
 		B5C9C62322C76C6C00DCF18F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C9C62222C76C6C00DCF18F /* LoginViewController.swift */; };
 		B5C9C62622C76C6C00DCF18F /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B5C9C62422C76C6C00DCF18F /* Login.storyboard */; };
@@ -237,6 +242,7 @@
 		B5F108D226237D1500AD77C6 /* BaseRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F108D126237D1500AD77C6 /* BaseRequest.swift */; };
 		B5F8C3112305F5E700092FF1 /* Otp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F8C3102305F5E700092FF1 /* Otp.swift */; };
 		B5FD083F2329FE0A00AE995B /* UIDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FD083E2329FE0A00AE995B /* UIDevice.swift */; };
+		B5FD865E276884FE00E3B998 /* composition.gif in Resources */ = {isa = PBXBuildFile; fileRef = B5FD865D276884FE00E3B998 /* composition.gif */; };
 		B5FE0359237812590003D429 /* BasicCellCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FE0358237812590003D429 /* BasicCellCollectionViewCell.swift */; };
 		E12572D7BF3DC92A24FDF277 /* Pods_SKSUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DC50700F3238CE58EC068EF /* Pods_SKSUITests.framework */; };
 		ED7921A338F5E6B8777F9AC5 /* Pods_SKSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD4083853A2D07F1D22D28DE /* Pods_SKSTests.framework */; };
@@ -413,11 +419,16 @@
 		B5AC14542315D67F00F23102 /* Path.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Path.swift; sourceTree = "<group>"; };
 		B5AC14562315EB7300F23102 /* TokensManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokensManager.swift; sourceTree = "<group>"; };
 		B5AFE8B523C67D9100A3BBC1 /* LikeResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeResponse.swift; sourceTree = "<group>"; };
+		B5B392D127DCC1220022E329 /* RZDTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RZDTableViewCell.swift; sourceTree = "<group>"; };
+		B5B392D427DD17B30022E329 /* RZDPartnerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RZDPartnerViewController.swift; sourceTree = "<group>"; };
 		B5BFDA1A238AE8A100818BC0 /* News.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = News.storyboard; sourceTree = "<group>"; };
 		B5BFDA23238AF5CB00818BC0 /* NewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsViewController.swift; sourceTree = "<group>"; };
 		B5BFDA25238AF68800818BC0 /* DetailNewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailNewsViewController.swift; sourceTree = "<group>"; };
 		B5BFDA29238B192C00818BC0 /* NewsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsTableViewCell.swift; sourceTree = "<group>"; };
 		B5BFDA2A238B192C00818BC0 /* NewsTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsTableViewCell.xib; sourceTree = "<group>"; };
+		B5C62E1C27DE35E00041E2AC /* AboutRZDProgrammViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutRZDProgrammViewController.swift; sourceTree = "<group>"; };
+		B5C62E1E27DE37110041E2AC /* RZDRequestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RZDRequestViewController.swift; sourceTree = "<group>"; };
+		B5C9A09527F06BBA004CF479 /* RzdRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RzdRequest.swift; sourceTree = "<group>"; };
 		B5C9C61D22C76C6C00DCF18F /* SKS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SKS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5C9C62022C76C6C00DCF18F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B5C9C62222C76C6C00DCF18F /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -501,6 +512,7 @@
 		B5F108D126237D1500AD77C6 /* BaseRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseRequest.swift; sourceTree = "<group>"; };
 		B5F8C3102305F5E700092FF1 /* Otp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Otp.swift; sourceTree = "<group>"; };
 		B5FD083E2329FE0A00AE995B /* UIDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDevice.swift; sourceTree = "<group>"; };
+		B5FD865D276884FE00E3B998 /* composition.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = composition.gif; sourceTree = "<group>"; };
 		B5FE0358237812590003D429 /* BasicCellCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicCellCollectionViewCell.swift; sourceTree = "<group>"; };
 		C1FE379F89779B8E8C1BBFDA /* Pods-SKSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SKSTests.release.xcconfig"; path = "Target Support Files/Pods-SKSTests/Pods-SKSTests.release.xcconfig"; sourceTree = "<group>"; };
 		CB15E5BBC666285637ED3505 /* Pods-SKSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SKSTests.debug.xcconfig"; path = "Target Support Files/Pods-SKSTests/Pods-SKSTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -804,10 +816,11 @@
 		B5AAAC4B22E4DF1100B04C75 /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				B57293AD232E3ABF00B0B5AB /* Search */,
-				B5DC7543230955C0008DD09C /* Partner */,
-				B5A4FB4323081D67007C82E4 /* Stock */,
 				B5AAAC4F22E4EA9600B04C75 /* HomeViewController.swift */,
+				B5DC7543230955C0008DD09C /* Partner */,
+				B5B392D327DD17A00022E329 /* RZD */,
+				B57293AD232E3ABF00B0B5AB /* Search */,
+				B5A4FB4323081D67007C82E4 /* Stock */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -848,8 +861,19 @@
 				B57F510922E70AE50053A7D2 /* StockTableViewCell.xib */,
 				B57293A7232E3A9F00B0B5AB /* SearchTableViewCell.swift */,
 				B57293A8232E3A9F00B0B5AB /* SearchTableViewCell.xib */,
+				B5B392D127DCC1220022E329 /* RZDTableViewCell.swift */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		B5B392D327DD17A00022E329 /* RZD */ = {
+			isa = PBXGroup;
+			children = (
+				B5B392D427DD17B30022E329 /* RZDPartnerViewController.swift */,
+				B5C62E1C27DE35E00041E2AC /* AboutRZDProgrammViewController.swift */,
+				B5C62E1E27DE37110041E2AC /* RZDRequestViewController.swift */,
+			);
+			path = RZD;
 			sourceTree = "<group>";
 		};
 		B5BFDA17238AE7F300818BC0 /* News */ = {
@@ -927,6 +951,7 @@
 				B5E975C7231FF0CE005762A8 /* SKS.entitlements */,
 				B5C9C62F22C76C6E00DCF18F /* Info.plist */,
 				B5C9C62022C76C6C00DCF18F /* AppDelegate.swift */,
+				B5FD865D276884FE00E3B998 /* composition.gif */,
 				B5DFF459231BCECD005710A6 /* waves.gif */,
 				B539AD23239BE78E00AB5F8C /* GoogleService-Info.plist */,
 				B5C9C65822C7752200DCF18F /* Classes */,
@@ -1047,6 +1072,7 @@
 				B522FE492311528600FCE704 /* User.swift */,
 				B55C18A927358DCA00443EE4 /* Knowledges.swift */,
 				B545C85C273D1B4100D57983 /* Knowledge.swift */,
+				B5C9A09527F06BBA004CF479 /* RzdRequest.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1494,6 +1520,7 @@
 				B5AAAC4622E4D61D00B04C75 /* Profile.storyboard in Resources */,
 				B590074E22EC4AF50029A445 /* Montserrat-SemiBold.ttf in Resources */,
 				B590075222EC4AF50029A445 /* Montserrat-SemiBoldItalic.ttf in Resources */,
+				B5FD865E276884FE00E3B998 /* composition.gif in Resources */,
 				B5C9C62622C76C6C00DCF18F /* Login.storyboard in Resources */,
 				B5BFDA1B238AE8A100818BC0 /* News.storyboard in Resources */,
 				B590076B22EC4B690029A445 /* OpenSans-ExtraBoldItalic.ttf in Resources */,
@@ -1674,11 +1701,14 @@
 				B5858B2522E36870003B67B0 /* ImagePicker.swift in Sources */,
 				B5F00E92271AE44800660244 /* TabView.swift in Sources */,
 				8A047BC123A8F7060075EE2F /* Float.swift in Sources */,
+				B5C9A09627F06BBA004CF479 /* RzdRequest.swift in Sources */,
 				8A8C9D232382899C00A20271 /* DiscountViewController.swift in Sources */,
 				B5A63FF222E33B5D00AAC526 /* SKSTextField.swift in Sources */,
 				8A0EE45D23CCA8CC005A17B2 /* MapPartner.swift in Sources */,
 				B52103A323E6E22D00AFC997 /* BlindViewController.swift in Sources */,
 				B5671DF923A528EE006F8327 /* PoolingNewsViewController.swift in Sources */,
+				B5C62E1D27DE35E00041E2AC /* AboutRZDProgrammViewController.swift in Sources */,
+				B5C62E1F27DE37110041E2AC /* RZDRequestViewController.swift in Sources */,
 				B5F00EB0271AE64800660244 /* BaseLabel.swift in Sources */,
 				B5EE2AD02315666B0013A6E5 /* Specialty.swift in Sources */,
 				B5AAAC5022E4EA9600B04C75 /* HomeViewController.swift in Sources */,
@@ -1736,6 +1766,7 @@
 				B5F00ECB271B0C5200660244 /* KnowledgeTableViewCell.swift in Sources */,
 				B57F510022E70A4C0053A7D2 /* StockCollectionViewCell.swift in Sources */,
 				B5F00E9C271AE62600660244 /* UIScrollView.swift in Sources */,
+				B5B392D227DCC1220022E329 /* RZDTableViewCell.swift in Sources */,
 				B527535722DD199A0003BDE6 /* NSMutableAttributedString.swift in Sources */,
 				B58F2AB62746800400CDDAB1 /* ComplaintAboutNewsViewController.swift in Sources */,
 				B5F00E91271AE44800660244 /* TabSegmentContol.swift in Sources */,
@@ -1768,6 +1799,7 @@
 				B595A3152395AE4900F6CFCC /* Comment.swift in Sources */,
 				B527535022DD07B20003BDE6 /* String.swift in Sources */,
 				B522FE442311450600FCE704 /* University.swift in Sources */,
+				B5B392D527DD17B30022E329 /* RZDPartnerViewController.swift in Sources */,
 				B5C9C62122C76C6C00DCF18F /* AppDelegate.swift in Sources */,
 				B5656C6622E50B0B008BCCD8 /* PartnerTableViewCell.swift in Sources */,
 				B5ECB52623CD0093006D2ED3 /* DispatchQueue.swift in Sources */,
@@ -1990,7 +2022,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = SKS/SKS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 32;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = GSK4YJALAB;
 				INFOPLIST_FILE = SKS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -1998,7 +2030,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.3.1;
+				MARKETING_VERSION = 2.3.2;
 				PRODUCT_BUNDLE_IDENTIFIER = ru.petrsu.sks;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -2013,7 +2045,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = SKS/SKS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 32;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = GSK4YJALAB;
 				INFOPLIST_FILE = SKS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -2021,7 +2053,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.3.1;
+				MARKETING_VERSION = 2.3.2;
 				PRODUCT_BUNDLE_IDENTIFIER = ru.petrsu.sks;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

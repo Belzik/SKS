@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="F6i-Pa-pF6">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="F6i-Pa-pF6">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -99,13 +99,13 @@
                                 </connections>
                             </button>
                             <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Введите пароль" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RD0-Nb-pwi">
-                                <rect key="frame" x="24" y="104" width="181.5" height="28"/>
+                                <rect key="frame" x="24" y="104" width="210.5" height="29.5"/>
                                 <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="24"/>
                                 <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="5fW-a5-ojr">
-                                <rect key="frame" x="24" y="156" width="366" height="207"/>
+                                <rect key="frame" x="24" y="157.5" width="366" height="208"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="Ksr-Wk-E0H">
                                         <rect key="frame" x="0.0" y="0.0" width="366" height="85"/>
@@ -158,7 +158,7 @@
                                         </subviews>
                                     </stackView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q4N-vB-c0i">
-                                        <rect key="frame" x="0.0" y="178" width="366" height="29"/>
+                                        <rect key="frame" x="0.0" y="178" width="366" height="30"/>
                                         <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="14"/>
                                         <state key="normal" title="Получить пароль">
                                             <color key="titleColor" red="0.10069117700000001" green="0.66996139290000001" blue="0.34534701699999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -170,7 +170,7 @@
                                 </subviews>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AqK-XW-hBe" customClass="DownloadButton" customModule="SKS" customModuleProvider="target">
-                                <rect key="frame" x="24" y="403" width="366" height="48"/>
+                                <rect key="frame" x="24" y="405.5" width="366" height="48"/>
                                 <color key="backgroundColor" red="0.1019607843" green="0.6705882353" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="o9e-zs-yew"/>
@@ -353,19 +353,19 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Введите номер телефона" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="Bx5-1b-u56">
-                                <rect key="frame" x="24" y="104" width="273" height="56"/>
+                                <rect key="frame" x="24" y="104" width="273" height="59"/>
                                 <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="24"/>
                                 <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Нажимая кнопку &quot;Далее&quot;, я соглашаюсь с Пользовательски соглашением и Политикой конфиденциальности" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OL1-cQ-R23">
-                                <rect key="frame" x="24" y="828" width="366" height="28"/>
+                                <rect key="frame" x="24" y="812" width="366" height="44"/>
                                 <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="12"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Номер телефона" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hR8-R3-R1S" customClass="SKSTextField" customModule="SKS" customModuleProvider="target">
-                                <rect key="frame" x="20" y="200" width="374" height="60"/>
+                                <rect key="frame" x="20" y="203" width="374" height="60"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="6e3-Su-kuC"/>
                                 </constraints>
@@ -388,8 +388,8 @@
                                     <action selector="backButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="K4Y-79-CCp"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4WN-s8-zxD">
-                                <rect key="frame" x="20" y="284" width="48" height="48"/>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4WN-s8-zxD">
+                                <rect key="frame" x="20" y="287" width="48" height="48"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="JIh-XE-ijH"/>
                                     <constraint firstAttribute="width" constant="48" id="qko-Vi-sOs"/>
@@ -400,7 +400,7 @@
                                 </connections>
                             </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="84t-u7-sDb" customClass="SKSButton" customModule="SKS" customModuleProvider="target">
-                                <rect key="frame" x="24" y="356" width="366" height="48"/>
+                                <rect key="frame" x="24" y="359" width="366" height="48"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="5Wq-PS-Cd2"/>
@@ -990,10 +990,10 @@
             <size key="intrinsicContentSize" width="34" height="34"/>
         </designable>
         <designable name="D0M-HZ-Q4a">
-            <size key="intrinsicContentSize" width="166.5" height="34"/>
+            <size key="intrinsicContentSize" width="173.5" height="34"/>
         </designable>
         <designable name="I4v-qC-2hg">
-            <size key="intrinsicContentSize" width="84.5" height="34"/>
+            <size key="intrinsicContentSize" width="87" height="34"/>
         </designable>
         <designable name="Ibf-DS-CAS">
             <size key="intrinsicContentSize" width="34" height="34"/>
@@ -1008,7 +1008,7 @@
             <size key="intrinsicContentSize" width="34" height="34"/>
         </designable>
         <designable name="hR8-R3-R1S">
-            <size key="intrinsicContentSize" width="155.5" height="34"/>
+            <size key="intrinsicContentSize" width="159" height="34"/>
         </designable>
         <designable name="iEb-pG-qji">
             <size key="intrinsicContentSize" width="34" height="34"/>
@@ -1018,7 +1018,7 @@
         </designable>
     </designables>
     <inferredMetricsTieBreakers>
-        <segue reference="8zu-0c-bm7"/>
+        <segue reference="yfE-9B-IOe"/>
         <segue reference="ftT-CC-Cej"/>
     </inferredMetricsTieBreakers>
     <resources>

@@ -36,6 +36,10 @@ class Partner: Codable {
     var isFavorite: Bool?
     var isFederalPartner: Bool?
     var linkToSite: String?
+    var uniqueType: String? // rzhd
+    var bannerText: String?
+    var bannerBackground: String?
+    var bannerLogo: String?
     
     enum CodingKeys: String, CodingKey {
         case uuidPartner
@@ -62,6 +66,10 @@ class Partner: Codable {
         case isFavorite
         case isFederalPartner
         case linkToSite
+        case uniqueType
+        case bannerText
+        case bannerBackground
+        case bannerLogo
     }
 }
 

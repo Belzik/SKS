@@ -39,7 +39,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
         locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
         locationManager.startUpdatingLocation()
-        
+        sendFCMToken()
+
         return true
     }
 
@@ -49,6 +50,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
         return true
     }
 
+    func sendFCMToken() {
+        if let user = UserData.loadSaved() {
+            if let tokens = NotificationsTokens.loadSaved(),
+                let notificationToken = tokens.notificationToken,
+                let deviceToken = tokens.deviceToken {
+                NetworkManager.shared.sendNotificationToken(notificationToken: notificationToken,
+                                                            deviceToken: deviceToken,
+                                                            accessToken: user.accessToken ?? "") { _ in }
+            }
+        }
+    }
     
     func registerForPushNotifications() {
         UNUserNotificationCenter.current()
@@ -71,6 +83,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
     
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         guard let fcmToken = fcmToken else { return }
+
+        print("TOKEN", fcmToken)
         
         if let tokens = NotificationsTokens.loadSaved(),
             let isDownload = tokens.isDownload {

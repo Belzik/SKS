@@ -466,4 +466,8 @@ class PlaceViewController: BaseViewController {
     @objc func officesViewTapped() {
         
     }
+
+    @IBAction func routeButtonTapped(_ sender: UIButton) {
+        openGoogleMap()
+    }
 }

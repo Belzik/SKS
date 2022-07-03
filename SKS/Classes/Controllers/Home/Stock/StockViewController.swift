@@ -34,7 +34,7 @@ class StockViewController: BaseViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+        //self.navigationController?.setNavigationBarHidden(false, animated: false)
         super.viewWillAppear(animated)
     }
 
@@ -118,6 +118,10 @@ class StockViewController: BaseViewController {
             tableView.insertRows(at: indexPaths, with: .automatic)
             isShowSalePoints = true
         }
+    }
+
+    @IBAction override func backButtonTapped(_ sender: UIButton) {
+        navigationController?.popViewController(animated: true)
     }
 }
 
