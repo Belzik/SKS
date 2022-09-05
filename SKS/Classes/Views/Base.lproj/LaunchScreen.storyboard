@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
-    <device id="retina6_1" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
         <array key="Montserrat-Bold.ttf">
             <string>Montserrat-Bold</string>
+        </array>
+        <array key="Montserrat-Regular.ttf">
+            <string>Montserrat-Regular</string>
         </array>
         <array key="Montserrat-SemiBold.ttf">
             <string>Montserrat-SemiBold</string>
@@ -69,20 +70,38 @@
                                     <constraint firstItem="cef-ml-sRY" firstAttribute="leading" secondItem="CUU-ZT-AdT" secondAttribute="leading" constant="48" id="nTP-jM-2Ep"/>
                                 </constraints>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Идет загрузка..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XBD-XX-0ZZ">
+                                <rect key="frame" x="24" y="556" width="366" height="15"/>
+                                <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="12"/>
+                                <color key="textColor" white="1" alpha="0.6049189567565918" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Общероссийский Профсоюз образования" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CN9-66-twH">
+                                <rect key="frame" x="40" y="84" width="334" height="39.5"/>
+                                <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="16"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" red="0.3143557608127594" green="0.6591179370880127" blue="0.38034525513648987" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
                             <constraint firstItem="ddf-Qy-v1g" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="24" id="0nR-wz-cf6"/>
                             <constraint firstItem="CUU-ZT-AdT" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="473-kg-n3b"/>
+                            <constraint firstItem="CN9-66-twH" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="40" id="ILg-sx-naX"/>
+                            <constraint firstItem="XBD-XX-0ZZ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="24" id="NeZ-ah-qKY"/>
                             <constraint firstItem="yHA-bf-BBh" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="SnV-jG-K5G"/>
                             <constraint firstItem="yHA-bf-BBh" firstAttribute="top" secondItem="ddf-Qy-v1g" secondAttribute="bottom" constant="16" id="TcM-mY-S5W"/>
+                            <constraint firstItem="CN9-66-twH" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="40" id="VWB-gw-Ugp"/>
                             <constraint firstItem="CUU-ZT-AdT" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="24" id="cmE-ui-q2t"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="CN9-66-twH" secondAttribute="trailing" constant="40" id="esH-qb-pZu"/>
                             <constraint firstAttribute="bottom" secondItem="yHA-bf-BBh" secondAttribute="bottom" constant="24" id="lWY-RH-nA0"/>
+                            <constraint firstItem="XBD-XX-0ZZ" firstAttribute="top" secondItem="cef-ml-sRY" secondAttribute="bottom" constant="42.5" id="ltO-kE-T8i"/>
                             <constraint firstItem="CUU-ZT-AdT" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="mEo-Ls-zEK"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="ddf-Qy-v1g" secondAttribute="trailing" constant="24" id="oma-Uh-6ZH"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="CUU-ZT-AdT" secondAttribute="trailing" constant="24" id="rq6-xF-3KL"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="XBD-XX-0ZZ" secondAttribute="trailing" constant="24" id="wVr-0Y-4pR"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>

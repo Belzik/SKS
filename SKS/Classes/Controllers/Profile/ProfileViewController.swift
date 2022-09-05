@@ -39,6 +39,7 @@ class ProfileViewController: BaseViewController {
     @IBOutlet weak var courseLabel: UILabel!
     @IBOutlet weak var phoneLabel: UILabel!
     @IBOutlet weak var editButton: UIButton!
+    @IBOutlet weak var deleteButton: UIButton!
     
     @IBOutlet weak var sheverevImage: UIImageView!
     @IBOutlet weak var sheverevLabel: UILabel!
@@ -50,6 +51,16 @@ class ProfileViewController: BaseViewController {
     @IBAction func exitButton(_ sender: UIButton) {
         UserData.clear()
         delegate?.exit()
+    }
+
+    @IBAction func deleteButtonTapped(_ sender: UIButton) {
+        let actionDelete = UIAlertAction(title: "Удалить", style: .destructive, handler: {_ in })
+        let actionCancel = UIAlertAction(title: "Отмена", style: .default, handler: {_ in })
+        showAlert(
+            actions: [actionCancel, actionDelete],
+            title: "Удалить профиль",
+            message: "Вы уверены, что хотите удалить профиль?"
+        )
     }
     
     @IBAction func editButtonTapped(_ sender: UIButton) {
@@ -136,7 +147,11 @@ class ProfileViewController: BaseViewController {
         }
         
         if let course = user.studentInfo?.course { courseLabel.text = String(describing: course) }
-        if let phone = user.phone { phoneLabel.text = phone.with(mask: "* *** *** ** **", replacementChar: "*", isDecimalDigits: true) }
+        if let phone = user.phone {
+            print(phone)
+            deleteButton.isHidden = phone != "71111111111"
+            phoneLabel.text = phone.with(mask: "* *** *** ** **", replacementChar: "*", isDecimalDigits: true)
+        }
         
         editButton.isHidden = true
         if let status = user.status {

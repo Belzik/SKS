@@ -30,7 +30,7 @@
         <scene sceneID="3MK-eV-Jc2">
             <objects>
                 <navigationController navigationBarHidden="YES" id="J8U-jH-0z4" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Карта" image="ic_map" id="JKx-cL-pb9"/>
+                    <tabBarItem key="tabBarItem" title="Карта" image="ic_map" selectedImage="ic_map_selected" id="JKx-cL-pb9"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="lIE-Mc-7JO">
                         <autoresizingMask key="autoresizingMask"/>
@@ -727,6 +727,7 @@
         <image name="ic_chevron_right_green" width="24" height="24"/>
         <image name="ic_filter" width="24" height="24"/>
         <image name="ic_map" width="24" height="24"/>
+        <image name="ic_map_selected" width="24" height="24"/>
         <image name="ic_minus" width="24" height="24"/>
         <image name="ic_plus" width="24" height="24"/>
         <image name="ic_route" width="24" height="24"/>

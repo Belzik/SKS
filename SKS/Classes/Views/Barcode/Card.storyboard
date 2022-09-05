@@ -24,7 +24,7 @@
         <scene sceneID="VNv-Nf-TnT">
             <objects>
                 <navigationController navigationBarHidden="YES" id="1uE-Ee-8Se" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Баркод" image="ic_card" id="9J6-ii-L2l"/>
+                    <tabBarItem key="tabBarItem" title="Баркод" image="ic_card" selectedImage="ic_card_selected" id="9J6-ii-L2l"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="06R-TH-NPJ">
                         <autoresizingMask key="autoresizingMask"/>
@@ -246,6 +246,7 @@
     <resources>
         <image name="greenback" width="1029" height="258"/>
         <image name="ic_card" width="24" height="24"/>
+        <image name="ic_card_selected" width="24" height="24"/>
         <image name="logo" width="120" height="120"/>
         <image name="navbar" width="1125" height="444"/>
         <systemColor name="systemBackgroundColor">

@@ -104,18 +104,18 @@ class ResetPasswordViewController: BaseViewController {
     }
     
     func runTimer() {
-        timerLabel.text = "Отправить код еще раз через \(timeForLabel) сек"
+        timerLabel.text = "Запросить смс еще раз через \(timeForLabel) сек"
         
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] timer in
             guard let self = self else { return }
 
             self.timeForLabel -= 1
-            self.timerLabel.text = "Отправить код еще раз через \(self.timeForLabel) сек"
+            self.timerLabel.text = "Запросить смс еще раз через \(self.timeForLabel) сек"
             
             if self.timeForLabel == 0 {
                 self.timer.invalidate()
                 self.timerLabel.textColor = ColorManager.green.value
-                self.timerLabel.text = "Отправить код ещё раз"
+                self.timerLabel.text = "Запросить смс еще раз через"
 
             }
         }

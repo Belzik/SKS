@@ -83,37 +83,44 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
     
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         guard let fcmToken = fcmToken else { return }
+        let tokens = NotificationsTokens.init()
+        tokens.notificationToken = fcmToken
+        tokens.deviceToken = UIDevice.current.identifierForVendor!.uuidString
+        tokens.save()
 
-        print("TOKEN", fcmToken)
-        
-        if let tokens = NotificationsTokens.loadSaved(),
-            let isDownload = tokens.isDownload {
-            if !isDownload {
+        if let user = UserData.loadSaved() {
+            let accessToken = user.accessToken ?? ""
+            if let tokens = NotificationsTokens.loadSaved(),
+                let isDownload = tokens.isDownload {
+                if !isDownload {
+                    tokens.notificationToken = fcmToken
+                    tokens.deviceToken = UIDevice.current.identifierForVendor!.uuidString
+                    tokens.save()
+
+                    NetworkManager.shared.sendNotificationToken(notificationToken: fcmToken,
+                                                                deviceToken: UIDevice.current.identifierForVendor!.uuidString,
+                                                                accessToken: accessToken) { response in
+                        if let statusCode = response.response?.statusCode,
+                            statusCode == 200 {
+                            tokens.isDownload = true
+                            tokens.save()
+                        }
+                    }
+                }
+            } else {
+                let tokens = NotificationsTokens.init()
                 tokens.notificationToken = fcmToken
                 tokens.deviceToken = UIDevice.current.identifierForVendor!.uuidString
                 tokens.save()
-                
+
                 NetworkManager.shared.sendNotificationToken(notificationToken: fcmToken,
-                                                            deviceToken: UIDevice.current.identifierForVendor!.uuidString) { response in
+                                                            deviceToken: UIDevice.current.identifierForVendor!.uuidString,
+                                                            accessToken: accessToken) { response in
                     if let statusCode = response.response?.statusCode,
                         statusCode == 200 {
                         tokens.isDownload = true
                         tokens.save()
                     }
-                }
-            }
-        } else {
-            let tokens = NotificationsTokens.init()
-            tokens.notificationToken = fcmToken
-            tokens.deviceToken = UIDevice.current.identifierForVendor!.uuidString
-            tokens.save()
-            
-            NetworkManager.shared.sendNotificationToken(notificationToken: fcmToken,
-                                                        deviceToken: UIDevice.current.identifierForVendor!.uuidString) { response in
-                if let statusCode = response.response?.statusCode,
-                    statusCode == 200 {
-                    tokens.isDownload = true
-                    tokens.save()
                 }
             }
         }

@@ -28,8 +28,8 @@ class NewsDashboardView: SnapKitView {
         knowledgeVC.delegate = self
 
         let tabs: [TabElement] = [
-            .init(title: "Все новости", viewController: newsVC),
-            .init(title: "База знаний", viewController: knowledgeVC)
+            .init(title: "Все новости", count: 3, viewController: newsVC),
+            .init(title: "База знаний", count: 0, viewController: knowledgeVC)
         ]
         let tabView = TabView(tabs: tabs)
 
@@ -66,6 +66,10 @@ class NewsDashboardView: SnapKitView {
             $0.top.equalTo(navigationView.snp.bottom).offset(4)
             $0.bottom.equalTo(safeAreaLayoutGuide)
         }
+    }
+
+    func reloadTabs(countUnreadNews: Int) {
+        tabView.customSegmentedControl.changeCountOfItems(count: countUnreadNews)
     }
 }
 

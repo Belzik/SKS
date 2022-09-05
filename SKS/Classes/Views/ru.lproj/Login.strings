@@ -3,7 +3,7 @@
 "1WN-hB-C1r.normalTitle" = "Назад";
 
 /* Class = "UILabel"; text = "Код подтверждения из SMS"; ObjectID = "4XF-3b-xmn"; */
-"4XF-3b-xmn.text" = "Код подтверждения из SMS";
+"4XF-3b-xmn.text" = "На ваш телефон поступит смс. Введите код.";
 
 /* Class = "UIButton"; normalTitle = "Далее"; ObjectID = "84t-u7-sDb"; */
 "84t-u7-sDb.normalTitle" = "Далее";

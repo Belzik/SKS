@@ -250,9 +250,7 @@ class PasswordViewController: BaseViewController {
                 self?.showAlert(message: "Пожалуйста, получите пароль.")
                 return
             }
-            
-            
-            
+
             if responseCode == 401 {
                 self?.passwordErrorLabel.text = "Не верный пароль"
                 self?.passwordErrorLabel.isHidden = false
@@ -263,7 +261,7 @@ class PasswordViewController: BaseViewController {
             } else if responseCode == 200,
                       let setPassword = response.value {
                 self?.setPassword = setPassword
-                
+
                 if let accessToken = response.value?.tokens?.accessToken,
                     let refreshToken = response.value?.tokens?.refreshToken,
                     let uniqueSess = response.value?.uniqueSess,

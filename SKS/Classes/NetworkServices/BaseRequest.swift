@@ -54,7 +54,7 @@ class BaseRequest {
         url: URLConvertible,
         method: HTTPMethod = .get,
         parameters: Parameters? = nil,
-        encoding: JSONEncoding = JSONEncoding.default,
+        encoding: ParameterEncoding = JSONEncoding.default,
         headers: HTTPHeaders? = nil,
         interceptor: RequestInterceptor? = nil,
         completion: @escaping (_ response: BaseResponse<ResponseType>) -> Void) -> DataRequest {

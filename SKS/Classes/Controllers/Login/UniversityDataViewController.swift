@@ -44,10 +44,13 @@ class UniversityDataViewController: BaseViewController {
         Course(title: "6 курс", value: "6")
     ]
     var levels: [LevelEducation] = [
-        LevelEducation(title: "Бакалавр", value: "4"),
-        LevelEducation(title: "Специалитет", value: "5"),
+        LevelEducation(title: "Бакалавриат (4 года)", value: "4"),
+        LevelEducation(title: "Бакалавриат (5 лет)", value: "5"),
+        LevelEducation(title: "Специалитет (5 лет)", value: "5"),
+        LevelEducation(title: "Специалитет (6 лет)", value: "6"),
         LevelEducation(title: "Магистратура", value: "2"),
         LevelEducation(title: "Аспирантура", value: "6"),
+        LevelEducation(title: "Ординатура", value: "3")
     ]
     
     var uniqueSess = ""
@@ -222,38 +225,52 @@ class UniversityDataViewController: BaseViewController {
 
     @IBAction func nextButtonTapped() {
         if validate() {
-            let uuidCity = cities[cityPicker.picker.selectedRow(inComponent: 0)].uuidCity
-            let uuidUniversity = universities[institutePicker.picker.selectedRow(inComponent: 0)].uuidUniver
-            let uuidFaculty = faculties[facultyPicker.picker.selectedRow(inComponent: 0)].uuidDepartment
-
-            NetworkManager.shared.registration(uniqueSess: uniqueSess,
-                                               name: name,
-                                               patronymic: patronymic,
-                                               surname: surname,
-                                               birthdate: birthday,
-                                               startEducation: periodTextField.text!,
-                                               endEducation: dateEndTextField.text!,
-                                               course: courseTextField.text!,
-                                               uuidCity: uuidCity ?? "",
-                                               uuidUniversity: uuidUniversity,
-                                               uuidFaculty: uuidFaculty,
-                                               accessToken: accessToken,
-                                               keyPhoto: keyFile,
-                                               phone: phone) { [weak self] response in
-                if let user = response.value,
-                        user.uuidUser != nil {
-                    user.accessToken = self?.accessToken
-                    user.refreshToken = self?.refreshToken
-                    user.uniqueSess = self?.uniqueSess
-                    user.save()
-
-                    if let vc = UIStoryboard(name: "Home", bundle: nil).instantiateInitialViewController() {
-                        vc.modalPresentationStyle = .fullScreen
-                        self?.present(vc, animated: true, completion: nil)
-                    }
-                } else {
-                    self?.showAlert(message: NetworkErrors.common)
+            if let tokens = NotificationsTokens.loadSaved(),
+                let notificationToken = tokens.notificationToken,
+                let deviceToken = tokens.deviceToken {
+                NetworkManager.shared.sendNotificationToken(notificationToken: notificationToken,
+                                                            deviceToken: deviceToken,
+                                                            accessToken: accessToken) { [weak self] response in
+                    self?.regis()
                 }
+            } else {
+                regis()
+            }
+        }
+    }
+
+    func regis() {
+        let uuidCity = cities[cityPicker.picker.selectedRow(inComponent: 0)].uuidCity
+        let uuidUniversity = universities[institutePicker.picker.selectedRow(inComponent: 0)].uuidUniver
+        let uuidFaculty = faculties[facultyPicker.picker.selectedRow(inComponent: 0)].uuidDepartment
+
+        NetworkManager.shared.registration(uniqueSess: uniqueSess,
+                                           name: name,
+                                           patronymic: patronymic,
+                                           surname: surname,
+                                           birthdate: birthday,
+                                           startEducation: periodTextField.text!,
+                                           endEducation: dateEndTextField.text!,
+                                           course: courseTextField.text!,
+                                           uuidCity: uuidCity ?? "",
+                                           uuidUniversity: uuidUniversity,
+                                           uuidFaculty: uuidFaculty,
+                                           accessToken: accessToken,
+                                           keyPhoto: keyFile,
+                                           phone: phone) { [weak self] response in
+            if let user = response.value,
+                    user.uuidUser != nil {
+                user.accessToken = self?.accessToken
+                user.refreshToken = self?.refreshToken
+                user.uniqueSess = self?.uniqueSess
+                user.save()
+
+                if let vc = UIStoryboard(name: "Home", bundle: nil).instantiateInitialViewController() {
+                    vc.modalPresentationStyle = .fullScreen
+                    self?.present(vc, animated: true, completion: nil)
+                }
+            } else {
+                self?.showAlert(message: NetworkErrors.common)
             }
         }
     }

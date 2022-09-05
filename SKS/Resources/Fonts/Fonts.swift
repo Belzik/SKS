@@ -32,6 +32,11 @@ enum FontStyle {
                               size: 12)
     }
 
+    var s11: UIFont {
+        return Fonts.loadFont(name: fontName,
+                              size: 11)
+    }
+
     var s14: UIFont {
         return Fonts.loadFont(name: fontName,
                               size: 14)

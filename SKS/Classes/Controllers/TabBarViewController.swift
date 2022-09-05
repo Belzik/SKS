@@ -10,6 +10,8 @@ import UIKit
 
 class TabBarViewController: UITabBarController {
 
+    // MARK: View life cycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -27,8 +29,10 @@ class TabBarViewController: UITabBarController {
             selectedIndex = 4
         }
         handlePosts()
-        
+        getNumberUnreadNews()
     }
+
+    // MARK: - Methods
     
     func handlePosts() {
                 NotificationCenter.default.addObserver(self, selector: #selector(self.setTabbarControllerIndexAction), name: NSNotification.Name(rawValue: "setTabbarControllerIndexAction"), object: nil)
@@ -36,5 +40,31 @@ class TabBarViewController: UITabBarController {
     
     @objc func setTabbarControllerIndexAction() {
         selectedIndex = 1
+    }
+
+    private func getNumberUnreadNews() {
+        NetworkManager.shared.getNumberUnreadNessages { [weak self] result in
+            self?.setupNewsTab(count: result.value?.count)
+        }
+    }
+
+    func setupNewsTab(count: Int?) {
+        let newsTab = tabBar.items?.first
+        if let count = count,
+           count > 0 {
+            newsTab?.image = UIImage(named: "ic_newsUnselectedRead")
+            newsTab?.selectedImage = UIImage(named: "ic_newsSelectedUnread")
+        } else {
+            newsTab?.image = UIImage(named: "ic_news_unselected")
+            newsTab?.selectedImage = UIImage(named: "ic_news")
+        }
+    }
+}
+
+// MARK: UITabBarDelegate
+
+extension TabBarViewController {
+    override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+        getNumberUnreadNews()
     }
 }

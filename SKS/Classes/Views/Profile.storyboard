@@ -29,7 +29,7 @@
         <scene sceneID="55E-AB-Ocw">
             <objects>
                 <navigationController navigationBarHidden="YES" id="ZDf-wB-rjl" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Профиль" image="ic_user" id="Jif-hV-9a4"/>
+                    <tabBarItem key="tabBarItem" title="Профиль" image="ic_user" selectedImage="ic_user_selected" id="Jif-hV-9a4"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="db8-LK-Ttn">
                         <autoresizingMask key="autoresizingMask"/>
@@ -124,7 +124,7 @@
                                 <rect key="frame" x="0.0" y="196.66666666666669" width="414" height="969.33333333333326"/>
                                 <subviews>
                                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vmE-NR-IB9">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="829.33333333333337"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="883.33333333333337"/>
                                         <subviews>
                                             <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Филипов Александр Семенович" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LNh-jV-DG0">
                                                 <rect key="frame" x="16" y="16" width="273.33333333333331" height="49"/>
@@ -297,35 +297,53 @@
                                                     </stackView>
                                                 </subviews>
                                             </stackView>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wAM-Lk-xID">
-                                                <rect key="frame" x="16" y="697" width="51" height="30"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="30" id="4V1-e7-lsR"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="16"/>
-                                                <state key="normal" title="Выйти">
-                                                    <color key="titleColor" red="0.82118695974349976" green="0.40460830926895142" blue="0.38821947574615479" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="exitButton:" destination="IRr-E1-F2M" eventType="touchUpInside" id="udV-vx-Tse"/>
-                                                </connections>
-                                            </button>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="7sn-6d-7RB">
+                                                <rect key="frame" x="16" y="697" width="138" height="84"/>
+                                                <subviews>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pbp-AT-1ra">
+                                                        <rect key="frame" x="0.0" y="0.0" width="138" height="30"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="30" id="xD3-fE-Whi"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="16"/>
+                                                        <state key="normal" title="Выйти">
+                                                            <color key="titleColor" red="0.8211869597" green="0.40460830930000002" blue="0.38821947569999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="exitButton:" destination="IRr-E1-F2M" eventType="touchUpInside" id="FH4-iV-0QW"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wAM-Lk-xID">
+                                                        <rect key="frame" x="0.0" y="54" width="138" height="30"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="30" id="4V1-e7-lsR"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="16"/>
+                                                        <state key="normal" title="Удалить профиль">
+                                                            <color key="titleColor" red="0.82118695974349976" green="0.40460830926895142" blue="0.38821947574615479" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="deleteButtonTapped:" destination="IRr-E1-F2M" eventType="touchUpInside" id="sDa-ih-kGh"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                            </stackView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="F2W-nH-df3">
-                                                <rect key="frame" x="16" y="755" width="382" height="1"/>
+                                                <rect key="frame" x="16" y="809" width="382" height="1"/>
                                                 <color key="backgroundColor" red="0.93819326162338257" green="0.94916027784347534" blue="0.95942312479019165" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="GgQ-hk-lFb"/>
                                                 </constraints>
                                             </view>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sheverev" translatesAutoresizingMaskIntoConstraints="NO" id="IrP-nb-BqN">
-                                                <rect key="frame" x="16" y="780" width="81" height="24"/>
+                                                <rect key="frame" x="16" y="834.00000000000011" width="81" height="24"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="24" id="Ns1-x2-066"/>
                                                     <constraint firstAttribute="width" constant="81" id="dXy-fB-A48"/>
                                                 </constraints>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="РАЗРАБОТАНО АГЕНТСТВОМ SHEVEREV.COM" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4PI-aC-3fG">
-                                                <rect key="frame" x="113" y="776" width="285" height="29.333333333333371"/>
+                                                <rect key="frame" x="113" y="830.00000000000011" width="285" height="29.333333333333371"/>
                                                 <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="12"/>
                                                 <color key="textColor" red="0.63098162412643433" green="0.65154629945755005" blue="0.71859973669052124" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -337,6 +355,7 @@
                                             <constraint firstAttribute="trailing" secondItem="7Zs-bA-D5z" secondAttribute="trailing" constant="16" id="5BD-0C-5O9"/>
                                             <constraint firstItem="8qb-71-YVZ" firstAttribute="top" secondItem="LNh-jV-DG0" secondAttribute="bottom" constant="8" id="66E-lo-KW5"/>
                                             <constraint firstItem="mmK-0B-O1b" firstAttribute="leading" secondItem="vmE-NR-IB9" secondAttribute="leading" constant="16" id="68N-4Y-KuB"/>
+                                            <constraint firstItem="7sn-6d-7RB" firstAttribute="leading" secondItem="vmE-NR-IB9" secondAttribute="leading" constant="16" id="6Eb-am-9dv"/>
                                             <constraint firstItem="4PI-aC-3fG" firstAttribute="top" secondItem="IrP-nb-BqN" secondAttribute="top" constant="-4" id="8lP-8U-No9"/>
                                             <constraint firstItem="4PI-aC-3fG" firstAttribute="leading" secondItem="IrP-nb-BqN" secondAttribute="trailing" constant="16" id="CiU-9R-ett"/>
                                             <constraint firstAttribute="trailing" secondItem="8qb-71-YVZ" secondAttribute="trailing" constant="16" id="G42-ax-yVH"/>
@@ -345,17 +364,16 @@
                                             <constraint firstAttribute="bottom" secondItem="4PI-aC-3fG" secondAttribute="bottom" constant="24" id="O7k-Xk-DW7"/>
                                             <constraint firstItem="7Zs-bA-D5z" firstAttribute="leading" secondItem="vmE-NR-IB9" secondAttribute="leading" constant="16" id="WEw-kw-oGG"/>
                                             <constraint firstItem="LNh-jV-DG0" firstAttribute="leading" secondItem="vmE-NR-IB9" secondAttribute="leading" constant="16" id="Xxy-Vi-0Cx"/>
-                                            <constraint firstItem="wAM-Lk-xID" firstAttribute="top" secondItem="7Zs-bA-D5z" secondAttribute="bottom" constant="44" id="arm-M9-mdI"/>
-                                            <constraint firstItem="F2W-nH-df3" firstAttribute="top" secondItem="wAM-Lk-xID" secondAttribute="bottom" constant="28" id="cF7-xA-Y4Y"/>
                                             <constraint firstItem="8qb-71-YVZ" firstAttribute="leading" secondItem="vmE-NR-IB9" secondAttribute="leading" constant="16" id="eFg-9s-Sgg"/>
                                             <constraint firstAttribute="trailing" secondItem="4PI-aC-3fG" secondAttribute="trailing" constant="16" id="ehl-Gy-FkK"/>
                                             <constraint firstAttribute="trailing" secondItem="F2W-nH-df3" secondAttribute="trailing" constant="16" id="fwc-Zh-MvK"/>
                                             <constraint firstItem="LNh-jV-DG0" firstAttribute="top" secondItem="vmE-NR-IB9" secondAttribute="top" constant="16" id="lM3-od-te0"/>
+                                            <constraint firstItem="7sn-6d-7RB" firstAttribute="top" secondItem="7Zs-bA-D5z" secondAttribute="bottom" constant="44" id="pRz-Pm-tAZ"/>
                                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="LNh-jV-DG0" secondAttribute="trailing" constant="16" id="qWc-M0-VeR"/>
                                             <constraint firstItem="F2W-nH-df3" firstAttribute="leading" secondItem="vmE-NR-IB9" secondAttribute="leading" constant="16" id="v9V-Zh-71o"/>
                                             <constraint firstItem="IrP-nb-BqN" firstAttribute="top" secondItem="F2W-nH-df3" secondAttribute="bottom" constant="24" id="wEo-Mw-gwx"/>
+                                            <constraint firstItem="F2W-nH-df3" firstAttribute="top" secondItem="7sn-6d-7RB" secondAttribute="bottom" constant="28" id="wgF-M1-6Y9"/>
                                             <constraint firstItem="IrP-nb-BqN" firstAttribute="leading" secondItem="vmE-NR-IB9" secondAttribute="leading" constant="16" id="wzG-ZS-B4T"/>
-                                            <constraint firstItem="wAM-Lk-xID" firstAttribute="leading" secondItem="vmE-NR-IB9" secondAttribute="leading" constant="16" id="xRc-LK-oeE"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -405,6 +423,7 @@
                         <outlet property="cityLabel" destination="IkY-pB-XUL" id="ARt-aF-2n7"/>
                         <outlet property="contentView" destination="vmE-NR-IB9" id="dKa-8M-3F8"/>
                         <outlet property="courseLabel" destination="R3Z-ht-rok" id="pdr-iP-DPb"/>
+                        <outlet property="deleteButton" destination="wAM-Lk-xID" id="weW-Lm-gJ4"/>
                         <outlet property="editButton" destination="TUJ-Kf-4DE" id="rlr-lE-wtR"/>
                         <outlet property="facultyLabel" destination="fLd-oQ-wjp" id="CUq-5h-gY7"/>
                         <outlet property="fioLabel" destination="LNh-jV-DG0" id="ePf-ly-3tg"/>
@@ -834,6 +853,7 @@
         <image name="ic_edit" width="24" height="24"/>
         <image name="ic_photo" width="60" height="60"/>
         <image name="ic_user" width="24" height="24"/>
+        <image name="ic_user_selected" width="24" height="24"/>
         <image name="navbar" width="1125" height="444"/>
         <image name="sheverev" width="81" height="25"/>
     </resources>

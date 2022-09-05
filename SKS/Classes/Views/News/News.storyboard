@@ -138,14 +138,14 @@
             <objects>
                 <viewController id="PAH-s5-0de" customClass="PoolingNewsViewController" customModule="SKS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="z67-Bv-AuG">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="eXz-xL-5Zk">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <view key="tableFooterView" contentMode="scaleToFill" id="wSI-ls-laD">
-                                    <rect key="frame" x="0.0" y="35" width="414" height="80"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="80"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BPt-ym-JiA" customClass="SKSButton" customModule="SKS" customModuleProvider="target">
@@ -177,7 +177,7 @@
                                 </connections>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="byW-mP-ZNC">
-                                <rect key="frame" x="0.0" y="-64" width="414" height="168"/>
+                                <rect key="frame" x="0.0" y="-108" width="414" height="168"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UWt-Jl-epM">
                                         <rect key="frame" x="8" y="124" width="76" height="24"/>
@@ -239,7 +239,7 @@
             <objects>
                 <viewController id="JRn-O7-MdG" customClass="DetailNewsViewController" customModule="SKS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Jec-xL-yOM">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" bounces="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6G5-DO-hhT">
@@ -382,7 +382,7 @@
                                 </constraints>
                             </scrollView>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sbb-l3-2QL">
-                                <rect key="frame" x="0.0" y="-64" width="414" height="168"/>
+                                <rect key="frame" x="0.0" y="-108" width="414" height="168"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gP7-ig-sqr">
                                         <rect key="frame" x="8" y="124" width="76" height="24"/>
@@ -414,7 +414,7 @@
                                 </constraints>
                             </view>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AQO-Qi-y7Z">
-                                <rect key="frame" x="0.0" y="765" width="414" height="48"/>
+                                <rect key="frame" x="0.0" y="760" width="414" height="48"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RRT-EG-Nhd">
                                         <rect key="frame" x="16" y="10.5" width="155" height="27"/>
@@ -451,7 +451,7 @@
                                 </constraints>
                             </view>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="gxZ-An-wVe">
-                                <rect key="frame" x="197" y="418.5" width="20" height="20"/>
+                                <rect key="frame" x="197" y="394" width="20" height="20"/>
                             </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="fgq-HE-Yzq"/>
@@ -509,7 +509,7 @@
         <scene sceneID="7xz-16-ztj">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="YSc-FR-5tv" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Новости" image="ic_news" id="xgo-SH-niy"/>
+                    <tabBarItem key="tabBarItem" title="Новости" image="ic_news_unselected" selectedImage="ic_news" id="xgo-SH-niy"/>
                     <toolbarItems/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="q8x-LV-BAd">
@@ -526,13 +526,14 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="tzE-FF-qOz"/>
-        <segue reference="Vkd-ip-jTf"/>
+        <segue reference="WFN-Ql-SMk"/>
+        <segue reference="OeZ-RT-6b6"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="complaint" width="72" height="72"/>
         <image name="ic_arrow_left_white" width="24" height="24"/>
         <image name="ic_news" width="24" height="24"/>
+        <image name="ic_news_unselected" width="24" height="24"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

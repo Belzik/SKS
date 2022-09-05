@@ -8,8 +8,11 @@
 
 import UIKit
 import SwiftyVK
+import AuthenticationServices
 
 class LoginViewController: BaseViewController {
+    // MARK: IBOutlets
+
     @IBOutlet weak var phoneTextField: SKSTextField!
     @IBOutlet weak var nextButton: SKSButton!
     @IBOutlet weak var agreementsLabel: UILabel!
@@ -17,32 +20,18 @@ class LoginViewController: BaseViewController {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var titleLabelBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var acitivityIndicator: UIActivityIndicatorView!
-    
+    @IBOutlet weak var authVKButton: TitleWithIconButton!
+    @IBOutlet weak var authAppleButton: TitleWithIconButton!
+    @IBOutlet weak var promoCodeRegistrationButton: SKSButton!
+    @IBOutlet weak var scrollView: UIScrollView!
+
+    // MARK: Properties
+
     private var keyboardHeight: CGFloat = 0
     private var smsResponse: SmsResponse?
     var authVKReponse: AuthVKResponse?
     
-    @IBAction override func backButtonTapped(_ sender: UIButton) {
-        view.endEditing(true)
-        dismiss(animated: true, completion: nil)
-    }
-    
-    @IBAction func nextbuttonTapped(_ sender: SKSButton) {
-        getSmsWithCode()
-    }
-    
-    @IBAction func vkButtonTapped(_ sender: UIButton) {
-        VK.sessions.default.logOut()
-        
-        VK.sessions.default.logIn(
-            onSuccess: { _ in
-              
-            },
-            onError: { error in
-                
-            }
-        )
-    }
+    // MARK: View life cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,12 +60,14 @@ class LoginViewController: BaseViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         
         setupAgreementsLabel()
+        setupButtons()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         phoneTextField.becomeFirstResponder()
     }
-    
+     // MARK: Segue
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "segueCode" {
             let dvc = segue.destination as! CodeViewController
@@ -101,35 +92,49 @@ class LoginViewController: BaseViewController {
                 dvc.uniqueSess = uniqueSess
                 dvc.refreshToken = refreshToken
                 dvc.accessToken = accessToken
-                dvc.possibleData = authVKReponse?.possibleData
-                dvc.isVK = true
+
+                if let _ = sender as? Bool {} else {
+                    dvc.possibleData = authVKReponse?.possibleData
+                    dvc.isVK = true
+                }
             }
         }
     }
     
-    @objc func keyboardWillShow(notification: Notification) {
-        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-            let keyboardRectangle = keyboardFrame.cgRectValue
-            let keyboardHeight = keyboardRectangle.height
-            bottomConstraintAgreementLabel.constant = keyboardHeight + 16
-            self.keyboardHeight = keyboardHeight
-            
-        }
+    // MARK: Methods
+
+    private func setupButtons() {
+        authVKButton.titleLabel.text = "Вход с Вконтакте"
+        authVKButton.backgroundColor = ColorManager._0077FF.value
+        authVKButton.layer.cornerRadius = 5
+        authVKButton.iconView.image = UIImage(named: "authVK")
+
+        let tapVK = UITapGestureRecognizer(target: self, action: #selector(authVKButtonTapped))
+        authVKButton.isUserInteractionEnabled = true
+        authVKButton.addGestureRecognizer(tapVK)
+
+        authAppleButton.titleLabel.text = "Вход с Apple ID"
+        authAppleButton.backgroundColor = ColorManager._090E16.value
+        authAppleButton.layer.cornerRadius = 5
+        authAppleButton.iconView.image = UIImage(named: "authApple")
+
+        let tapApple = UITapGestureRecognizer(target: self, action: #selector(authAppleButtonTapped))
+        authAppleButton.isUserInteractionEnabled = true
+        authAppleButton.addGestureRecognizer(tapApple)
+
+        promoCodeRegistrationButton.layer.cornerRadius = 5
     }
     
-    func setupAgreementsLabel() {
+    private func setupAgreementsLabel() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(agreementsLabelTapped))
         agreementsLabel.isUserInteractionEnabled = true
         agreementsLabel.addGestureRecognizer(tap)
     }
-    
-    @objc func agreementsLabelTapped() {
-        performSegue(withIdentifier: "segueAgreements", sender: nil)
-    }
-    
+
     private func getSmsWithCode() {
         NetworkManager.shared.getCodeWithSms(phone: phoneTextField.text!.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()) { [weak self] response in
-            
+
+            print("КОД", response.responseCode)
             if let smsResponse = response.value {
                 self?.smsResponse = smsResponse
                 
@@ -146,11 +151,20 @@ class LoginViewController: BaseViewController {
     }
     
     private func views(hide: Bool) {
-        UIView.transition(with: view, duration: 0.2, options: .transitionCrossDissolve, animations: { [weak self] in
-            self?.view.layoutIfNeeded()
-            self?.nextButton.isHidden = hide
-            self?.agreementsLabel.isHidden = hide
-            self?.phoneTextField.rightView?.isHidden = hide
+        UIView.transition(with: view, duration: 0.2, options: .transitionCrossDissolve, animations: {
+            self.view.layoutIfNeeded()
+            self.nextButton.isHidden = hide
+            self.agreementsLabel.isHidden = hide
+            self.phoneTextField.rightView?.isHidden = hide
+            self.scrollView.isScrollEnabled = !hide
+
+            if hide {
+                let bottomOffset = CGPoint(x: 0, y: 0)
+                self.scrollView.setContentOffset(bottomOffset, animated: true)
+            } else {
+                let bottomOffset = CGPoint(x: 0, y: self.scrollView.contentSize.height - self.scrollView.bounds.size.height)
+                self.scrollView.setContentOffset(bottomOffset, animated: true)
+            }
         })
     }
     
@@ -167,7 +181,75 @@ class LoginViewController: BaseViewController {
                 }
         }
     }
+
+    // MARK: - Actions
+
+    @objc func agreementsLabelTapped() {
+        performSegue(withIdentifier: "segueAgreements", sender: nil)
+    }
+
+    @IBAction override func backButtonTapped(_ sender: UIButton) {
+        view.endEditing(true)
+        dismiss(animated: true, completion: nil)
+    }
+
+    @IBAction func nextbuttonTapped(_ sender: SKSButton) {
+        getSmsWithCode()
+    }
+
+    @IBAction func vkButtonTapped(_ sender: UIButton) {
+        VK.sessions.default.logOut()
+
+        VK.sessions.default.logIn(
+            onSuccess: { _ in
+
+            },
+            onError: { error in
+
+            }
+        )
+    }
+
+    @objc func keyboardWillShow(notification: Notification) {
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            let keyboardHeight = keyboardRectangle.height
+
+            if keyboardHeight > 0 {
+                bottomConstraintAgreementLabel.constant = keyboardHeight - 40
+                self.keyboardHeight = keyboardHeight
+            } else {
+                bottomConstraintAgreementLabel.constant = 0
+            }
+        }
+    }
+
+    @objc func authAppleButtonTapped() {
+        let appleIDProvider = ASAuthorizationAppleIDProvider()
+        let request = appleIDProvider.createRequest()
+        request.requestedScopes = [.fullName, .email]
+
+        let authorizationController = ASAuthorizationController(authorizationRequests: [request])
+        authorizationController.delegate = self
+        authorizationController.presentationContextProvider = self
+        authorizationController.performRequests()
+    }
+
+    @objc func authVKButtonTapped() {
+        VK.sessions.default.logOut()
+
+        VK.sessions.default.logIn(
+            onSuccess: { _ in
+
+            },
+            onError: { error in
+
+            }
+        )
+    }
 }
+
+// MARK: UITextFieldDelegate
 
 extension LoginViewController: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
@@ -228,6 +310,8 @@ extension LoginViewController: UITextFieldDelegate {
     }
 }
 
+// MARK: SwiftyVKDelegate
+
 extension LoginViewController: SwiftyVKDelegate {
     func vkNeedsScopes(for sessionId: String) -> Scopes {
         let scopes: Scopes = [.offline,.wall]
@@ -274,6 +358,7 @@ extension LoginViewController: SwiftyVKDelegate {
             
             if let authVKResponse = response.value {
                 self?.authVKReponse = authVKResponse
+
                 
                 if let accessToken = response.value?.tokens?.accessToken,
                     let refreshToken = response.value?.tokens?.refreshToken,
@@ -314,6 +399,73 @@ extension LoginViewController: SwiftyVKDelegate {
             } else {
                 self?.showAlert(message: NetworkErrors.common)
             }
+        }
+    }
+}
+
+// MARK: - ASAuthorizationControllerPresentationContextProviding
+extension LoginViewController: ASAuthorizationControllerPresentationContextProviding {
+    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+        return self.view.window!
+    }
+}
+
+// MARK: - ASAuthorizationControllerDelegate
+extension LoginViewController: ASAuthorizationControllerDelegate {
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+
+        switch authorization.credential {
+        case let appleIDCredential as ASAuthorizationAppleIDCredential:
+            NetworkManager.shared.authApple(
+                userId: appleIDCredential.user,
+                email: appleIDCredential.email ?? "m6wndgpzd4@privaterelay.appleid.com") { [weak self] response in
+                self?.acitivityIndicator.stopAnimating()
+
+                if let authVKResponse = response.value {
+                    self?.authVKReponse = authVKResponse
+
+                    if let accessToken = response.value?.tokens?.accessToken,
+                        let refreshToken = response.value?.tokens?.refreshToken,
+                        let uniqueSess = response.value?.uniqueSess,
+                        let status = response.value?.status {
+                        if status != ProfileStatus.newuser.rawValue {
+                            let user = UserData.init()
+                            user.accessToken = accessToken
+                            user.refreshToken = refreshToken
+                            user.uniqueSess = uniqueSess
+                            user.status = authVKResponse.status
+                            user.save()
+
+                            if let tokens = NotificationsTokens.loadSaved(),
+                                let notificationToken = tokens.notificationToken,
+                                let deviceToken = tokens.deviceToken {
+                                NetworkManager.shared.sendNotificationToken(notificationToken: notificationToken,
+                                                                            deviceToken: deviceToken,
+                                                                            accessToken: accessToken) { response in
+                                        if let vc = UIStoryboard(name: "Home", bundle: nil).instantiateInitialViewController() {
+                                            vc.modalPresentationStyle = .fullScreen
+                                            self?.present(vc, animated: true, completion: nil)
+                                        }
+                                }
+                            }
+                        } else {
+                            if let tokens = NotificationsTokens.loadSaved(),
+                                let notificationToken = tokens.notificationToken,
+                                let deviceToken = tokens.deviceToken {
+                                NetworkManager.shared.sendNotificationToken(notificationToken: notificationToken,
+                                                                            deviceToken: deviceToken,
+                                                                            accessToken: accessToken) { response in
+                                    self?.performSegue(withIdentifier: "seguePersonalData", sender: true)
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    self?.showAlert(message: NetworkErrors.common)
+                }
+                }
+        default:
+            break
         }
     }
 }

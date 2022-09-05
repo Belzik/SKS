@@ -37,12 +37,15 @@ struct APIPath {
     static let sendRating      = "partner/rating"
     static let event           = "news/event"
     static let pooling         = "news/pooling"
+    static let newsRead        = "news/status/read"
+    static let newsUnread      = "news/count/unread"
     static let getPoints       = "partner/list/points"
     static let getPartnerPoints = "partner/list/map"
     static let checkComment    = "partner/comment/check"
     static let editComment     = "partner/comment/edit"
     static let upuses          = "partners/upuses"
     static let authVK          = "auth/vk"
+    static let authApple       = "auth/apple"
     static let addToFavorite   = "partners/add-to-favorite"
     static let deleteFromFavorite = "partners/delete-from-favorite"
     static let getKnowledges   = "/knowledge-base-categories"
@@ -77,8 +80,8 @@ class NetworkManager: BaseRequest {
     static let shared = NetworkManager()
     let decoder = JSONDecoder()
     
-//        let baseURI = "https://sks-mobile.develophost.ru"
-//       let authURI = "https://sks-auth.develophost.ru"
+//    let baseURI = "https://sks-mobile.develophost.ru"
+//    let authURI = "https://sks-auth.develophost.ru"
     
     let baseURI = "https://app.sksadmin.ru"
     let authURI = "https://auth.sksadmin.ru"
@@ -1162,6 +1165,59 @@ class NetworkManager: BaseRequest {
         request(url: url,
                 method: .post,
                 parameters: parametrs,
+                headers: headers) { result in
+            completion(result)
+        }
+    }
+
+    // MARK: - Авторизация через apple
+    func authApple(userId: String,
+                   email: String,
+                   completion: @escaping (_ response: BaseResponse<AuthVKResponse>) -> Void) {
+        let url = authURI + apiVersion2 + APIPath.authApple
+
+        let parametrs: Parameters = [
+            "appleToken": userId,
+            "login": email,
+            "place": "mobile"
+        ]
+
+        request(url: url,
+                method: .post,
+                parameters: parametrs,
+                encoding: URLEncoding.default) { result in
+            completion(result)
+        }
+    }
+
+    // MARK: Количество непрочитанный новостей
+
+    func getNumberUnreadNessages(completion: @escaping (_ result: BaseResponse<NewsCountResponse>) -> Void) {
+        let url = baseURI + apiVersion1 + APIPath.newsUnread
+
+        var headers: HTTPHeaders = []
+        if let accessToken = UserData.loadSaved()?.accessToken {
+            headers.add(HTTPHeader(name: HeaderKey.token.rawValue, value: accessToken))
+        }
+
+        request(url: url,
+                headers: headers) { result in
+            completion(result)
+        }
+    }
+
+    // MARK: Прочитать новости
+
+    func putReadNews(completion: @escaping (_ result: BaseResponse<StatusResponse>) -> Void) {
+        let url = baseURI + apiVersion1 + APIPath.newsRead
+
+        var headers: HTTPHeaders = []
+        if let accessToken = UserData.loadSaved()?.accessToken {
+            headers.add(HTTPHeader(name: HeaderKey.token.rawValue, value: accessToken))
+        }
+
+        request(url: url,
+                method: .put,
                 headers: headers) { result in
             completion(result)
         }

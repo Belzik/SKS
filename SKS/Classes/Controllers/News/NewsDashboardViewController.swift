@@ -28,6 +28,12 @@ class NewsDashboardViewController: ViewController<NewsDashboardView> {
         }
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        getNumberUnreadNews()
+    }
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "segueDetailNews" {
             let dvc = segue.destination as! DetailNewsViewController
@@ -51,4 +57,39 @@ class NewsDashboardViewController: ViewController<NewsDashboardView> {
         }
     }
 
+
+    // MARK: Methods
+
+    private func getNumberUnreadNews() {
+        NetworkManager.shared.getNumberUnreadNessages { [weak self] result in
+            self?.setupCountNews(count: result.value?.count)
+        }
+    }
+
+    private func setupCountNews(count: Int?) {
+        if let count = count,
+            count > 0 {
+            mainView.reloadTabs(countUnreadNews: count)
+        } else {
+            mainView.reloadTabs(countUnreadNews: 0)
+        }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) { [weak self] in
+            guard let self = self else { return }
+            self.readNews()
+        }
+    }
+
+    private func readNews() {
+        NetworkManager.shared.putReadNews { [weak self] result in
+            self?.newsWasReaded()
+        }
+    }
+
+    private func newsWasReaded() {
+        mainView.reloadTabs(countUnreadNews: 0)
+        if let vc = tabBarController as? TabBarViewController {
+            vc.setupNewsTab(count: 0)
+        }
+    }
 }

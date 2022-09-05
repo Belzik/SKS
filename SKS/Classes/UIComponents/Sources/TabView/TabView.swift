@@ -4,10 +4,12 @@ import SnapKit
 public struct TabElement {
     let title: String
     let viewController: UIViewController
+    var count: Int
 
-    public init(title: String, viewController: UIViewController) {
+    public init(title: String, count: Int, viewController: UIViewController) {
         self.title = title
         self.viewController = viewController
+        self.count = count
     }
 }
 
@@ -29,7 +31,7 @@ public class TabView: SnapKitView {
         return stackView
     }()
 
-    private let customSegmentedControl = TabSegmentedControl()
+    let customSegmentedControl = TabSegmentedControl()
 
     // MARK: - Properties
 
@@ -55,7 +57,7 @@ public class TabView: SnapKitView {
     public override func addSubviews() {
         addSubview(customSegmentedControl)
         customSegmentedControl.delegate = self
-        customSegmentedControl.configure(with: tabs.map { $0.title })
+        customSegmentedControl.configure(with: tabs)
 
         addSubview(scrollView)
         scrollView.addSubview(contentView)
@@ -72,7 +74,7 @@ public class TabView: SnapKitView {
     public override func setConstraints() {
         customSegmentedControl.snp.makeConstraints {
             $0.top.equalTo(safeAreaLayoutGuide)
-            $0.left.right.equalToSuperview()
+            $0.left.right.equalToSuperview().inset(16)
         }
 
         scrollView.snp.makeConstraints {

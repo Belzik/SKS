@@ -38,20 +38,16 @@ class TabSegmentedControl: SnapKitView {
 
     // MARK: - Initializers
 
-    private func createButton(title: String) -> UIButton {
-        let button = UIButton(type: .system)
+    private func createButton(index: Int, title: String, count: Int) -> UIView {
+        let baseView = TabItemView(index: index, title: title, count: count)
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
+        baseView.addGestureRecognizer(tap)
+        baseView.isUserInteractionEnabled = true
+        baseView.snp.makeConstraints {
+            $0.height.equalTo(34)
+        }
 
-        button.titleLabel?.font = Fonts.openSans.medium.s16
-        button.setTitle(title, for: .normal)
-        button.addTarget(self, action: #selector(buttonAction(sender:)), for: .touchUpInside)
-        button.setTitleColor(Constant.titleColor, for: .normal)
-        button.setTitleColor(Constant.selectedTitleColor, for: .selected)
-        button.tintColor = .clear
-        button.imageView?.contentMode = .scaleAspectFit
-
-        button.contentMode = .center
-
-        return button
+        return baseView
     }
 
     // MARK: - Public methods
@@ -60,24 +56,26 @@ class TabSegmentedControl: SnapKitView {
         super.draw(rect)
 
         // initialization
-        if selectorView.frame == .zero {
-            let selectorWidth = Int(self.frame.width) / buttonsStack.arrangedSubviews.count
+        if buttonsStack.arrangedSubviews.count != 0 {
+            if selectorView.frame == .zero {
+                let selectorWidth = Int(self.frame.width) / buttonsStack.arrangedSubviews.count
 
-            selectorView.frame = CGRect(
-                x: 0,
-                y: Int(self.frame.height) - Constant.selectorHeight,
-                width: selectorWidth,
-                height: Constant.selectorHeight
-            )
+                selectorView.frame = CGRect(
+                    x: 0,
+                    y: Int(self.frame.height) - Constant.selectorHeight,
+                    width: selectorWidth,
+                    height: Constant.selectorHeight
+                )
+            }
         }
     }
 
-    func configure(with items: [String]) {
+    func configure(with items: [TabElement]) {
         cleanupStack()
 
         if !items.isEmpty {
-            for item in items {
-                buttonsStack.addArrangedSubview(createButton(title: item))
+            for (index, item) in items.enumerated() {
+                buttonsStack.addArrangedSubview(createButton(index: index, title: item.title, count: item.count))
             }
             selectButton(0)
         } else {
@@ -85,23 +83,42 @@ class TabSegmentedControl: SnapKitView {
         }
     }
 
-    func selectButton(_ buttonIndex: Int) {
-        selectedIndex = buttonIndex
-        for (index, button) in buttonsStack.arrangedSubviews.compactMap({ $0 as? UIButton }).enumerated() {
-            button.isSelected = index == selectedIndex
-            button.backgroundColor = .clear
-        }
-
-        let selectorWidth = Int(self.frame.width) / buttonsStack.arrangedSubviews.count
-        let selectorPosition = CGFloat(selectorWidth * (selectedIndex + 1) - selectorWidth)
-
-        UIView().animateCurveLinear {
-            self.selectorView.frame.origin.x = selectorPosition
+    func changeCountOfItems(count: Int) {
+        if let view = buttonsStack.arrangedSubviews.first as? TabItemView {
+            view.countLabel.text = "\(count)"
+            view.circleView.isHidden = count == 0
         }
     }
 
-    @objc func buttonAction(sender: UIButton) {
+    func selectButton(_ buttonIndex: Int) {
+        selectedIndex = buttonIndex
+
+        for view in buttonsStack.arrangedSubviews {
+            if let view = view as? TabItemView {
+                let button = view.button
+
+                button.isSelected = button.tag == selectedIndex
+                button.backgroundColor = .clear
+
+                if button.tag == selectedIndex {
+                    UIView().animateCurveLinear {
+                        self.selectorView.frame.origin.x = view.frame.origin.x
+                    }
+                }
+            }
+        }
+    }
+
+    @objc func buttonAction(_ sender: UIView) {
         guard let buttonIndex = buttonsStack.arrangedSubviews.firstIndex(of: sender) else { return }
+
+        selectButton(buttonIndex)
+        delegate?.changeView(to: buttonIndex)
+    }
+
+    @objc func handleTap(_ sender: UITapGestureRecognizer) {
+        guard let view = sender.view else { return }
+        guard let buttonIndex = buttonsStack.arrangedSubviews.firstIndex(of: view) else { return }
 
         selectButton(buttonIndex)
         delegate?.changeView(to: buttonIndex)

@@ -1058,7 +1058,7 @@
                                 <color key="textColor" red="0.6324622631072998" green="0.65120464563369751" blue="0.71688646078109741" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JEb-T8-TOo" customClass="CosmosView" customModule="Cosmos">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JEb-T8-TOo" customClass="CosmosView" customModule="Cosmos">
                                 <rect key="frame" x="91" y="93" width="232" height="40"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
@@ -1078,14 +1078,14 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Wt2-AT-kMf">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wt2-AT-kMf">
                                 <rect key="frame" x="0.0" y="157" width="414" height="6"/>
                                 <color key="backgroundColor" red="0.94183081388473511" green="0.94254469871520996" blue="0.94194132089614868" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="6" id="Tdd-2X-eVy"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Ваш отзыв" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ljq-aK-2yh">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ваш отзыв" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ljq-aK-2yh">
                                 <rect key="frame" x="16" y="187" width="116.5" height="24.5"/>
                                 <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="20"/>
                                 <nil key="textColor"/>
@@ -1106,7 +1106,7 @@
                                     <action selector="sendCommentButtonTapped:" destination="eR3-3v-YLA" eventType="touchUpInside" id="Zx5-09-xcw"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Напишите отзыв" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tt2-Zm-4hx" customClass="SKSTextField" customModule="SKS" customModuleProvider="target">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Напишите отзыв" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tt2-Zm-4hx" customClass="SKSTextField" customModule="SKS" customModuleProvider="target">
                                 <rect key="frame" x="16" y="227.5" width="382" height="48"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="ViW-zK-OWi"/>
@@ -1164,7 +1164,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <color key="selectedImageTintColor" red="0.1019607843" green="0.6705882353" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="selectedImageTintColor" red="0.10196078431372549" green="0.6705882352941176" blue="0.34509803921568627" alpha="0.6049189567565918" colorSpace="calibratedRGB"/>
                     </tabBar>
                     <connections>
                         <segue destination="fdE-yH-9DH" kind="relationship" relationship="viewControllers" id="Xmm-kH-JIt"/>
@@ -1192,7 +1192,7 @@
         <scene sceneID="486-Rb-mHK">
             <objects>
                 <navigationController id="Cds-0i-mev" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Скидки" image="ic_home" id="dzG-hc-jHZ"/>
+                    <tabBarItem key="tabBarItem" title="Скидки" image="ic_home" selectedImage="ic_home_selected" id="dzG-hc-jHZ"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="fLO-qP-9rC">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -2084,11 +2084,8 @@
         </scene>
     </scenes>
     <designables>
-        <designable name="GUn-97-iRm">
-            <size key="intrinsicContentSize" width="154.5" height="34"/>
-        </designable>
-        <designable name="tt2-Zm-4hx">
-            <size key="intrinsicContentSize" width="160.5" height="34"/>
+        <designable name="JEb-T8-TOo">
+            <size key="intrinsicContentSize" width="232" height="40"/>
         </designable>
     </designables>
     <inferredMetricsTieBreakers>
@@ -2108,6 +2105,7 @@
         <image name="ic_federal_partner" width="24" height="24"/>
         <image name="ic_heart_empty" width="24" height="24"/>
         <image name="ic_home" width="24" height="24"/>
+        <image name="ic_home_selected" width="24" height="24"/>
         <image name="ic_minus" width="24" height="24"/>
         <image name="ic_plus" width="24" height="24"/>
         <image name="ic_route" width="24" height="24"/>
