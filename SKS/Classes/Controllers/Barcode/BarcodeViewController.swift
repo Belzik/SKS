@@ -192,6 +192,39 @@ class BarcodeViewController: BaseViewController {
                 statusLabel.textColor = ColorManager.red.value
                 barcodeImage.image = UIImage(named: "unavailable_barcode")
                 noAuthBarcodeLabel.isHidden = false
+            case ProfileStatus.activepromo.rawValue:
+                statusLabel.text = "Промо-аккаунт активен"
+                statusLabel.textColor = ColorManager.green.value
+                noAuthBarcodeLabel.text = "Срок действия до 31.12.22"
+
+                if let codeStudent = user.studentCode {
+                    if UIDevice.modelName == "iPhone 5s" ||
+                        UIDevice.modelName ==  "iPhone SE" ||
+                        UIDevice.modelName ==  "Simulator iPhone SE" {
+                        widthBarcode.constant = 250
+
+                        let font = UIFont(name: "Montserrat-Bold", size: 14)!
+                        self.fioLabel.font = font
+
+                        let rect = CGRect(x: 0, y: 0, width: 250, height: 100)
+                        let barcodeView = BarCodeView(frame: rect)
+                        barcodeView.barCode = codeStudent
+                        self.barcodeViewGenerate.addSubview(barcodeView)
+                        self.barcodeViewGenerate.isHidden = false
+                    } else {
+                        let rect = CGRect(x: 0, y: 0, width: 300, height: 100)
+                        let barcodeView = BarCodeView(frame: rect)
+                        barcodeView.barCode = codeStudent
+                        self.barcodeViewGenerate.addSubview(barcodeView)
+                        self.barcodeViewGenerate.isHidden = false
+                    }
+                }
+            case ProfileStatus.expiredpromo.rawValue:
+                statusLabel.text = "Промо-аккаунт не активен"
+                statusLabel.textColor = ColorManager.red.value
+                barcodeImage.image = UIImage(named: "unavailable_barcode")
+                noAuthBarcodeLabel.text = "Срок действия промо-аккаунта закончился. Для получения полного доступа обратитесь в Профком вашего учебного заведения"
+                noAuthBarcodeLabel.isHidden = false
             default:
                 statusLabel.isHidden = true
             }

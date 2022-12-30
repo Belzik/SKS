@@ -23,7 +23,7 @@ class SendCommentViewController: BaseViewController {
         dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func sendCommentButtonTapped(_ sender: SKSButton) {
+    @IBAction func sendCommentButtonTapped(_ sender: DownloadButton) {
         if ratingView.rating == 0 {
             showAlert(message: "Для отправки отзыва необходимо указать рейтинг.")
         }

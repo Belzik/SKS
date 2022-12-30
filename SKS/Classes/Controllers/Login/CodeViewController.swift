@@ -33,6 +33,9 @@ class CodeViewController: BaseViewController {
     
     var otpResponse: OtpResponse?
 
+    var isPromo: Bool = false
+    var promocode: String = ""
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -65,6 +68,7 @@ class CodeViewController: BaseViewController {
         if segue.identifier == "seguePassword" {
             let dvc = segue.destination as! PasswordViewController
             dvc.otpResponse = self.otpResponse
+            dvc.isPromo = isPromo
         }
     }
     
@@ -87,17 +91,26 @@ class CodeViewController: BaseViewController {
     
     @objc func timerLabelTapped() {
         if timeForLabel != 0 { return }
-        timeForLabel = 60
-        timerLabel.textColor = UIColor.gray
         getSmsWithCode()
     }
     
     private func getSmsWithCode() {
-        NetworkManager.shared.getCodeWithSms(phone: phone) { [weak self] response in
+        NetworkManager.shared.getCodeWithSms(
+            phone: phone,
+            isPromo: isPromo,
+            promocode: promocode
+        ) { [weak self] response in
             
             if let smsResponse = response.value {
                 self?.smsResponse = smsResponse
-                self?.runTimer()
+
+                if let error = smsResponse.error {
+                    self?.showAlert(message: error)
+                } else {
+                    self?.timeForLabel = 60
+                    self?.timerLabel.textColor = UIColor.gray
+                    self?.runTimer()
+                }
             } else {
                 self?.showAlert(message: NetworkErrors.common)
             }
@@ -105,18 +118,18 @@ class CodeViewController: BaseViewController {
     }
     
     func runTimer() {
-        timerLabel.text = "Запросить смс еще раз через \(timeForLabel) сек"
+        timerLabel.text = "Получить новый код можно через \(timeForLabel) сек"
         
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] timer in
             guard let self = self else { return }
 
             self.timeForLabel -= 1
-            self.timerLabel.text = "Запросить смс еще раз через \(self.timeForLabel) сек"
+            self.timerLabel.text = "Получить новый код можно через \(self.timeForLabel) сек"
             
             if self.timeForLabel == 0 {
                 self.timer.invalidate()
                 self.timerLabel.textColor = ColorManager.green.value
-                self.timerLabel.text = "Запросить смс еще раз через"
+                self.timerLabel.text = "Получить код еще раз"
             }
         }
     }

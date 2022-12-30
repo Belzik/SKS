@@ -10,4 +10,5 @@ import Foundation
 
 class StatusResponse: Codable {
     var status: String?
+    var statusReason: String?
 }

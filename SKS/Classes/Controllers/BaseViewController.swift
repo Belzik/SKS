@@ -34,4 +34,9 @@ class BaseViewController: UIViewController {
         let action = UIAlertAction(title: "OK", style: .default, handler: nil)
         showAlert(actions: [action], title: "Внимание!", message: message)
     }
+
+    func showAlert(title: String, message: String) {
+        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+        showAlert(actions: [action], title: title, message: message)
+    }
 }

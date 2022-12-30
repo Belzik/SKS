@@ -34,6 +34,28 @@ class DateManager {
             return ""
         }
     }
+
+    func toDateString(date: String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        dateFormatter.locale = Locale.init(identifier: "ru")
+        let date = dateFormatter.date(from: date)
+
+        if let date = date {
+            dateFormatter.dateFormat = "dd.MM.yyyy"
+            return dateFormatter.string(from: date)
+        }
+
+        return ""
+    }
+
+    func toDatePool(dateString: String) -> Date? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        dateFormatter.locale = Locale.init(identifier: "ru")
+
+        return dateFormatter.date(from: dateString)
+    }
     
     func toDate(dateString: String) -> Date? {
         let dateFormatter = DateFormatter()

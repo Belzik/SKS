@@ -17,10 +17,12 @@ class News: Codable {
     let nameRegion: String?
     let uuidUniver: String?
     let title: String?
-    let content: String?
+    var content: String?
     var photoUrl: [String]?
     let event: Event?
     let pooling: Pooling?
+    let hasEvent: Bool?
+    let hasPooling: Bool?
 }
 
 class Event: Codable {

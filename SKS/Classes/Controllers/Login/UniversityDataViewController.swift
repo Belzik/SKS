@@ -50,7 +50,8 @@ class UniversityDataViewController: BaseViewController {
         LevelEducation(title: "Специалитет (6 лет)", value: "6"),
         LevelEducation(title: "Магистратура", value: "2"),
         LevelEducation(title: "Аспирантура", value: "6"),
-        LevelEducation(title: "Ординатура", value: "3")
+        LevelEducation(title: "Ординатура", value: "3"),
+        LevelEducation(title: "СПО", value: "5")
     ]
     
     var uniqueSess = ""

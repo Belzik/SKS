@@ -15,7 +15,12 @@ class NewsDashboardViewController: ViewController<NewsDashboardView> {
 
         mainView.newsHandler = { [weak self] news in
             guard let self = self else { return }
-            if news.pooling?.uuidPooling != nil {
+            guard let hasPooling = news.hasPooling,
+                  let hasEvent = news.hasEvent else { return }
+            if hasEvent,
+               hasPooling {
+                self.performSegue(withIdentifier: "seguePoolingEvent", sender: news)
+            } else if hasPooling {
                 self.performSegue(withIdentifier: "seguePoolingNews", sender: news)
             } else {
                 self.performSegue(withIdentifier: "segueDetailNews", sender: news)
@@ -44,6 +49,13 @@ class NewsDashboardViewController: ViewController<NewsDashboardView> {
 
         if segue.identifier == "seguePoolingNews" {
             let dvc = segue.destination as! PoolingNewsViewController
+            if let news = sender as? News {
+                dvc.model = news
+            }
+        }
+
+        if segue.identifier == "seguePoolingEvent" {
+            let dvc = segue.destination as! PoolingEventViewController
             if let news = sender as? News {
                 dvc.model = news
             }

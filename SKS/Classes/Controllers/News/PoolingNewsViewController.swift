@@ -9,44 +9,36 @@
 import UIKit
 
 class PoolingNewsViewController: BaseViewController {
+    // MARK: - Views
+
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var endButton: SKSButton!
+    @IBOutlet weak var endButton: DownloadButton!
     
     @IBOutlet weak var headerView: UIView!
     @IBOutlet weak var topScrollViewConstraint: NSLayoutConstraint! // 0 или 104
-    
-    
-    @IBAction func endButtonTapped(_ sender: SKSButton) {
-        sendAnswer()
-    }
+    @IBOutlet weak var footerView: UIView!
+    @IBOutlet weak var dateEndLabel: UILabel!
+    @IBOutlet weak var countVotedLabel: UILabel!
+    @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
        return .lightContent
     }
-    
+
+    // MARK: - Properties
+
     var isVoted: Bool = false
     var model: News?
     var selectedIndex: IndexPath?
+    var poolingNews: PoolingNews?
+    var isEndPooling: Bool = false
+    var dispatchGroup = DispatchGroup()
+    var user: UserData?
+
+    // MARK: - View life cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        if let voted = model?.pooling?.voted {
-            self.isVoted = voted
-            endButton.isHidden = voted
-            
-            if voted {
-                tableView.tableFooterView = UIView(frame: CGRect.zero)
-            }
-        }
-        
-        if let votedAccess = model?.pooling?.voteAccess {
-            if !votedAccess {
-                self.isVoted = true
-                endButton.isHidden = true
-                tableView.tableFooterView = UIView(frame: CGRect.zero)
-            }
-        }
         
         if let photo = model?.photoUrl?.first,
             photo != "" {
@@ -56,24 +48,106 @@ class PoolingNewsViewController: BaseViewController {
             topScrollViewConstraint.constant = 104
             headerView.isHidden = false
         }
-        
+
+        footerView.setupShadow(
+            0,
+            shadowRadius: 1,
+            color: UIColor.black.withAlphaComponent(1),
+            offset: CGSize(width: 0, height: 0),
+            opacity: 0.3
+        )
+
         calculateAllVotesCount()
         setupTableView()
-    }
-    
-    func calculateAllVotesCount() {
-        guard let answerTypes = model?.pooling?.answerTypes else { return }
-            
-        var allVotesCount = 0
-        for answerType in answerTypes {
-            if let votes = answerType.votes {
-                allVotesCount += votes
-            }
+        getPoolingNews()
+        getSingleNews()
+        getInfoUser()
+
+        activityIndicatorView.startAnimating()
+        dispatchGroup.notify(queue: .main) { [weak self] in
+            guard let self = self else { return }
+            self.reloadUI()
         }
-        
-        for answerType in answerTypes {
-            answerType.allVotesCount = allVotesCount
-            answerType.isSelected = false
+    }
+
+    // MARK: - Methods
+
+    func getInfoUser() {
+        guard let accessToken = UserData.loadSaved()?.accessToken else { return }
+        dispatchGroup.enter()
+        NetworkManager.shared.getInfoUser { [weak self] response in
+            if let user = response.value {
+                self?.user = user
+            }
+            self?.dispatchGroup.leave()
+        }
+    }
+
+    func reloadUI() {
+        self.tableView.reloadData()
+        self.tableView.isHidden = false
+        self.footerView.isHidden = false
+        if UserData.loadSaved() == nil {
+            self.endButton.isHidden = true
+        } else {
+            self.endButton.isHidden = self.isVoted || self.isEndPooling
+        }
+
+        self.activityIndicatorView.stopAnimating()
+        if self.isVoted {
+            self.tableView.tableFooterView = UIView(frame: CGRect.zero)
+        }
+        if let voted = self.poolingNews?.voted {
+            self.countVotedLabel.text = "ОТВЕТИЛИ \(voted) ЧЕЛ."
+        }
+    }
+
+    func getSingleNews() {
+        guard let uuidNews = model?.uuidNews else { return }
+        dispatchGroup.enter()
+        NetworkManager.shared.getSingleNews(uuidNews: uuidNews) { [weak self] result in
+            if let news = result.value {
+                self?.model?.content = news.content
+            }
+            self?.dispatchGroup.leave()
+        }
+    }
+
+    private func getPoolingNews(fromVote: Bool = false) {
+        if !fromVote {
+            endButton.isHidden = true
+            footerView.isHidden = true
+            tableView.isHidden = true
+        }
+        guard let uuid = model?.uuidNews else { return }
+        dispatchGroup.enter()
+        NetworkManager.shared.getPoolingNews(uuidNews: uuid) { [weak self] result in
+            guard let self = self else { return }
+            self.poolingNews = result.value
+
+            if let endPooling = result.value?.endPooling {
+                self.dateEndLabel.text = "ОКОНЧАНИЕ " + DateManager.shared.toDateString(date: endPooling)
+                if let dateEnd = DateManager.shared.toDatePool(dateString: endPooling) {
+                    self.isEndPooling = dateEnd < Date()
+                }
+            }
+
+            if let voted = self.poolingNews?.userIsVoted {
+                self.isVoted = voted
+            }
+
+            if fromVote {
+                self.reloadUI()
+                self.showAlert(message: "Ваш ответ принят")
+            }
+            self.dispatchGroup.leave()
+        }
+    }
+
+    func calculateAllVotesCount() {
+        if let voted = poolingNews?.voted {
+            poolingNews?.voted! += 1
+            countVotedLabel.text = "\(voted)"
         }
     }
     
@@ -83,48 +157,58 @@ class PoolingNewsViewController: BaseViewController {
             return
         }
 
-        guard let selectedIndex = self.selectedIndex else {
-            showAlert(message: "Необходимо выбрать один из вариантов ответов на вопрос")
+        if let isAllSelected = poolingNews?.isAllSelected(),
+           !isAllSelected {
+            showAlert(message: "Необходимо ответить на все вопросы.")
             return
         }
+
+        if let userStatus = user?.status,
+            let status = ProfileStatus(rawValue: userStatus) {
+
+            if status != .active &&
+                status != .activepromo {
+                showAlert(message: "Для того, чтобы проголосовать, ваш аккаунт должен быть подтвержден")
+                return
+            }
+        }
         
-        guard let answerTypes = model?.pooling?.answerTypes,
-                let uuidAnswer = answerTypes[selectedIndex.row].uuidAnswerType else { return }
-        
-        NetworkManager.shared.sendAnswer(idAnswer: uuidAnswer) { [weak self] result in
+        guard let request = poolingNews?.makeRequest() else {
+            return
+        }
+
+        endButton.isDownload = true
+        NetworkManager.shared.postPoolingNews(model: request) { [weak self] result in
             if let statusCode = result.responseCode,
                 statusCode == 200 {
-                self?.showAlert(message: "Ваш ответ принят")
-                
-                if let votes = answerTypes[selectedIndex.row].votes {
-                    answerTypes[selectedIndex.row].votes = votes + 1
-                    answerTypes[selectedIndex.row].voted = true
-                }
-                
-                self?.calculateAllVotesCount()
-                self?.isVoted = true
-                self?.model?.pooling?.voted = true
-                self?.tableView.tableFooterView = UIView(frame: CGRect.zero)
-                self?.tableView.reloadData()
+                self?.getPoolingNews(fromVote: true)
             } else if let statusCode = result.responseCode,
                     statusCode == 409 {
                 self?.showAlert(message: "Для того, чтобы проголосовать, ваш аккаунт должен быть подтвержден")
+                self?.endButton.isDownload = true
             } else {
                 self?.showAlert(message: NetworkErrors.common)
+                self?.endButton.isDownload = true
             }
+
         }
     }
+
+    // MARK: - Actions
+
+    @IBAction func endButtonTapped(_ sender: DownloadButton) {
+        sendAnswer()
+    }
 }
+
+// MARK: - UITableViewDelegate, UITableViewDataSource
 
 extension PoolingNewsViewController: UITableViewDelegate, UITableViewDataSource {
     func setupTableView() {
         tableView.register(UINib(nibName: "\(AnswerTableViewCell.self)",
                                  bundle: nil),
                            forCellReuseIdentifier: "\(AnswerTableViewCell.self)")
-        
-        tableView.register(UINib(nibName: "\(ResultPoolingTableViewCell.self)",
-                                 bundle: nil),
-                           forCellReuseIdentifier: "\(ResultPoolingTableViewCell.self)")
+        tableView.register(ResultQuestionTableViewCell.self)
         
         tableView.register(UINib(nibName: "\(PoolingTableHeaderView.self)",
                                  bundle: nil),
@@ -132,32 +216,40 @@ extension PoolingNewsViewController: UITableViewDelegate, UITableViewDataSource 
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let answerTypes = model?.pooling?.answerTypes {
-            return answerTypes.count
+        if let question = poolingNews?.questions {
+            return question.count
         } else {
             return 0
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if isVoted {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "\(ResultPoolingTableViewCell.self)",
-                                                     for: indexPath) as! ResultPoolingTableViewCell
+        if isVoted || isEndPooling {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "\(ResultQuestionTableViewCell.self)",
+                                                     for: indexPath) as! ResultQuestionTableViewCell
             
-            if let answerTypes = model?.pooling?.answerTypes {
-                cell.model = answerTypes[indexPath.row]
+            if let question = poolingNews?.questions?[indexPath.row] {
+                question.countAll = poolingNews?.voted ?? 0
+                cell.model = question
             }
-            
+
+            if let questions = poolingNews?.questions {
+                if questions.count == (indexPath.row + 1) && isVoted {
+                    cell.showEndView(hidden: false)
+                } else {
+                    cell.showEndView(hidden: true)
+                }
+            }
+
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "\(AnswerTableViewCell.self)",
                                                      for: indexPath) as! AnswerTableViewCell
             
-            if let answerTypes = model?.pooling?.answerTypes {
-                cell.model = answerTypes[indexPath.row]
+            if let question = poolingNews?.questions?[indexPath.row] {
+                cell.model = question
             }
             cell.indexPath = indexPath
-            cell.delegate = self
             
             return cell
         }
@@ -185,47 +277,9 @@ extension PoolingNewsViewController: UITableViewDelegate, UITableViewDataSource 
 
         return header
     }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if !isVoted {
-            if let selectedIndex = self.selectedIndex {
-                if let answerTypes = model?.pooling?.answerTypes {
-                    answerTypes[selectedIndex.row].isSelected = false
-                    answerTypes[indexPath.row].isSelected = true
-                    self.selectedIndex = indexPath
-                    
-                    tableView.reloadRows(at: [indexPath, selectedIndex], with: .automatic)
-                }
-            } else {
-                self.selectedIndex = indexPath
-                if let answerTypes = model?.pooling?.answerTypes {
-                    answerTypes[indexPath.row].isSelected = true
-                    tableView.reloadRows(at: [indexPath], with: .automatic)
-                }
-            }
-        }
-    }
 }
 
-extension PoolingNewsViewController: AnswerTableViewCellDelegate {
-    func radioButtonTapped(indexPath: IndexPath) {
-        if let selectedIndex = self.selectedIndex {
-            if let answerTypes = model?.pooling?.answerTypes {
-                answerTypes[selectedIndex.row].isSelected = false
-                answerTypes[indexPath.row].isSelected = true
-                self.selectedIndex = indexPath
-                
-                tableView.reloadRows(at: [indexPath, selectedIndex], with: .automatic)
-            }
-        } else {
-            self.selectedIndex = indexPath
-            if let answerTypes = model?.pooling?.answerTypes {
-                answerTypes[indexPath.row].isSelected = true
-                tableView.reloadRows(at: [indexPath], with: .automatic)
-            }
-        }
-    }
-}
+// MARK: - PoolingTableHeaderViewDelegate
 
 extension PoolingNewsViewController: PoolingTableHeaderViewDelegate {
     func backButtonTapped() {

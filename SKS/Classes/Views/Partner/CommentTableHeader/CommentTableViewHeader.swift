@@ -23,10 +23,10 @@ class CommentTableViewHeader: UITableViewHeaderFooterView {
     @IBOutlet weak var fourProgressView: UIProgressView!
     @IBOutlet weak var fiveProgressView: UIProgressView!
     
-    @IBOutlet weak var sendCommentButton: SKSButton!
+    @IBOutlet weak var sendCommentButton: DownloadButton!
     @IBOutlet weak var sendCommentButtonBottomConstraint: NSLayoutConstraint!
     
-    @IBAction func sendCommentButtonTapped(_ sender: SKSButton) {
+    @IBAction func sendCommentButtonTapped(_ sender: DownloadButton) {
         delegate?.sendCommentButtonTapped()
     }
     

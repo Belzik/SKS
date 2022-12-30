@@ -20,6 +20,9 @@ enum ProfileStatus: String {
     case blocked = "blocked"
     case moderation = "moderation"
     case rejected = "rejected"
+    case emptypromo = "emptypromo"
+    case activepromo = "activepromo"
+    case expiredpromo = "expiredpromo"
 }
 
 class ProfileViewController: BaseViewController {
@@ -43,7 +46,10 @@ class ProfileViewController: BaseViewController {
     
     @IBOutlet weak var sheverevImage: UIImageView!
     @IBOutlet weak var sheverevLabel: UILabel!
-    
+
+    @IBOutlet weak var facultyStack: UIStackView!
+    @IBOutlet weak var periodStack: UIStackView!
+    @IBOutlet weak var courseStack: UIStackView!
     
     weak var delegate: ProfileDelegate?
     var user: UserData?
@@ -155,7 +161,7 @@ class ProfileViewController: BaseViewController {
         
         editButton.isHidden = true
         if let status = user.status {
-            
+
             switch status {
             case ProfileStatus.active.rawValue:
                 statusLabel.text = "Аккаунт подтвержден"
@@ -176,6 +182,18 @@ class ProfileViewController: BaseViewController {
                 reasonLabel.text = user.statusReason
                 reasonLabel.isHidden = false
                 editButton.isHidden = false
+            case ProfileStatus.activepromo.rawValue:
+                statusLabel.text = "Промо-аккаунт активен"
+                statusLabel.textColor = ColorManager.green.value
+                reasonLabel.text = "Срок действия до 31.12.2022"
+                reasonLabel.isHidden = false
+                hidePromo()
+            case ProfileStatus.expiredpromo.rawValue:
+                statusLabel.text = "Промо-аккаунт не активен"
+                statusLabel.textColor = ColorManager.red.value
+                reasonLabel.text = "Срок действия промо-аккаунта закончился. Для получения полного доступа обратитесь в Профком вашего учебного заведения"
+                reasonLabel.isHidden = false
+                hidePromo()
             default:
                 statusLabel.isHidden = true
                 reasonLabel.isHidden = true
@@ -188,5 +206,12 @@ class ProfileViewController: BaseViewController {
                             self?.contentView.isHidden = false
         }, completion: nil)
         
+    }
+
+    func hidePromo() {
+        facultyStack.isHidden = true
+        periodStack.isHidden = true
+        courseStack.isHidden = true
+        speacialityStackView.isHidden = true
     }
 }

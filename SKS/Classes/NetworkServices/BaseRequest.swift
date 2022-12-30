@@ -86,8 +86,8 @@ class BaseRequest {
 
         if !(vc is UIAlertController) {
             if statusCode == 426 {
-                let alert = UIAlertController(title: "Внимание!",
-                                              message: "Новая версия СКС РФ доступна для скачивания. Пожалуйста, обновитесь.",
+                let alert = UIAlertController(title: "Пора обновиться!",
+                                              message: "Новая версия СКС РФ уже доступна для скачивания.",
                                               preferredStyle: .alert)
                 
                 let okBtn = UIAlertAction(title: "Обновить",
@@ -109,8 +109,8 @@ class BaseRequest {
             }
             
             if statusCode == 423 {
-                let alert = UIAlertController(title: "Внимание!",
-                                              message: "Новая версия СКС РФ доступна для скачивания. Пожалуйста, обновитесь.",
+                let alert = UIAlertController(title: "Пора обновиться!",
+                                              message: "Новая версия СКС РФ уже доступна для скачивания.",
                                               preferredStyle: .alert)
                 
                 let okBtn = UIAlertAction(title: "Обновить",

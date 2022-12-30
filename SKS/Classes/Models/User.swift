@@ -100,6 +100,8 @@ class StudentInfo: Codable {
     var nameSpecialty: String?
     var uuidSpecialty: String?
     var shortNameUniversity: String?
+    var linkvk: String?
+    var linktg: String?
     
     var fio: String {
         var string = ""

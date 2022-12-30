@@ -56,6 +56,9 @@ struct APIPath {
     static let getLinkToMessager = "get-link-to-messenger"
     static let createRzdRequest = "create-request"
     static let getRzdRequest = "get-request"
+    static let promoData = "student/promo"
+    static let checkPromo = "auth/checkpromo"
+    static let socnet = "student/socnet"
 }
 
 enum HeaderKey: String {
@@ -228,13 +231,19 @@ class NetworkManager: BaseRequest {
     // MARK: - Получить СМС с кодом на телефон
     func getCodeWithSms(phone: String,
                         place: String = "mobile",
+                        isPromo: Bool,
+                        promocode: String,
                         completion: @escaping (_ result: BaseResponse<SmsResponse>) -> Void) {
         let url = authURI + apiVersion2 + APIPath.getSmsWithCode
         
-        let parametrs: Parameters = [
+        var parametrs: Parameters = [
             "login" : phone,
             "place" : place
         ]
+
+        if isPromo {
+            parametrs["promocode"] = promocode
+        }
         
         request(url: url,
                   method: .post,
@@ -1218,6 +1227,92 @@ class NetworkManager: BaseRequest {
 
         request(url: url,
                 method: .put,
+                headers: headers) { result in
+            completion(result)
+        }
+    }
+
+    // MARK: Получить опрос новости
+
+    func getPoolingNews(uuidNews: String, completion: @escaping (_ result: BaseResponse<PoolingNews>) -> Void) {
+        let url = baseURI + apiVersion2 + APIPath.pooling + "?uuidNews=\(uuidNews)"
+
+        var headers: HTTPHeaders = []
+        if let accessToken = UserData.loadSaved()?.accessToken {
+            headers.add(HTTPHeader(name: HeaderKey.token.rawValue, value: accessToken))
+        }
+
+        request(url: url,
+                headers: headers) { result in
+            completion(result)
+        }
+    }
+
+    // MARK: Отправить ответ
+
+    func postPoolingNews(model: QuestionRequest, completion: @escaping (_ result: BaseResponse<StatusResponse>) -> Void) {
+        let url = baseURI + apiVersion2 + APIPath.pooling
+
+        var headers: HTTPHeaders = []
+        if let accessToken = UserData.loadSaved()?.accessToken {
+            headers.add(HTTPHeader(name: HeaderKey.token.rawValue, value: accessToken))
+        }
+
+        request(url: url,
+                method: .post,
+                parameters: model,
+                headers: headers) { result in
+            completion(result)
+        }
+    }
+
+    // MARK: Отправить данные промо пользователя
+
+    func sendPromoData(model: PromoRequest, accessToken: String, completion: @escaping (_ result: BaseResponse<UserData>) -> Void) {
+        let url = baseURI + apiVersion1 + APIPath.promoData
+
+        var headers: HTTPHeaders = []
+        headers.add(HTTPHeader(name: HeaderKey.token.rawValue, value: accessToken))
+
+        request(url: url,
+                method: .post,
+                parameters: model,
+                headers: headers) { result in
+            completion(result)
+        }
+    }
+
+    // MARK: - Проверить промокод
+
+    func checkPromo(promo: String, completion: @escaping (_ result: BaseResponse<PromoData>) -> Void) {
+        let url = (authURI + apiVersion2 + APIPath.checkPromo + "?promocode=\(promo)").addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+
+        request(url: url) { result in
+            completion(result)
+        }
+    }
+
+    // MARK: - Отправить соц сети
+
+    func sendSocnet(
+        vk: String,
+        telegram: String,
+        completion: @escaping (_ result: BaseResponse<StatusResponse>) -> Void
+    ) {
+        let url = baseURI + apiVersion1 + APIPath.socnet
+
+        var headers: HTTPHeaders = []
+        if let accessToken = UserData.loadSaved()?.accessToken {
+            headers.add(HTTPHeader(name: HeaderKey.token.rawValue, value: accessToken))
+        }
+
+        var parametrs: Parameters = [:]
+        parametrs["linkvk"] = vk
+        parametrs["linktg"] = telegram
+
+        request(url: url,
+                method: .post,
+                parameters: parametrs,
                 headers: headers) { result in
             completion(result)
         }

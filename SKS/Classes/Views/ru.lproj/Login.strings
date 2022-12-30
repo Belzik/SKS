@@ -3,13 +3,13 @@
 "1WN-hB-C1r.normalTitle" = "Назад";
 
 /* Class = "UILabel"; text = "Код подтверждения из SMS"; ObjectID = "4XF-3b-xmn"; */
-"4XF-3b-xmn.text" = "На ваш телефон поступит смс. Введите код.";
+"4XF-3b-xmn.text" = "Вам поступит звонок или смс. Введите 4 последние цифры.";
 
 /* Class = "UIButton"; normalTitle = "Далее"; ObjectID = "84t-u7-sDb"; */
 "84t-u7-sDb.normalTitle" = "Далее";
 
 /* Class = "UILabel"; text = "Введите номер телефона"; ObjectID = "Bx5-1b-u56"; */
-"Bx5-1b-u56.text" = "Введите номер телефона";
+"Bx5-1b-u56.text" = "Для регистрации введите номер телефона";
 
 /* Class = "UILabel"; text = "Введите данные учебного заведения"; ObjectID = "Foh-Ln-i7i"; */
 "Foh-Ln-i7i.text" = "Введите данные учебного заведения";

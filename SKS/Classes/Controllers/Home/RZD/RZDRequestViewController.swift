@@ -154,7 +154,7 @@ class RZDRequestViewController: BaseViewController {
 
     // MARK: - Actions
 
-    @IBAction func sendButtonTapped(_ sender: SKSButton) {
+    @IBAction func sendButtonTapped(_ sender: DownloadButton) {
         getInfoUser()
     }
 

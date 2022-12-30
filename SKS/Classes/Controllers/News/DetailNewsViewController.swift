@@ -55,6 +55,7 @@ class DetailNewsViewController: BaseViewController {
         }
     }
     @IBOutlet weak var complaintImageView: UIImageView!
+    @IBOutlet weak var contactsButton: DownloadButton!
 
     @IBAction func eventButtonTapped(_ sender: UIButton) {
         if UserData.loadSaved() == nil {
@@ -77,16 +78,28 @@ class DetailNewsViewController: BaseViewController {
             }
         }
     }
+
+    @IBOutlet weak var stackContent: UIStackView!
+    @IBOutlet weak var titleEventLabel: UILabel!
+    @IBOutlet weak var contentEventLabel: UITextView! {
+        didSet {
+            contentEventLabel.textContainerInset = .zero
+            contentEventLabel.contentInset = UIEdgeInsets(top: -4, left: -6, bottom: 0, right: -6)
+            contentEventLabel.dataDetectorTypes = UIDataDetectorTypes.link
+        }
+    }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
        return .lightContent
     }
     
     var model: News?
+    var dispatchGroup = DispatchGroup()
+    var user: UserData?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        getInfoUser()
         eventView.setupShadow(0,
                               shadowRadius: 1,
                               color: UIColor.black.withAlphaComponent(1),
@@ -94,6 +107,17 @@ class DetailNewsViewController: BaseViewController {
                               opacity: 0.3)
         
         getSingleNews()
+    }
+
+    func getInfoUser() {
+        guard let uuidNews = model?.uuidNews else { return }
+        dispatchGroup.enter()
+        NetworkManager.shared.getInfoUser { [weak self] response in
+            if let user = response.value {
+                self?.user = user
+            }
+            self?.dispatchGroup.leave()
+        }
     }
     
     func getSingleNews() {
@@ -167,11 +191,13 @@ class DetailNewsViewController: BaseViewController {
                 typeNewsLabel.text = typeNews
             }
         }
-        
-        if model?.pooling?.uuidPooling != nil {
-            categoryLabel.text = "ОПРОС"
-        } else if model?.event?.uuidEvent != nil {
+
+        if let hasPooling = model?.hasEvent,
+           hasPooling {
             categoryLabel.text = "МЕРОПРИЯТИЕ"
+        } else if let hasEvent = model?.hasPooling,
+            hasEvent {
+            categoryLabel.text = "ОПРОС"
         } else {
             categoryLabel.text = "НОВОСТЬ"
         }
@@ -203,9 +229,11 @@ class DetailNewsViewController: BaseViewController {
                 if bookedForMe {
                     eventButton.setTitle("ОТМЕНИТЬ РЕГИСТРАЦИЮ", for: .normal)
                     eventButton.setTitleColor(ColorManager.black.value, for: .normal)
+                    contactsButton.isHidden = false
                 } else {
                     eventButton.setTitle("ЗАРЕГИСТРИРОВАТЬСЯ", for: .normal)
                     eventButton.setTitleColor(ColorManager.green.value, for: .normal)
+                    contactsButton.isHidden = true
                 }
             }
             
@@ -213,9 +241,21 @@ class DetailNewsViewController: BaseViewController {
                 !bookedAccess {
                 eventButton.isHidden = true
             }
+
+            stackContent.setCustomSpacing(24, after: contentLabel)
+            stackContent.setCustomSpacing(16, after: titleEventLabel)
+            titleEventLabel.text = model?.event?.title
+            if let eventHTMl = model?.event?.description {
+                contentEventLabel.text = eventHTMl.htmlStripped
+            }
+
+            titleEventLabel.isHidden = false
+            contentEventLabel.isHidden = false
         } else {
             eventView.isHidden = true
             scrollBottomConstraint.constant = 0
+            titleEventLabel.isHidden = true
+            contentEventLabel.isHidden = true
         }
 
         if UserData.loadSaved() == nil {
@@ -230,9 +270,12 @@ class DetailNewsViewController: BaseViewController {
         NetworkManager.shared.registrationOnEvent(idEvent: idEvent) { [weak self] result in
             if let statusCode = result.responseCode,
                 statusCode == 200 {
-                self?.showAlert(message: "Вы успешно зарегистрировались на мероприятие")
+                self?.showAlert(
+                    title: "Вы зарегистрированы на мероприятие!",
+                    message: "Ваша заявка на посещение мероприятия принята. Следите за обновлениями на странице мероприятия.")
                 self?.eventButton.setTitle("ОТМЕНИТЬ РЕГИСТРАЦИЮ", for: .normal)
                 self?.eventButton.setTitleColor(ColorManager.black.value, for: .normal)
+                self?.contactsButton.isHidden = false
                 
                 if let placeCount = self?.model?.event?.placesCount,
                     let placeCountBooked = self?.model?.event?.placesCountBooked {
@@ -257,6 +300,7 @@ class DetailNewsViewController: BaseViewController {
                 self?.showAlert(message: "Вы отменили запись на мероприятие")
                 self?.eventButton.setTitle("ЗАРЕГИСТРИРОВАТЬСЯ", for: .normal)
                 self?.eventButton.setTitleColor(ColorManager.green.value, for: .normal)
+                self?.contactsButton.isHidden = true
                 
                 if let placeCount = self?.model?.event?.placesCount,
                     let placeCountBooked = self?.model?.event?.placesCountBooked {
@@ -271,6 +315,12 @@ class DetailNewsViewController: BaseViewController {
     }
 
     // MARK: - Actions
+
+    @IBAction func contactsButtonTapped(_ sender: DownloadButton) {
+        let vc = ContactsEventViewController()
+        vc.user = user
+        present(vc, animated: true, completion: nil)
+    }
 
     @IBAction func complaintImageViewTapped(_ sender: UITapGestureRecognizer) {
         let vc = ComplaintAboutNewViewController()

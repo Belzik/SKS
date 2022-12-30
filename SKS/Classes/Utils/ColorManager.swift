@@ -32,6 +32,7 @@ enum ColorManager {
     case _EA2525
     case _0077FF
     case _090E16
+    case _333333
     
     case custom(hexString: String, alpha: Double)
     
@@ -91,6 +92,8 @@ extension ColorManager {
             instanceColor = UIColor(hexString: "#0077FF")
         case ._090E16:
             instanceColor = UIColor(hexString: "#090E16")
+        case ._333333:
+            instanceColor = UIColor(hexString: "#333333")
 
         case .custom(let hexValue, let opacity):
             instanceColor = UIColor(hexString: hexValue).withAlphaComponent(CGFloat(opacity))

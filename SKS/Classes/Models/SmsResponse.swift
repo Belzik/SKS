@@ -12,5 +12,6 @@ class SmsResponse: Codable {
     var attempt: String?
     var status: String?
     var loginKey: String?
+    var error: String?
 }
 

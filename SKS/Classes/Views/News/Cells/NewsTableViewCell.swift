@@ -72,10 +72,12 @@ class NewsTableViewCell: UITableViewCell {
             }
         }
         
-        if model?.pooling?.uuidPooling != nil {
-            categoryLabel.text = "ОПРОС"
-        } else if model?.event?.uuidEvent != nil {
+        if let hasPooling = model?.hasEvent,
+           hasPooling {
             categoryLabel.text = "МЕРОПРИЯТИЕ"
+        } else if let hasEvent = model?.hasPooling,
+            hasEvent {
+            categoryLabel.text = "ОПРОС"
         } else {
             categoryLabel.text = "НОВОСТЬ"
         }

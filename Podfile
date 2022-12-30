@@ -30,7 +30,7 @@ target 'SKS' do
   pod 'Firebase/Analytics', '= 7.10.0'
   
   # Map
-  pod 'YandexMapsMobile', '4.0.0-lite'
+  pod 'YandexMapsMobile', '4.1.0-lite'
   
   # VK
   pod 'SwiftyVK', '= 3.4.2'

@@ -34,7 +34,12 @@ class PersonalDataViewController: BaseViewController {
     
     var possibleData: PossibleData?
     var isVK: Bool = false
-    
+
+    var givenName: String? = ""
+    var familyName: String? = ""
+
+    var isPromo: Bool = false
+
     @IBAction func nextButtonTapped(_ sender: UIButton) {
         toUniversityData()
     }
@@ -49,6 +54,14 @@ class PersonalDataViewController: BaseViewController {
             lastnameTextField.text = possibleData.surname
             firstnameTextField.text = possibleData.name
             birthdayTextField.text = possibleData.birthdate
+        }
+
+        if let givenName = givenName {
+            firstnameTextField.text = givenName
+        }
+
+        if let familyName = familyName {
+            lastnameTextField.text = familyName
         }
         
         if isVK {
@@ -108,6 +121,18 @@ class PersonalDataViewController: BaseViewController {
                 dvc.phone = phone
             }
         }
+
+        if segue.identifier == "seguePromoData" {
+            let dvc = segue.destination as! PromoDataViewController
+            dvc.uniqueSess = uniqueSess
+            dvc.refreshToken = refreshToken
+            dvc.accessToken = accessToken
+            dvc.keyFile = keyFile
+            dvc.surname = lastnameTextField.text!
+            dvc.name = firstnameTextField.text!
+            dvc.patronymic = secondTextField.text!
+            dvc.birthday = birthdayTextField.text!
+        }
     }
     
     @objc func imageTapped() {
@@ -153,7 +178,12 @@ class PersonalDataViewController: BaseViewController {
         
         if isValid {
             view.endEditing(true)
-            performSegue(withIdentifier: "segueUniversityData", sender: nil)
+
+            if isPromo {
+                performSegue(withIdentifier: "seguePromoData", sender: nil)
+            } else {
+                performSegue(withIdentifier: "segueUniversityData", sender: nil)
+            }
         }
     }
     

@@ -14,22 +14,28 @@ class LoginViewController: BaseViewController {
     // MARK: IBOutlets
 
     @IBOutlet weak var phoneTextField: SKSTextField!
-    @IBOutlet weak var nextButton: SKSButton!
+    @IBOutlet weak var nextButton: DownloadButton!
     @IBOutlet weak var agreementsLabel: UILabel!
-    @IBOutlet weak var bottomConstraintAgreementLabel: NSLayoutConstraint!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var titleLabelBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var acitivityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var authVKButton: TitleWithIconButton!
     @IBOutlet weak var authAppleButton: TitleWithIconButton!
-    @IBOutlet weak var promoCodeRegistrationButton: SKSButton!
-    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var promoCodeRegistrationButton: DownloadButton!
+    @IBOutlet weak var stackButtons: UIStackView!
+    @IBOutlet weak var orLabel: UILabel!
+    @IBOutlet weak var loginsButtonStack: UIStackView!
+    @IBOutlet weak var nextButtonView: UIView!
 
     // MARK: Properties
 
     private var keyboardHeight: CGFloat = 0
     private var smsResponse: SmsResponse?
     var authVKReponse: AuthVKResponse?
+    var givenName: String? = ""
+    var familyName: String? = ""
+    var isPromo: Bool = false
+    var promocode: String = ""
     
     // MARK: View life cycle
     
@@ -61,6 +67,12 @@ class LoginViewController: BaseViewController {
         
         setupAgreementsLabel()
         setupButtons()
+
+        if isPromo {
+            promoCodeRegistrationButton.isHidden = true
+            orLabel.isHidden = true
+            loginsButtonStack.isHidden = true
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -73,6 +85,8 @@ class LoginViewController: BaseViewController {
             let dvc = segue.destination as! CodeViewController
             dvc.keyboardHeight = keyboardHeight
             dvc.phone = phoneTextField.text!.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
+            dvc.isPromo = isPromo
+            dvc.promocode = promocode
                 
             dvc.smsResponse = self.smsResponse
         }
@@ -92,6 +106,8 @@ class LoginViewController: BaseViewController {
                 dvc.uniqueSess = uniqueSess
                 dvc.refreshToken = refreshToken
                 dvc.accessToken = accessToken
+                dvc.givenName = givenName
+                dvc.familyName = familyName
 
                 if let _ = sender as? Bool {} else {
                     dvc.possibleData = authVKReponse?.possibleData
@@ -113,7 +129,7 @@ class LoginViewController: BaseViewController {
         authVKButton.isUserInteractionEnabled = true
         authVKButton.addGestureRecognizer(tapVK)
 
-        authAppleButton.titleLabel.text = "Вход с Apple ID"
+        authAppleButton.titleLabel.text = "Вход с Apple"
         authAppleButton.backgroundColor = ColorManager._090E16.value
         authAppleButton.layer.cornerRadius = 5
         authAppleButton.iconView.image = UIImage(named: "authApple")
@@ -132,39 +148,58 @@ class LoginViewController: BaseViewController {
     }
 
     private func getSmsWithCode() {
-        NetworkManager.shared.getCodeWithSms(phone: phoneTextField.text!.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()) { [weak self] response in
+        nextButton.isDownload = true
+        NetworkManager.shared.getCodeWithSms(
+            phone: phoneTextField.text!.components(separatedBy: CharacterSet.decimalDigits.inverted).joined(),
+            isPromo: isPromo,
+            promocode: promocode
+        ) { [weak self] response in
+                guard let self = self else { return }
 
-            print("КОД", response.responseCode)
             if let smsResponse = response.value {
-                self?.smsResponse = smsResponse
-                
-                if let loginKey = smsResponse.loginKey,
+                self.smsResponse = smsResponse
+
+                if let error = smsResponse.error {
+                    self.showAlert(message: error)
+                } else if let loginKey = smsResponse.loginKey,
                     loginKey == "" {
-                    self?.performSegue(withIdentifier: "segueCode", sender: nil)
+                    self.performSegue(withIdentifier: "segueCode", sender: nil)
                 } else {
-                    self?.performSegue(withIdentifier: "seguePassword", sender: nil)
+                    if self.isPromo {
+                        self.showAlert(message: "Пользователь уже существует.")
+                    } else {
+                        self.performSegue(withIdentifier: "seguePassword", sender: nil)
+                    }
                 }
             } else {
-                self?.showAlert(message: NetworkErrors.common)
+                self.showAlert(message: NetworkErrors.common)
             }
+                self.nextButton.isDownload = false
         }
     }
     
     private func views(hide: Bool) {
         UIView.transition(with: view, duration: 0.2, options: .transitionCrossDissolve, animations: {
-            self.view.layoutIfNeeded()
+            //self.view.layoutIfNeeded()
+            self.authVKButton.isHidden = !hide
+            self.authAppleButton.isHidden = !hide
+            self.promoCodeRegistrationButton.isHidden = !hide
+            if !self.isPromo {
+                self.loginsButtonStack.isHidden = !hide
+            }
+            self.nextButtonView.isHidden = hide
             self.nextButton.isHidden = hide
             self.agreementsLabel.isHidden = hide
             self.phoneTextField.rightView?.isHidden = hide
-            self.scrollView.isScrollEnabled = !hide
 
-            if hide {
-                let bottomOffset = CGPoint(x: 0, y: 0)
-                self.scrollView.setContentOffset(bottomOffset, animated: true)
-            } else {
-                let bottomOffset = CGPoint(x: 0, y: self.scrollView.contentSize.height - self.scrollView.bounds.size.height)
-                self.scrollView.setContentOffset(bottomOffset, animated: true)
-            }
+
+//            if hide {
+//                let bottomOffset = CGPoint(x: 0, y: 0)
+//                self.scrollView.setContentOffset(bottomOffset, animated: true)
+//            } else {
+//                let bottomOffset = CGPoint(x: 0, y: self.scrollView.contentSize.height - self.scrollView.bounds.size.height)
+//                self.scrollView.setContentOffset(bottomOffset, animated: true)
+//            }
         })
     }
     
@@ -193,7 +228,7 @@ class LoginViewController: BaseViewController {
         dismiss(animated: true, completion: nil)
     }
 
-    @IBAction func nextbuttonTapped(_ sender: SKSButton) {
+    @IBAction func nextbuttonTapped(_ sender: DownloadButton) {
         getSmsWithCode()
     }
 
@@ -216,10 +251,10 @@ class LoginViewController: BaseViewController {
             let keyboardHeight = keyboardRectangle.height
 
             if keyboardHeight > 0 {
-                bottomConstraintAgreementLabel.constant = keyboardHeight - 40
+                //bottonConstraint.constant = keyboardHeight - 40
                 self.keyboardHeight = keyboardHeight
             } else {
-                bottomConstraintAgreementLabel.constant = 0
+                //bottonConstraint.constant = 0
             }
         }
     }
@@ -227,7 +262,7 @@ class LoginViewController: BaseViewController {
     @objc func authAppleButtonTapped() {
         let appleIDProvider = ASAuthorizationAppleIDProvider()
         let request = appleIDProvider.createRequest()
-        request.requestedScopes = [.fullName, .email]
+        request.requestedScopes = [.email, .fullName]
 
         let authorizationController = ASAuthorizationController(authorizationRequests: [request])
         authorizationController.delegate = self
@@ -296,13 +331,20 @@ extension LoginViewController: UITextFieldDelegate {
                     cursorLocation = range.location + 1
                 }
                 
-                guard let startPosition = textField.position(from: textField.beginningOfDocument, offset: cursorLocation) else { return false }
-                guard let endPosition = textField.position(from: startPosition, offset: 0) else { return false }
+                guard let startPosition = textField.position(from: textField.beginningOfDocument, offset: cursorLocation) else {
+                    setupError(forTextField: textField as! SKSTextField, isDeleted: isDeleted)
+                    return false
+
+                }
+                guard let endPosition = textField.position(from: startPosition, offset: 0) else {
+                    setupError(forTextField: textField as! SKSTextField, isDeleted: isDeleted)
+                    return false
+                }
                 textField.selectedTextRange = textField.textRange(from: startPosition, to: endPosition)
             }
             
-            setupError(forTextField: textField as! SKSTextField, isDeleted: isDeleted)
-            return false
+//            setupError(forTextField: textField as! SKSTextField, isDeleted: isDeleted)
+//            return false
         }
         
         setupError(forTextField: textField as! SKSTextField, isDeleted: isDeleted)
@@ -416,6 +458,9 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
 
         switch authorization.credential {
         case let appleIDCredential as ASAuthorizationAppleIDCredential:
+            print("Apple КРЕДЕНТЫ", appleIDCredential.fullName)
+            self.givenName = appleIDCredential.fullName?.givenName
+            self.familyName = appleIDCredential.fullName?.familyName
             NetworkManager.shared.authApple(
                 userId: appleIDCredential.user,
                 email: appleIDCredential.email ?? "m6wndgpzd4@privaterelay.appleid.com") { [weak self] response in

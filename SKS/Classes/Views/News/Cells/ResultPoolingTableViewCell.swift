@@ -15,7 +15,7 @@ class ResultPoolingTableViewCell: UITableViewCell {
     @IBOutlet weak var percentLabel: UILabel!
     @IBOutlet weak var checkImageView: UIImageView!
     
-    weak var model: AnswerType? {
+    weak var model: AnswerVariant? {
         didSet {
             layoutUI()
         }
@@ -24,11 +24,11 @@ class ResultPoolingTableViewCell: UITableViewCell {
     func layoutUI() {
         guard let model = model else { return }
         
-        answerLabel.text = model.title
+        answerLabel.text = model.answerVariant
         
-        if let votes = model.votes {
-            if model.allVotesCount > 0 {
-                let percent = Float(votes) / Float(model.allVotesCount)
+        if let votes = model.voted {
+            if model.countAllOther > 0 {
+                let percent = Float(votes) / Float(model.countAllOther)
 
                 progressView.progress = percent
                 
@@ -50,13 +50,13 @@ class ResultPoolingTableViewCell: UITableViewCell {
             progressView.layer.masksToBounds = true
         }
     
-        if let voted = model.voted {
-            if voted {
-                checkImageView.isHidden = false
-            } else {
-                checkImageView.isHidden = true
-            }
-        }
+//        if let voted = model.voted {
+//            if voted {
+//                checkImageView.isHidden = false
+//            } else {
+//                checkImageView.isHidden = true
+//            }
+//        }
     }
     
 }

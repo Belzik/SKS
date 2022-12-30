@@ -20,8 +20,14 @@ class PoolingTableHeaderView: UITableViewHeaderFooterView {
     @IBOutlet weak var typeNewsLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
-    @IBOutlet weak var questionLabel: UILabel!
-    
+    @IBOutlet weak var contentLabel: UITextView! {
+        didSet {
+            contentLabel.textContainerInset = .zero
+            contentLabel.contentInset = UIEdgeInsets(top: -4, left: -6, bottom: 0, right: -6)
+            contentLabel.dataDetectorTypes = UIDataDetectorTypes.link
+        }
+    }
+
     @IBOutlet weak var topImageViewConstraint: NSLayoutConstraint! // -44
     @IBOutlet weak var heightImageView: NSLayoutConstraint! // 200
     
@@ -111,17 +117,18 @@ class PoolingTableHeaderView: UITableViewHeaderFooterView {
                 typeNewsTextLabel.text = typeNews
             }
         }
-        
-        if model?.pooling?.uuidPooling != nil {
-            typeNewsLabel.text = "ОПРОС"
-        } else if model?.event?.uuidEvent != nil {
+
+        if let hasPooling = model?.hasEvent,
+           hasPooling {
             typeNewsLabel.text = "МЕРОПРИЯТИЕ"
+        } else if let hasEvent = model?.hasPooling,
+            hasEvent {
+            typeNewsLabel.text = "ОПРОС"
         } else {
             typeNewsLabel.text = "НОВОСТЬ"
         }
         
         titleLabel.text = model?.title
-        questionLabel.text = model?.pooling?.question
         
         if let dateString = model?.publishBegin {
             dateLabel.text = DateManager.shared.getDifferenceTime(from: dateString)
@@ -131,6 +138,10 @@ class PoolingTableHeaderView: UITableViewHeaderFooterView {
 
         if UserData.loadSaved() == nil {
             complaintImageView.isHidden = true
+        }
+
+        if let htmlString = model?.content {
+            contentLabel.text = htmlString.htmlStripped
         }
     }
 

@@ -30,6 +30,9 @@ class PasswordViewController: BaseViewController {
     var otpResponseReset: OtpResponse?
     var otpResponseSms: SmsResponse?
     var isResetPassword = false
+
+    var isPromo: Bool = false
+    var status: String = ""
     
     // MARK: - View life cycle
     
@@ -75,6 +78,11 @@ class PasswordViewController: BaseViewController {
                 dvc.uniqueSess = uniqueSess
                 dvc.refreshToken = refreshToken
                 dvc.accessToken = accessToken
+                dvc.isPromo = isPromo
+
+                if status == ProfileStatus.emptypromo.rawValue {
+                    dvc.isPromo = true
+                }
             }
         }
         
@@ -262,11 +270,16 @@ class PasswordViewController: BaseViewController {
                       let setPassword = response.value {
                 self?.setPassword = setPassword
 
+                if let status = response.value?.status {
+                    self?.status = status
+                }
+
                 if let accessToken = response.value?.tokens?.accessToken,
                     let refreshToken = response.value?.tokens?.refreshToken,
                     let uniqueSess = response.value?.uniqueSess,
                     let status = response.value?.status {
-                    if status != ProfileStatus.clearuser.rawValue {
+                    if status != ProfileStatus.clearuser.rawValue &&
+                        status != ProfileStatus.emptypromo.rawValue {
                         let user = UserData.init()
                         user.accessToken = accessToken
                         user.refreshToken = refreshToken
@@ -310,7 +323,7 @@ class PasswordViewController: BaseViewController {
     
     // MARK: - Actions
     
-    @IBAction func nextButtonTapped(_ sender: SKSButton) {
+    @IBAction func nextButtonTapped(_ sender: DownloadButton) {
         if isResetPassword {
             resetPasswordUser()
             return

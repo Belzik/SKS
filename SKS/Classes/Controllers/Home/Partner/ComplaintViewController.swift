@@ -21,7 +21,7 @@ class ComplaintViewController: BaseViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func sendButtonTapped(_ sender: SKSButton) {
+    @IBAction func sendButtonTapped(_ sender: DownloadButton) {
         sendComplaint()
     }
     
