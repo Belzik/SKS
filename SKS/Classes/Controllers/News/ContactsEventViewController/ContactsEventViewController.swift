@@ -19,6 +19,14 @@ class ContactsEventViewController: ViewController<ContactsEventView> {
         mainView.vkTextField.text = user?.studentInfo?.linkvk
         mainView.telegramTexTfield.text = user?.studentInfo?.linktg
 
+        if mainView.vkTextField.text == "" {
+            mainView.vkTextField.text = mainView.vkPrefix
+        }
+
+        if mainView.telegramTexTfield.text == "" {
+            mainView.telegramTexTfield.text = mainView.telegramPrefix
+        }
+
         mainView.sendHandler = { [weak self] in
             self?.sendComplaint()
         }

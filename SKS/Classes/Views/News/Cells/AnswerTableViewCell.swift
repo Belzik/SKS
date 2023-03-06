@@ -26,6 +26,7 @@ class AnswerTableViewCell: UITableViewCell {
     func layoutUI() {
         for view in stackView.arrangedSubviews {
             stackView.removeArrangedSubview(view)
+            view.removeFromSuperview()
         }
 
         checkbox = []
@@ -49,6 +50,7 @@ class AnswerTableViewCell: UITableViewCell {
                     let button = SKSRadioButton()
                     button.delegate = self
                     button.tag = index
+                    button.button.isSelected = answer.isVoted
 
                     view.addSubview(button)
                     view.addSubview(label)
@@ -68,6 +70,7 @@ class AnswerTableViewCell: UITableViewCell {
                     let button = Checkbox()
                     button.delegate = self
                     button.tag = index
+                    button.button.isSelected = answer.isVoted
 
                     view.addSubview(button)
                     view.addSubview(label)
@@ -114,6 +117,7 @@ class AnswerTableViewCell: UITableViewCell {
                 let button = SKSRadioButton()
                 button.delegate = self
                 button.tag = view.tag
+                button.button.isSelected = model.isUserAnswerOther
 
                 view.addSubview(button)
                 view.addSubview(label)
@@ -131,6 +135,8 @@ class AnswerTableViewCell: UITableViewCell {
 
                 let textField = SKSTextField()
                 setup(textField)
+                textField.text = model.userAnswerOtherText
+                textField.delegate = self
                 self.textField = textField
 
                 view.addSubview(textField)
@@ -146,6 +152,7 @@ class AnswerTableViewCell: UITableViewCell {
                 let button = Checkbox()
                 button.delegate = self
                 button.tag = view.tag
+                button.button.isSelected = model.isUserAnswerOther
 
                 view.addSubview(button)
                 view.addSubview(label)
@@ -163,6 +170,7 @@ class AnswerTableViewCell: UITableViewCell {
 
                 let textField = SKSTextField()
                 textField.delegate = self
+                textField.text = model.userAnswerOtherText
                 setup(textField)
                 self.textField = textField
 
@@ -288,6 +296,9 @@ extension AnswerTableViewCell: SKSRadioButtonDelegate {
                 model.isUserAnswerOther = radioButton.isSelected
                 model.userAnswerOtherText = textField?.text ?? ""
             } else {
+                for answer in answers {
+                    answer.isVoted = false
+                }
                 answers[radioButton.tag].isVoted = radioButton.isSelected
             }
         }

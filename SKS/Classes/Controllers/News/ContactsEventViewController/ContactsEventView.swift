@@ -35,19 +35,21 @@ class ContactsEventView: SnapKitView {
     }()
 
     private var vkImageView = UIImageView(image: UIImage(named: "ic_vc_contact"))
-    var vkTextField: ErrorTextField = {
+    lazy var vkTextField: ErrorTextField = {
         let textField = ErrorTextField()
         textField.placeholder = "Ссылка на страницу ВК"
         textField.textField.title = ""
+        textField.textField.delegate = self
 
         return textField
     }()
 
     private var telegramImageView = UIImageView(image: UIImage(named: "ic_telegram_contact"))
-    var telegramTexTfield: ErrorTextField = {
+    lazy var telegramTexTfield: ErrorTextField = {
         let textField = ErrorTextField()
         textField.placeholder = "Ссылка на Telegram"
         textField.textField.title = ""
+        textField.textField.delegate = self
 
         return textField
     }()
@@ -65,6 +67,8 @@ class ContactsEventView: SnapKitView {
 
     // MARK: - Properties
 
+    let vkPrefix = "https://vk.com/"
+    let telegramPrefix = "https://t.me/"
     var sendHandler: (() -> Void)?
     var cancelHandler: (() -> Void)?
 
@@ -139,3 +143,25 @@ class ContactsEventView: SnapKitView {
         sendHandler?()
     }
 }
+
+extension ContactsEventView: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        var prefix: NSMutableAttributedString
+        if textField == vkTextField.textField {
+            prefix = NSMutableAttributedString(string: vkPrefix)
+        } else {
+            prefix = NSMutableAttributedString(string: telegramPrefix)
+        }
+
+        let protectedRange = NSRange(location: 0, length: prefix.length)
+        let intersection = protectedRange.intersection(range)
+
+        // prevent deleting prefix
+        if intersection != nil {
+            return false
+        }
+
+        return true
+    }
+}
+

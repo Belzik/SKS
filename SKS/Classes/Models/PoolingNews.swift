@@ -6,6 +6,7 @@ class PoolingNews: Codable {
     let startPooling: String?
     let endPooling: String?
     var voted: Int?
+    var isView: Bool?
     let poolingIsActive: Bool?
     let userIsVoted: Bool?
     let questions: [QuestionNew]?
@@ -110,23 +111,25 @@ class AnswerVariant: Codable {
     let position: String?
 
     var countAllOther: Int = 0
-    var isVoted: Bool {
-        get {
-            if let voted = voted {
-                return voted == 1 ? true : false
-            } else {
-                return false
-            }
-        }
+//    var isVoted: Bool {
+//        get {
+//            if let voted = voted {
+//                return voted == 1 ? true : false
+//            } else {
+//                return false
+//            }
+//        }
+//
+//        set {
+//            if newValue {
+//                voted = 1
+//            } else {
+//                voted = 0
+//            }
+//        }
+//    }
 
-        set {
-            if newValue {
-                voted = 1
-            } else {
-                voted = 0
-            }
-        }
-    }
+    var isVoted: Bool = false
 
     enum CodingKeys: String, CodingKey {
         case answerVariant

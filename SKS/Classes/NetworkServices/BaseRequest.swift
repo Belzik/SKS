@@ -58,12 +58,15 @@ class BaseRequest {
         headers: HTTPHeaders? = nil,
         interceptor: RequestInterceptor? = nil,
         completion: @escaping (_ response: BaseResponse<ResponseType>) -> Void) -> DataRequest {
-        
+
         var requestHeaders = HTTPHeadersFactory().makesDefaultHeaders()
         if let headers = headers {
             for header in headers {
                 requestHeaders.add(header)
             }
+        }
+        if let accessToken = UserData.loadSaved()?.accessToken {
+            requestHeaders.add(HTTPHeader(name: HeaderKey.token.rawValue, value: accessToken))
         }
 
         return AF.request(url, method: method,

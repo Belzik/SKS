@@ -91,6 +91,23 @@ class HomeViewController: BaseViewController {
         //loadData()
         setupTableView()
         setupCityView()
+
+
+
+        if let alertTimestamp = UserDefaults.standard.value(forKey: "alertTimestamp") as? TimeInterval {
+            let timestamp = Date().timeIntervalSince1970
+            let delta = timestamp - alertTimestamp
+            if delta >= Double(86400) {
+                UserDefaults.standard.set(timestamp, forKey: "alertTimestamp")
+                showAlert(message: "Представленная информация носит исключительно информационный характер, не является рекламой и публичной офертой.")
+            }
+        } else {
+            let timestamp = Date().timeIntervalSince1970
+            UserDefaults.standard.set(timestamp, forKey: "alertTimestamp")
+            showAlert(message: "Представленная информация носит исключительно информационный характер, не является рекламой и публичной офертой.")
+        }
+
+
     }
 
     override func viewWillAppear(_ animated: Bool) {

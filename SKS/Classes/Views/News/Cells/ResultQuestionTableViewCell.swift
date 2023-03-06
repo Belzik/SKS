@@ -126,9 +126,14 @@ class ResultQuestionTableViewCell: BaseTableViewCell {
                     answer.countAllOther = allCount
                     view.model = answer
                     let width = UIScreen.main.bounds.size.width - 16 - 16
+                    let height = view.answerLabel.text!.height(
+                        font: view.answerLabel.font,
+                        constrainedToWidth: width,
+                        height: CGFloat(Double.greatestFiniteMagnitude)
+                    )
                     view.snp.makeConstraints {
                         $0.width.equalTo(width)
-                        $0.height.equalTo(44)
+                        $0.height.greaterThanOrEqualTo(height + 28)
                     }
                     stackView.addArrangedSubview(view)
                 }
@@ -164,5 +169,16 @@ class ResultQuestionTableViewCell: BaseTableViewCell {
 
     func showEndView(hidden: Bool) {
         thxView.isHidden = hidden
+    }
+}
+
+extension String {
+    func height(font: UIFont, constrainedToWidth width: CGFloat, height: CGFloat) -> CGFloat {
+        (self as NSString).boundingRect(
+            with: CGSize(width: width, height: height),
+            options: NSStringDrawingOptions.usesLineFragmentOrigin,
+            attributes: [NSAttributedString.Key.font: font],
+            context: nil
+        ).size.height
     }
 }

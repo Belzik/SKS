@@ -11,6 +11,7 @@ import XLPagerTabStrip
 
 protocol DiscountViewControllerDelegate: class {
     func scrollViewDidScroll(scrollView: UIScrollView, tableView: UITableView)
+    func stockTapeed(uuid: String)
 }
 
 class DiscountViewController: BaseViewController {
@@ -188,5 +189,9 @@ extension DiscountViewController: UICollectionViewDelegate, UICollectionViewData
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.bounds.width - 12, height: 176 + 40)
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        delegate?.stockTapeed(uuid: stocks[indexPath.row].uuid)
     }
 }

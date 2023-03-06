@@ -162,6 +162,14 @@ class TestViewController: ButtonBarPagerTabStripViewController {
             dvc.salePoints = salePoints
             dvc.partner = self.partner
         }
+
+        if segue.identifier == "segueStock",
+            let uuidStock = sender as? String {
+
+            let dvc = segue.destination as! StockViewController
+            dvc.uuid = uuidStock
+            dvc.city = city
+        }
     }
     
     // MARK: - Internal methods
@@ -509,6 +517,10 @@ class TestViewController: ButtonBarPagerTabStripViewController {
 // MARK: - DiscountViewControllerDelegate, SalePointViewControllerDelegate, CommentViewControllerDelegate
 
 extension TestViewController: DiscountViewControllerDelegate, SalePointViewControllerDelegate, CommentViewControllerDelegate {
+    func stockTapeed(uuid: String) {
+        performSegue(withIdentifier: "segueStock", sender: uuid)
+    }
+
     func showSalePoints(salePoints: [SalePoint]) {
         performSegue(withIdentifier: "segueMap", sender: salePoints)
     }

@@ -10,6 +10,7 @@
 import UIKit
 import EAN13BarcodeGenerator
 import Crashlytics
+import FirebaseAnalytics
 
 class BarcodeViewController: BaseViewController {
     @IBOutlet weak var photoImageView: UIImageView!
@@ -97,6 +98,11 @@ class BarcodeViewController: BaseViewController {
         self.setTime()
         
         self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(setTime), userInfo: nil, repeats: true)
+
+        Analytics.logEvent("test_event", parameters: [
+            "param1": "Это тестовый эвент",
+            "param2": "Тут был текст"
+        ])
     }
     
     override func viewWillAppear(_ animated: Bool) {

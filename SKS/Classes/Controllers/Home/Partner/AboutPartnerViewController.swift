@@ -67,6 +67,9 @@ class AboutPartnerViewController: UIViewController {
         
         nameLabel.text = partner?.name
         descriptionLabel.text = partner?.description
+
+        print(partner?.description)
+
         if let linkToSite = partner?.linkToSite,
             linkToSite != "" {
             linkLabel.isHidden = false

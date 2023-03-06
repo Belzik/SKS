@@ -25,6 +25,25 @@ class PoolingNewsViewController: BaseViewController {
        return .lightContent
     }
 
+    private let thxView = UIView(frame: .init(x: 0, y: 0, width: 200, height: 100))
+
+    private let thxImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "ic_pool_fill")
+
+        return imageView
+    }()
+
+    private let thxTitleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Спасибо за ваши ответы"
+        label.font = Fonts.montserrat.bold.s20
+        label.textColor = ColorManager._333333.value
+        label.textAlignment = .center
+
+        return label
+    }()
+
     // MARK: - Properties
 
     var isVoted: Bool = false
@@ -39,6 +58,21 @@ class PoolingNewsViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        thxView.addSubview(thxImageView)
+        thxView.addSubview(thxTitleLabel)
+
+        thxImageView.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.top.equalToSuperview().inset(24)
+            $0.height.equalTo(28)
+            $0.width.equalTo(40)
+        }
+
+        thxTitleLabel.snp.makeConstraints {
+            $0.left.right.bottom.equalToSuperview()
+            $0.top.equalTo(thxImageView.snp.bottom).offset(24)
+        }
         
         if let photo = model?.photoUrl?.first,
             photo != "" {
@@ -99,6 +133,14 @@ class PoolingNewsViewController: BaseViewController {
         }
         if let voted = self.poolingNews?.voted {
             self.countVotedLabel.text = "ОТВЕТИЛИ \(voted) ЧЕЛ."
+        }
+
+        if let isView = self.poolingNews?.isView,
+            !isView {
+            if self.isVoted {
+                endButton.isHidden = true
+                tableView.tableFooterView = thxView
+            }
         }
     }
 
@@ -217,7 +259,19 @@ extension PoolingNewsViewController: UITableViewDelegate, UITableViewDataSource 
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let question = poolingNews?.questions {
-            return question.count
+            if let isView = poolingNews?.isView {
+                if isVoted {
+                    if isView {
+                        return question.count
+                    } else {
+                        return 0
+                    }
+                } else {
+                    return question.count
+                }
+            } else {
+                return question.count
+            }
         } else {
             return 0
         }

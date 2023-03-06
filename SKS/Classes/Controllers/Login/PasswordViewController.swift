@@ -337,7 +337,12 @@ class PasswordViewController: BaseViewController {
     }
     
     @IBAction func resetPasswordButtonTapped(_ sender: UIButton) {
-        NetworkManager.shared.resetPassword(phone: phone) { [weak self] response in
+        let rsaData = RSAService.shared.generateAnEncryptedString()
+        NetworkManager.shared.resetPassword(
+            phone: phone,
+            verifyKey: rsaData.verifyKey,
+            key: rsaData.key
+        ) { [weak self] response in
             if let smsResponse = response.value {
                     self?.smsResponse = smsResponse
                     self?.performSegue(withIdentifier: "segueResetPassword", sender: nil)

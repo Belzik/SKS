@@ -75,10 +75,8 @@ class StockViewController: BaseViewController {
                 showSalesView.isHidden = true
                 self.salePoints = salePointsAll
             }
-            
-            tableView.reloadData()
         }
-        
+        tableView.reloadData()
         tableView.isHidden = false
     }
     

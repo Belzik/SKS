@@ -149,10 +149,13 @@ class LoginViewController: BaseViewController {
 
     private func getSmsWithCode() {
         nextButton.isDownload = true
+        let rsaData = RSAService.shared.generateAnEncryptedString()
         NetworkManager.shared.getCodeWithSms(
             phone: phoneTextField.text!.components(separatedBy: CharacterSet.decimalDigits.inverted).joined(),
             isPromo: isPromo,
-            promocode: promocode
+            promocode: promocode,
+            key: rsaData.key,
+            verifyKey: rsaData.verifyKey
         ) { [weak self] response in
                 guard let self = self else { return }
 

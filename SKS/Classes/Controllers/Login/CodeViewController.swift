@@ -95,10 +95,13 @@ class CodeViewController: BaseViewController {
     }
     
     private func getSmsWithCode() {
+        let rsaData = RSAService.shared.generateAnEncryptedString()
         NetworkManager.shared.getCodeWithSms(
             phone: phone,
             isPromo: isPromo,
-            promocode: promocode
+            promocode: promocode,
+            key: rsaData.key,
+            verifyKey: rsaData.verifyKey
         ) { [weak self] response in
             
             if let smsResponse = response.value {

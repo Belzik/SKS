@@ -233,12 +233,16 @@ class NetworkManager: BaseRequest {
                         place: String = "mobile",
                         isPromo: Bool,
                         promocode: String,
+                        key: String,
+                        verifyKey: String,
                         completion: @escaping (_ result: BaseResponse<SmsResponse>) -> Void) {
         let url = authURI + apiVersion2 + APIPath.getSmsWithCode
         
         var parametrs: Parameters = [
             "login" : phone,
-            "place" : place
+            "place" : place,
+            "verifyKey": verifyKey,
+            "key": key
         ]
 
         if isPromo {
@@ -879,12 +883,16 @@ class NetworkManager: BaseRequest {
     // MARK: Сбросить пароль
     func resetPassword(phone: String,
                        place: String = "mobile",
+                       verifyKey: String,
+                       key: String,
                        completion: @escaping (_ response: BaseResponse<SmsResponse>) -> Void) {
         let url = authURI + apiVersion2 + APIPath.resetPassword
         
         let parametrs: Parameters = [
             "login" : phone,
-            "place" : place
+            "place" : place,
+            "verifyKey": verifyKey,
+            "key": key
         ]
         
         request(url: url,

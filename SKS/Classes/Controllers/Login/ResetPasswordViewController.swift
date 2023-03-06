@@ -87,8 +87,12 @@ class ResetPasswordViewController: BaseViewController {
 //                self?.runTimer()
 //            }
 //        }
-        
-        NetworkManager.shared.resetPassword(phone: phone) { [weak self] response in
+        let rsaData = RSAService.shared.generateAnEncryptedString()
+        NetworkManager.shared.resetPassword(
+            phone: phone,
+            verifyKey: rsaData.verifyKey,
+            key: rsaData.key
+        ) { [weak self] response in
             if let smsResponse = response.value {
                 if let smsAttempt = smsResponse.attempt {
                     self?.smsAttempt = smsAttempt

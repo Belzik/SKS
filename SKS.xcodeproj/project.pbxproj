@@ -199,6 +199,7 @@
 		B5D06F88237FED05000BA45C /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D06F87237FED05000BA45C /* TestViewController.swift */; };
 		B5D06F8B237FED97000BA45C /* CarPhotosCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5D06F89237FED97000BA45C /* CarPhotosCollectionViewCell.xib */; };
 		B5D06F8C237FED97000BA45C /* CarPhotosCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D06F8A237FED97000BA45C /* CarPhotosCollectionViewCell.swift */; };
+		B5D60902297E7FA000E0721B /* RSAService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D60901297E7FA000E0721B /* RSAService.swift */; };
 		B5DBA72F22FCC6DE003DEB43 /* SocialNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DBA72E22FCC6DE003DEB43 /* SocialNetwork.swift */; };
 		B5DBA73122FCC73D003DEB43 /* SalePoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DBA73022FCC73D003DEB43 /* SalePoint.swift */; };
 		B5DBE0DE22F5E90D004441B0 /* CALayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DBE0DD22F5E90D004441B0 /* CALayer.swift */; };
@@ -485,6 +486,7 @@
 		B5D06F87237FED05000BA45C /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		B5D06F89237FED97000BA45C /* CarPhotosCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CarPhotosCollectionViewCell.xib; sourceTree = "<group>"; };
 		B5D06F8A237FED97000BA45C /* CarPhotosCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CarPhotosCollectionViewCell.swift; sourceTree = "<group>"; };
+		B5D60901297E7FA000E0721B /* RSAService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSAService.swift; sourceTree = "<group>"; };
 		B5DBA72E22FCC6DE003DEB43 /* SocialNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialNetwork.swift; sourceTree = "<group>"; };
 		B5DBA73022FCC73D003DEB43 /* SalePoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalePoint.swift; sourceTree = "<group>"; };
 		B5DBE0DD22F5E90D004441B0 /* CALayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CALayer.swift; sourceTree = "<group>"; };
@@ -1152,6 +1154,7 @@
 				B5F108CB26236D9A00AD77C6 /* Factories */,
 				B51B600422C9D2EF003F24F3 /* NetworkService.swift */,
 				B5F108D126237D1500AD77C6 /* BaseRequest.swift */,
+				B5D60901297E7FA000E0721B /* RSAService.swift */,
 			);
 			path = NetworkServices;
 			sourceTree = "<group>";
@@ -1849,6 +1852,7 @@
 				B527534C22DD013B0003BDE6 /* ErrorTextField.swift in Sources */,
 				B5F00ECB271B0C5200660244 /* KnowledgeTableViewCell.swift in Sources */,
 				B57F510022E70A4C0053A7D2 /* StockCollectionViewCell.swift in Sources */,
+				B5D60902297E7FA000E0721B /* RSAService.swift in Sources */,
 				B5F00E9C271AE62600660244 /* UIScrollView.swift in Sources */,
 				B5B392D227DCC1220022E329 /* RZDTableViewCell.swift in Sources */,
 				B527535722DD199A0003BDE6 /* NSMutableAttributedString.swift in Sources */,
@@ -2115,7 +2119,7 @@
 				CODE_SIGN_ENTITLEMENTS = SKS/SKS.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = GSK4YJALAB;
 				INFOPLIST_FILE = SKS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -2123,7 +2127,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.4.3;
+				MARKETING_VERSION = 2.4.6;
 				PRODUCT_BUNDLE_IDENTIFIER = ru.petrsu.sks;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2140,7 +2144,7 @@
 				CODE_SIGN_ENTITLEMENTS = SKS/SKS.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = GSK4YJALAB;
 				INFOPLIST_FILE = SKS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -2148,7 +2152,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.4.3;
+				MARKETING_VERSION = 2.4.6;
 				PRODUCT_BUNDLE_IDENTIFIER = ru.petrsu.sks;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
