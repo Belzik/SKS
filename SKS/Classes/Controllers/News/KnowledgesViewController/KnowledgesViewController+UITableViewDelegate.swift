@@ -1,4 +1,5 @@
 import UIKit
+import YandexMobileMetrica
 
 // MARK: - UITableViewDataSource
 
@@ -20,6 +21,7 @@ extension KnowledgesViewController: UITableViewDataSource {
 
 extension KnowledgesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        YMMYandexMetrica.reportEvent("knowledge.item", parameters: ["id": knowledges[indexPath.row].uuidCategory ?? ""])
         delegate?.knowledgeTapped(knowledge: knowledges[indexPath.row])
     }
 }

@@ -16,6 +16,7 @@ protocol DiscountViewControllerDelegate: class {
 
 class DiscountViewController: BaseViewController {
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var noUserLabel: UILabel!
     
     var itemInfo = IndicatorInfo(title: "Скидки и акции")
     weak var delegate: DiscountViewControllerDelegate?
@@ -33,6 +34,12 @@ class DiscountViewController: BaseViewController {
                                                selector: #selector(EnableScroll),
                                                name: NSNotification.Name(rawValue: "EnableScroll"),
                                                object: nil)
+
+        guard let user = UserData.loadSaved(), user.status == "active" else {
+            tableView.isHidden = true
+            return
+        }
+        noUserLabel.isHidden = true
     }
     
     @objc func EnableScroll() {

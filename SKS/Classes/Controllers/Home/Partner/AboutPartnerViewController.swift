@@ -9,9 +9,14 @@
 import UIKit
 import XLPagerTabStrip
 
+protocol AboutPartnerViewControllerDelegate: AnyObject {
+    func scrollViewDidScroll(someScroll: UIScrollView)
+}
+
 class AboutPartnerViewController: UIViewController {
     // MARK: - Views
 
+    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var linkLabel: UILabel! {
@@ -27,6 +32,8 @@ class AboutPartnerViewController: UIViewController {
     @IBOutlet weak var vkButton: UIButton!
     @IBOutlet weak var twitterButton: UIButton!
 
+    @IBOutlet weak var noUserLabel: UILabel!
+    @IBOutlet weak var contentView: UIView!
     // MARK: - Properties
     
     var vkLink = ""
@@ -35,6 +42,7 @@ class AboutPartnerViewController: UIViewController {
     var twitterLink = ""
     var partner: Partner?
     var itemInfo = IndicatorInfo(title: "Описание")
+    weak var delegate: AboutPartnerViewControllerDelegate?
 
     // MARK: - View life cycle
 
@@ -68,8 +76,6 @@ class AboutPartnerViewController: UIViewController {
         nameLabel.text = partner?.name
         descriptionLabel.text = partner?.description
 
-        print(partner?.description)
-
         if let linkToSite = partner?.linkToSite,
             linkToSite != "" {
             linkLabel.isHidden = false
@@ -77,6 +83,12 @@ class AboutPartnerViewController: UIViewController {
         } else {
             linkLabel.isHidden = true
         }
+
+        guard let user = UserData.loadSaved(), user.status == "active" else {
+            contentView.isHidden = true
+            return
+        }
+        noUserLabel.isHidden = true
     }
 
     // MARK: - Actions
@@ -118,5 +130,11 @@ class AboutPartnerViewController: UIViewController {
 extension AboutPartnerViewController: IndicatorInfoProvider {
     func indicatorInfo(for pagerTabStripController: PagerTabStripViewController) -> IndicatorInfo {
         return itemInfo
+    }
+}
+
+extension AboutPartnerViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        delegate?.scrollViewDidScroll(someScroll: scrollView)
     }
 }

@@ -58,12 +58,17 @@ class PartnerTableViewCell: UITableViewCell {
             let url = URL(string: logo)
             mainImage.kf.setImage(with: url)
         } else if let link = model.illustrate {
-            let url = URL(string: NetworkManager.shared.baseURI + link)
+            let url = URL(string: NetworkManager.shared.apiEnvironment.baseURI + link)
             mainImage.kf.setImage(with: url)
         }
         
         titleLabel.text = model.name
-        descriptionLabel.text = model.partnerDescription
+
+        if let user = UserData.loadSaved(), user.status == "active" {
+            descriptionLabel.text = model.partnerDescription
+        } else {
+            descriptionLabel.text = ""
+        }
         
         if model.stocks?.count != 0 {
             stockImage.isHidden = false

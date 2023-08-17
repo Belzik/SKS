@@ -157,7 +157,7 @@ class MapPartnerViewController: BaseViewController {
                 logo != "" {
                 logoString = logo
             } else if let logoIllustrate = partner?.category?.illustrate {
-                logoString = NetworkManager.shared.baseURI + logoIllustrate
+                logoString = NetworkManager.shared.apiEnvironment.baseURI + logoIllustrate
             }
     
             let mapObjects = mapView.mapWindow.map.mapObjects
@@ -272,7 +272,7 @@ class MapPartnerViewController: BaseViewController {
         
         if let logo = mapPartner.logo,
             logo != "",
-            let url = URL(string: NetworkManager.shared.baseURI + logo) {
+           let url = URL(string: NetworkManager.shared.apiEnvironment.baseURI + logo) {
             view.logoImage.kf.setImage(with: url) { (_, _) in
                 if let yrtView = YRTViewProvider.init(uiView: view) {
                     salePoint?.setViewWithView(yrtView)
@@ -370,7 +370,7 @@ extension MapPartnerViewController: YMKMapObjectTapListener {
                 logo != "" {
                 logoString = logo
             } else if let logoIllustrate = partner?.category?.illustrate {
-                logoString = NetworkManager.shared.baseURI + logoIllustrate
+                logoString = NetworkManager.shared.apiEnvironment.baseURI + logoIllustrate
             }
             
             if let url = URL(string: logoString) {

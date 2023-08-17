@@ -7,8 +7,42 @@
 //
 
 import UIKit
+import YandexMobileMetrica
+
+enum Tab: Int {
+    case news
+    case partners
+    case map
+    case barcode
+    case profile
+
+    var text: String {
+        switch self {
+        case .news: return "news"
+        case .partners: return "partners"
+        case .map: return "map"
+        case .barcode: return "barcode"
+        case .profile: return "profile"
+        }
+    }
+
+    var session: String {
+        switch self {
+        case .news: return "session.news"
+        case .partners: return "session.partners"
+        case .map: return "session.map"
+        case .barcode: return "session.barcode"
+        case .profile: return "session.profile"
+        }
+    }
+}
 
 class TabBarViewController: UITabBarController {
+
+    // MARK: Properties
+
+    var timer = Timer()
+    var seconds = 0
 
     // MARK: View life cycle
 
@@ -30,6 +64,17 @@ class TabBarViewController: UITabBarController {
         }
         handlePosts()
         getNumberUnreadNews()
+
+        timer = Timer.scheduledTimer(
+            timeInterval: 1, target: self,
+            selector: #selector(update),
+            userInfo: nil,
+            repeats: true
+        )
+    }
+
+    @objc func update() {
+        seconds += 1
     }
 
     // MARK: - Methods
@@ -59,12 +104,31 @@ class TabBarViewController: UITabBarController {
             newsTab?.selectedImage = UIImage(named: "ic_news")
         }
     }
+
+    private func sendAnalytics(tab: Tab) {
+        YMMYandexMetrica.reportEvent(tab.text)
+    }
+
+    private func sendSession(tab: Tab) {
+        if seconds > 2 {
+            YMMYandexMetrica.reportEvent(tab.session, parameters: ["seconds": seconds])
+        }
+        seconds = 0
+    }
 }
 
 // MARK: UITabBarDelegate
 
 extension TabBarViewController {
     override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+        if let tab = Tab(rawValue: selectedIndex) {
+            sendSession(tab: tab)
+        }
+
+        if let index = tabBar.items?.firstIndex(where: { $0 == item }),
+            let tab = Tab(rawValue: index) {
+            sendAnalytics(tab: tab)
+        }
         getNumberUnreadNews()
     }
 }

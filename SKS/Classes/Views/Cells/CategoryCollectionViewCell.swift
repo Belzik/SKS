@@ -25,7 +25,7 @@ class CategoryCollectionViewCell: UICollectionViewCell {
     func layoutCell() {
         if let model = model {
             if let link = model.pict,
-               let url = URL(string: NetworkManager.shared.baseURI + link) {
+               let url = URL(string: NetworkManager.shared.apiEnvironment.baseURI + link) {
                 iconImageView.kf.setImage(with: url) { [weak self] (image, _) in
                     if model.isSelected {
                         self?.titleLabel.textColor = .white

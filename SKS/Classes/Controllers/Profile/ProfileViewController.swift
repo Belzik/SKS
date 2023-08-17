@@ -53,6 +53,7 @@ class ProfileViewController: BaseViewController {
     
     weak var delegate: ProfileDelegate?
     var user: UserData?
+    var countTappedEngMenu: Int = 0
     
     @IBAction func exitButton(_ sender: UIButton) {
         UserData.clear()
@@ -90,6 +91,16 @@ class ProfileViewController: BaseViewController {
         profileImage.layer.masksToBounds = true
         profileImage.layer.borderColor = UIColor.white.cgColor
         profileImage.layer.borderWidth = 2.0
+        let tap = UITapGestureRecognizer(target: self, action: #selector(profileImageTapped))
+        profileImage.isUserInteractionEnabled = true
+        profileImage.addGestureRecognizer(tap)
+
+        let gesture = UILongPressGestureRecognizer(
+            target: self,
+            action: #selector(longPress)
+        )
+        gesture.minimumPressDuration = 2
+        profileImage.addGestureRecognizer(gesture)
     }
     
     func setupSheverev() {
@@ -213,5 +224,16 @@ class ProfileViewController: BaseViewController {
         periodStack.isHidden = true
         courseStack.isHidden = true
         speacialityStackView.isHidden = true
+    }
+
+    @objc func profileImageTapped() {
+        countTappedEngMenu += 1
+    }
+
+    @objc func longPress(_ gestureRecognizer: UILongPressGestureRecognizer) {
+        if countTappedEngMenu == 5 {
+            performSegue(withIdentifier: "segueEngineeringMenu", sender: nil)
+        }
+        countTappedEngMenu = 0
     }
 }

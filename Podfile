@@ -20,6 +20,7 @@ target 'SKS' do
   pod 'FSPagerView', '= 0.8.3'
   pod 'SnapKit', '= 5.0.1'
   pod 'SwiftyRSA', '= 1.7.0'
+  pod 'YandexMobileMetrica', '4.5.0'
   
   # Firebase
   pod 'Firebase/Core', '= 7.10.0'

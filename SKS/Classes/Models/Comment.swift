@@ -13,6 +13,7 @@ typealias CommentResponse = [Comment]
 class Comment: Codable {
     let commentInfo: CommentInfo?
     let userCommentInfo: UserCommentInfo?
+    let answerInfo: AnswerInfo?
     var userLike: String?
 }
 
@@ -30,4 +31,11 @@ class UserCommentInfo: Codable {
     let photo: String?
     let surname: String?
     let patronymic: String?
+}
+
+class AnswerInfo: Codable {
+    let uuidAnswer: String?
+    let createdAt: String?
+    let updatedAt: String?
+    let answer: String?
 }

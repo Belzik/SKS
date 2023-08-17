@@ -236,6 +236,7 @@ class TestViewController: ButtonBarPagerTabStripViewController {
         
         let aboutPartnerViewController = storyboard.instantiateViewController(withIdentifier: "AboutPartnerViewController") as! AboutPartnerViewController
         aboutPartnerViewController.itemInfo = IndicatorInfo(title: "Описание")
+        aboutPartnerViewController.delegate = self
         self.aboutPartnerViewController = aboutPartnerViewController
         controllers.append(aboutPartnerViewController)
         
@@ -364,7 +365,7 @@ class TestViewController: ButtonBarPagerTabStripViewController {
         }
         setNeedsStatusBarAppearanceUpdate()
         
-        let baseURI = NetworkManager.shared.baseURI
+        let baseURI = NetworkManager.shared.apiEnvironment.baseURI
         
         if let firstHeaderLink = partner?.headerPictures?.first,
            URL(string: firstHeaderLink) != nil {
@@ -516,7 +517,7 @@ class TestViewController: ButtonBarPagerTabStripViewController {
 
 // MARK: - DiscountViewControllerDelegate, SalePointViewControllerDelegate, CommentViewControllerDelegate
 
-extension TestViewController: DiscountViewControllerDelegate, SalePointViewControllerDelegate, CommentViewControllerDelegate {
+extension TestViewController: DiscountViewControllerDelegate, SalePointViewControllerDelegate, CommentViewControllerDelegate, AboutPartnerViewControllerDelegate {
     func stockTapeed(uuid: String) {
         performSegue(withIdentifier: "segueStock", sender: uuid)
     }
@@ -527,6 +528,24 @@ extension TestViewController: DiscountViewControllerDelegate, SalePointViewContr
     
     func showSalePoint(salePoint: SalePoint) {
         performSegue(withIdentifier: "segueMap", sender: salePoint)
+    }
+
+    func scrollViewDidScroll(someScroll: UIScrollView) {
+        goingUp = someScroll.panGestureRecognizer.translation(in: someScroll).y < 0
+        let parentViewMaxContentYOffset = self.scrollView.contentSize.height - self.scrollView.frame.height
+
+        if goingUp! {
+            if self.scrollView.contentOffset.y < parentViewMaxContentYOffset && !childScrollingDownDueToParent {
+                self.scrollView.contentOffset.y = max(min(self.scrollView.contentOffset.y + someScroll.contentOffset.y, parentViewMaxContentYOffset), 0)
+                someScroll.contentOffset.y = 0
+            }
+        } else {
+            if someScroll.contentOffset.y < 0 && self.scrollView.contentOffset.y > 0 {
+                UIView.animate(withDuration: 0.25) {
+                    self.scrollView.contentOffset.y = max(self.scrollView.contentOffset.y - abs(someScroll.contentOffset.y), 0)
+                }
+            }
+        }
     }
     
     func scrollViewDidScroll(scrollView: UIScrollView, tableView: UITableView) {

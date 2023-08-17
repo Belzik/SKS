@@ -9,6 +9,43 @@
 import Alamofire
 import UIKit
 
+enum APIEnvironment: Int {
+    case production
+    case development
+    case kuber
+
+    var baseURI: String {
+        switch self {
+        case .production:
+            return "https://app.sksadmin.ru"
+        case .development:
+            return "https://sks-mobile.develophost.ru"
+        case .kuber:
+            return "https://sks-gateway-mobile-dev.sks.sheverev.com"
+        }
+    }
+
+    var authURI: String {
+        switch self {
+        case .production:
+            return "https://auth.sksadmin.ru"
+        case .development:
+            return "https://sks-auth.develophost.ru"
+        case .kuber:
+            return "https://sks-gateway-auth-dev.sks.sheverev.com"
+        }
+    }
+
+    var yandexMetricaKey: String {
+        switch self {
+        case .production:
+            return "70827c04-5a66-48cc-8001-f360b25147d3"
+        case .development, .kuber:
+            return "711ea461-2591-46fc-9bc3-7fdf1730f80e"
+        }
+    }
+}
+
 struct APIPath {
     static let category        = "category"
     static let partner         = "partner"
@@ -34,7 +71,7 @@ struct APIPath {
     static let commentLike     = "partner/comment/like"
     static let sendComplaint   = "partner/complaint/new"
     static let sendComment     = "partner/comment/new"
-    static let sendRating      = "partner/rating"
+    static let sendRating      = "partner/add-rating"
     static let event           = "news/event"
     static let pooling         = "news/pooling"
     static let newsRead        = "news/status/read"
@@ -82,25 +119,24 @@ class NetworkManager: BaseRequest {
     
     static let shared = NetworkManager()
     let decoder = JSONDecoder()
-    
-//    let baseURI = "https://sks-mobile.develophost.ru"
-//    let authURI = "https://sks-auth.develophost.ru"
-    
-    let baseURI = "https://app.sksadmin.ru"
-    let authURI = "https://auth.sksadmin.ru"
+
+    var apiEnvironment: APIEnvironment
     
     let apiVersion1 = "/v1/"
     let apiVersion2 = "/v2/"
+    let apiVersion3 = "/v3/"
     
     // MARK: - Object life cycle
     
-    private override init() {}
+    private override init() {
+        apiEnvironment = APIEnvironment(rawValue: UserDefaults.standard.getApiEnvironment()) ?? .production
+    }
     
     // MARK: - Internal methods
 
     // MARK: - Получить все категории
     func getCategories(completion: @escaping (_ result: BaseResponse<CategoriesResponse>) -> Void) {
-        let url = baseURI + apiVersion1 + APIPath.category
+        let url = apiEnvironment.baseURI + apiVersion1 + APIPath.category
         
         request(url: url) { result in
             completion(result)
@@ -114,7 +150,7 @@ class NetworkManager: BaseRequest {
                    limit: Int,
                    offset: Int,
                    completion: @escaping (_ result: BaseResponse<StocksResponse>) -> Void) {
-        let url = baseURI + apiVersion1 + APIPath.stock
+        let url = apiEnvironment.baseURI + apiVersion1 + APIPath.stock
         
         var parameters: Parameters = [:]
         
@@ -147,7 +183,7 @@ class NetworkManager: BaseRequest {
     func getStock(idStock: String,
                   uuidCity: String,
                   completion: @escaping (_ result: BaseResponse<Stock>) -> Void) {
-        let url = baseURI + apiVersion1 + APIPath.stock + "/\(idStock)"
+        let url = apiEnvironment.baseURI + apiVersion1 + APIPath.stock + "/\(idStock)"
         
         let parameters: Parameters = ["uuidCity": uuidCity]
         
@@ -165,7 +201,7 @@ class NetworkManager: BaseRequest {
                      limit: Int,
                      offset: Int,
                      completion: @escaping (_ result: BaseResponse<PartnersResponse>) -> Void) {
-        let url = baseURI +  apiVersion2 + APIPath.partner
+        let url = apiEnvironment.baseURI +  apiVersion2 + APIPath.partner
         //let url = "http://sksapp.px2x.ru/v2/partner"
         
         var parameters: Parameters = [:]
@@ -210,7 +246,7 @@ class NetworkManager: BaseRequest {
     func getPartner(uuidPartner: String,
                     uuidCity: String,
                     completion: @escaping (_ result: BaseResponse<Partner>) -> Void) {
-        let url = baseURI + apiVersion2 + APIPath.partner + "/\(uuidPartner)"
+        let url = apiEnvironment.baseURI + apiVersion2 + APIPath.partner + "/\(uuidPartner)"
 
         //let url = "http://sksapp.px2x.ru/v2/partner" + "/\(uuidPartner)"
         let parameters: Parameters = ["uuidCity": uuidCity]
@@ -236,7 +272,7 @@ class NetworkManager: BaseRequest {
                         key: String,
                         verifyKey: String,
                         completion: @escaping (_ result: BaseResponse<SmsResponse>) -> Void) {
-        let url = authURI + apiVersion2 + APIPath.getSmsWithCode
+        let url = apiEnvironment.authURI + apiVersion2 + APIPath.getSmsWithCode
         
         var parametrs: Parameters = [
             "login" : phone,
@@ -261,7 +297,7 @@ class NetworkManager: BaseRequest {
                        attempt: String,
                        code: String,
                        completion: @escaping (_ result: BaseResponse<OtpResponse>) -> Void) {
-        let url = authURI + "/v2/" + APIPath.verifyCodeSms
+        let url = apiEnvironment.authURI + "/v2/" + APIPath.verifyCodeSms
         
         let parametrs: Parameters = [
             "login": phone,
@@ -278,7 +314,7 @@ class NetworkManager: BaseRequest {
     
     // MARK: Получить все города, в которых есть университеты
     func getСityUniversities(completion: @escaping (_ result: BaseResponse<CitiesResponse>) -> Void) {
-        let url = baseURI + apiVersion1 + APIPath.cityUniversitie
+        let url = apiEnvironment.baseURI + apiVersion1 + APIPath.cityUniversitie
         
         request(url: url) { result in
             completion(result)
@@ -288,7 +324,7 @@ class NetworkManager: BaseRequest {
     // MARK: Получить все университеты в определенном городе
     func getUniversities(uuidCity: String,
                          completion: @escaping (_ result: BaseResponse<UniversitiesResponse>) -> Void) {
-        let url = baseURI + apiVersion1 + APIPath.universities
+        let url = apiEnvironment.baseURI + apiVersion1 + APIPath.universities
         
         let headers: HTTPHeaders = [
             HTTPHeader(name: HeaderKey.userCity.rawValue, value: uuidCity)
@@ -303,7 +339,7 @@ class NetworkManager: BaseRequest {
     // MARK: Получить все факультеты в определенном университете
     func getFaculties(uuidUniver: String,
                       completion: @escaping (_ result: BaseResponse<FacultiesResponse>) -> Void) {
-        let url = baseURI + apiVersion1 + APIPath.faculties
+        let url = apiEnvironment.baseURI + apiVersion1 + APIPath.faculties
         
         let headers: HTTPHeaders = [
             HeaderKey.userUniver.rawValue: uuidUniver
@@ -318,7 +354,7 @@ class NetworkManager: BaseRequest {
     // MARK: Получить все специальности в определенном факультете
     func getSpecialties(uuidFaculty: String,
                         completion: @escaping (_ result: BaseResponse<SpecialtiesResponse>) -> Void) {
-        let url = baseURI + apiVersion1 + APIPath.specialties
+        let url = apiEnvironment.baseURI + apiVersion1 + APIPath.specialties
         
         let headers: HTTPHeaders = [
             HTTPHeader(name: HeaderKey.userFaculty.rawValue, value: uuidFaculty)
@@ -332,7 +368,7 @@ class NetworkManager: BaseRequest {
     
     // MARK: Получить города для фильтрации партнеров
     func getCityPartners(completion: @escaping (_ result: BaseResponse<CitiesResponse>) -> Void) {
-        let url = baseURI + apiVersion1 + APIPath.cityPartners
+        let url = apiEnvironment.baseURI + apiVersion1 + APIPath.cityPartners
         
         request(url: url,
                 method: .put) { result in
@@ -343,7 +379,7 @@ class NetworkManager: BaseRequest {
     // MARK: Отправить фото пользователя
     func uploadImage(image: UIImage,
                      completion: @escaping (_ response: BaseResponse<PathFile>) -> Void) {
-        let url = baseURI + apiVersion2 + APIPath.uploadPhoto
+        let url = apiEnvironment.baseURI + apiVersion2 + APIPath.uploadPhoto
         
         var headers: HTTPHeaders = []
         if let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
@@ -385,7 +421,7 @@ class NetworkManager: BaseRequest {
                       keyPhoto: String,
                       phone: String,
                       completion: @escaping (_ response: BaseResponse<UserData>) -> Void) {
-        let url = baseURI + apiVersion1 + APIPath.student
+        let url = apiEnvironment.baseURI + apiVersion1 + APIPath.student
         
         let headers: HTTPHeaders = [
             HTTPHeader(name: HeaderKey.token.rawValue, value: accessToken)
@@ -421,7 +457,7 @@ class NetworkManager: BaseRequest {
     // MARK: - Рефреш токена
     func refreshToken(refreshToken: String,
                       completion: @escaping (_ result: BaseResponse<TokensResponse>) -> Void) {
-        let url = authURI + apiVersion1 + APIPath.refreshToken
+        let url = apiEnvironment.authURI + apiVersion1 + APIPath.refreshToken
         
         let parametrs: Parameters = [
             "refreshToken": refreshToken,
@@ -437,7 +473,7 @@ class NetworkManager: BaseRequest {
     // MARK: - Получить профиль пользовател
     func getInfoUser(completion: @escaping (_ response: BaseResponse<UserData>) -> Void) {
         guard let accessToken = UserData.loadSaved()?.accessToken else { return }
-        let url = baseURI + apiVersion1 + APIPath.student
+        let url = apiEnvironment.baseURI + apiVersion1 + APIPath.student
         
         let headers: HTTPHeaders = [
             HTTPHeader(name: HeaderKey.token.rawValue, value: accessToken)
@@ -453,7 +489,7 @@ class NetworkManager: BaseRequest {
                                deviceToken: String,
                                accessToken: String = "",
                                completion: @escaping (_ response: AFDataResponse<Data>) -> Void) {
-        let url = baseURI + apiVersion1 + APIPath.sendNotificationToken
+        let url = apiEnvironment.baseURI + apiVersion1 + APIPath.sendNotificationToken
         let parameters: Parameters = [
             "token": notificationToken,
             "device": "iOs",
@@ -495,7 +531,7 @@ class NetworkManager: BaseRequest {
                         completion: @escaping (_ response: BaseResponse<UserData>) -> Void) {
         guard let accessToken = UserData.loadSaved()?.accessToken else { return }
 
-        let url = baseURI + apiVersion1 + APIPath.student
+        let url = apiEnvironment.baseURI + apiVersion1 + APIPath.student
         
         let headers: HTTPHeaders = [
             HTTPHeader(name: HeaderKey.token.rawValue, value: accessToken)
@@ -534,7 +570,7 @@ class NetworkManager: BaseRequest {
                        latitude: String,
                        longitude: String,
                        completion: @escaping (_ response: BaseResponse<SalePointsResponse>) -> Void) {
-        let url = baseURI + apiVersion2 + APIPath.getSalePoints
+        let url = apiEnvironment.baseURI + apiVersion2 + APIPath.getSalePoints
         
         var parametrs: Parameters = [
             "uuidCity": uuidCity,
@@ -556,7 +592,7 @@ class NetworkManager: BaseRequest {
     // MARK: Получить оценки и их статистику по партнеру
     func getRatingStatictis(uuidPartner: String,
                             completion: @escaping (_ response: BaseResponse<RatingStatistic>) -> Void) {
-        let url = baseURI + apiVersion2 + APIPath.getStatistics + "/\(uuidPartner)"
+        let url = apiEnvironment.baseURI + apiVersion2 + APIPath.getStatistics + "/\(uuidPartner)"
         
         var headers: HTTPHeaders = []
         
@@ -574,7 +610,7 @@ class NetworkManager: BaseRequest {
     func getNews(limit: Int,
                  offset: Int,
                  completion: @escaping (_ result: BaseResponse<NewsResponse>) -> Void) {
-        let url = baseURI + apiVersion1 + APIPath.getNews
+        let url = apiEnvironment.baseURI + apiVersion1 + APIPath.getNews
         
         var headers: HTTPHeaders = [
             HTTPHeader(name: "X-Limit", value: String(describing: limit)),
@@ -594,7 +630,7 @@ class NetworkManager: BaseRequest {
     // MARK: - Получить новость
     func getSingleNews(uuidNews: String,
                        completion: @escaping (_ result: BaseResponse<News>) -> Void) {
-        let url = baseURI + apiVersion1 + APIPath.getNews + "/\(uuidNews)"
+        let url = apiEnvironment.baseURI + apiVersion1 + APIPath.getNews + "/\(uuidNews)"
         
         var headers: HTTPHeaders = [:]
         if let accessToken = UserData.loadSaved()?.accessToken {
@@ -610,7 +646,7 @@ class NetworkManager: BaseRequest {
     // MARK: - Получить комментарии партнера
     func getComments(uuidPartner: String,
                      completion: @escaping (_ response: BaseResponse<CommentResponse>) -> Void) {
-        let url = baseURI + apiVersion2 + APIPath.getComments
+        let url = apiEnvironment.baseURI + apiVersion2 + APIPath.getComments
         
         var headers: HTTPHeaders = []
         
@@ -636,7 +672,7 @@ class NetworkManager: BaseRequest {
                                 complaint: String,
                                 completion: @escaping (_ response: BaseResponse<StatusResponse>) -> Void) {
         guard let accessToken = UserData.loadSaved()?.accessToken else { return }
-        let url = baseURI + apiVersion2 + APIPath.sendComplaint
+        let url = apiEnvironment.baseURI + apiVersion2 + APIPath.sendComplaint
         
         let headers: HTTPHeaders = [
             HTTPHeader(name: HeaderKey.token.rawValue, value: accessToken)
@@ -658,9 +694,10 @@ class NetworkManager: BaseRequest {
     // MARK: Отправить отзыв партнеру
     func sendCommentToPartner(uuidPartner: String,
                               comment: String,
+                              idRating: Int,
                                 completion: @escaping (_ response: BaseResponse<StatusResponse>) -> Void) {
         guard let accessToken = UserData.loadSaved()?.accessToken else { return }
-        let url = baseURI + apiVersion2 + APIPath.sendComment
+        let url = apiEnvironment.baseURI + apiVersion3 + APIPath.sendComment
         
         let headers: HTTPHeaders = [
             HTTPHeader(name: HeaderKey.token.rawValue, value: accessToken)
@@ -669,6 +706,7 @@ class NetworkManager: BaseRequest {
         let parametrs: Parameters = [
             "uuidPartner": uuidPartner,
             "comment": comment,
+            "idRating": idRating
         ]
         
         request(url: url,
@@ -683,7 +721,7 @@ class NetworkManager: BaseRequest {
     func getCommentUser(uuidPartner: String,
                         completion: @escaping (_ response: BaseResponse<CheckComment>) -> Void) {
         guard let accessToken = UserData.loadSaved()?.accessToken else { return }
-        let url = baseURI + apiVersion2 + APIPath.checkComment
+        let url = apiEnvironment.baseURI + apiVersion2 + APIPath.checkComment
         
         let headers: HTTPHeaders = [
             HTTPHeader(name: HeaderKey.token.rawValue, value: accessToken)
@@ -707,7 +745,7 @@ class NetworkManager: BaseRequest {
                               comment: String,
                               completion: @escaping (_ response: BaseResponse<StatusResponse>) -> Void) {
         guard let accessToken = UserData.loadSaved()?.accessToken else { return }
-        let url = baseURI + apiVersion2 + APIPath.editComment
+        let url = apiEnvironment.baseURI + apiVersion2 + APIPath.editComment
         
         let headers: HTTPHeaders = [
             HTTPHeader(name: HeaderKey.token.rawValue, value: accessToken)
@@ -731,7 +769,7 @@ class NetworkManager: BaseRequest {
                              rating: Double,
                              completion: @escaping (_ response: BaseResponse<StatusResponse>) -> Void) {
         guard let accessToken = UserData.loadSaved()?.accessToken else { return }
-        let url = baseURI + apiVersion2 + APIPath.sendRating
+        let url = apiEnvironment.baseURI + apiVersion2 + APIPath.sendRating
         
         let headers: HTTPHeaders = [
             HTTPHeader(name: HeaderKey.token.rawValue, value: accessToken)
@@ -743,7 +781,7 @@ class NetworkManager: BaseRequest {
         ]
         
         request(url: url,
-                method: .put,
+                method: .post,
                 parameters: parametrs,
                 headers: headers) { result in
             completion(result)
@@ -754,7 +792,7 @@ class NetworkManager: BaseRequest {
     func registrationOnEvent(idEvent: String,
                              completion: @escaping (_ response: BaseResponse<StatusResponse>) -> Void) {
         guard let accessToken = UserData.loadSaved()?.accessToken else { return }
-        let url = baseURI + apiVersion1 + APIPath.event + "/\(idEvent)"
+        let url = apiEnvironment.baseURI + apiVersion1 + APIPath.event + "/\(idEvent)"
         
         let headers: HTTPHeaders = [
             HTTPHeader(name: HeaderKey.token.rawValue, value: accessToken)
@@ -771,7 +809,7 @@ class NetworkManager: BaseRequest {
     func cancelRegistrationOnEvent(idEvent: String,
                                    completion: @escaping (_ response: BaseResponse<StatusResponse>) -> Void) {
         guard let accessToken = UserData.loadSaved()?.accessToken else { return }
-        let url = baseURI + apiVersion1 + APIPath.event + "/\(idEvent)"
+        let url = apiEnvironment.baseURI + apiVersion1 + APIPath.event + "/\(idEvent)"
         
         let headers: HTTPHeaders = [
             HTTPHeader(name: HeaderKey.token.rawValue, value: accessToken)
@@ -788,7 +826,7 @@ class NetworkManager: BaseRequest {
     func sendAnswer(idAnswer: String,
                     completion: @escaping (_ response: BaseResponse<StatusResponse>) -> Void) {
         guard let accessToken = UserData.loadSaved()?.accessToken else { return }
-        let url = baseURI + apiVersion1 + APIPath.pooling + "/\(idAnswer)"
+        let url = apiEnvironment.baseURI + apiVersion1 + APIPath.pooling + "/\(idAnswer)"
         
         let headers: HTTPHeaders = [
             HTTPHeader(name: HeaderKey.token.rawValue, value: accessToken)
@@ -811,7 +849,7 @@ class NetworkManager: BaseRequest {
                    lngUser: String,
                    searchString: String,
                    completion: @escaping (_ response: BaseResponse<MapPointsResponse>) -> Void) {
-        let url = baseURI + apiVersion2 + APIPath.getPoints
+        let url = apiEnvironment.baseURI + apiVersion2 + APIPath.getPoints
         
         var parametrs: Parameters = [
             "topRightCorner": [
@@ -848,7 +886,7 @@ class NetworkManager: BaseRequest {
     func setPassword(passwordKey: String,
                      password: String,
                      completion: @escaping (_ response: BaseResponse<SetPasswordResponse>) -> Void) {
-        let url = authURI + apiVersion2 + APIPath.setPassword
+        let url = apiEnvironment.authURI + apiVersion2 + APIPath.setPassword
         
         let parametrs: Parameters = [
             "setPasswordKey": passwordKey,
@@ -866,7 +904,7 @@ class NetworkManager: BaseRequest {
     func enterPassword(loginKey: String,
                        password: String,
                        completion: @escaping (_ response: BaseResponse<SetPasswordResponse>) -> Void) {
-        let url = authURI + apiVersion2 + APIPath.enterPassword
+        let url = apiEnvironment.authURI + apiVersion2 + APIPath.enterPassword
         
         let parametrs: Parameters = [
             "loginKey": loginKey,
@@ -886,7 +924,7 @@ class NetworkManager: BaseRequest {
                        verifyKey: String,
                        key: String,
                        completion: @escaping (_ response: BaseResponse<SmsResponse>) -> Void) {
-        let url = authURI + apiVersion2 + APIPath.resetPassword
+        let url = apiEnvironment.authURI + apiVersion2 + APIPath.resetPassword
         
         let parametrs: Parameters = [
             "login" : phone,
@@ -909,7 +947,7 @@ class NetworkManager: BaseRequest {
                         lngUser: String,
                         searchString: String,
                         completion: @escaping (_ response: BaseResponse<MapPartnerResponse>) -> Void) {
-        let url = baseURI + apiVersion2 + APIPath.getPartnerPoints
+        let url = apiEnvironment.baseURI + apiVersion2 + APIPath.getPartnerPoints
 
         var parametrs: Parameters = [:]
         
@@ -941,7 +979,7 @@ class NetworkManager: BaseRequest {
     func likeComment(uuidComment: String,
                        completion: @escaping (_ response: BaseResponse<LikeResponse>) -> Void) {
         guard let accessToken = UserData.loadSaved()?.accessToken else { return }
-        let url = baseURI + apiVersion2 + APIPath.commentLike
+        let url = apiEnvironment.baseURI + apiVersion2 + APIPath.commentLike
         
         let headers: HTTPHeaders = [
             HTTPHeader(name: HeaderKey.token.rawValue, value: accessToken)
@@ -963,7 +1001,7 @@ class NetworkManager: BaseRequest {
                        completion: @escaping (_ response: BaseResponse<StatusResponse>) -> Void) {
         guard let accessToken = UserData.loadSaved()?.accessToken else { return }
         
-        let url = baseURI + apiVersion2 + APIPath.upuses + "/\(uuidPartner)"
+        let url = apiEnvironment.baseURI + apiVersion2 + APIPath.upuses + "/\(uuidPartner)"
         
         let headers: HTTPHeaders = [
             HTTPHeader(name: HeaderKey.token.rawValue, value: accessToken)
@@ -979,7 +1017,7 @@ class NetworkManager: BaseRequest {
     func authVK(userId: String,
                 vkToken: String,
                 completion: @escaping (_ response: BaseResponse<AuthVKResponse>) -> Void) {
-        let url = authURI + apiVersion1 + APIPath.authVK
+        let url = apiEnvironment.authURI + apiVersion1 + APIPath.authVK
         
         let parametrs: Parameters = [
             "vkToken": vkToken,
@@ -997,7 +1035,7 @@ class NetworkManager: BaseRequest {
     func addPartnerToFavorite(uuidPartner: String,
                               completion: @escaping (_ response: BaseResponse<AddToFavoriteResponse>) -> Void) {
         guard let accessToken = UserData.loadSaved()?.accessToken else { return }
-        let url = baseURI + apiVersion2 + APIPath.addToFavorite
+        let url = apiEnvironment.baseURI + apiVersion2 + APIPath.addToFavorite
         
         let headers: HTTPHeaders = [
             HTTPHeader(name: HeaderKey.token.rawValue, value: accessToken)
@@ -1018,7 +1056,7 @@ class NetworkManager: BaseRequest {
     func deletePartnerFromFavorite(uuidPartner: String,
                                    completion: @escaping (_ response: BaseResponse<AddToFavoriteResponse>) -> Void) {
         guard let accessToken = UserData.loadSaved()?.accessToken else { return }
-        let url = baseURI + apiVersion2 + APIPath.deleteFromFavorite + "/\(uuidPartner)"
+        let url = apiEnvironment.baseURI + apiVersion2 + APIPath.deleteFromFavorite + "/\(uuidPartner)"
         
         let headers: HTTPHeaders = [
             HTTPHeader(name: HeaderKey.token.rawValue, value: accessToken)
@@ -1036,7 +1074,7 @@ class NetworkManager: BaseRequest {
         limit: Int = 100,
         offset: Int = 0,
         completion: @escaping (_ result: BaseResponse<KnowledgesResponse>) -> Void) {
-        let url = baseURI + APIPath.getKnowledges
+            let url = apiEnvironment.baseURI + APIPath.getKnowledges
 
         var headers: HTTPHeaders = [
             HTTPHeader(name: "X-Limit", value: String(describing: limit)),
@@ -1059,7 +1097,7 @@ class NetworkManager: BaseRequest {
         offset: Int = 0,
         uuid: String,
         completion: @escaping (_ result: BaseResponse<KnowledgeResponse>) -> Void) {
-        let url = baseURI + APIPath.getKnowledge + "?uuid=\(uuid)"
+            let url = apiEnvironment.baseURI + APIPath.getKnowledge + "?uuid=\(uuid)"
 
         var headers: HTTPHeaders = [
             HTTPHeader(name: "X-Limit", value: String(describing: limit)),
@@ -1078,7 +1116,7 @@ class NetworkManager: BaseRequest {
 
     // MARK: - Вопрос
     func getQuestion(uuid: String, completion: @escaping (_ result: BaseResponse<Question>) -> Void) {
-        let url = baseURI + APIPath.getQuestion + "?uuid=\(uuid)"
+        let url = apiEnvironment.baseURI + APIPath.getQuestion + "?uuid=\(uuid)"
 
         var headers: HTTPHeaders = []
         if let accessToken = UserData.loadSaved()?.accessToken {
@@ -1093,7 +1131,7 @@ class NetworkManager: BaseRequest {
 
     // MARK: - Голосовать
     func sendVote(uuid: String, isUseful: Bool, completion: @escaping (_ result: BaseResponse<Vote>) -> Void) {
-        let url = baseURI + APIPath.votesQuestion
+        let url = apiEnvironment.baseURI + APIPath.votesQuestion
 
         var headers: HTTPHeaders = []
         if let accessToken = UserData.loadSaved()?.accessToken {
@@ -1114,7 +1152,7 @@ class NetworkManager: BaseRequest {
 
     // MARK: - Отправить жалобу на Новость
     func sendComplaintAboutNews(uuidNews: String, complaint: String, completion: @escaping (_ result: BaseResponse<StatusResponse>) -> Void) {
-        let url = baseURI + apiVersion2 + APIPath.sendComplaintOnNews
+        let url = apiEnvironment.baseURI + apiVersion2 + APIPath.sendComplaintOnNews
 
         var headers: HTTPHeaders = []
         if let accessToken = UserData.loadSaved()?.accessToken {
@@ -1135,7 +1173,7 @@ class NetworkManager: BaseRequest {
 
     // MARK: - Получить ссылку на месснеджер универа
     func getLinkToMessager(completion: @escaping (_ result: BaseResponse<String>) -> Void) -> Void {
-        let url = baseURI + apiVersion1 + APIPath.getLinkToMessager
+        let url = apiEnvironment.baseURI + apiVersion1 + APIPath.getLinkToMessager
 
         var headers: HTTPHeaders = []
         if let accessToken = UserData.loadSaved()?.accessToken {
@@ -1154,7 +1192,7 @@ class NetworkManager: BaseRequest {
 
     // MARK: - Получить статус заявки РЖД
     func getRzdRequest(completion: @escaping (_ result: BaseResponse<RzdRequest>) -> Void) {
-        let url = baseURI + apiVersion1 + APIPath.getRzdRequest
+        let url = apiEnvironment.baseURI + apiVersion1 + APIPath.getRzdRequest
 
         var headers: HTTPHeaders = []
         if let accessToken = UserData.loadSaved()?.accessToken {
@@ -1169,7 +1207,7 @@ class NetworkManager: BaseRequest {
 
     // MARK: - Отправить заявку на РЖД
     func sendRzdRequest(id: String, completion: @escaping (_ result: BaseResponse<RzdRequest>) -> Void) {
-        let url = baseURI + apiVersion1 + APIPath.createRzdRequest
+        let url = apiEnvironment.baseURI + apiVersion1 + APIPath.createRzdRequest
 
         var headers: HTTPHeaders = []
         if let accessToken = UserData.loadSaved()?.accessToken {
@@ -1191,7 +1229,7 @@ class NetworkManager: BaseRequest {
     func authApple(userId: String,
                    email: String,
                    completion: @escaping (_ response: BaseResponse<AuthVKResponse>) -> Void) {
-        let url = authURI + apiVersion2 + APIPath.authApple
+        let url = apiEnvironment.authURI + apiVersion2 + APIPath.authApple
 
         let parametrs: Parameters = [
             "appleToken": userId,
@@ -1210,7 +1248,7 @@ class NetworkManager: BaseRequest {
     // MARK: Количество непрочитанный новостей
 
     func getNumberUnreadNessages(completion: @escaping (_ result: BaseResponse<NewsCountResponse>) -> Void) {
-        let url = baseURI + apiVersion1 + APIPath.newsUnread
+        let url = apiEnvironment.baseURI + apiVersion1 + APIPath.newsUnread
 
         var headers: HTTPHeaders = []
         if let accessToken = UserData.loadSaved()?.accessToken {
@@ -1226,7 +1264,7 @@ class NetworkManager: BaseRequest {
     // MARK: Прочитать новости
 
     func putReadNews(completion: @escaping (_ result: BaseResponse<StatusResponse>) -> Void) {
-        let url = baseURI + apiVersion1 + APIPath.newsRead
+        let url = apiEnvironment.baseURI + apiVersion1 + APIPath.newsRead
 
         var headers: HTTPHeaders = []
         if let accessToken = UserData.loadSaved()?.accessToken {
@@ -1243,7 +1281,7 @@ class NetworkManager: BaseRequest {
     // MARK: Получить опрос новости
 
     func getPoolingNews(uuidNews: String, completion: @escaping (_ result: BaseResponse<PoolingNews>) -> Void) {
-        let url = baseURI + apiVersion2 + APIPath.pooling + "?uuidNews=\(uuidNews)"
+        let url = apiEnvironment.baseURI + apiVersion2 + APIPath.pooling + "?uuidNews=\(uuidNews)"
 
         var headers: HTTPHeaders = []
         if let accessToken = UserData.loadSaved()?.accessToken {
@@ -1259,7 +1297,7 @@ class NetworkManager: BaseRequest {
     // MARK: Отправить ответ
 
     func postPoolingNews(model: QuestionRequest, completion: @escaping (_ result: BaseResponse<StatusResponse>) -> Void) {
-        let url = baseURI + apiVersion2 + APIPath.pooling
+        let url = apiEnvironment.baseURI + apiVersion2 + APIPath.pooling
 
         var headers: HTTPHeaders = []
         if let accessToken = UserData.loadSaved()?.accessToken {
@@ -1277,7 +1315,7 @@ class NetworkManager: BaseRequest {
     // MARK: Отправить данные промо пользователя
 
     func sendPromoData(model: PromoRequest, accessToken: String, completion: @escaping (_ result: BaseResponse<UserData>) -> Void) {
-        let url = baseURI + apiVersion1 + APIPath.promoData
+        let url = apiEnvironment.baseURI + apiVersion1 + APIPath.promoData
 
         var headers: HTTPHeaders = []
         headers.add(HTTPHeader(name: HeaderKey.token.rawValue, value: accessToken))
@@ -1293,7 +1331,7 @@ class NetworkManager: BaseRequest {
     // MARK: - Проверить промокод
 
     func checkPromo(promo: String, completion: @escaping (_ result: BaseResponse<PromoData>) -> Void) {
-        let url = (authURI + apiVersion2 + APIPath.checkPromo + "?promocode=\(promo)").addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+        let url = (apiEnvironment.authURI + apiVersion2 + APIPath.checkPromo + "?promocode=\(promo)").addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
 
         request(url: url) { result in
             completion(result)
@@ -1307,7 +1345,7 @@ class NetworkManager: BaseRequest {
         telegram: String,
         completion: @escaping (_ result: BaseResponse<StatusResponse>) -> Void
     ) {
-        let url = baseURI + apiVersion1 + APIPath.socnet
+        let url = apiEnvironment.baseURI + apiVersion1 + APIPath.socnet
 
         var headers: HTTPHeaders = []
         if let accessToken = UserData.loadSaved()?.accessToken {

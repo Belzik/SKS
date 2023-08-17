@@ -169,7 +169,7 @@ class PlaceViewController: BaseViewController {
         
         if let logo = model.logo,
             logo != "",
-            let url = URL(string: NetworkManager.shared.baseURI + logo) {
+           let url = URL(string: NetworkManager.shared.apiEnvironment.baseURI + logo) {
             logoImageView.kf.setImage(with: url)
         }
         
@@ -262,7 +262,7 @@ class PlaceViewController: BaseViewController {
             let url = URL(string: logo) {
             logoImageView.kf.setImage(with: url)
         } else if let illustrate = model.illustrate,
-            let url = URL(string: NetworkManager.shared.baseURI + illustrate) {
+                  let url = URL(string: NetworkManager.shared.apiEnvironment.baseURI + illustrate) {
             logoImageView.kf.setImage(with: url)
         }
         
@@ -354,7 +354,7 @@ class PlaceViewController: BaseViewController {
             let url = URL(string: logo) {
             logoImageView.kf.setImage(with: url)
         } else if let illustrate = model.category?.illustrate,
-            let url = URL(string: NetworkManager.shared.baseURI + illustrate) {
+                  let url = URL(string: NetworkManager.shared.apiEnvironment.baseURI + illustrate) {
             logoImageView.kf.setImage(with: url)
         }
         

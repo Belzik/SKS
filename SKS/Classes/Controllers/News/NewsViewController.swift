@@ -9,6 +9,7 @@
 import UIKit
 import XLPagerTabStrip
 import FSPagerView
+import YandexMobileMetrica
 
 protocol NewsViewControllerDelegate: AnyObject {
     func newsTapped(news: News)
@@ -44,6 +45,7 @@ class NewsViewController: BaseViewController {
         if segue.identifier == "segueDetailNews" {
             let dvc = segue.destination as! DetailNewsViewController
             if let indexPath = tableView.indexPathForSelectedRow {
+                YMMYandexMetrica.reportEvent("news.item", parameters: ["id": news[indexPath.row].uuidNews ?? ""])
                 dvc.model = news[indexPath.row]
             }
         }
@@ -51,6 +53,7 @@ class NewsViewController: BaseViewController {
         if segue.identifier == "seguePoolingNews" {
             let dvc = segue.destination as! PoolingNewsViewController
             if let indexPath = tableView.indexPathForSelectedRow {
+                YMMYandexMetrica.reportEvent("news.item", parameters: ["id": news[indexPath.row].uuidNews ?? ""])
                 dvc.model = news[indexPath.row]
             }
         }

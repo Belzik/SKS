@@ -69,7 +69,7 @@ class KnowledgeTableViewCell: BaseTableViewCell {
     private func layout() {
         titleLabel.text = model?.title
         if let link = model?.pict,
-           let url = URL(string: NetworkManager.shared.baseURI + link) {
+           let url = URL(string: NetworkManager.shared.apiEnvironment.baseURI + link) {
             iconView.isHidden = false
             iconView.kf.setImage(with: url)
         } else {

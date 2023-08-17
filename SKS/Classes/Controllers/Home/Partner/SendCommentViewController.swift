@@ -9,148 +9,91 @@
 import UIKit
 import Cosmos
 
-protocol SendCommentViewControllerDelegate: class {
+protocol SendCommentViewControllerDelegate: AnyObject {
     func commentSent()
 
 }
 
 class SendCommentViewController: BaseViewController {
+    // MARK: Views
+
     @IBOutlet weak var ratingView: CosmosView!
     @IBOutlet weak var commentTextField: SKSTextField!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
-    @IBAction func dismissButtonTapped(_ sender: UIButton) {
-        dismiss(animated: true, completion: nil)
-    }
-    
-    @IBAction func sendCommentButtonTapped(_ sender: DownloadButton) {
-        if ratingView.rating == 0 {
-            showAlert(message: "Для отправки отзыва необходимо указать рейтинг.")
-        }
-        
-        sendData()
-    }
-    
+    // MARK: Properties
+
     var uuidPartner: String = ""
     let dispatchGroup = DispatchGroup()
     var isHaveErrors = false
     var delegate: SendCommentViewControllerDelegate?
     
     var chComment: CheckComment?
+
+    // MARK: View life cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        checkComment()
         commentTextField.delegate = self
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
-    
-    func checkComment() {
-        activityIndicator.startAnimating()
-        NetworkManager.shared.getCommentUser(uuidPartner: uuidPartner) { [weak self] result in
-            self?.activityIndicator.stopAnimating()
-            if let chComment = result.value {
-                self?.chComment = chComment
-                self?.commentTextField.text = chComment.info?.comment
-                
-                if let rating = chComment.rating {
-                    self?.ratingView.rating = Double(rating)
-                }
-            }
-        }
-    }
+
+    // MARK: Methods
     
     func sendData() {
         sendRating()
-        
-        if chComment?.info?.uuidComment != nil {
-            editComment()
-        } else {
-            if commentTextField.text!.count > 0 {
-                dispatchGroup.enter()
+    }
+
+    func endData() {
+        if !isHaveErrors {
+            delegate?.commentSent()
+            let alertAction = UIAlertAction(title: "OK", style: .default) { [weak self] _ in
+                self?.dismiss(animated: true, completion: nil)
             }
-        }
-        
-        
-//        else {
-//            if commentTextField.text!.count > 0 {
-//                sendComment()
-//            }
-//        }
-        
-        dispatchGroup.notify(queue: .main) { [weak self] in
-            guard let isHaveErrors = self?.isHaveErrors else { return }
-            
-            if !isHaveErrors {
-                self?.delegate?.commentSent()
-                let alertAction = UIAlertAction(title: "OK", style: .default) { [weak self] _ in
-                    self?.dismiss(animated: true, completion: nil)
-                }
-                self?.showAlert(actions: [alertAction], title: "Успех", message: "Ваш отзыв отправлен")
-            }
+            showAlert(actions: [alertAction], title: "Успех", message: "Ваш отзыв отправлен")
         }
     }
     
-    func sendComment() {
-        //dispatchGroup.enter()
-        NetworkManager.shared.sendCommentToPartner(uuidPartner: uuidPartner,
-                                                   comment: commentTextField.text!) { [weak self] result in
-            self?.dispatchGroup.leave()
+    func sendComment(idRating: Int) {
+        NetworkManager.shared.sendCommentToPartner(
+            uuidPartner: uuidPartner,
+            comment: commentTextField.text!,
+            idRating: idRating
+        ) { [weak self] result in
             if result.responseCode == 200 {
                 self?.isHaveErrors = false
-                
+                self?.endData()
             } else {
                 self?.isHaveErrors = true
                 if let statusCode = result.responseCode,
                     statusCode == 403 {
                     self?.showAlert(message: "Для того, чтобы оставить отзыв необходимо статус подтвержденного пользователя")
+                } else if let statusCode = result.responseCode,
+                             statusCode == 429 {
+                    self?.showAlert(message: "Вы не можете оставить отзыв, так как не прошло 24 часа с предыдущего")
                 } else {
                     self?.showAlert(message: NetworkErrors.common)
                 }
             }
         }
     }
-    
-    func editComment() {
-        guard let uuidComment = chComment?.info?.uuidComment else {return }
-        
-        dispatchGroup.enter()
-        NetworkManager.shared.editCommentToPartner(uuidComment: uuidComment,
-                                                   comment: commentTextField.text!) { [weak self] result in
-            self?.dispatchGroup.leave()
-            if let responseCode = result.responseCode,
-               responseCode == 200 {
-                self?.isHaveErrors = false
-            } else {
-                self?.isHaveErrors = true
-                if let statusCode = result.responseCode,
-                    statusCode == 403 {
-                    self?.showAlert(message: "Для того, чтобы оставить отзыв необходимо статус подтвержденного пользователя")
-                } else {
-                    self?.showAlert(message: NetworkErrors.common)
-                }
-            }
-        }
-    }
-    
     
     func sendRating() {
-        dispatchGroup.enter()
         NetworkManager.shared.sendRatingToPartner(uuidPartner: uuidPartner,
                                                   rating: ratingView.rating) { [weak self] result in
-            self?.dispatchGroup.leave()
             if let responseCode = result.responseCode,
                responseCode == 200 {
                 self?.isHaveErrors = false
-                
-                if self?.chComment?.info?.uuidComment == nil {
-                    if self!.commentTextField.text!.count > 0 {
-                        self?.sendComment()
-                    }
+
+                if self!.commentTextField.text!.count > 0,
+                   let idRating = result.value?.idRating {
+                    self?.sendComment(idRating: idRating)
+                } else {
+                    self?.endData()
                 }
             } else {
                 self?.isHaveErrors = true
@@ -158,12 +101,28 @@ class SendCommentViewController: BaseViewController {
                 if let statusCode = result.responseCode,
                     statusCode == 403 {
                     self?.showAlert(message: "Для того, чтобы оставить отзыв необходимо статус подтвержденного пользователя")
+                } else if let statusCode = result.responseCode,
+                             statusCode == 429 {
+                    self?.showAlert(message: "Вы не можете оставить отзыв, так как не прошло 24 часа с предыдущего")
                 } else {
                     self?.showAlert(message: NetworkErrors.common)
                 }
-                
             }
         }
+    }
+
+    // MARK: Actions
+
+    @IBAction func dismissButtonTapped(_ sender: UIButton) {
+        dismiss(animated: true, completion: nil)
+    }
+
+    @IBAction func sendCommentButtonTapped(_ sender: DownloadButton) {
+        if ratingView.rating == 0 {
+            showAlert(message: "Для отправки отзыва необходимо указать рейтинг.")
+        }
+
+        sendData()
     }
 }
 

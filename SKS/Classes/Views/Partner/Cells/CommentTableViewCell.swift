@@ -20,7 +20,10 @@ class CommentTableViewCell: UITableViewCell {
     @IBOutlet weak var likeImageView: UIImageView!
     @IBOutlet weak var likeLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
-    
+    @IBOutlet weak var answerView: UIView!
+    @IBOutlet weak var answerLabel: UILabel!
+    @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
+
     var indexPath: IndexPath?
     weak var delegate: CommentTableViewCellDelegate?
     weak var model: Comment? {
@@ -68,6 +71,14 @@ class CommentTableViewCell: UITableViewCell {
         let tap = UITapGestureRecognizer(target: self, action: #selector(likeViewTapped))
         likeView.isUserInteractionEnabled = true
         likeView.addGestureRecognizer(tap)
+
+        if let answer = model.answerInfo {
+            answerView.layer.cornerRadius = 10
+            answerLabel.text = answer.answer
+        } else {
+            answerView.isHidden = true
+            bottomConstraint.constant = 0
+        }
     }
     
     @objc func likeViewTapped() {

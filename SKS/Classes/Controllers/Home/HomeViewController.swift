@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import YandexMobileMetrica
 
 class HomeViewController: BaseViewController {
     
@@ -385,6 +386,10 @@ class HomeViewController: BaseViewController {
     }
     
     private func getStocks() {
+        guard let user = UserData.loadSaved(), user.status == "active" else {
+            return
+        }
+
         dispatchGroup.enter()
         NetworkManager.shared.getStocks(category: currentUiidCategory,
                                         uuidCity: currentCity?.uuidCity,
@@ -607,11 +612,13 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         let item = sections[indexPath.section]
 
         if item == "РЖД Бонус" {
+            YMMYandexMetrica.reportEvent("partners.rzhd")
             performSegue(withIdentifier: "segueRzdPartner", sender: nil)
         }
 
         if item == "Партнеры" {
             if let uuidPartner = partners[indexPath.row].uuidPartner {
+                YMMYandexMetrica.reportEvent("partners.item", parameters: ["id": uuidPartner])
                 performSegue(withIdentifier: "segueNewPartner", sender: uuidPartner)
             }
         }
@@ -751,10 +758,14 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 loadData()
                 selectedIndex = indexPath.row
             }
+            if selectedIndex != -1 {
+                YMMYandexMetrica.reportEvent("category.item", parameters: ["id": categories[selectedIndex].uuidCategory ?? ""])
+            }
         }
         
         if collectionView.tag == 2 {
             if let uuidStock = stocks[indexPath.row].uuidStock {
+                YMMYandexMetrica.reportEvent("stock.item", parameters: ["id": uuidStock])
                 performSegue(withIdentifier: "segueStock", sender: uuidStock)
             }
         }

@@ -313,7 +313,7 @@ class MapViewController: BaseViewController {
 
                     if let logo = mapPartner.logo,
                         logo != "",
-                        let url = URL(string: NetworkManager.shared.baseURI + logo) {
+                       let url = URL(string: NetworkManager.shared.apiEnvironment.baseURI + logo) {
                         
                         view.logoImage.kf.setImage(with: url) { [weak self] (_, _) in
                             if let yrtView = YRTViewProvider.init(uiView: view) {
@@ -362,7 +362,7 @@ class MapViewController: BaseViewController {
                 
                 if let logo = mapPartner.logo,
                     logo != "",
-                    let url = URL(string: NetworkManager.shared.baseURI + logo) {
+                   let url = URL(string: NetworkManager.shared.apiEnvironment.baseURI + logo) {
                     view.logoImage.kf.setImage(with: url) { (_, _) in
                         if let yrtView = YRTViewProvider.init(uiView: view) {
                             salePoint?.setViewWithView(yrtView)
@@ -831,7 +831,7 @@ extension MapViewController: YMKMapObjectTapListener {
                         }
                     }
                 } else if let logoIllustrate = pointUser.illustrate,
-                    let url = URL(string: NetworkManager.shared.baseURI + logoIllustrate) {
+                          let url = URL(string: NetworkManager.shared.apiEnvironment.baseURI + logoIllustrate) {
                     
                     view.logoImage.kf.setImage(with: url) { (_, _) in
                         if let yrtView = YRTViewProvider.init(uiView: view) {
@@ -864,7 +864,7 @@ extension MapViewController: YMKMapObjectTapListener {
                 view.isOpaque = false
                 view.backgroundColor = UIColor.clear.withAlphaComponent(0.0)
                 
-                if let url = URL(string: NetworkManager.shared.baseURI + data.logo) {
+                if let url = URL(string: NetworkManager.shared.apiEnvironment.baseURI + data.logo) {
                     
                     view.logoImage.kf.setImage(with: url) { (_, _) in
                         if let yrtView = YRTViewProvider.init(uiView: view) {

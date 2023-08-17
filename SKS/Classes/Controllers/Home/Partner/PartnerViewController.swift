@@ -87,7 +87,7 @@ class PartnerViewController: BaseViewController {
         if let hexcolor = partner.category?.hexcolor { header?.categoryView.backgroundColor = UIColor(hexString: hexcolor) }
         
         if let link = partner.category?.illustrateHeader,
-            let url = URL(string: NetworkManager.shared.baseURI + link) {
+           let url = URL(string: NetworkManager.shared.apiEnvironment.baseURI + link) {
             header?.imageHeader.kf.setImage(with: url)
         }
         

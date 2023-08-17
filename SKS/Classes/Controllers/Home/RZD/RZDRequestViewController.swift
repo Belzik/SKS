@@ -14,6 +14,8 @@ class RZDRequestViewController: BaseViewController {
     @IBOutlet weak var messageRequestLabel: UILabel!
     @IBOutlet weak var sendRequestAgainLabel: UILabel!
 
+    @IBOutlet weak var noUserLabel: UILabel!
+
     // MARK: - Properties
 
     weak var delegate: RZDPartnerScrollableDelegate?
@@ -125,6 +127,13 @@ class RZDRequestViewController: BaseViewController {
     }
 
     func layoutUI() {
+        guard let user = UserData.loadSaved(), user.status == "active" else {
+            rzdRequestView.isHidden = true
+            statusView.isHidden = true
+            return
+        }
+        noUserLabel.isHidden = true
+
         if let rzdRequest = rzdRequest {
             switch rzdRequest.statusRequest {
             case .atWork:

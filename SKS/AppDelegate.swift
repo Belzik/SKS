@@ -16,6 +16,7 @@ import Messages
 import YandexMapsMobile
 import CoreLocation
 import SwiftyVK
+import YandexMobileMetrica
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUserNotificationCenterDelegate {
@@ -40,6 +41,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
         locationManager.requestAlwaysAuthorization()
         locationManager.startUpdatingLocation()
         sendFCMToken()
+
+        let configuration = YMMYandexMetricaConfiguration.init(apiKey: NetworkManager.shared.apiEnvironment.yandexMetricaKey)
+        YMMYandexMetrica.activate(with: configuration!)
 
         return true
     }

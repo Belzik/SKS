@@ -44,7 +44,7 @@ class SearchTableViewCell: UITableViewCell {
                 heightIcon.constant = 40
                 widthIcon.constant = 40
                 
-                let url = URL(string: NetworkManager.shared.baseURI + model.icon)
+                let url = URL(string: NetworkManager.shared.apiEnvironment.baseURI + model.icon)
                 iconView.kf.setImage(with: url)
             } else {
                 heightIcon.constant = 24

@@ -72,6 +72,7 @@
 		B5671E0323A532ED006F8327 /* AnswerTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5671E0123A532ED006F8327 /* AnswerTableViewCell.xib */; };
 		B5671E0623A53303006F8327 /* ResultPoolingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5671E0423A53303006F8327 /* ResultPoolingTableViewCell.swift */; };
 		B5671E0723A53303006F8327 /* ResultPoolingTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5671E0523A53303006F8327 /* ResultPoolingTableViewCell.xib */; };
+		B568A02429EEC9DE0088AFFA /* EngineeringMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B568A02329EEC9DE0088AFFA /* EngineeringMenuViewController.swift */; };
 		B56A3AEF232866D5007B8BA3 /* TokensResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56A3AEE232866D5007B8BA3 /* TokensResponse.swift */; };
 		B56A6E80263311E900698811 /* DashboardMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56A6E7F263311E900698811 /* DashboardMapViewController.swift */; };
 		B56BBF1D2372DA9600CAA0B1 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56BBF1C2372DA9600CAA0B1 /* MapViewController.swift */; };
@@ -351,6 +352,7 @@
 		B5671E0123A532ED006F8327 /* AnswerTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AnswerTableViewCell.xib; sourceTree = "<group>"; };
 		B5671E0423A53303006F8327 /* ResultPoolingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultPoolingTableViewCell.swift; sourceTree = "<group>"; };
 		B5671E0523A53303006F8327 /* ResultPoolingTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ResultPoolingTableViewCell.xib; sourceTree = "<group>"; };
+		B568A02329EEC9DE0088AFFA /* EngineeringMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EngineeringMenuViewController.swift; sourceTree = "<group>"; };
 		B56A3AEE232866D5007B8BA3 /* TokensResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokensResponse.swift; sourceTree = "<group>"; };
 		B56A6E7F263311E900698811 /* DashboardMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardMapViewController.swift; sourceTree = "<group>"; };
 		B56BBF1C2372DA9600CAA0B1 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
@@ -881,6 +883,7 @@
 				B5AC14502315ADDA00F23102 /* OnboardingPageViewController.swift */,
 				B5AC14522315B5CC00F23102 /* OnboardingDataViewController.swift */,
 				B5E975CA23211D4A005762A8 /* EditProfileViewController.swift */,
+				B568A02329EEC9DE0088AFFA /* EngineeringMenuViewController.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -1885,6 +1888,7 @@
 				B5AAAC4A22E4D7D700B04C75 /* TabBarViewController.swift in Sources */,
 				B5EEE95A26144B2E006B061F /* AddToFavoriteResponse.swift in Sources */,
 				8A13423A23EB1AF90013FE2D /* RememberCity.swift in Sources */,
+				B568A02429EEC9DE0088AFFA /* EngineeringMenuViewController.swift in Sources */,
 				B5F00ED7271B1E8800660244 /* BackView.swift in Sources */,
 				B5F00E9E271AE62600660244 /* UICollectionView.swift in Sources */,
 				B5AC14552315D67F00F23102 /* Path.swift in Sources */,
@@ -2127,7 +2131,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.4.6;
+				MARKETING_VERSION = 2.6.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ru.petrsu.sks;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2152,7 +2156,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.4.6;
+				MARKETING_VERSION = 2.6.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ru.petrsu.sks;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
