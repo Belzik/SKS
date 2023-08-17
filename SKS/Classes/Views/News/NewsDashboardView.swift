@@ -24,12 +24,16 @@ class NewsDashboardView: SnapKitView {
         let newsVC: NewsViewController = UIStoryboard(name: "News", bundle: nil).instantiateViewController(withIdentifier: "NewsViewController") as! NewsViewController
         newsVC.delegate = self
 
-        let knowledgeVC = KnowledgesViewController()
+        let knowledgeVC = KnowledgesViewController(isTravel: false)
         knowledgeVC.delegate = self
+
+        let travelVC = KnowledgesViewController(isTravel: true)
+        travelVC.delegate = self
 
         let tabs: [TabElement] = [
             .init(title: "Все новости", count: 3, viewController: newsVC),
-            .init(title: "База знаний", count: 0, viewController: knowledgeVC)
+            .init(title: "База знаний", count: 0, viewController: knowledgeVC),
+            .init(title: "Путешествия", count: 0, viewController: travelVC)
         ]
         let tabView = TabView(tabs: tabs)
 

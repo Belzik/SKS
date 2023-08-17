@@ -106,6 +106,7 @@ enum HeaderKey: String {
     case userCity    = "X-User-City"
     case userUniver  = "X-User-Univer"
     case userFaculty = "X-User-Faculty"
+    case trips       = "X-Trips"
 }
 
 struct NetworkErrors {
@@ -1073,13 +1074,18 @@ class NetworkManager: BaseRequest {
     func getKnowledges(
         limit: Int = 100,
         offset: Int = 0,
+        isTravel: Bool,
         completion: @escaping (_ result: BaseResponse<KnowledgesResponse>) -> Void) {
-            let url = apiEnvironment.baseURI + APIPath.getKnowledges
+        let url = apiEnvironment.baseURI + APIPath.getKnowledges
 
         var headers: HTTPHeaders = [
             HTTPHeader(name: "X-Limit", value: String(describing: limit)),
             HTTPHeader(name: "X-Offset", value: String(describing: offset))
         ]
+
+        if isTravel {
+            headers.add(HTTPHeader(name: HeaderKey.trips.rawValue, value: "1"))
+        }
 
         if let accessToken = UserData.loadSaved()?.accessToken {
             headers.add(HTTPHeader(name: HeaderKey.token.rawValue, value: accessToken))

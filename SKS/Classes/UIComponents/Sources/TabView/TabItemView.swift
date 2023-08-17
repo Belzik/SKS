@@ -14,7 +14,7 @@ class TabItemView: SnapKitView {
 
     let button: UIButton = {
         let button = UIButton(type: .system)
-        button.titleLabel?.font = Fonts.openSans.medium.s16
+        button.titleLabel?.font = Fonts.openSans.medium.s15
         button.setTitleColor(ColorManager.lightBlack.value, for: .normal)
         button.setTitleColor(ColorManager.green.value, for: .selected)
         button.tintColor = .clear
