@@ -96,6 +96,9 @@ struct APIPath {
     static let promoData = "student/promo"
     static let checkPromo = "auth/checkpromo"
     static let socnet = "student/socnet"
+    static let getPromoCode = "partners/promo/get-promo-code"
+    static let checkWinAbility = "partners/promo/check-win-ability"
+    static let userPromoHistory = "partners/promo/user-promo-history"
 }
 
 enum HeaderKey: String {
@@ -1361,6 +1364,69 @@ class NetworkManager: BaseRequest {
         var parametrs: Parameters = [:]
         parametrs["linkvk"] = vk
         parametrs["linktg"] = telegram
+
+        request(url: url,
+                method: .post,
+                parameters: parametrs,
+                headers: headers) { result in
+            completion(result)
+        }
+    }
+
+    // MARK: Получение одного промо-кода для выбранной акции
+
+    func getPromocode(uuidStock: String, completion: @escaping (_ result: BaseResponse<GetPromocodeResponse>) -> Void) {
+        let url = apiEnvironment.baseURI + apiVersion2 + APIPath.getPromoCode
+
+        var headers: HTTPHeaders = []
+        if let accessToken = UserData.loadSaved()?.accessToken {
+            headers.add(HTTPHeader(name: HeaderKey.token.rawValue, value: accessToken))
+        }
+
+        var parametrs: Parameters = [:]
+        parametrs["uuidStock"] = uuidStock
+
+        request(url: url,
+                method: .post,
+                parameters: parametrs,
+                headers: headers) { result in
+            completion(result)
+        }
+    }
+
+    // MARK: Анализ данных о возможности получения промо-кода
+
+    func checkWinAbility(uuidStock: String, completion: @escaping (_ result: BaseResponse<CheckWinAbilityResponse>) -> Void) {
+        let url = apiEnvironment.baseURI + apiVersion2 + APIPath.checkWinAbility
+
+        var headers: HTTPHeaders = []
+        if let accessToken = UserData.loadSaved()?.accessToken {
+            headers.add(HTTPHeader(name: HeaderKey.token.rawValue, value: accessToken))
+        }
+
+        var parametrs: Parameters = [:]
+        parametrs["uuidStock"] = uuidStock
+
+        request(url: url,
+                method: .post,
+                parameters: parametrs,
+                headers: headers) { result in
+            completion(result)
+        }
+    }
+
+    // MARK: История выданых пользователю промо-кодов
+
+    func userPromoHistory(uuidStock: String, completion: @escaping (_ result: BaseResponse<UserPromoHistoryResponse>) -> Void) {
+        let url = apiEnvironment.baseURI + apiVersion2 + APIPath.userPromoHistory
+
+        var headers: HTTPHeaders = []
+        if let accessToken = UserData.loadSaved()?.accessToken {
+            headers.add(HTTPHeader(name: HeaderKey.token.rawValue, value: accessToken))
+        }
+
+        var parametrs: Parameters = [:]
+        parametrs["uuidStock"] = uuidStock
 
         request(url: url,
                 method: .post,

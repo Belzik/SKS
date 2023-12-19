@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Montserrat-Bold.ttf">
+            <string>Montserrat-Bold</string>
+        </array>
+        <array key="Montserrat-SemiBold.ttf">
+            <string>Montserrat-SemiBold</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="Ch1-mi-c8A" customClass="StockTableViewFooter" customModule="SKS" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="280"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="K1I-RZ-Ecw">
+                    <rect key="frame" x="0.0" y="16" width="414" height="6"/>
+                    <color key="backgroundColor" red="0.94118911029999996" green="0.94115382430000005" blue="0.94117778539999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="6" id="DeB-SK-rCE"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VFY-TC-Jf7">
+                    <rect key="frame" x="16" y="46" width="382" height="48"/>
+                    <subviews>
+                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="-4" translatesAutoresizingMaskIntoConstraints="NO" id="Y9d-Nf-mqo">
+                            <rect key="frame" x="0.0" y="0.0" width="382" height="48"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Активировать промокод" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BfD-l0-p3N">
+                                    <rect key="frame" x="0.0" y="0.0" width="382" height="26"/>
+                                    <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="16"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Доступно еще 198 шт." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JMq-Qr-7ft">
+                                    <rect key="frame" x="0.0" y="22" width="382" height="26"/>
+                                    <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="12"/>
+                                    <color key="textColor" white="1" alpha="0.6482609340122768" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                        </stackView>
+                    </subviews>
+                    <color key="backgroundColor" red="0.1019607843" green="0.6705882353" blue="0.34509803919999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="Y9d-Nf-mqo" secondAttribute="bottom" id="7bf-Vt-2WA"/>
+                        <constraint firstItem="Y9d-Nf-mqo" firstAttribute="centerX" secondItem="VFY-TC-Jf7" secondAttribute="centerX" id="B7W-xX-ojX"/>
+                        <constraint firstItem="Y9d-Nf-mqo" firstAttribute="centerY" secondItem="VFY-TC-Jf7" secondAttribute="centerY" id="BBL-tP-yvr"/>
+                        <constraint firstAttribute="height" constant="48" id="RXI-3c-ogR"/>
+                        <constraint firstItem="Y9d-Nf-mqo" firstAttribute="top" secondItem="VFY-TC-Jf7" secondAttribute="top" id="Y1Y-oJ-8Iu"/>
+                        <constraint firstItem="Y9d-Nf-mqo" firstAttribute="leading" secondItem="VFY-TC-Jf7" secondAttribute="leading" id="oKS-UJ-hBF"/>
+                        <constraint firstAttribute="trailing" secondItem="Y9d-Nf-mqo" secondAttribute="trailing" id="tIf-NT-dIX"/>
+                    </constraints>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m7R-eE-DIg">
+                    <rect key="frame" x="139" y="118" width="136" height="27"/>
+                    <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="12"/>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal" title="ВАШИ ПРОМОКОДЫ">
+                        <color key="titleColor" red="0.10196078431372549" green="0.6705882352941176" blue="0.34509803921568627" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="promocodesButtonTapped:" destination="-1" eventType="touchUpInside" id="2bb-Fw-FTH"/>
+                    </connections>
+                </button>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IN0-RY-XPE">
+                    <rect key="frame" x="0.0" y="169" width="414" height="2"/>
+                    <color key="backgroundColor" red="0.94118911029999996" green="0.94115382430000005" blue="0.94117778539999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="2" id="H75-Ta-mGt"/>
+                    </constraints>
+                </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="249" text="ОСТАЛОСЬ ПРОМОКОДОВ: 198" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ItI-hJ-b5y">
+                    <rect key="frame" x="16" y="187" width="382" height="77"/>
+                    <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="12"/>
+                    <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="hg7-fz-riJ"/>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="K1I-RZ-Ecw" firstAttribute="leading" secondItem="Ch1-mi-c8A" secondAttribute="leading" id="13K-cy-nQJ"/>
+                <constraint firstAttribute="trailing" secondItem="VFY-TC-Jf7" secondAttribute="trailing" constant="16" id="3SB-S9-Reg"/>
+                <constraint firstAttribute="trailing" secondItem="K1I-RZ-Ecw" secondAttribute="trailing" id="5qy-1X-zDF"/>
+                <constraint firstItem="IN0-RY-XPE" firstAttribute="leading" secondItem="hg7-fz-riJ" secondAttribute="leading" id="6Zt-ID-vHU"/>
+                <constraint firstItem="m7R-eE-DIg" firstAttribute="top" secondItem="VFY-TC-Jf7" secondAttribute="bottom" constant="24" id="BzO-p0-mdR"/>
+                <constraint firstItem="ItI-hJ-b5y" firstAttribute="leading" secondItem="Ch1-mi-c8A" secondAttribute="leading" constant="16" id="L2i-yj-6qf"/>
+                <constraint firstItem="IN0-RY-XPE" firstAttribute="trailing" secondItem="hg7-fz-riJ" secondAttribute="trailing" id="LcA-1P-gzC"/>
+                <constraint firstItem="ItI-hJ-b5y" firstAttribute="top" secondItem="IN0-RY-XPE" secondAttribute="bottom" constant="16" id="M7w-La-XWw"/>
+                <constraint firstAttribute="bottom" secondItem="ItI-hJ-b5y" secondAttribute="bottom" constant="16" id="Qbj-6W-Z3E"/>
+                <constraint firstItem="hg7-fz-riJ" firstAttribute="trailing" secondItem="ItI-hJ-b5y" secondAttribute="trailing" constant="16" id="Sg3-ap-Vul"/>
+                <constraint firstItem="VFY-TC-Jf7" firstAttribute="top" secondItem="K1I-RZ-Ecw" secondAttribute="bottom" constant="24" id="Ydn-ON-kuS"/>
+                <constraint firstItem="m7R-eE-DIg" firstAttribute="centerX" secondItem="hg7-fz-riJ" secondAttribute="centerX" id="gTf-YC-Qcn"/>
+                <constraint firstItem="VFY-TC-Jf7" firstAttribute="leading" secondItem="Ch1-mi-c8A" secondAttribute="leading" constant="16" id="hod-To-SaM"/>
+                <constraint firstItem="IN0-RY-XPE" firstAttribute="top" secondItem="m7R-eE-DIg" secondAttribute="bottom" constant="24" id="rmP-Iv-bnv"/>
+                <constraint firstItem="K1I-RZ-Ecw" firstAttribute="top" secondItem="Ch1-mi-c8A" secondAttribute="top" constant="16" id="zSH-vO-VYv"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="buttonView" destination="VFY-TC-Jf7" id="F6x-2c-zLp"/>
+                <outlet property="descriptionLabel" destination="JMq-Qr-7ft" id="u6W-8t-xDo"/>
+                <outlet property="promocodeButton" destination="m7R-eE-DIg" id="AOj-Dd-CxI"/>
+                <outlet property="promocodeLabel" destination="ItI-hJ-b5y" id="qgJ-GB-QLz"/>
+                <outlet property="separateTwoView" destination="IN0-RY-XPE" id="tOc-EE-DkJ"/>
+                <outlet property="titleLabel" destination="BfD-l0-p3N" id="LYM-PT-p5z"/>
+            </connections>
+            <point key="canvasLocation" x="145" y="-44"/>
+        </view>
+    </objects>
+</document>

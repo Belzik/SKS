@@ -64,6 +64,14 @@ class DateManager {
 
         return dateFormatter.date(from: dateString)
     }
+
+    func toDate(string: String) -> Date {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        dateFormatter.locale = Locale.init(identifier: "ru")
+
+        return dateFormatter.date(from: string) ?? Date()
+    }
     
      func getDifferenceTime(from start: String) -> String {
         let dateFormatter = DateFormatter()

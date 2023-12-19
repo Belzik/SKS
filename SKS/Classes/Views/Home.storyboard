@@ -1137,8 +1137,8 @@
                                 <color key="textColor" red="0.6324622631072998" green="0.65120464563369751" blue="0.71688646078109741" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JEb-T8-TOo" customClass="CosmosView" customModule="Cosmos">
-                                <rect key="frame" x="80.666666666666686" y="93.333333333333329" width="232" height="39.999999999999986"/>
+                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JEb-T8-TOo" customClass="CosmosView" customModule="Cosmos">
+                                <rect key="frame" x="80.666666666666686" y="93.333333333333314" width="232" height="40"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="232" id="ttT-ua-kiN"/>
@@ -1157,15 +1157,15 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wt2-AT-kMf">
+                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Wt2-AT-kMf">
                                 <rect key="frame" x="0.0" y="157.33333333333334" width="393" height="6"/>
                                 <color key="backgroundColor" red="0.94183081388473511" green="0.94254469871520996" blue="0.94194132089614868" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="6" id="Tdd-2X-eVy"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ваш отзыв" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ljq-aK-2yh">
-                                <rect key="frame" x="15.999999999999993" y="187.33333333333334" width="116.33333333333331" height="24.666666666666657"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Ваш отзыв" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ljq-aK-2yh">
+                                <rect key="frame" x="15.999999999999993" y="187.33333333333337" width="116.33333333333331" height="24.666666666666657"/>
                                 <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -1185,7 +1185,7 @@
                                     <action selector="sendCommentButtonTapped:" destination="eR3-3v-YLA" eventType="touchUpInside" id="Zx5-09-xcw"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Напишите отзыв" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tt2-Zm-4hx" customClass="SKSTextField" customModule="SKS" customModuleProvider="target">
+                            <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Напишите отзыв" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tt2-Zm-4hx" customClass="SKSTextField" customModule="SKS" customModuleProvider="target">
                                 <rect key="frame" x="16" y="228" width="361" height="48"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="ViW-zK-OWi"/>
@@ -1415,11 +1415,81 @@
                         <outlet property="showSalesLabel" destination="TbW-7l-mt1" id="Gre-CZ-dsh"/>
                         <outlet property="showSalesView" destination="S6F-ah-fgB" id="5Pm-Ae-xVG"/>
                         <outlet property="tableView" destination="F2g-sf-UHq" id="JUc-oQ-eCM"/>
+                        <segue destination="mDf-hs-Kre" kind="show" identifier="seguePromocodes" id="J32-Kd-DN1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Asu-yG-KOj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="560.86956521739137" y="46.875"/>
+        </scene>
+        <!--Promocodes View Controller-->
+        <scene sceneID="6MJ-lQ-2Bc">
+            <objects>
+                <viewController id="mDf-hs-Kre" customClass="PromocodesViewController" customModule="SKS" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="J4g-AP-xks">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="666"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bdr-0Y-Oew">
+                                <rect key="frame" x="16" y="12" width="71" height="24"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="24" id="dq1-Dk-VKP"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <state key="normal" title="Назад" image="ic_arrow_left">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="backButtonTapped:" destination="KF9-00-iUt" eventType="touchUpInside" id="XbO-Bh-AQZ"/>
+                                    <action selector="backButtonTapped:" destination="mDf-hs-Kre" eventType="touchUpInside" id="bbv-Z7-IwN"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ваши промокоды" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f6a-Pv-lTo">
+                                <rect key="frame" x="124.66666666666669" y="13.666666666666671" width="144" height="21"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Скидка 300₽ при заказе от 6000₽" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cqy-g0-Yqi">
+                                <rect key="frame" x="16" y="60" width="361" height="49"/>
+                                <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="UJy-3N-1ea">
+                                <rect key="frame" x="0.0" y="125" width="393" height="541"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="mDf-hs-Kre" id="0Lj-6C-ffX"/>
+                                    <outlet property="delegate" destination="mDf-hs-Kre" id="hgU-XU-OMe"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="HxU-HV-kiS"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="bdr-0Y-Oew" firstAttribute="top" secondItem="HxU-HV-kiS" secondAttribute="top" constant="12" id="0Cx-dM-SQW"/>
+                            <constraint firstItem="f6a-Pv-lTo" firstAttribute="centerX" secondItem="HxU-HV-kiS" secondAttribute="centerX" id="BYx-D3-b4S"/>
+                            <constraint firstItem="f6a-Pv-lTo" firstAttribute="centerY" secondItem="bdr-0Y-Oew" secondAttribute="centerY" id="Fo0-sY-xuM"/>
+                            <constraint firstItem="bdr-0Y-Oew" firstAttribute="leading" secondItem="HxU-HV-kiS" secondAttribute="leading" constant="16" id="KwX-Dy-hTz"/>
+                            <constraint firstItem="HxU-HV-kiS" firstAttribute="bottom" secondItem="UJy-3N-1ea" secondAttribute="bottom" id="Nwa-4f-xJb"/>
+                            <constraint firstAttribute="trailing" secondItem="Cqy-g0-Yqi" secondAttribute="trailing" constant="16" id="cS8-Vd-CZA"/>
+                            <constraint firstItem="UJy-3N-1ea" firstAttribute="top" secondItem="Cqy-g0-Yqi" secondAttribute="bottom" constant="16" id="gh5-7m-pWd"/>
+                            <constraint firstItem="Cqy-g0-Yqi" firstAttribute="top" secondItem="bdr-0Y-Oew" secondAttribute="bottom" constant="24" id="gmM-pf-s0r"/>
+                            <constraint firstItem="HxU-HV-kiS" firstAttribute="trailing" secondItem="UJy-3N-1ea" secondAttribute="trailing" id="rMF-03-9b2"/>
+                            <constraint firstItem="UJy-3N-1ea" firstAttribute="leading" secondItem="HxU-HV-kiS" secondAttribute="leading" id="txT-Lb-PSe"/>
+                            <constraint firstItem="Cqy-g0-Yqi" firstAttribute="leading" secondItem="HxU-HV-kiS" secondAttribute="leading" constant="16" id="ya0-fM-wqW"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="pa0-oe-s5Y"/>
+                    <connections>
+                        <outlet property="tableView" destination="UJy-3N-1ea" id="d9p-ub-zV8"/>
+                        <outlet property="titleLabel" destination="Cqy-g0-Yqi" id="gqT-G1-KpA"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3VZ-rX-cpf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="560" y="739"/>
         </scene>
         <!--Pulley Partner View Controller-->
         <scene sceneID="kVt-9U-VTM">
@@ -2176,15 +2246,12 @@
         <designable name="GUn-97-iRm">
             <size key="intrinsicContentSize" width="155" height="34"/>
         </designable>
-        <designable name="JEb-T8-TOo">
-            <size key="intrinsicContentSize" width="232" height="40"/>
-        </designable>
         <designable name="tt2-Zm-4hx">
             <size key="intrinsicContentSize" width="160.33333333333334" height="34"/>
         </designable>
     </designables>
     <inferredMetricsTieBreakers>
-        <segue reference="xvv-WN-OXg"/>
+        <segue reference="pzT-FQ-MWh"/>
         <segue reference="c3Q-xb-V1T"/>
         <segue reference="bEC-7S-Raf"/>
     </inferredMetricsTieBreakers>

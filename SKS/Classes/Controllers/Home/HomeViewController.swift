@@ -386,10 +386,6 @@ class HomeViewController: BaseViewController {
     }
     
     private func getStocks() {
-        guard let user = UserData.loadSaved(), user.status == "active" else {
-            return
-        }
-
         dispatchGroup.enter()
         NetworkManager.shared.getStocks(category: currentUiidCategory,
                                         uuidCity: currentCity?.uuidCity,

@@ -201,6 +201,14 @@
 		B5D06F8B237FED97000BA45C /* CarPhotosCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5D06F89237FED97000BA45C /* CarPhotosCollectionViewCell.xib */; };
 		B5D06F8C237FED97000BA45C /* CarPhotosCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D06F8A237FED97000BA45C /* CarPhotosCollectionViewCell.swift */; };
 		B5D60902297E7FA000E0721B /* RSAService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D60901297E7FA000E0721B /* RSAService.swift */; };
+		B5D75F362AA738B400B9CD75 /* StockTableViewFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D75F352AA738B400B9CD75 /* StockTableViewFooter.swift */; };
+		B5D75F382AA76A6100B9CD75 /* StockTableViewFooter.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5D75F372AA76A6100B9CD75 /* StockTableViewFooter.xib */; };
+		B5D75F3A2AA8534700B9CD75 /* PromocodeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D75F392AA8534700B9CD75 /* PromocodeTableViewCell.swift */; };
+		B5D75F3E2AA8557900B9CD75 /* PromocodeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5D75F3D2AA8557900B9CD75 /* PromocodeTableViewCell.xib */; };
+		B5D75F402AA85A1B00B9CD75 /* PromocodesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D75F3F2AA85A1B00B9CD75 /* PromocodesViewController.swift */; };
+		B5D75F422AA860D200B9CD75 /* GetPromocodeResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D75F412AA860D200B9CD75 /* GetPromocodeResponse.swift */; };
+		B5D75F442AA8617700B9CD75 /* CheckWinAbilityResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D75F432AA8617700B9CD75 /* CheckWinAbilityResponse.swift */; };
+		B5D75F462AA8620400B9CD75 /* UserPromoHistoryResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D75F452AA8620400B9CD75 /* UserPromoHistoryResponse.swift */; };
 		B5DBA72F22FCC6DE003DEB43 /* SocialNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DBA72E22FCC6DE003DEB43 /* SocialNetwork.swift */; };
 		B5DBA73122FCC73D003DEB43 /* SalePoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DBA73022FCC73D003DEB43 /* SalePoint.swift */; };
 		B5DBE0DE22F5E90D004441B0 /* CALayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DBE0DD22F5E90D004441B0 /* CALayer.swift */; };
@@ -489,6 +497,14 @@
 		B5D06F89237FED97000BA45C /* CarPhotosCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CarPhotosCollectionViewCell.xib; sourceTree = "<group>"; };
 		B5D06F8A237FED97000BA45C /* CarPhotosCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CarPhotosCollectionViewCell.swift; sourceTree = "<group>"; };
 		B5D60901297E7FA000E0721B /* RSAService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSAService.swift; sourceTree = "<group>"; };
+		B5D75F352AA738B400B9CD75 /* StockTableViewFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockTableViewFooter.swift; sourceTree = "<group>"; };
+		B5D75F372AA76A6100B9CD75 /* StockTableViewFooter.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StockTableViewFooter.xib; sourceTree = "<group>"; };
+		B5D75F392AA8534700B9CD75 /* PromocodeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromocodeTableViewCell.swift; sourceTree = "<group>"; };
+		B5D75F3D2AA8557900B9CD75 /* PromocodeTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PromocodeTableViewCell.xib; sourceTree = "<group>"; };
+		B5D75F3F2AA85A1B00B9CD75 /* PromocodesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromocodesViewController.swift; sourceTree = "<group>"; };
+		B5D75F412AA860D200B9CD75 /* GetPromocodeResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetPromocodeResponse.swift; sourceTree = "<group>"; };
+		B5D75F432AA8617700B9CD75 /* CheckWinAbilityResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckWinAbilityResponse.swift; sourceTree = "<group>"; };
+		B5D75F452AA8620400B9CD75 /* UserPromoHistoryResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPromoHistoryResponse.swift; sourceTree = "<group>"; };
 		B5DBA72E22FCC6DE003DEB43 /* SocialNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialNetwork.swift; sourceTree = "<group>"; };
 		B5DBA73022FCC73D003DEB43 /* SalePoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalePoint.swift; sourceTree = "<group>"; };
 		B5DBE0DD22F5E90D004441B0 /* CALayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CALayer.swift; sourceTree = "<group>"; };
@@ -823,6 +839,8 @@
 				B5A4FB4423081ED1007C82E4 /* Cells */,
 				B5A4FB3D230802F8007C82E4 /* StockTableViewHeader.swift */,
 				B5A4FB3F2308030B007C82E4 /* StockTableViewHeader.xib */,
+				B5D75F352AA738B400B9CD75 /* StockTableViewFooter.swift */,
+				B5D75F372AA76A6100B9CD75 /* StockTableViewFooter.xib */,
 			);
 			path = Stocks;
 			sourceTree = "<group>";
@@ -831,6 +849,7 @@
 			isa = PBXGroup;
 			children = (
 				B5A4FB4123081BE8007C82E4 /* StockViewController.swift */,
+				B5D75F3F2AA85A1B00B9CD75 /* PromocodesViewController.swift */,
 			);
 			path = Stock;
 			sourceTree = "<group>";
@@ -840,6 +859,8 @@
 			children = (
 				B5A4FB4723081F12007C82E4 /* AddressTableViewCell.swift */,
 				B5A4FB4823081F12007C82E4 /* AddressTableViewCell.xib */,
+				B5D75F392AA8534700B9CD75 /* PromocodeTableViewCell.swift */,
+				B5D75F3D2AA8557900B9CD75 /* PromocodeTableViewCell.xib */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -1132,6 +1153,9 @@
 				B5B6211B29387BD200A3AC32 /* QuestionRequest.swift */,
 				B5B65B09293D06740094FBDF /* PromoRequest.swift */,
 				B5F8B2FC294B643000475E56 /* PromoData.swift */,
+				B5D75F412AA860D200B9CD75 /* GetPromocodeResponse.swift */,
+				B5D75F432AA8617700B9CD75 /* CheckWinAbilityResponse.swift */,
+				B5D75F452AA8620400B9CD75 /* UserPromoHistoryResponse.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1546,12 +1570,14 @@
 				B5811B4E23A671C4009224A8 /* SKSRadioButton.xib in Resources */,
 				B57F510722E70A8C0053A7D2 /* CategoryCollectionViewCell.xib in Resources */,
 				B5A4FB4A23081F12007C82E4 /* AddressTableViewCell.xib in Resources */,
+				B5D75F3E2AA8557900B9CD75 /* PromocodeTableViewCell.xib in Resources */,
 				B590E6952382FE8E00442576 /* CommentTableViewHeader.xib in Resources */,
 				B590077322EC4B690029A445 /* OpenSans-ExtraBold.ttf in Resources */,
 				B57F510122E70A4C0053A7D2 /* StockCollectionViewCell.xib in Resources */,
 				B5DC754F230975FD008DD09C /* PartnerSubtitleTableHeaderView.xib in Resources */,
 				B5AAAC4822E4D63100B04C75 /* Card.storyboard in Resources */,
 				B5D06F81237FD06D000BA45C /* CategoryFilterTableViewCell.xib in Resources */,
+				B5D75F382AA76A6100B9CD75 /* StockTableViewFooter.xib in Resources */,
 				B590075B22EC4AF50029A445 /* Montserrat-ExtraLightItalic.ttf in Resources */,
 				B5A4FB402308030B007C82E4 /* StockTableViewHeader.xib in Resources */,
 				B590074D22EC4AF50029A445 /* Montserrat-Regular.ttf in Resources */,
@@ -1767,6 +1793,7 @@
 				B522FE4C2311789A00FCE704 /* Faculty.swift in Sources */,
 				B586E9D622E1E58D00790CF3 /* PersonalDataViewController.swift in Sources */,
 				B5BFDA2B238B192C00818BC0 /* NewsTableViewCell.swift in Sources */,
+				B5D75F422AA860D200B9CD75 /* GetPromocodeResponse.swift in Sources */,
 				8A09E89D23D99C400022E3C4 /* AuthVKResponse.swift in Sources */,
 				B56A6E80263311E900698811 /* DashboardMapViewController.swift in Sources */,
 				B56BBF1D2372DA9600CAA0B1 /* MapViewController.swift in Sources */,
@@ -1796,9 +1823,11 @@
 				B5F00EB0271AE64800660244 /* BaseLabel.swift in Sources */,
 				B5EE2AD02315666B0013A6E5 /* Specialty.swift in Sources */,
 				B5AAAC5022E4EA9600B04C75 /* HomeViewController.swift in Sources */,
+				B5D75F402AA85A1B00B9CD75 /* PromocodesViewController.swift in Sources */,
 				B527534622DCFF4F0003BDE6 /* UIColor.swift in Sources */,
 				B5E975CB23211D4A005762A8 /* EditProfileViewController.swift in Sources */,
 				B595A3132395A16400F6CFCC /* RatingStatistic.swift in Sources */,
+				B5D75F3A2AA8534700B9CD75 /* PromocodeTableViewCell.swift in Sources */,
 				B5EE2AD22315797E0013A6E5 /* PeriodPicker.swift in Sources */,
 				B5AFE8B623C67D9100A3BBC1 /* LikeResponse.swift in Sources */,
 				B5B65B06293CE1EA0094FBDF /* PromocodeViewController.swift in Sources */,
@@ -1834,7 +1863,9 @@
 				B5C9C62322C76C6C00DCF18F /* LoginViewController.swift in Sources */,
 				B5F00EC1271AF2A500660244 /* NewsDashboardView.swift in Sources */,
 				B5F00EA2271AE63300660244 /* Reusable.swift in Sources */,
+				B5D75F442AA8617700B9CD75 /* CheckWinAbilityResponse.swift in Sources */,
 				8A8C9D2B23828BCD00A20271 /* SalePointViewController.swift in Sources */,
+				B5D75F462AA8620400B9CD75 /* UserPromoHistoryResponse.swift in Sources */,
 				B586E9D822E1E64400790CF3 /* UniversityDataViewController.swift in Sources */,
 				8AECB067239A393100AB0244 /* StatusResponse.swift in Sources */,
 				B52103A123E5B2A700AFC997 /* MapPartnerViewController.swift in Sources */,
@@ -1889,6 +1920,7 @@
 				B5EEE95A26144B2E006B061F /* AddToFavoriteResponse.swift in Sources */,
 				8A13423A23EB1AF90013FE2D /* RememberCity.swift in Sources */,
 				B568A02429EEC9DE0088AFFA /* EngineeringMenuViewController.swift in Sources */,
+				B5D75F362AA738B400B9CD75 /* StockTableViewFooter.swift in Sources */,
 				B5F00ED7271B1E8800660244 /* BackView.swift in Sources */,
 				B5F00E9E271AE62600660244 /* UICollectionView.swift in Sources */,
 				B5AC14552315D67F00F23102 /* Path.swift in Sources */,
@@ -2123,7 +2155,7 @@
 				CODE_SIGN_ENTITLEMENTS = SKS/SKS.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = GSK4YJALAB;
 				INFOPLIST_FILE = SKS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -2131,7 +2163,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.6.0;
+				MARKETING_VERSION = 2.8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ru.petrsu.sks;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2148,7 +2180,7 @@
 				CODE_SIGN_ENTITLEMENTS = SKS/SKS.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = GSK4YJALAB;
 				INFOPLIST_FILE = SKS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -2156,7 +2188,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.6.0;
+				MARKETING_VERSION = 2.8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ru.petrsu.sks;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

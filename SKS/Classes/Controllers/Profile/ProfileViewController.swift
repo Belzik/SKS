@@ -77,30 +77,20 @@ class ProfileViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
         if UIDevice.modelName == "iPhone 5s" ||
             UIDevice.modelName ==  "iPhone SE" ||
             UIDevice.modelName ==  "Simulator iPhone SE" {
             let font = UIFont(name: "Montserrat-Bold", size: 20)!
             self.fioLabel.font = font
-            
+
         }
         setupSheverev()
-        
-        profileImage.makeCircular()
-        profileImage.layer.masksToBounds = true
-        profileImage.layer.borderColor = UIColor.white.cgColor
-        profileImage.layer.borderWidth = 2.0
-        let tap = UITapGestureRecognizer(target: self, action: #selector(profileImageTapped))
-        profileImage.isUserInteractionEnabled = true
-        profileImage.addGestureRecognizer(tap)
-
-        let gesture = UILongPressGestureRecognizer(
-            target: self,
-            action: #selector(longPress)
-        )
-        gesture.minimumPressDuration = 2
-        profileImage.addGestureRecognizer(gesture)
     }
     
     func setupSheverev() {
@@ -137,6 +127,22 @@ class ProfileViewController: BaseViewController {
         if let photoPath = user.studentInfo?.photo,
             let url = URL(string: photoPath) {
             profileImage.kf.setImage(with: url) { (image, _) in
+                self.profileImage.layer.cornerRadius = 40
+
+                self.profileImage.makeCircular()
+                self.profileImage.layer.masksToBounds = true
+                self.profileImage.layer.borderColor = UIColor.white.cgColor
+                self.profileImage.layer.borderWidth = 2.0
+                let tap = UITapGestureRecognizer(target: self, action: #selector(self.profileImageTapped))
+                self.profileImage.isUserInteractionEnabled = true
+                self.profileImage.addGestureRecognizer(tap)
+
+                let gesture = UILongPressGestureRecognizer(
+                    target: self,
+                    action: #selector(self.longPress)
+                )
+                gesture.minimumPressDuration = 2
+                self.profileImage.addGestureRecognizer(gesture)
 //                if image == nil {
 //                    self?.profileImage.image = UIImage(named: "ic_photo")
 //                }
